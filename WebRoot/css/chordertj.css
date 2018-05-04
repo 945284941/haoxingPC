@@ -1,0 +1,12 @@
+.top{ width:974px; float:left;margin-top:10px;height:600px;}
+.top1{ border-bottom:2px solid #C30000; height:37px;}
+.top_grmenubt{ width:108px;line-height:36px; border-top:1px solid #C2C2C4;border-left:1px solid #C2C2C4;border-right:1px solid #C2C2C4; text-align:center; color:#D01528; font-weight:bold; }
+.biaoge_top { height:45px; }
+.biaoge_top li{float:left; padding:10px 10px 10px 0; }
+.baodan_top_02{line-height:40px;font-size:14px;color:#525252; width:710px; float:left;}
+.baodan_top_02 span{ color:#F00;}
+.baodan_top_02 table { border-top:#e4e4e4 solid 1px;border-left:#e4e4e4 solid 1px;text-align:center;}
+.baodan_top_02 table td{ border-bottom:#e4e4e4 solid 1px;border-right:#e4e4e4 solid 1px;}
+.baodan_top_02 tr{ text-align:center; background:#FCFCFC; }
+#baodan_top_05{ background-color:#CCC;}
+.biaoge{ width:320px;}

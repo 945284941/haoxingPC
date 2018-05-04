@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.indexGoods.dao.GoodsSpecificationValueMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsSpecificationValue" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+    <result column="SPECIFICATION_ID" property="specificationId" jdbcType="VARCHAR" />
+    <result column="SPECIFICATION_VALUE" property="specificationValue" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    
+    <!--  以下为扩展字段 -->
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="VALUE" property="value" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_ID, SPECIFICATION_ID, SPECIFICATION_VALUE,DISABLED
+  </sql>
+   <!-- 根据商品ID查询商品的属性  -->
+  <select id="gainGoodsAttributeById" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT t.name,v.SPECIFICATION_VALUE as value from QL_GOODS_SPECIFICATION t,QL_GOODS_SPECIFICATION_VALUE v where t.id=v.SPECIFICATION_ID and v.GOODS_ID = #{goodId,jdbcType=VARCHAR}
+  </select>
+</mapper>

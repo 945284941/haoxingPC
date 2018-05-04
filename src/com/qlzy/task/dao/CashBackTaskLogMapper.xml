@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.task.dao.CashBackTaskLogMapper" >
+	<resultMap id="BaseResultMap" type="com.qlzy.task.model.CashBackTaskLog" >
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="task_id" property="taskId" jdbcType="VARCHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="link_id" property="linkId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		`id`, `task_id`, `number`, `amount`, `link_id`,
+		`create_time`, `remark`
+	</sql>
+
+	<insert id="insert" parameterType="com.qlzy.task.model.CashBackTaskLog" >
+		insert into sgh_task_cash_back_log (
+			<include refid="Base_Column_List" />
+		)
+		values (
+			#{id,jdbcType=VARCHAR},
+			#{taskId,jdbcType=VARCHAR},
+			#{number,jdbcType=INTEGER},
+			#{amount,jdbcType=DECIMAL},
+			#{linkId,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.qlzy.task.model.CashBackTaskLog" >
+		insert into sgh_task_cash_back_log
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				`id`,
+			</if>
+			<if test="taskId != null" >
+				`task_id`,
+			</if>
+			<if test="number != null" >
+				`number`,
+			</if>
+			<if test="amount != null" >
+				`amount`,
+			</if>
+			<if test="linkId != null" >
+				`link_id`,
+			</if>
+			<if test="createTime != null" >
+				`create_time`,
+			</if>
+			<if test="remark != null" >
+				`remark`,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="taskId != null" >
+				#{taskId,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null" >
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="amount != null" >
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="linkId != null" >
+				#{linkId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null" >
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+		delete from sgh_task_cash_back_log
+		where `id`=#{id,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select <include refid="Base_Column_List" />
+		from sgh_task_cash_back_log
+		where `id`=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="com.qlzy.task.model.CashBackTaskLog" >
+		update sgh_task_cash_back_log
+		set `task_id` = #{taskId,jdbcType=VARCHAR},
+			`number` = #{number,jdbcType=INTEGER},
+			`amount` = #{amount,jdbcType=DECIMAL},
+			`link_id` = #{linkId,jdbcType=VARCHAR},
+			`create_time` = #{createTime,jdbcType=TIMESTAMP},
+			`remark` = #{remark,jdbcType=VARCHAR}
+		where `id`=#{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.task.model.CashBackTaskLog" >
+		update sgh_task_cash_back_log
+		<set>
+			<if test="taskId != null" >
+				`task_id` = #{taskId,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null" >
+				`number` = #{number,jdbcType=INTEGER},
+			</if>
+			<if test="amount != null" >
+				`amount` = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="linkId != null" >
+				`link_id` = #{linkId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null" >
+				`create_time` = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null" >
+				`remark` = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where `id`=#{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

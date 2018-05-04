@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlzy.mainPage.indexGoods.dao.GoodsHotPicMapper">
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsHotPic">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="GOODSHOT_ID" jdbcType="VARCHAR" property="goodsHotId" />
+    <result column="PIC_SRC" jdbcType="VARCHAR" property="picSrc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, GOODSHOT_ID, PIC_SRC
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODSHOT_PIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from QL_GOODSHOT_PIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qlzy.model.GoodsHotPic">
+    insert into QL_GOODSHOT_PIC
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="goodsHotId != null">
+        GOODSHOT_ID,
+      </if>
+      <if test="picSrc != null">
+        PIC_SRC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsHotId != null">
+        #{goodsHotId,jdbcType=VARCHAR},
+      </if>   
+      <if test="picSrc != null">
+        #{picSrc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.GoodsHotPic">
+    update QL_GOODSHOT_PIC
+    <set>
+      <if test="goodsHotId != null">
+        GOODSHOT_ID = #{goodsHotId,jdbcType=VARCHAR},
+      </if>
+      <if test="picSrc != null">
+        PIC_SRC = #{picSrc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+	<insert id="insertByList" parameterType="java.util.List">
+		insert into
+		QL_GOODSHOT_PIC(ID,GOODSHOT_ID,PIC_SRC)
+		<foreach collection="list" item="gp" index="index" separator="union all">
+			select #{gp.id},#{gp.goodsHotId},#{gp.picSrc}
+			from dual
+		</foreach>
+	</insert>
+	<select id="gainGoodsPicListByGoodsId" parameterType="java.util.List" resultType="String">
+		  select PIC_SRC
+		    from QL_GOODSHOT_PIC where GOODSHOT_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<delete id="dropGoodsPicBySrc" parameterType="String">
+		delete from QL_GOODSHOT_PIC
+    	where PIC_SRC = #{picSrc,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="dropGoodsPicByGoodsId" parameterType="java.util.List">
+		delete from QL_GOODSHOT_PIC  where GOODSHOT_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.news.dao.CarBrandTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CarBrandType" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="P_ORDER" property="porder" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, REMARK, DISABLED, P_ORDER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_CAR_BRAND_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_CAR_BRAND_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.CarBrandType" >
+    insert into QL_CAR_BRAND_TYPE (ID, NAME, REMARK, 
+      DISABLED, P_ORDER)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{disabled,jdbcType=VARCHAR}, #{porder,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.CarBrandType" >
+    insert into QL_CAR_BRAND_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="porder != null" >
+        P_ORDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="porder != null" >
+        #{porder,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CarBrandType" >
+    update QL_CAR_BRAND_TYPE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="porder != null" >
+        P_ORDER = #{porder,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CarBrandType" >
+    update QL_CAR_BRAND_TYPE
+    set NAME = #{name,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      P_ORDER = #{porder,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainAllList" resultType="com.qlzy.model.CarBrandType">
+	select <include refid="Base_Column_List" />
+		    from QL_CAR_BRAND_TYPE q where q.disabled = 'false'
+  </select>
+</mapper>

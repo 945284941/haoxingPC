@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.common.dao.ApkVersionsMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ApkVersions" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="apk_name" property="apkName" jdbcType="VARCHAR" />
+    <result column="apk_version" property="apkVersion" jdbcType="VARCHAR" />
+    <result column="apk_url" property="apkUrl" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="VARCHAR" />
+    <result column="admin_id" property="adminId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="client_type" property="clientType" jdbcType="VARCHAR" />
+    <result column="os_type" property="osType" jdbcType="VARCHAR" />
+    <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR" />
+    <result column="version_code" property="versionCode" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, apk_name, apk_version, apk_url, file_size, admin_id, remark, update_time, client_type, 
+    os_type, qr_code_url, version_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_apk_versions
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_apk_versions
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.ApkVersions" >
+    insert into ql_apk_versions (id, apk_name, apk_version, 
+      apk_url, file_size, admin_id, 
+      remark, update_time, client_type, 
+      os_type, qr_code_url, version_code
+      )
+    values (#{id,jdbcType=VARCHAR}, #{apkName,jdbcType=VARCHAR}, #{apkVersion,jdbcType=VARCHAR}, 
+      #{apkUrl,jdbcType=VARCHAR}, #{fileSize,jdbcType=VARCHAR}, #{adminId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{clientType,jdbcType=VARCHAR}, 
+      #{osType,jdbcType=VARCHAR}, #{qrCodeUrl,jdbcType=VARCHAR}, #{versionCode,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.ApkVersions" >
+    insert into ql_apk_versions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="apkName != null" >
+        apk_name,
+      </if>
+      <if test="apkVersion != null" >
+        apk_version,
+      </if>
+      <if test="apkUrl != null" >
+        apk_url,
+      </if>
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="clientType != null" >
+        client_type,
+      </if>
+      <if test="osType != null" >
+        os_type,
+      </if>
+      <if test="qrCodeUrl != null" >
+        qr_code_url,
+      </if>
+      <if test="versionCode != null" >
+        version_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="apkName != null" >
+        #{apkName,jdbcType=VARCHAR},
+      </if>
+      <if test="apkVersion != null" >
+        #{apkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="apkUrl != null" >
+        #{apkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientType != null" >
+        #{clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="osType != null" >
+        #{osType,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeUrl != null" >
+        #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="versionCode != null" >
+        #{versionCode,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ApkVersions" >
+    update ql_apk_versions
+    <set >
+      <if test="apkName != null" >
+        apk_name = #{apkName,jdbcType=VARCHAR},
+      </if>
+      <if test="apkVersion != null" >
+        apk_version = #{apkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="apkUrl != null" >
+        apk_url = #{apkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientType != null" >
+        client_type = #{clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="osType != null" >
+        os_type = #{osType,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeUrl != null" >
+        qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="versionCode != null" >
+        version_code = #{versionCode,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.ApkVersions" >
+    update ql_apk_versions
+    set apk_name = #{apkName,jdbcType=VARCHAR},
+      apk_version = #{apkVersion,jdbcType=VARCHAR},
+      apk_url = #{apkUrl,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      client_type = #{clientType,jdbcType=VARCHAR},
+      os_type = #{osType,jdbcType=VARCHAR},
+      qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      version_code = #{versionCode,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

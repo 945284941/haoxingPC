@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.order.dao.OrderItemMapper">
+	<resultMap id="BaseResultMap" type="com.qlzy.model.OrderItem">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+		<result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+		<result column="GOODS_ITEM_ID" property="goodsItemId" jdbcType="VARCHAR" />
+		<result column="ITEM_SKU" property="itemSku" jdbcType="VARCHAR" />
+		<result column="GOODS_NAME" property="goodsName" jdbcType="VARCHAR" />
+		<result column="MARKETBALE_PRICE" property="marketbalePrice" jdbcType="DECIMAL" />
+		<result column="DEAL_PRICE" property="dealPrice" jdbcType="DECIMAL" />
+		<result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="NUMS" property="nums" jdbcType="DECIMAL" />
+		<result column="SALE_ACTIVE_ID" property="saleActiveId" jdbcType="VARCHAR" />
+		<result column="SALE_ACTIVE_REDUCE_MONEY" property="saleActiveReduceMoney" jdbcType="DECIMAL" />
+		<result column="MEMBERLV_REDCE_MONEY" property="memberlvRedceMoney" jdbcType="DECIMAL" />
+		<result column="MEMBERLV_DISCOUNT" property="memberlvDiscount" jdbcType="DECIMAL" />
+		<result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
+		<result column="LOGISTICS_NUM" property="logisticsNum" jdbcType="VARCHAR" />
+		<!-- 一下是扩展字段 -->
+		<result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+		<result column="BN" property="bn" jdbcType="VARCHAR" />
+		<result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+		<result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+		<result column="SHIP_STATUS" property="shipStatus" jdbcType="VARCHAR" />
+		<result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
+		<result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+		<result column="isLogistice" property="isLogistice" jdbcType="INTEGER" />
+		<result column="point" property="point" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ORDER_ID, GOODS_ID, GOODS_ITEM_ID,ITEM_SKU,GOODS_NAME, MARKETBALE_PRICE, DEAL_PRICE,
+		COMPANY_ID, AMOUNT, NUMS, SALE_ACTIVE_ID, SALE_ACTIVE_REDUCE_MONEY, MEMBERLV_REDCE_MONEY, MEMBERLV_DISCOUNT,APPRAISE,POINT
+	</sql>
+	<!-- 根据ID查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from QL_ORDER_ITEMS
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<update id="updateAppraiseByOrderIdAndGoodsId" parameterType="com.qlzy.model.OrderItem">
+		update QL_ORDER_ITEMS SET APPRAISE = '1' where ORDER_ID = #{orderId,jdbcType=VARCHAR} AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+	</update>
+	<!-- 根据订单ID查询 -->
+	<select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT 
+			i.id,i.ORDER_ID,i.GOODS_ID,i.GOODS_ITEM_ID,i.ITEM_SKU,i.DEAL_PRICE,i.AMOUNT,i.NUMS,i.MARKETBALE_PRICE,i.APPRAISE, 
+			g.DEFAULT_PIC_SRC,g.NAME as GOODS_NAME,g.BN,i.is_logistice as isLogistice, i.LOGISTICS_NUM as logisticsNum, i.logistics_name as logisticsName,i.logistics_tel as logisticsTel,i.POINT, 
+			(select DEFAULT_PIC_SRC from ql_goods goods where goods.id = i.GOODS_ID ) as defaultPicSrc  
+			from QL_ORDER_ITEMS i left join QL_GOODS g on i.GOODS_ID = g.id 
+			where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 根据商品ID查询该商品的购买记录 -->
+	<select id="selectBuyRecordByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT i.ID,i.GOODS_NAME,i.DEAL_PRICE,i.NUMS,c.USERNAME as COMPANY_NAME,m.USERNAME AS MEMBER_NAME,o.SHIP_STATUS,o.PAY_STATUS,o.CREATETIME 
+		from QL_ORDER_ITEMS i left join  QL_ORDER o on i.ORDER_ID = o.id  LEFT JOIN  QL_GOODS g on i.GOODS_ID = g.ID 
+				LEFT JOIN  QL_COMPANYS c on  o.MEMBER_ID = c.id left join QL_MEMBERS m  on  o.MEMBER_ID = m.id where i.GOODS_ID =  #{goodsId,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据ID删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from QL_ORDER_ITEMS
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<!-- 插入数据信息 -->
+	<insert id="insertSelective" parameterType="com.qlzy.model.OrderItem">
+		insert into QL_ORDER_ITEMS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="orderId != null">
+				ORDER_ID,
+			</if>
+			<if test="goodsId != null">
+				GOODS_ID,
+			</if>
+			<if test="goodsName != null">
+				GOODS_NAME,
+			</if>
+			<if test="marketbalePrice != null">
+				MARKETBALE_PRICE,
+			</if>
+			<if test="dealPrice != null">
+				DEAL_PRICE,
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="nums != null">
+				NUMS,
+			</if>
+			<if test="saleActiveId != null">
+				SALE_ACTIVE_ID,
+			</if>
+			<if test="saleActiveReduceMoney != null">
+				SALE_ACTIVE_REDUCE_MONEY,
+			</if>
+			<if test="memberlvRedceMoney != null">
+				MEMBERLV_REDCE_MONEY,
+			</if>
+			<if test="memberlvDiscount != null">
+				MEMBERLV_DISCOUNT,
+			</if>
+			<if test="appraise != null">
+				APPRAISE,
+			</if>
+			<if test="point != null">
+				POINT
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null">
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketbalePrice != null">
+				#{marketbalePrice,jdbcType=DECIMAL},
+			</if>
+			<if test="dealPrice != null">
+				#{dealPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="nums != null">
+				#{nums,jdbcType=DECIMAL},
+			</if>
+			<if test="saleActiveId != null">
+				#{saleActiveId,jdbcType=VARCHAR},
+			</if>
+			<if test="saleActiveReduceMoney != null">
+				#{saleActiveReduceMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberlvRedceMoney != null">
+				#{memberlvRedceMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberlvDiscount != null">
+				#{memberlvDiscount,jdbcType=DECIMAL},
+			</if>
+			<if test="appraise != null">
+				#{appraise,jdbcType=VARCHAR},
+			</if>
+			<if test="point != null">
+				#{point,jdbcType=DECIMAL}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 根据ID更新 -->
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.OrderItem">
+		update QL_ORDER_ITEMS
+		<set>
+			<if test="orderId != null">
+				ORDER_ID = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null">
+				GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null">
+				GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketbalePrice != null">
+				MARKETBALE_PRICE = #{marketbalePrice,jdbcType=DECIMAL},
+			</if>
+			<if test="dealPrice != null">
+				DEAL_PRICE = #{dealPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="nums != null">
+				NUMS = #{nums,jdbcType=DECIMAL},
+			</if>
+			<if test="saleActiveId != null">
+				SALE_ACTIVE_ID = #{saleActiveId,jdbcType=VARCHAR},
+			</if>
+			<if test="saleActiveReduceMoney != null">
+				SALE_ACTIVE_REDUCE_MONEY = #{saleActiveReduceMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberlvRedceMoney != null">
+				MEMBERLV_REDCE_MONEY = #{memberlvRedceMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberlvDiscount != null">
+				MEMBERLV_DISCOUNT = #{memberlvDiscount,jdbcType=DECIMAL},
+			</if>
+			<if test="appraise != null">
+				APPRAISE = #{appraise,jdbcType=VARCHAR},
+			</if>
+			<if test="isLogistice != null">
+				is_logistice = #{isLogistice,jdbcType=INTEGER},
+			</if>
+			<if test="logisticsNum != null">
+				logistics_num = #{logisticsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsName != null">
+				logistics_name = #{logisticsName,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsTel != null">
+				logistics_tel = #{logisticsTel,jdbcType=VARCHAR},
+			</if>
+			<if test="point != null">
+				point = #{point,jdbcType=DECIMAL}
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<insert id="insertBeach" parameterType="List">
+		insert into QL_ORDER_ITEMS (
+			ID,ORDER_ID,GOODS_ID,GOODS_ITEM_ID,ITEM_SKU,GOODS_NAME,MARKETBALE_PRICE,DEAL_PRICE,
+			COMPANY_ID,AMOUNT,NUMS,SALE_ACTIVE_ID,SALE_ACTIVE_REDUCE_MONEY,MEMBERLV_REDCE_MONEY,MEMBERLV_DISCOUNT,POINT
+		)
+		<foreach collection="list" item="o" index="index" separator="union all">
+			select #{o.id,jdbcType=VARCHAR},
+				#{o.orderId,jdbcType=VARCHAR},
+				#{o.goodsId,jdbcType=VARCHAR},
+				#{o.goodsItemId,jdbcType=VARCHAR},
+				#{o.itemSku,jdbcType=VARCHAR},
+				#{o.goodsName,jdbcType=VARCHAR},
+				#{o.marketbalePrice,jdbcType=DECIMAL},
+				#{o.dealPrice,jdbcType=DECIMAL},
+				#{o.companyId,jdbcType=VARCHAR},
+				#{o.amount,jdbcType=DECIMAL},
+				#{o.nums,jdbcType=DECIMAL},
+				#{o.saleActiveId,jdbcType=VARCHAR},
+				#{o.saleActiveReduceMoney,jdbcType=DECIMAL},
+				#{o.memberlvRedceMoney,jdbcType=DECIMAL},
+				#{o.memberlvDiscount,jdbcType=DECIMAL},
+				#{o.point,jdbcType=DECIMAL}
+			from dual
+		</foreach>
+	</insert>
+	<!-- 物理删除商品 -->
+	<delete id="droporderItems" parameterType="java.util.List">
+		delete from QL_ORDER_ITEMS where id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

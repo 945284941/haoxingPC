@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.magazine.dao.MagazineMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.MagazineMessage" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MAGAZINE_NUM" property="magazineNum" jdbcType="VARCHAR" />
+    <result column="MESSAGE_MAIN" property="messageMain" jdbcType="VARCHAR" />
+    <result column="IMAGE_SRC" property="imageSrc" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="DATE" />
+    <result column="MESSAGE_SRC" property="messageSrc" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MAGAZINE_NUM, MESSAGE_MAIN, IMAGE_SRC, SEND_TIME, MESSAGE_SRC, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MAGAZINE_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_MAGAZINE_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.MagazineMessage" >
+    insert into QL_MAGAZINE_MESSAGE (ID, MAGAZINE_NUM, MESSAGE_MAIN, 
+      IMAGE_SRC, SEND_TIME, MESSAGE_SRC, 
+      TYPE)
+    values (#{id,jdbcType=VARCHAR}, #{magazineNum,jdbcType=VARCHAR}, #{messageMain,jdbcType=VARCHAR}, 
+      #{imageSrc,jdbcType=VARCHAR}, #{sendTime,jdbcType=DATE}, #{messageSrc,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.MagazineMessage" >
+    insert into QL_MAGAZINE_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="magazineNum != null" >
+        MAGAZINE_NUM,
+      </if>
+      <if test="messageMain != null" >
+        MESSAGE_MAIN,
+      </if>
+      <if test="imageSrc != null" >
+        IMAGE_SRC,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="messageSrc != null" >
+        MESSAGE_SRC,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="magazineNum != null" >
+        #{magazineNum,jdbcType=VARCHAR},
+      </if>
+      <if test="messageMain != null" >
+        #{messageMain,jdbcType=VARCHAR},
+      </if>
+      <if test="imageSrc != null" >
+        #{imageSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=DATE},
+      </if>
+      <if test="messageSrc != null" >
+        #{messageSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.MagazineMessage" >
+    update QL_MAGAZINE_MESSAGE
+    <set >
+      <if test="magazineNum != null" >
+        MAGAZINE_NUM = #{magazineNum,jdbcType=VARCHAR},
+      </if>
+      <if test="messageMain != null" >
+        MESSAGE_MAIN = #{messageMain,jdbcType=VARCHAR},
+      </if>
+      <if test="imageSrc != null" >
+        IMAGE_SRC = #{imageSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=DATE},
+      </if>
+      <if test="messageSrc != null" >
+        MESSAGE_SRC = #{messageSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.MagazineMessage" >
+    update QL_MAGAZINE_MESSAGE
+    set MAGAZINE_NUM = #{magazineNum,jdbcType=VARCHAR},
+      MESSAGE_MAIN = #{messageMain,jdbcType=VARCHAR},
+      IMAGE_SRC = #{imageSrc,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=DATE},
+      MESSAGE_SRC = #{messageSrc,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 得到所有杂志列表 -->
+  <select id="gainMagazineList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MAGAZINE_MESSAGE
+  </select>
+  
+</mapper>

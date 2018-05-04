@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.common.dao.QixiuchangMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Qixiuchang" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NUM" property="num" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="CAR_BRAND" property="carBrand" jdbcType="VARCHAR" />
+    <result column="ENGINE_BRAND" property="engineBrand" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
+    <result column="FAXES" property="faxes" jdbcType="VARCHAR" />
+    <result column="SERVICE_GRADE" property="serviceGrade" jdbcType="VARCHAR" />
+    <result column="PP1" property="pp1" jdbcType="VARCHAR" />
+    <result column="PP2" property="pp2" jdbcType="VARCHAR" />
+    <result column="PP3" property="pp3" jdbcType="VARCHAR" />
+    <result column="PP4" property="pp4" jdbcType="VARCHAR" />
+    <result column="PP5" property="pp5" jdbcType="VARCHAR" />
+    <result column="PP6" property="pp6" jdbcType="VARCHAR" />
+    <result column="PP7" property="pp7" jdbcType="VARCHAR" />
+    <result column="PP8" property="pp8" jdbcType="VARCHAR" />
+    <result column="PP9" property="pp9" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NUM, NAME, PROVINCE, CITY, AREA, ADDRESS, CAR_BRAND, ENGINE_BRAND, TELEPHONE, 
+    MOBILEPHONE, LINKMAN, FAXES, SERVICE_GRADE, PP1, PP2, PP3, PP4, PP5, PP6, PP7, PP8, 
+    PP9
+  </sql>
+  
+  <!-- 查询所有汽修厂信息(带分页) -->
+  <select id="gainQixiuchangListForPage" resultMap="BaseResultMap" parameterType="Map" >
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+			select QG."ID",QG."NAME",QG.PROVINCE,QG.CITY,QG.AREA,QG.ADDRESS,QG.MOBILEPHONE,QG.TELEPHONE,QG.LINKMAN 
+			from QL_QIXIUCHANG QG where 1 = 1 
+		    <if test="null!=province and ''!=province">
+		    	and QG.PROVINCE = #{province,jdbcType=VARCHAR}
+		    </if>
+		    <if test="null!=city and ''!=city">
+		    	and QG.CITY = #{city,jdbcType=VARCHAR}
+		    </if>
+		    <if test="null!=area and ''!=area">
+		    	and QG.AREA = #{area,jdbcType=VARCHAR}
+		    </if>
+		    <if test="null!=address and ''!=address">
+		    	and QG.ADDRESS like '${address}%'
+		    </if>		    		    		    
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}    
+  </select>
+  
+  <!-- 查询所有汽修厂的数量 -->
+  <select id="gainAllCount" resultType="Long" parameterType="Map" >
+	select COUNT(QG."ID") AS COUNT1 from QL_QIXIUCHANG QG where 1 = 1 
+		    <if test="null!=province and ''!=province">
+		    	and QG.PROVINCE = #{province,jdbcType=VARCHAR}
+		    </if>
+		    <if test="null!=city and ''!=city">
+		    	and QG.CITY = #{city,jdbcType=VARCHAR}
+		    </if>
+		    <if test="null!=area and ''!=area">
+		    	and QG.AREA = #{area,jdbcType=VARCHAR}
+		    </if>
+		    <if test="null!=address and ''!=address">
+		    	and QG.ADDRESS like '${address}%'
+		    </if>   
+  </select>  
+</mapper>

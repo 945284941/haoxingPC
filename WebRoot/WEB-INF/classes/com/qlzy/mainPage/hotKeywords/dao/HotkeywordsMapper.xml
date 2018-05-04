@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.hotKeywords.dao.HotkeywordsMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Hotkeywords" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, URL, TYPE, CREATETIME, MODIFYTIME, USER_ID, DISABLED
+  </sql>
+  <!-- 查询某位置的热词列表 -->
+  <select id="gainHotkeywordsListByType" resultMap="BaseResultMap" parameterType="Integer" >
+	select <include refid="Base_Column_List"/> from QL_HOTKEYWORDS where DISABLED = 'false' and "TYPE" = #{type} 
+	ORDER BY MODIFYTIME,CREATETIME DESC
+  </select>
+  
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.searchGoods.dao.SearchKeyWordMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.SearchKeyWord" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CLICK_NUM" property="clickNum" jdbcType="DECIMAL" />
+    <result column="PIN_NAME" property="pinName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, CLICK_NUM, PIN_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SEARCH_KEYWORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_SEARCH_KEYWORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.SearchKeyWord" >
+    insert into QL_SEARCH_KEYWORD (ID, NAME, CLICK_NUM, 
+      PIN_NAME)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{clickNum,jdbcType=DECIMAL}, 
+      #{pinName,jdbcType=VARCHAR})
+  </insert>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.SearchKeyWord" >
+    update QL_SEARCH_KEYWORD
+    set NAME = #{name,jdbcType=VARCHAR},
+      CLICK_NUM = #{clickNum,jdbcType=DECIMAL},
+      PIN_NAME = #{pinName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据名称判断该关键字是否存在过 -->
+   <select id="gainByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SEARCH_KEYWORD
+    where NAME = #{name,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="addSearchKeyWord" parameterType="com.qlzy.model.SearchKeyWord" >
+    insert into QL_SEARCH_KEYWORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="clickNum != null" >
+        CLICK_NUM,
+      </if>
+      <if test="pinName != null" >
+        PIN_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        #{clickNum,jdbcType=DECIMAL},
+      </if>
+      <if test="pinName != null" >
+        #{pinName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.SearchKeyWord" >
+    update QL_SEARCH_KEYWORD
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        CLICK_NUM = #{clickNum,jdbcType=DECIMAL},
+      </if>
+      <if test="pinName != null" >
+        PIN_NAME = #{pinName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

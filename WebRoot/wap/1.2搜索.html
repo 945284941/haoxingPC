@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<div class="search_box search_box2">
+				<input type="text" class="search-input">
+				<div class="middlePopover" style="position: relative;">
+				<div class="search_down_black"><a href="#middlePopover" class="mui-btn-outlined">商品<em class="iconfont">&#xe643;</em> </a></div>
+				<div id="middlePopover" class="mui-popover mui-bar-popover search_down">
+					<div class="mui-popover-arrow"></div>
+					<ul>
+						<li><a href="">商品</a></li>
+						<li><a href="">店铺</a></li>
+					</ul>
+				</div>
+			</div>	
+			</div>
+			<button class="mui-btn mui-btn-link mui-pull-right"><span class="color_999">取消</span></button>
+		</header>
+		<div class="mui-content">
+			<div class="app_box hot_search clearfix">
+				<h3>热门宝贝</h3>
+				<div>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+				</div>
+				<h3>热门商铺</h3>
+				<div>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+					<p>
+						<a href="">安佳牛奶</a>
+					</p>
+				</div>
+			</div>
+			<div id="OA_task_1" class="mt05 app_box histroy_search clearfix">
+				<h3>历史搜索</h3>
+				<ul>
+					<span class="iconfont color_999 mui-btn"><a href="">&#xe624; 清除所有</a></span>
+					<li>纯奶
+						<a class="mui-pull-right iconfont" href=""><em class="mui-btn iconfont">&#xe833;</em> </a>
+					</li>
+					<li>纯奶
+						<a class="mui-pull-right iconfont" href=""><em class="mui-btn iconfont">&#xe833;</em> </a>
+					</li>
+					<li>纯奶
+						<a class="mui-pull-right iconfont" href=""><em class="mui-btn iconfont">&#xe833;</em> </a>
+					</li>
+					<li>纯奶
+						<a class="mui-pull-right iconfont" href=""><em class="mui-btn iconfont">&#xe833;</em> </a>
+					</li>
+					<li>纯奶
+						<a class="mui-pull-right iconfont" href=""><em class="mui-btn iconfont">&#xe833;</em> </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/jquery1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init();
+			(function($) {
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('', '确认删除该条记录？', btnArray, function(e) {
+						if(e.index == 0) {
+							li.parentNode.removeChild(li);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				var btnArray = ['确认', '取消'];
+			})(mui);
+		</script>
+		<!--搜索-->
+		<script type="text/javascript" charset="utf-8">
+			$(function() {
+				$('#search-hd .search-input').on('input propertychange', function() {
+					var val = $(this).val();
+					if(val.length > 0) {
+						$('#search-hd .pholder').hide(0);
+					} else {
+						var index = $('#search-bd li.selected').index();
+						$('#search-hd .pholder').eq(index).show().siblings('.pholder').hide(0);
+					}
+				})
+				$('#search-bd li').click(function() {
+					var index = $(this).index();
+					$('#search-hd .pholder').eq(index).show().siblings('.pholder').hide(0);
+					$('#search-hd .search-input').eq(index).show().siblings('.search-input').hide(0);
+					$(this).addClass('selected').siblings().removeClass('selected');
+					$('#search-hd .search-input').val('');
+				});
+			})
+		</script>
+	</body>
+
+</html>

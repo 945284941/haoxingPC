@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.shop.dao.CompanysMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CompanysMessage" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="VARCHAR" />
+    <result column="MEMBER_TYPE" property="memberType" jdbcType="VARCHAR" />
+    <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.qlzy.model.CompanysMessage" extends="BaseResultMap" >
+    <result column="MESSAGE" property="message" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMPANY_ID, MEMBER_ID, MEMBER_TYPE, MESSAGE_TYPE, DISABLED, CREATE_TIME,MEMBER_NAME
+  </sql>
+  <sql id="Blob_Column_List" >
+    MESSAGE
+  </sql>
+  
+  <!-- 根据留言ID查询留言详细信息 -->
+  <select id="gainById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_COMPANYS_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 根据商家ID查询商家店铺客户留言列表信息(带分页) -->
+  <select id="gainCompanysMessageListForPage" resultMap="ResultMapWithBLOBs" parameterType="Map">
+	select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+		select CM."ID",CM.COMPANY_ID,CM.MESSAGE,CM.MEMBER_ID,CM.MEMBER_TYPE,CM.CREATE_TIME,CM.MEMBER_NAME from QL_COMPANYS_MESSAGE CM 
+		where CM.DISABLED = 'false' and CM.COMPANY_ID = #{companyId,jdbcType=VARCHAR} ORDER BY CM.CREATE_TIME DESC
+		) t
+	) where <![CDATA[RN <= #{page}*#{rows}]]>)
+	where RN>(#{page}-1)*#{rows}  
+  </select>
+  
+  <!-- 根据商家ID查询客户留言列表的数量 -->
+  <select id="gainCompanysMessageCount" resultType="Long" parameterType="Map">
+	select count(CM."ID") as count1 from QL_COMPANYS_MESSAGE CM		 
+	where CM.DISABLED = 'false' and CM.COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+  </select>  
+    
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_COMPANYS_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.CompanysMessage" >
+    insert into QL_COMPANYS_MESSAGE (ID, COMPANY_ID, MEMBER_ID, 
+      MEMBER_TYPE, MESSAGE_TYPE, DISABLED, 
+      CREATE_TIME, MESSAGE,MEMBER_NAME)
+    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, 
+      #{memberType,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{message,jdbcType=CLOB},#{memberName,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 添加留言 -->
+  <insert id="addCompanysMessage" parameterType="com.qlzy.model.CompanysMessage" >
+    insert into QL_COMPANYS_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="memberType != null" >
+        MEMBER_TYPE,
+      </if>
+      <if test="messageType != null" >
+        MESSAGE_TYPE,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="message != null" >
+        MESSAGE,
+      </if>
+      <if test="memberName != null" >
+        MEMBER_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=CLOB},
+      </if>
+       <if test="memberName != null" >
+        #{memberName,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CompanysMessage" >
+    update QL_COMPANYS_MESSAGE
+    <set >
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        MEMBER_TYPE = #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        MESSAGE = #{message,jdbcType=CLOB},
+      </if>
+      <if test="memberName != null" >
+        MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qlzy.model.CompanysMessage" >
+    update QL_COMPANYS_MESSAGE
+    set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      MEMBER_TYPE = #{memberType,jdbcType=VARCHAR},
+      MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MESSAGE = #{message,jdbcType=CLOB},
+      MEMBER_NAME = #{memberName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CompanysMessage" >
+    update QL_COMPANYS_MESSAGE
+    set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      MEMBER_TYPE = #{memberType,jdbcType=VARCHAR},
+      MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MEMBER_NAME = #{memberName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+ <!-- 根据id得到客户留言列表 -->
+ <select id="gainCompanyMessageListById" resultType="com.qlzy.model.CompanysMessage" parameterType="Map" >
+   select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+		 	 select CM.COMPANY_ID as companyId,CM.MEMBER_ID as memberId,cm.CREATE_TIME as  createTime,CM.MEMBER_NAME as memberName,CM.MESSAGE as message
+		   from QL_COMPANYS_MESSAGE CM 
+		where CM.DISABLED = 'false' and CM.COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+		 <if test="baseKey != null and baseKey != ''" >
+		  	and (CM.MEMBER_NAME like '%${baseKey}%' or CM.MESSAGE LIKE '%${baseKey}%')
+		  </if>
+		<if test="timeRange != null and timeRange != ''" >
+		  and (CM.CREATE_TIME between (select trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual)  and (select sysdate value from dual))
+		  </if>
+		) t
+	) where <![CDATA[RN <= #{page}*#{rows}]]>)
+	where RN>(#{page}-1)*#{rows}  
+  </select>
+  <!-- 根据商家ID查询客户留言列表的数量 -->
+  <select id="gainCompanyMessageListByIdCount" resultType="Long" parameterType="Map">
+		select count(CM."ID") as count1 from QL_COMPANYS_MESSAGE CM 
+		where CM.DISABLED = 'false' and CM.COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+		 <if test="baseKey != null and baseKey != ''" >
+		  	and (CM.MEMBER_NAME like '%${baseKey}%' or CM.MESSAGE LIKE '%${baseKey}%')
+		  </if>
+		<if test="timeRange != null and timeRange != ''" >
+		  and (CM.CREATE_TIME between (select trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual)  and (select sysdate value from dual))
+		  </if>
+  </select>  
+ <!-- 根据查看留言信息 -->
+  <select id="gainCustomerMessageById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_COMPANYS_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR} 
+  </select>
+
+</mapper>

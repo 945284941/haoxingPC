@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.khzj.dao.KhzjMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Khzj" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="KH_CONTENT" property="khContent" jdbcType="VARCHAR" />
+    <result column="TP_USERNAME" property="tpUsername" jdbcType="VARCHAR" />
+    <result column="TP_TELPHONE" property="tpTelphone" jdbcType="VARCHAR" />
+    <result column="KH_CONTENTID" property="khContentid" jdbcType="VARCHAR" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+   		ID,KH_CONTENT,TP_USERNAME,TP_TELPHONE,KH_CONTENTID
+   </sql>
+  <insert id="insert" parameterType="com.qlzy.model.Khzj" >
+    insert into QL_KH_ZJ (ID, KH_CONTENT, TP_USERNAME, 
+      TP_TELPHONE, KH_CONTENTID)
+    values (#{id,jdbcType=VARCHAR}, #{khContent,jdbcType=VARCHAR}, #{tpUsername,jdbcType=VARCHAR}, 
+      #{tpTelphone,jdbcType=VARCHAR}, #{khContentid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Khzj" >
+    insert into QL_KH_ZJ
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="khContent != null" >
+        KH_CONTENT,
+      </if>
+      <if test="tpUsername != null" >
+        TP_USERNAME,
+      </if>
+      <if test="tpTelphone != null" >
+        TP_TELPHONE,
+      </if>
+      <if test="khPoint != null" >
+        KH_CONTENTID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="khContent != null" >
+        #{khContent,jdbcType=VARCHAR},
+      </if>
+      <if test="tpUsername != null" >
+        #{tpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="tpTelphone != null" >
+        #{tpTelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="khPoint != null" >
+        #{khContentid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="gainKhzjListByTel" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_KH_ZJ where TP_TELPHONE =  #{tpTelphone,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

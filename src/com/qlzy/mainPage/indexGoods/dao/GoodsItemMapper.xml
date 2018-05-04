@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.indexGoods.dao.GoodsItemMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="attr_json" property="attrJson" jdbcType="VARCHAR" />
+    <result column="sku_json_hz" property="skuJsonHz" jdbcType="VARCHAR" />
+    <result column="sku_json" property="skuJson" jdbcType="VARCHAR" />
+    <result column="store" property="store" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="bn" property="bn" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="sku_json_hf" property="skuJsonHf" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, attr_json, sku_json_hz, sku_json, store, price, status, bn, code, 
+    sku_json_hf
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_goods_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_goods_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.GoodsItem" >
+    insert into ql_goods_item (id, product_id, attr_json, 
+      sku_json_hz, sku_json, store, 
+      price, status, bn, code, 
+      sku_json_hf)
+    values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{attrJson,jdbcType=VARCHAR}, 
+      #{skuJsonHz,jdbcType=VARCHAR}, #{skuJson,jdbcType=VARCHAR}, #{store,jdbcType=INTEGER}, 
+      #{price,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER}, #{bn,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{skuJsonHf,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.GoodsItem" >
+    insert into ql_goods_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="attrJson != null" >
+        attr_json,
+      </if>
+      <if test="skuJsonHz != null" >
+        sku_json_hz,
+      </if>
+      <if test="skuJson != null" >
+        sku_json,
+      </if>
+      <if test="store != null" >
+        store,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="bn != null" >
+        bn,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="skuJsonHf != null" >
+        sku_json_hf,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="attrJson != null" >
+        #{attrJson,jdbcType=VARCHAR},
+      </if>
+      <if test="skuJsonHz != null" >
+        #{skuJsonHz,jdbcType=VARCHAR},
+      </if>
+      <if test="skuJson != null" >
+        #{skuJson,jdbcType=VARCHAR},
+      </if>
+      <if test="store != null" >
+        #{store,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="bn != null" >
+        #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="skuJsonHf != null" >
+        #{skuJsonHf,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.GoodsItem" >
+    update ql_goods_item
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="attrJson != null" >
+        attr_json = #{attrJson,jdbcType=VARCHAR},
+      </if>
+      <if test="skuJsonHz != null" >
+        sku_json_hz = #{skuJsonHz,jdbcType=VARCHAR},
+      </if>
+      <if test="skuJson != null" >
+        sku_json = #{skuJson,jdbcType=VARCHAR},
+      </if>
+      <if test="store != null" >
+        store = #{store,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="bn != null" >
+        bn = #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="skuJsonHf != null" >
+        sku_json_hf = #{skuJsonHf,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.GoodsItem" >
+    update ql_goods_item
+    set product_id = #{productId,jdbcType=VARCHAR},
+      attr_json = #{attrJson,jdbcType=VARCHAR},
+      sku_json_hz = #{skuJsonHz,jdbcType=VARCHAR},
+      sku_json = #{skuJson,jdbcType=VARCHAR},
+      store = #{store,jdbcType=INTEGER},
+      price = #{price,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
+      bn = #{bn,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      sku_json_hf = #{skuJsonHf,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectGoodsItemListByGoodsId" parameterType="com.qlzy.model.GoodsItem" resultMap="BaseResultMap">
+  	select * from ql_goods_item where product_id =#{productId,jdbcType=VARCHAR}
+  </select>
+  <select id="gainCartsByUserId" parameterType="String" resultMap="BaseResultMap">
+  	select * from ql_goods_item  a inner join ql_cart b on a.id = b.item_id  where b.USER_ID= #{userId}
+  </select>
+</mapper>

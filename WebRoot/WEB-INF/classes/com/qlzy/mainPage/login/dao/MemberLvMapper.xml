@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.login.dao.MemberLvMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.MemberLv" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MIN_POINT" property="minPoint" jdbcType="DECIMAL" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="MAX_POINT" property="maxPoint" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, MIN_POINT, TYPE, DISCOUNT, DISABLED, MAX_POINT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MEMBER_LV
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_MEMBER_LV
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qlzy.model.MemberLv" >
+    insert into QL_MEMBER_LV
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="minPoint != null" >
+        MIN_POINT,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="maxPoint != null" >
+        MAX_POINT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="minPoint != null" >
+        #{minPoint,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPoint != null" >
+        #{maxPoint,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.MemberLv" >
+    update QL_MEMBER_LV
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="minPoint != null" >
+        MIN_POINT = #{minPoint,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPoint != null" >
+        MAX_POINT = #{maxPoint,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

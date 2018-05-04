@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.goods.dao.CarPartsProducerMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CarPartsProducer" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="P_ORDER" property="p_order" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, REMARK, DISABLED,P_ORDER
+  </sql>
+  <insert id="insert" parameterType="com.qlzy.model.CarPartsProducer" >
+    insert into QL_CAR_PARTS_PRODUCER (ID, NAME, REMARK, 
+      DISABLED,P_ORDER)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{disabled,jdbcType=VARCHAR}),#{p_order,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.CarPartsProducer" >
+    insert into QL_CAR_PARTS_PRODUCER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="p_order != null" >
+        P_ORDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="p_order != null" >
+        #{p_order,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <!-- 分页查询 -->
+  <select id="gainAll" resultType="com.qlzy.model.CarPartsProducer" parameterType="com.qlzy.model.CarPartsProducer">
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+	  		select 
+		    <include refid="Base_Column_List" />
+		    from QL_CAR_PARTS_PRODUCER q where q.disabled = 'false' ORDER BY q.P_ORDER
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}
+  </select>
+  <!-- 查询 -->
+  <select id="gainCarPartsProducer" resultType="com.qlzy.model.CarPartsProducer" >
+  	select <include refid="Base_Column_List" /> from QL_CAR_PARTS_PRODUCER q where q.disabled = 'false' 
+  </select>
+  <!--获取总数 -->
+   <select id="gainLong" resultType="java.lang.Long" parameterType="com.qlzy.model.CarPartsProducer">
+  	select COUNT(ID) from QL_CAR_PARTS_PRODUCER t where t.disabled = 'false'
+  </select>
+  <!-- 只更新有值得字段 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CarPartsProducer" >
+    update QL_CAR_PARTS_PRODUCER
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="p_order != null" >
+        P_ORDER = #{p_order,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据ID查询 -->
+  <select id="gainById" resultType="com.qlzy.model.CarPartsProducer" parameterType="java.lang.String">
+  	select * from QL_CAR_PARTS_PRODUCER t where t.disabled = 'false' and ID = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

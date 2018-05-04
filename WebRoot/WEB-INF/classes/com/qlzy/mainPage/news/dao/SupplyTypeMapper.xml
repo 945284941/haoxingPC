@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.news.dao.SupplyTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.SupplyType" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, DISABLED, URL, DESCRIPTION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SUPPLY_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_SUPPLY_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.SupplyType" >
+    insert into QL_SUPPLY_TYPE (ID, NAME, DISABLED, 
+      URL, DESCRIPTION)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.SupplyType" >
+    insert into QL_SUPPLY_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.SupplyType" >
+    update QL_SUPPLY_TYPE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.SupplyType" >
+    update QL_SUPPLY_TYPE
+    set NAME = #{name,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainAllSupplyType" resultMap="BaseResultMap">
+  	select 
+   	 	<include refid="Base_Column_List" />
+    from QL_SUPPLY_TYPE
+  </select>
+  <select id="gainSupplyTypeNameById" parameterType="String" resultType="String">
+  	select NAME from  QL_SUPPLY_TYPE where ID = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.activity.dao.ActivityModelMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ActivityModel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="URLADDRESS" property="urladdress" jdbcType="VARCHAR" />
+    <result column="ORDERNUM" property="ordernum" jdbcType="DECIMAL" />
+    <result column="DISABLE" property="disable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, URLADDRESS, ORDERNUM, DISABLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ACTIVITY
+    where ID	 = #{id	,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ACTIVITY
+    where ID	 = #{id	,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.ActivityModel" >
+    insert into QL_ACTIVITY (ID	, NAME, URLADDRESS, 
+      ORDERNUM, DISABLE)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{urladdress,jdbcType=VARCHAR}, 
+      #{ordernum,jdbcType=DECIMAL}, #{disable,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.ActivityModel" >
+    insert into QL_ACTIVITY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id!= null" >
+        ID	,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="urladdress != null" >
+        URLADDRESS,
+      </if>
+      <if test="ordernum != null" >
+        ORDERNUM,
+      </if>
+      <if test="disable != null" >
+        DISABLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id	 != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="urladdress != null" >
+        #{urladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="disable != null" >
+        #{disable,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ActivityModel" >
+    update QL_ACTIVITY
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="urladdress != null" >
+        URLADDRESS = #{urladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null" >
+        ORDERNUM = #{ordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="disable != null" >
+        DISABLE = #{disable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id	,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.ActivityModel" >
+    update QL_ACTIVITY
+    set NAME = #{name,jdbcType=VARCHAR},
+      URLADDRESS = #{urladdress,jdbcType=VARCHAR},
+      ORDERNUM = #{ordernum,jdbcType=DECIMAL},
+      DISABLE = #{disable,jdbcType=VARCHAR}
+    where ID	 = #{id	,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="gainActivityList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ACTIVITY
+    where disable='false'
+  </select>
+  
+  
+</mapper>

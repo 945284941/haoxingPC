@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.perinfo.dao.LiucunbiDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.LiucunbiDetail" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="POINT" property="point" jdbcType="DECIMAL" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, POINT, MEMBER_ID, REMARK, CREATETIME, BALANCE, TYPE, DISABLED, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_liucunbi_detail
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_liucunbi_detail
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.LiucunbiDetail" >
+    insert into ql_liucunbi_detail (ID, POINT, MEMBER_ID, 
+      REMARK, CREATETIME, BALANCE, 
+      TYPE, DISABLED, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{point,jdbcType=DECIMAL}, #{memberId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{balance,jdbcType=DECIMAL}, 
+      #{type,jdbcType=DECIMAL}, #{disabled,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.LiucunbiDetail" >
+    insert into ql_liucunbi_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.LiucunbiDetail" >
+    update ql_liucunbi_detail
+    <set >
+      <if test="point != null" >
+        POINT = #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.LiucunbiDetail" >
+    update ql_liucunbi_detail
+    set POINT = #{point,jdbcType=DECIMAL},
+      MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      BALANCE = #{balance,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=DECIMAL},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--得到所有资金列表 gainMoneyAllList -->
+     <select id="gainListByMemberId" resultMap="BaseResultMap" parameterType="Map" >
+  
+    select 
+    *
+    from ql_liucunbi_detail
+    where MEMBER_ID = #{userId,jdbcType=VARCHAR} and DISABLED='false'
+     order by CREATETIME desc
+  limit #{page},#{rows} 
+  </select>
+   <!--得到所有资金数目  -->
+     <select id="gainListByMemberIdCount" resultType="Long" parameterType="Map" >
+  	 select count(ID)
+    from ql_liucunbi_detail
+    where MEMBER_ID = #{userId,jdbcType=VARCHAR} and DISABLED='false'
+     
+  </select>
+</mapper>

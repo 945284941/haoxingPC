@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.news.dao.SupplyMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Supply" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="PICPATH" property="picpath" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="EFFECTIVETIME" property="effectivetime" jdbcType="TIMESTAMP" />
+    <result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
+    <result column="LINKMOBILE" property="linkmobile" jdbcType="VARCHAR" />
+    <result column="QQ_EMAIL" property="qqEmail" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="VIEWNUM" property="viewnum" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
+    <result column="PRODUCER_ID" property="producerId" jdbcType="VARCHAR" />
+    <result column="PRODUCER_NAME" property="producerName" jdbcType="VARCHAR" />
+    <result column="CARBRAND_ID" property="carbrandId" jdbcType="VARCHAR" />
+    <result column="CARBRAND_NAME" property="carbrandName" jdbcType="VARCHAR" />
+    <result column="CARSERIES_ID" property="carseriesId" jdbcType="VARCHAR" />
+    <result column="CARSERIES_NAME" property="carseriesName" jdbcType="VARCHAR" />
+    <result column="CARTYPE_ID" property="cartypeId" jdbcType="VARCHAR" />
+    <result column="CARTYPE_NAME" property="cartypeName" jdbcType="VARCHAR" />
+    <result column="CARCAT_ID" property="carcatId" jdbcType="VARCHAR" />
+    <result column="CARCAT_NAME" property="carcatName" jdbcType="VARCHAR" />
+    <result column="CAR_BN" property="carBn" jdbcType="VARCHAR" />
+    <result column="QUALITY" property="quality" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_TYPE" property="equipmentType" jdbcType="VARCHAR" />
+    <result column="DELIVERY_SCOPE" property="deliveryScope" jdbcType="VARCHAR" />
+    <result column="TRANSPORT_MODE" property="transportMode" jdbcType="VARCHAR" />
+    <result column="IS_ROUND" property="isRound" jdbcType="VARCHAR" />
+    <result column="IS_TRANSIT" property="isTransit" jdbcType="VARCHAR" />
+    <result column="IS_FIXEDSHIFT" property="isFixedshift" jdbcType="VARCHAR" />
+    <result column="ORGANIZEGOODS_MODE" property="organizegoodsMode" jdbcType="VARCHAR" />
+    <result column="GOODS_TYPE" property="goodsType" jdbcType="VARCHAR" />
+    <result column="SERVICE_MODE" property="serviceMode" jdbcType="VARCHAR" />
+    <result column="OPERATE_SORT" property="operateSort" jdbcType="VARCHAR" />
+    <result column="JOB_NATURE" property="jobNature" jdbcType="VARCHAR" />
+    <result column="MONTHLYPAY" property="monthlypay" jdbcType="VARCHAR" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="JOB_REQUEST" property="jobRequest" jdbcType="VARCHAR" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="CALLING" property="calling" jdbcType="VARCHAR" />
+    <result column="COMPANY_ADDRESS" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="COMPANY_SCALE" property="companyScale" jdbcType="VARCHAR" />
+    <result column="COMPANY_NATURE" property="companyNature" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="WORK_EXPERIENCE" property="workExperience" jdbcType="VARCHAR" />
+    <result column="JOB_RANK" property="jobRank" jdbcType="VARCHAR" />
+    <result column="COLOR" property="color" jdbcType="VARCHAR" />
+    <result column="CAR_FIRSTCARDTIME" property="carFirstcardtime" jdbcType="TIMESTAMP" />
+    <result column="HAS_ACCIDENT" property="hasAccident" jdbcType="VARCHAR" />
+    <result column="HAS_CERTIFICATE" property="hasCertificate" jdbcType="VARCHAR" />
+    <result column="INTERIOR_CONDITION" property="interiorCondition" jdbcType="VARCHAR" />
+    <result column="MILEAGE" property="mileage" jdbcType="DECIMAL" />
+    <result column="LEASE_TYPE" property="leaseType" jdbcType="VARCHAR" />
+    <result column="ACREAGE" property="acreage" jdbcType="DECIMAL" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="HOME_ADDRESS" property="homeAddress" jdbcType="VARCHAR" />
+    <result column="ORIGIN_PLACE" property="originPlace" jdbcType="VARCHAR" />
+    <result column="CERTIFICATE" property="certificate" jdbcType="VARCHAR" />
+    <result column="JOB_PLACE" property="jobPlace" jdbcType="VARCHAR" />
+    <result column="JOB_CAT" property="jobCat" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="P1" property="p1" jdbcType="VARCHAR" />
+    <result column="P2" property="p2" jdbcType="VARCHAR" />
+    <result column="P3" property="p3" jdbcType="VARCHAR" />
+    <result column="P4" property="p4" jdbcType="VARCHAR" />
+    <result column="P5" property="p5" jdbcType="VARCHAR" />
+    <result column="P6" property="p6" jdbcType="VARCHAR" />
+    <result column="P7" property="p7" jdbcType="VARCHAR" />
+    <result column="P8" property="p8" jdbcType="VARCHAR" />
+    <result column="P9" property="p9" jdbcType="VARCHAR" />
+    <result column="P0" property="p0" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TITLE, NAME, PROVINCE, CITY, AREA, ADDRESS, PRICE, PICPATH, CREATETIME, EFFECTIVETIME, 
+    LINKMAN, LINKMOBILE, QQ_EMAIL, STATUS, DISABLED, TYPE_ID, VIEWNUM, USER_ID, TYPE_NAME, 
+    PROVINCE_ID, CITY_ID, AREA_ID, PRODUCER_ID, PRODUCER_NAME, CARBRAND_ID, CARBRAND_NAME, 
+    CARSERIES_ID, CARSERIES_NAME, CARTYPE_ID, CARTYPE_NAME, CARCAT_ID, CARCAT_NAME, CAR_BN, 
+    QUALITY, EQUIPMENT_TYPE, DELIVERY_SCOPE, TRANSPORT_MODE, IS_ROUND, IS_TRANSIT, IS_FIXEDSHIFT, 
+    ORGANIZEGOODS_MODE, GOODS_TYPE, SERVICE_MODE, OPERATE_SORT, JOB_NATURE, MONTHLYPAY, 
+    JOB_NAME, JOB_REQUEST, COMPANY_NAME, CALLING, COMPANY_ADDRESS, COMPANY_SCALE, COMPANY_NATURE, 
+    EDUCATION, WORK_EXPERIENCE, JOB_RANK, COLOR, CAR_FIRSTCARDTIME, HAS_ACCIDENT, HAS_CERTIFICATE, 
+    INTERIOR_CONDITION, MILEAGE, LEASE_TYPE, ACREAGE, DESCRIPTION, GENDER, BIRTHDAY, 
+    HOME_ADDRESS, ORIGIN_PLACE, CERTIFICATE, JOB_PLACE, JOB_CAT, JOB, P1, P2, P3, P4, 
+    P5, P6, P7, P8, P9, P0
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SUPPLY
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_SUPPLY
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.Supply" >
+    insert into QL_SUPPLY (ID, TITLE, NAME, 
+      PROVINCE, CITY, AREA, 
+      ADDRESS, PRICE, PICPATH, 
+      CREATETIME, EFFECTIVETIME, LINKMAN, 
+      LINKMOBILE, QQ_EMAIL, STATUS, 
+      DISABLED, TYPE_ID, VIEWNUM, 
+      USER_ID, TYPE_NAME, PROVINCE_ID, 
+      CITY_ID, AREA_ID, PRODUCER_ID, 
+      PRODUCER_NAME, CARBRAND_ID, CARBRAND_NAME, 
+      CARSERIES_ID, CARSERIES_NAME, CARTYPE_ID, 
+      CARTYPE_NAME, CARCAT_ID, CARCAT_NAME, 
+      CAR_BN, QUALITY, EQUIPMENT_TYPE, 
+      DELIVERY_SCOPE, TRANSPORT_MODE, IS_ROUND, 
+      IS_TRANSIT, IS_FIXEDSHIFT, ORGANIZEGOODS_MODE, 
+      GOODS_TYPE, SERVICE_MODE, OPERATE_SORT, 
+      JOB_NATURE, MONTHLYPAY, JOB_NAME, 
+      JOB_REQUEST, COMPANY_NAME, CALLING, 
+      COMPANY_ADDRESS, COMPANY_SCALE, COMPANY_NATURE, 
+      EDUCATION, WORK_EXPERIENCE, JOB_RANK, 
+      COLOR, CAR_FIRSTCARDTIME, HAS_ACCIDENT, 
+      HAS_CERTIFICATE, INTERIOR_CONDITION, MILEAGE, 
+      LEASE_TYPE, ACREAGE, DESCRIPTION, 
+      GENDER, BIRTHDAY, HOME_ADDRESS, 
+      ORIGIN_PLACE, CERTIFICATE, JOB_PLACE, 
+      JOB_CAT, JOB, P1, P2, 
+      P3, P4, P5, P6, 
+      P7, P8, P9, P0
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{picpath,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{effectivetime,jdbcType=TIMESTAMP}, #{linkman,jdbcType=VARCHAR}, 
+      #{linkmobile,jdbcType=VARCHAR}, #{qqEmail,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{disabled,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{viewnum,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{producerId,jdbcType=VARCHAR}, 
+      #{producerName,jdbcType=VARCHAR}, #{carbrandId,jdbcType=VARCHAR}, #{carbrandName,jdbcType=VARCHAR}, 
+      #{carseriesId,jdbcType=VARCHAR}, #{carseriesName,jdbcType=VARCHAR}, #{cartypeId,jdbcType=VARCHAR}, 
+      #{cartypeName,jdbcType=VARCHAR}, #{carcatId,jdbcType=VARCHAR}, #{carcatName,jdbcType=VARCHAR}, 
+      #{carBn,jdbcType=VARCHAR}, #{quality,jdbcType=VARCHAR}, #{equipmentType,jdbcType=VARCHAR}, 
+      #{deliveryScope,jdbcType=VARCHAR}, #{transportMode,jdbcType=VARCHAR}, #{isRound,jdbcType=VARCHAR}, 
+      #{isTransit,jdbcType=VARCHAR}, #{isFixedshift,jdbcType=VARCHAR}, #{organizegoodsMode,jdbcType=VARCHAR}, 
+      #{goodsType,jdbcType=VARCHAR}, #{serviceMode,jdbcType=VARCHAR}, #{operateSort,jdbcType=VARCHAR}, 
+      #{jobNature,jdbcType=VARCHAR}, #{monthlypay,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, 
+      #{jobRequest,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{calling,jdbcType=VARCHAR}, 
+      #{companyAddress,jdbcType=VARCHAR}, #{companyScale,jdbcType=VARCHAR}, #{companyNature,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{jobRank,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR}, #{carFirstcardtime,jdbcType=TIMESTAMP}, #{hasAccident,jdbcType=VARCHAR}, 
+      #{hasCertificate,jdbcType=VARCHAR}, #{interiorCondition,jdbcType=VARCHAR}, #{mileage,jdbcType=DECIMAL}, 
+      #{leaseType,jdbcType=VARCHAR}, #{acreage,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{homeAddress,jdbcType=VARCHAR}, 
+      #{originPlace,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, #{jobPlace,jdbcType=VARCHAR}, 
+      #{jobCat,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{p1,jdbcType=VARCHAR}, #{p2,jdbcType=VARCHAR}, 
+      #{p3,jdbcType=VARCHAR}, #{p4,jdbcType=VARCHAR}, #{p5,jdbcType=VARCHAR}, #{p6,jdbcType=VARCHAR}, 
+      #{p7,jdbcType=VARCHAR}, #{p8,jdbcType=VARCHAR}, #{p9,jdbcType=VARCHAR}, #{p0,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Supply" >
+    insert into QL_SUPPLY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="picpath != null" >
+        PICPATH,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="effectivetime != null" >
+        EFFECTIVETIME,
+      </if>
+      <if test="linkman != null" >
+        LINKMAN,
+      </if>
+      <if test="linkmobile != null" >
+        LINKMOBILE,
+      </if>
+      <if test="qqEmail != null" >
+        QQ_EMAIL,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="viewnum != null" >
+        VIEWNUM,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="typeName != null" >
+        TYPE_NAME,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+      <if test="areaId != null" >
+        AREA_ID,
+      </if>
+      <if test="producerId != null" >
+        PRODUCER_ID,
+      </if>
+      <if test="producerName != null" >
+        PRODUCER_NAME,
+      </if>
+      <if test="carbrandId != null" >
+        CARBRAND_ID,
+      </if>
+      <if test="carbrandName != null" >
+        CARBRAND_NAME,
+      </if>
+      <if test="carseriesId != null" >
+        CARSERIES_ID,
+      </if>
+      <if test="carseriesName != null" >
+        CARSERIES_NAME,
+      </if>
+      <if test="cartypeId != null" >
+        CARTYPE_ID,
+      </if>
+      <if test="cartypeName != null" >
+        CARTYPE_NAME,
+      </if>
+      <if test="carcatId != null" >
+        CARCAT_ID,
+      </if>
+      <if test="carcatName != null" >
+        CARCAT_NAME,
+      </if>
+      <if test="carBn != null" >
+        CAR_BN,
+      </if>
+      <if test="quality != null" >
+        QUALITY,
+      </if>
+      <if test="equipmentType != null" >
+        EQUIPMENT_TYPE,
+      </if>
+      <if test="deliveryScope != null" >
+        DELIVERY_SCOPE,
+      </if>
+      <if test="transportMode != null" >
+        TRANSPORT_MODE,
+      </if>
+      <if test="isRound != null" >
+        IS_ROUND,
+      </if>
+      <if test="isTransit != null" >
+        IS_TRANSIT,
+      </if>
+      <if test="isFixedshift != null" >
+        IS_FIXEDSHIFT,
+      </if>
+      <if test="organizegoodsMode != null" >
+        ORGANIZEGOODS_MODE,
+      </if>
+      <if test="goodsType != null" >
+        GOODS_TYPE,
+      </if>
+      <if test="serviceMode != null" >
+        SERVICE_MODE,
+      </if>
+      <if test="operateSort != null" >
+        OPERATE_SORT,
+      </if>
+      <if test="jobNature != null" >
+        JOB_NATURE,
+      </if>
+      <if test="monthlypay != null" >
+        MONTHLYPAY,
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME,
+      </if>
+      <if test="jobRequest != null" >
+        JOB_REQUEST,
+      </if>
+      <if test="companyName != null" >
+        COMPANY_NAME,
+      </if>
+      <if test="calling != null" >
+        CALLING,
+      </if>
+      <if test="companyAddress != null" >
+        COMPANY_ADDRESS,
+      </if>
+      <if test="companyScale != null" >
+        COMPANY_SCALE,
+      </if>
+      <if test="companyNature != null" >
+        COMPANY_NATURE,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="workExperience != null" >
+        WORK_EXPERIENCE,
+      </if>
+      <if test="jobRank != null" >
+        JOB_RANK,
+      </if>
+      <if test="color != null" >
+        COLOR,
+      </if>
+      <if test="carFirstcardtime != null" >
+        CAR_FIRSTCARDTIME,
+      </if>
+      <if test="hasAccident != null" >
+        HAS_ACCIDENT,
+      </if>
+      <if test="hasCertificate != null" >
+        HAS_CERTIFICATE,
+      </if>
+      <if test="interiorCondition != null" >
+        INTERIOR_CONDITION,
+      </if>
+      <if test="mileage != null" >
+        MILEAGE,
+      </if>
+      <if test="leaseType != null" >
+        LEASE_TYPE,
+      </if>
+      <if test="acreage != null" >
+        ACREAGE,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="homeAddress != null" >
+        HOME_ADDRESS,
+      </if>
+      <if test="originPlace != null" >
+        ORIGIN_PLACE,
+      </if>
+      <if test="certificate != null" >
+        CERTIFICATE,
+      </if>
+      <if test="jobPlace != null" >
+        JOB_PLACE,
+      </if>
+      <if test="jobCat != null" >
+        JOB_CAT,
+      </if>
+      <if test="job != null" >
+        JOB,
+      </if>
+      <if test="p1 != null" >
+        P1,
+      </if>
+      <if test="p2 != null" >
+        P2,
+      </if>
+      <if test="p3 != null" >
+        P3,
+      </if>
+      <if test="p4 != null" >
+        P4,
+      </if>
+      <if test="p5 != null" >
+        P5,
+      </if>
+      <if test="p6 != null" >
+        P6,
+      </if>
+      <if test="p7 != null" >
+        P7,
+      </if>
+      <if test="p8 != null" >
+        P8,
+      </if>
+      <if test="p9 != null" >
+        P9,
+      </if>
+      <if test="p0 != null" >
+        P0,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="picpath != null" >
+        #{picpath,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectivetime != null" >
+        #{effectivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkman != null" >
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmobile != null" >
+        #{linkmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="qqEmail != null" >
+        #{qqEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewnum != null" >
+        #{viewnum,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="producerId != null" >
+        #{producerId,jdbcType=VARCHAR},
+      </if>
+      <if test="producerName != null" >
+        #{producerName,jdbcType=VARCHAR},
+      </if>
+      <if test="carbrandId != null" >
+        #{carbrandId,jdbcType=VARCHAR},
+      </if>
+      <if test="carbrandName != null" >
+        #{carbrandName,jdbcType=VARCHAR},
+      </if>
+      <if test="carseriesId != null" >
+        #{carseriesId,jdbcType=VARCHAR},
+      </if>
+      <if test="carseriesName != null" >
+        #{carseriesName,jdbcType=VARCHAR},
+      </if>
+      <if test="cartypeId != null" >
+        #{cartypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cartypeName != null" >
+        #{cartypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="carcatId != null" >
+        #{carcatId,jdbcType=VARCHAR},
+      </if>
+      <if test="carcatName != null" >
+        #{carcatName,jdbcType=VARCHAR},
+      </if>
+      <if test="carBn != null" >
+        #{carBn,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null" >
+        #{quality,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentType != null" >
+        #{equipmentType,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryScope != null" >
+        #{deliveryScope,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null" >
+        #{transportMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isRound != null" >
+        #{isRound,jdbcType=VARCHAR},
+      </if>
+      <if test="isTransit != null" >
+        #{isTransit,jdbcType=VARCHAR},
+      </if>
+      <if test="isFixedshift != null" >
+        #{isFixedshift,jdbcType=VARCHAR},
+      </if>
+      <if test="organizegoodsMode != null" >
+        #{organizegoodsMode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceMode != null" >
+        #{serviceMode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateSort != null" >
+        #{operateSort,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNature != null" >
+        #{jobNature,jdbcType=VARCHAR},
+      </if>
+      <if test="monthlypay != null" >
+        #{monthlypay,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRequest != null" >
+        #{jobRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="calling != null" >
+        #{calling,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyScale != null" >
+        #{companyScale,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNature != null" >
+        #{companyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null" >
+        #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRank != null" >
+        #{jobRank,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="carFirstcardtime != null" >
+        #{carFirstcardtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasAccident != null" >
+        #{hasAccident,jdbcType=VARCHAR},
+      </if>
+      <if test="hasCertificate != null" >
+        #{hasCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorCondition != null" >
+        #{interiorCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="mileage != null" >
+        #{mileage,jdbcType=DECIMAL},
+      </if>
+      <if test="leaseType != null" >
+        #{leaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="acreage != null" >
+        #{acreage,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="homeAddress != null" >
+        #{homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null" >
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="jobPlace != null" >
+        #{jobPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCat != null" >
+        #{jobCat,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="p1 != null" >
+        #{p1,jdbcType=VARCHAR},
+      </if>
+      <if test="p2 != null" >
+        #{p2,jdbcType=VARCHAR},
+      </if>
+      <if test="p3 != null" >
+        #{p3,jdbcType=VARCHAR},
+      </if>
+      <if test="p4 != null" >
+        #{p4,jdbcType=VARCHAR},
+      </if>
+      <if test="p5 != null" >
+        #{p5,jdbcType=VARCHAR},
+      </if>
+      <if test="p6 != null" >
+        #{p6,jdbcType=VARCHAR},
+      </if>
+      <if test="p7 != null" >
+        #{p7,jdbcType=VARCHAR},
+      </if>
+      <if test="p8 != null" >
+        #{p8,jdbcType=VARCHAR},
+      </if>
+      <if test="p9 != null" >
+        #{p9,jdbcType=VARCHAR},
+      </if>
+      <if test="p0 != null" >
+        #{p0,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Supply" >
+    update QL_SUPPLY
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        AREA = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="picpath != null" >
+        PICPATH = #{picpath,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectivetime != null" >
+        EFFECTIVETIME = #{effectivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkman != null" >
+        LINKMAN = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmobile != null" >
+        LINKMOBILE = #{linkmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="qqEmail != null" >
+        QQ_EMAIL = #{qqEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewnum != null" >
+        VIEWNUM = #{viewnum,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        AREA_ID = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="producerId != null" >
+        PRODUCER_ID = #{producerId,jdbcType=VARCHAR},
+      </if>
+      <if test="producerName != null" >
+        PRODUCER_NAME = #{producerName,jdbcType=VARCHAR},
+      </if>
+      <if test="carbrandId != null" >
+        CARBRAND_ID = #{carbrandId,jdbcType=VARCHAR},
+      </if>
+      <if test="carbrandName != null" >
+        CARBRAND_NAME = #{carbrandName,jdbcType=VARCHAR},
+      </if>
+      <if test="carseriesId != null" >
+        CARSERIES_ID = #{carseriesId,jdbcType=VARCHAR},
+      </if>
+      <if test="carseriesName != null" >
+        CARSERIES_NAME = #{carseriesName,jdbcType=VARCHAR},
+      </if>
+      <if test="cartypeId != null" >
+        CARTYPE_ID = #{cartypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cartypeName != null" >
+        CARTYPE_NAME = #{cartypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="carcatId != null" >
+        CARCAT_ID = #{carcatId,jdbcType=VARCHAR},
+      </if>
+      <if test="carcatName != null" >
+        CARCAT_NAME = #{carcatName,jdbcType=VARCHAR},
+      </if>
+      <if test="carBn != null" >
+        CAR_BN = #{carBn,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null" >
+        QUALITY = #{quality,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentType != null" >
+        EQUIPMENT_TYPE = #{equipmentType,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryScope != null" >
+        DELIVERY_SCOPE = #{deliveryScope,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null" >
+        TRANSPORT_MODE = #{transportMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isRound != null" >
+        IS_ROUND = #{isRound,jdbcType=VARCHAR},
+      </if>
+      <if test="isTransit != null" >
+        IS_TRANSIT = #{isTransit,jdbcType=VARCHAR},
+      </if>
+      <if test="isFixedshift != null" >
+        IS_FIXEDSHIFT = #{isFixedshift,jdbcType=VARCHAR},
+      </if>
+      <if test="organizegoodsMode != null" >
+        ORGANIZEGOODS_MODE = #{organizegoodsMode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceMode != null" >
+        SERVICE_MODE = #{serviceMode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateSort != null" >
+        OPERATE_SORT = #{operateSort,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNature != null" >
+        JOB_NATURE = #{jobNature,jdbcType=VARCHAR},
+      </if>
+      <if test="monthlypay != null" >
+        MONTHLYPAY = #{monthlypay,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRequest != null" >
+        JOB_REQUEST = #{jobRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="calling != null" >
+        CALLING = #{calling,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        COMPANY_ADDRESS = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyScale != null" >
+        COMPANY_SCALE = #{companyScale,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNature != null" >
+        COMPANY_NATURE = #{companyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null" >
+        WORK_EXPERIENCE = #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRank != null" >
+        JOB_RANK = #{jobRank,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        COLOR = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="carFirstcardtime != null" >
+        CAR_FIRSTCARDTIME = #{carFirstcardtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasAccident != null" >
+        HAS_ACCIDENT = #{hasAccident,jdbcType=VARCHAR},
+      </if>
+      <if test="hasCertificate != null" >
+        HAS_CERTIFICATE = #{hasCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorCondition != null" >
+        INTERIOR_CONDITION = #{interiorCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="mileage != null" >
+        MILEAGE = #{mileage,jdbcType=DECIMAL},
+      </if>
+      <if test="leaseType != null" >
+        LEASE_TYPE = #{leaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="acreage != null" >
+        ACREAGE = #{acreage,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="homeAddress != null" >
+        HOME_ADDRESS = #{homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        ORIGIN_PLACE = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null" >
+        CERTIFICATE = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="jobPlace != null" >
+        JOB_PLACE = #{jobPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCat != null" >
+        JOB_CAT = #{jobCat,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        JOB = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="p1 != null" >
+        P1 = #{p1,jdbcType=VARCHAR},
+      </if>
+      <if test="p2 != null" >
+        P2 = #{p2,jdbcType=VARCHAR},
+      </if>
+      <if test="p3 != null" >
+        P3 = #{p3,jdbcType=VARCHAR},
+      </if>
+      <if test="p4 != null" >
+        P4 = #{p4,jdbcType=VARCHAR},
+      </if>
+      <if test="p5 != null" >
+        P5 = #{p5,jdbcType=VARCHAR},
+      </if>
+      <if test="p6 != null" >
+        P6 = #{p6,jdbcType=VARCHAR},
+      </if>
+      <if test="p7 != null" >
+        P7 = #{p7,jdbcType=VARCHAR},
+      </if>
+      <if test="p8 != null" >
+        P8 = #{p8,jdbcType=VARCHAR},
+      </if>
+      <if test="p9 != null" >
+        P9 = #{p9,jdbcType=VARCHAR},
+      </if>
+      <if test="p0 != null" >
+        P0 = #{p0,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.Supply" >
+    update QL_SUPPLY
+    set TITLE = #{title,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      AREA = #{area,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      PICPATH = #{picpath,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      EFFECTIVETIME = #{effectivetime,jdbcType=TIMESTAMP},
+      LINKMAN = #{linkman,jdbcType=VARCHAR},
+      LINKMOBILE = #{linkmobile,jdbcType=VARCHAR},
+      QQ_EMAIL = #{qqEmail,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      VIEWNUM = #{viewnum,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      CITY_ID = #{cityId,jdbcType=VARCHAR},
+      AREA_ID = #{areaId,jdbcType=VARCHAR},
+      PRODUCER_ID = #{producerId,jdbcType=VARCHAR},
+      PRODUCER_NAME = #{producerName,jdbcType=VARCHAR},
+      CARBRAND_ID = #{carbrandId,jdbcType=VARCHAR},
+      CARBRAND_NAME = #{carbrandName,jdbcType=VARCHAR},
+      CARSERIES_ID = #{carseriesId,jdbcType=VARCHAR},
+      CARSERIES_NAME = #{carseriesName,jdbcType=VARCHAR},
+      CARTYPE_ID = #{cartypeId,jdbcType=VARCHAR},
+      CARTYPE_NAME = #{cartypeName,jdbcType=VARCHAR},
+      CARCAT_ID = #{carcatId,jdbcType=VARCHAR},
+      CARCAT_NAME = #{carcatName,jdbcType=VARCHAR},
+      CAR_BN = #{carBn,jdbcType=VARCHAR},
+      QUALITY = #{quality,jdbcType=VARCHAR},
+      EQUIPMENT_TYPE = #{equipmentType,jdbcType=VARCHAR},
+      DELIVERY_SCOPE = #{deliveryScope,jdbcType=VARCHAR},
+      TRANSPORT_MODE = #{transportMode,jdbcType=VARCHAR},
+      IS_ROUND = #{isRound,jdbcType=VARCHAR},
+      IS_TRANSIT = #{isTransit,jdbcType=VARCHAR},
+      IS_FIXEDSHIFT = #{isFixedshift,jdbcType=VARCHAR},
+      ORGANIZEGOODS_MODE = #{organizegoodsMode,jdbcType=VARCHAR},
+      GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+      SERVICE_MODE = #{serviceMode,jdbcType=VARCHAR},
+      OPERATE_SORT = #{operateSort,jdbcType=VARCHAR},
+      JOB_NATURE = #{jobNature,jdbcType=VARCHAR},
+      MONTHLYPAY = #{monthlypay,jdbcType=VARCHAR},
+      JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      JOB_REQUEST = #{jobRequest,jdbcType=VARCHAR},
+      COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      CALLING = #{calling,jdbcType=VARCHAR},
+      COMPANY_ADDRESS = #{companyAddress,jdbcType=VARCHAR},
+      COMPANY_SCALE = #{companyScale,jdbcType=VARCHAR},
+      COMPANY_NATURE = #{companyNature,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      WORK_EXPERIENCE = #{workExperience,jdbcType=VARCHAR},
+      JOB_RANK = #{jobRank,jdbcType=VARCHAR},
+      COLOR = #{color,jdbcType=VARCHAR},
+      CAR_FIRSTCARDTIME = #{carFirstcardtime,jdbcType=TIMESTAMP},
+      HAS_ACCIDENT = #{hasAccident,jdbcType=VARCHAR},
+      HAS_CERTIFICATE = #{hasCertificate,jdbcType=VARCHAR},
+      INTERIOR_CONDITION = #{interiorCondition,jdbcType=VARCHAR},
+      MILEAGE = #{mileage,jdbcType=DECIMAL},
+      LEASE_TYPE = #{leaseType,jdbcType=VARCHAR},
+      ACREAGE = #{acreage,jdbcType=DECIMAL},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      HOME_ADDRESS = #{homeAddress,jdbcType=VARCHAR},
+      ORIGIN_PLACE = #{originPlace,jdbcType=VARCHAR},
+      CERTIFICATE = #{certificate,jdbcType=VARCHAR},
+      JOB_PLACE = #{jobPlace,jdbcType=VARCHAR},
+      JOB_CAT = #{jobCat,jdbcType=VARCHAR},
+      JOB = #{job,jdbcType=VARCHAR},
+      P1 = #{p1,jdbcType=VARCHAR},
+      P2 = #{p2,jdbcType=VARCHAR},
+      P3 = #{p3,jdbcType=VARCHAR},
+      P4 = #{p4,jdbcType=VARCHAR},
+      P5 = #{p5,jdbcType=VARCHAR},
+      P6 = #{p6,jdbcType=VARCHAR},
+      P7 = #{p7,jdbcType=VARCHAR},
+      P8 = #{p8,jdbcType=VARCHAR},
+      P9 = #{p9,jdbcType=VARCHAR},
+      P0 = #{p0,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainSupplyAll" parameterType="String" resultMap="BaseResultMap">
+  	select ID,TITLE,CREATETIME,TYPE_ID,TYPE_NAME,STATUS from QL_SUPPLY where DISABLED='false' ORDER BY CREATETIME DESC
+  </select>
+  <select id="gainSupplyNew" parameterType="Map" resultMap="BaseResultMap">
+  	select ROWNUM, ID,TITLE,TYPE_ID,CREATETIME,STATUS from QL_SUPPLY where DISABLED='false'
+  	<if test="status != null" >
+     	and STATUS = #{status,jdbcType=VARCHAR}
+   	</if>
+  	and <![CDATA[ROWNUM <=11]]> ORDER BY CREATETIME DESC
+  </select>
+  <!-- 供求信息列表 -->
+  <select id="gainSupplyListByType" resultMap="BaseResultMap" parameterType="Map" >
+     select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+	select  ID,TITLE,CREATETIME,TYPE_ID,TYPE_NAME,STATUS,VIEWNUM from QL_SUPPLY 
+    where USER_ID = #{userId,jdbcType=VARCHAR}  and DISABLED='false' and TYPE_NAME= #{supplyType,jdbcType=VARCHAR}
+    ) t
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+		where RN>(#{page}-1)*#{rows}
+  </select>
+  <!-- 供求列表数目 -->
+  <select id="gainSupplyListByTypeCount" resultType="Long" parameterType="Map" >
+  	 select count("ID")
+    from QL_SUPPLY
+    where USER_ID = #{userId,jdbcType=VARCHAR} and　DISABLED='false' and TYPE_NAME= #{supplyType,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="gainAllByType" parameterType="Map" resultMap="BaseResultMap">
+  	select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+	  		select ID,TITLE,TYPE_ID,DESCRIPTION,LINKMAN,LINKMOBILE,PICPATH,CREATETIME,EFFECTIVETIME FROM QL_SUPPLY
+	  		WHERE DISABLED='false'
+	  		<if test="typeId != null" >
+       	  		and TYPE_ID = #{typeId,jdbcType=VARCHAR}
+	     	</if>
+	     	<if test="status != null" >
+	       		and STATUS = #{status,jdbcType=VARCHAR}
+	     	</if>
+	      	ORDER BY CREATETIME DESC
+      	) t
+	) where <![CDATA[RN <= #{page}*#{rows}]]>)
+	where RN>(#{page}-1)*#{rows}
+  </select>
+  
+  <select id="gainAllCountByType" parameterType="Map" resultType="Long">
+  	select COUNT("ID") FROM QL_SUPPLY
+ 		WHERE DISABLED='false'
+ 		<if test="typeId != null" >
+       	  	and TYPE_ID = #{typeId,jdbcType=VARCHAR}
+     	</if>
+     	<if test="status != null" >
+       		and STATUS = #{status,jdbcType=VARCHAR}
+     	</if>
+  </select>
+   <select id="gainSupplyMessageByType" parameterType="Map" resultType="Long">
+  	select COUNT("ID") FROM QL_SUPPLY
+ 		WHERE DISABLED='false'
+       	  	and TYPE_NAME = #{typeName}
+       		 and USER_ID = #{userId}
+  </select>
+  
+  <update id="updateSupplyViewNum" parameterType="com.qlzy.model.Supply">
+  	update QL_SUPPLY set  VIEWNUM = #{viewnum,jdbcType=DECIMAL} WHERE ID=#{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 发布统计-发布供/求信息统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainSupplyStatisticsByTime" parameterType="Map" resultType="Long">
+  	select COUNT("ID") from QL_SUPPLY where DISABLED = 'false' and USER_ID = #{userId} 
+	<if test="time==1">
+		and to_char(CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>  	
+  </select>
+  
+</mapper>

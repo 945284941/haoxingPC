@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.school.dao.ZpxyHuodongAttendMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ZpxyHuodongAttend" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ATTEND_NUM" property="attendNum" jdbcType="DECIMAL" />
+    <result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
+    <result column="LINKMOBILE" property="linkmobile" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="DETAIL_ADDRESS" property="detailAddress" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+    <result column="KZ1" property="kz1" jdbcType="VARCHAR" />
+    <result column="KZ2" property="kz2" jdbcType="VARCHAR" />
+    <result column="KZ3" property="kz3" jdbcType="VARCHAR" />
+    <result column="KZ4" property="kz4" jdbcType="VARCHAR" />
+    <result column="KZ5" property="kz5" jdbcType="VARCHAR" />
+    <result column="KZ6" property="kz6" jdbcType="VARCHAR" />
+    <result column="KZ7" property="kz7" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ATTEND_NUM, LINKMAN, LINKMOBILE, ADDRESS, DETAIL_ADDRESS, CREATETIME, KZ1, KZ2, 
+    KZ3, KZ4, KZ5, KZ6, KZ7
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ZPXY_HUODONG_ATTEND
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ZPXY_HUODONG_ATTEND
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.ZpxyHuodongAttend" >
+    insert into QL_ZPXY_HUODONG_ATTEND (ID, ATTEND_NUM, LINKMAN, 
+      LINKMOBILE, ADDRESS, DETAIL_ADDRESS, 
+      CREATETIME, KZ1, KZ2, 
+      KZ3, KZ4, KZ5, KZ6, 
+      KZ7)
+    values (#{id,jdbcType=VARCHAR}, #{attendNum,jdbcType=DECIMAL}, #{linkman,jdbcType=VARCHAR}, 
+      #{linkmobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=DATE}, #{kz1,jdbcType=VARCHAR}, #{kz2,jdbcType=VARCHAR}, 
+      #{kz3,jdbcType=VARCHAR}, #{kz4,jdbcType=VARCHAR}, #{kz5,jdbcType=VARCHAR}, #{kz6,jdbcType=VARCHAR}, 
+      #{kz7,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.ZpxyHuodongAttend" >
+    insert into QL_ZPXY_HUODONG_ATTEND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="attendNum != null" >
+        ATTEND_NUM,
+      </if>
+      <if test="linkman != null" >
+        LINKMAN,
+      </if>
+      <if test="linkmobile != null" >
+        LINKMOBILE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="detailAddress != null" >
+        DETAIL_ADDRESS,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="kz1 != null" >
+        KZ1,
+      </if>
+      <if test="kz2 != null" >
+        KZ2,
+      </if>
+      <if test="kz3 != null" >
+        KZ3,
+      </if>
+      <if test="kz4 != null" >
+        KZ4,
+      </if>
+      <if test="kz5 != null" >
+        KZ5,
+      </if>
+      <if test="kz6 != null" >
+        KZ6,
+      </if>
+      <if test="kz7 != null" >
+        KZ7,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="attendNum != null" >
+        #{attendNum,jdbcType=DECIMAL},
+      </if>
+      <if test="linkman != null" >
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmobile != null" >
+        #{linkmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null" >
+        #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="kz1 != null" >
+        #{kz1,jdbcType=VARCHAR},
+      </if>
+      <if test="kz2 != null" >
+        #{kz2,jdbcType=VARCHAR},
+      </if>
+      <if test="kz3 != null" >
+        #{kz3,jdbcType=VARCHAR},
+      </if>
+      <if test="kz4 != null" >
+        #{kz4,jdbcType=VARCHAR},
+      </if>
+      <if test="kz5 != null" >
+        #{kz5,jdbcType=VARCHAR},
+      </if>
+      <if test="kz6 != null" >
+        #{kz6,jdbcType=VARCHAR},
+      </if>
+      <if test="kz7 != null" >
+        #{kz7,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ZpxyHuodongAttend" >
+    update QL_ZPXY_HUODONG_ATTEND
+    <set >
+      <if test="attendNum != null" >
+        ATTEND_NUM = #{attendNum,jdbcType=DECIMAL},
+      </if>
+      <if test="linkman != null" >
+        LINKMAN = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmobile != null" >
+        LINKMOBILE = #{linkmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null" >
+        DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="kz1 != null" >
+        KZ1 = #{kz1,jdbcType=VARCHAR},
+      </if>
+      <if test="kz2 != null" >
+        KZ2 = #{kz2,jdbcType=VARCHAR},
+      </if>
+      <if test="kz3 != null" >
+        KZ3 = #{kz3,jdbcType=VARCHAR},
+      </if>
+      <if test="kz4 != null" >
+        KZ4 = #{kz4,jdbcType=VARCHAR},
+      </if>
+      <if test="kz5 != null" >
+        KZ5 = #{kz5,jdbcType=VARCHAR},
+      </if>
+      <if test="kz6 != null" >
+        KZ6 = #{kz6,jdbcType=VARCHAR},
+      </if>
+      <if test="kz7 != null" >
+        KZ7 = #{kz7,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.ZpxyHuodongAttend" >
+    update QL_ZPXY_HUODONG_ATTEND
+    set ATTEND_NUM = #{attendNum,jdbcType=DECIMAL},
+      LINKMAN = #{linkman,jdbcType=VARCHAR},
+      LINKMOBILE = #{linkmobile,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      KZ1 = #{kz1,jdbcType=VARCHAR},
+      KZ2 = #{kz2,jdbcType=VARCHAR},
+      KZ3 = #{kz3,jdbcType=VARCHAR},
+      KZ4 = #{kz4,jdbcType=VARCHAR},
+      KZ5 = #{kz5,jdbcType=VARCHAR},
+      KZ6 = #{kz6,jdbcType=VARCHAR},
+      KZ7 = #{kz7,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

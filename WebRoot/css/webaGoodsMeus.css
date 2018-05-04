@@ -1,0 +1,10 @@
+/*热销品类begin*/
+.rxpl{ position:relative;margin:0 auto;width:1450px; _width:100%; _position:static}
+.rxgd{  width:1450px;  margin:0 auto;  position:absolute; _position:static }
+.rxsp{ width:120px; background-color:#fff; z-index:300; border-bottom:20px solid #333333;position:fixed;top:10%;  _position:absolute;
+    _top:expression(documentElement.scrollTop + documentElement.clientHeight-this.offsetHeight);
+ }
+.rxsp h2{ background:url(../imges/rx.gif) no-repeat; height:58px; border-bottom:7px solid #e31226; }
+.rxsp h2 span{ display:none}
+.rxsp ul li{ height:21px; padding-top:7px; border-bottom:1px solid #dedede; padding-left:1px; margin:0 6px;}
+/*热销品类end*/

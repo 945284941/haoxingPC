@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.perinfo.dao.JiesuanItemMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.JiesuanItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="pici" property="pici" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="num" property="num" jdbcType="DECIMAL" />
+     <result column="yinum" property="yinum" jdbcType="DECIMAL" />
+      <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, member_id, count, status, goods_id, pici, remark, createtime, num,yinum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_jiesuan_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_jiesuan_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.JiesuanItem" >
+    insert into ql_jiesuan_item (id, member_id, count, 
+      status, goods_id, pici, remark, 
+      createtime, num)
+    values (#{id,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, #{count,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{pici,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{num,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.JiesuanItem" >
+    insert into ql_jiesuan_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="pici != null" >
+        pici,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="pici != null" >
+        #{pici,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.JiesuanItem" >
+    update ql_jiesuan_item
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="pici != null" >
+        pici = #{pici,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="yinum != null" >
+        yinum = #{yinum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.JiesuanItem" >
+    update ql_jiesuan_item
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      count = #{count,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      pici = #{pici,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      num = #{num,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="gainJiesuanItemList" resultType="com.qlzy.model.JiesuanItem" parameterType="com.qlzy.model.JiesuanItem" >
+    	select * from(
+      select  qal.*,ql.username from ql_jiesuan_item qal left join QL_MEMBERS ql on qal.member_id=ql.id
+      where<![CDATA[ qal.status !=3]]> and qal.createtime &lt;  #{_startTime,jdbcType=TIMESTAMP}
+	    	and <![CDATA[qal.num>0]]>
+		 order by qal.CREATETIME desc
+    )t  limit #{page},#{rows}
+  </select>
+     <select id="gainJiesuanItemListCount" resultType="Long" parameterType="com.qlzy.model.JiesuanItem">
+   		  select 
+		    count(qal.id)
+		     from ql_jiesuan_item qal  where <![CDATA[ status !=3]]> and createtime &lt;  #{_startTime,jdbcType=TIMESTAMP}
+	    	and <![CDATA[ num>0]]>
+   </select>
+   
+    <select id="gainJiesuanList" resultMap="BaseResultMap" parameterType="com.qlzy.model.Jiesuan" >
+    	
+	    select   <include refid="Base_Column_List" /> from ql_jiesuan_item qjt where <![CDATA[ status !=3]]> and createtime &lt;  #{_startTime,jdbcType=TIMESTAMP}
+	    	and <![CDATA[ num>0]]>
+	  </select>
+    <select id="selectByPici" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_jiesuan_item
+    where pici = #{pici,jdbcType=VARCHAR}
+  </select>
+</mapper>

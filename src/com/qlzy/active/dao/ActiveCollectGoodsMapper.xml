@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.active.dao.ActiveCollectGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ActiveCollectGoods" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BN" property="bn" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="SERIES" property="series" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="COMPONENT" property="component" jdbcType="VARCHAR" />
+    <result column="CAT" property="cat" jdbcType="VARCHAR" />
+    <result column="G_LENGTH" property="glength" jdbcType="VARCHAR" />
+    <result column="G_WIDTH" property="gwidth" jdbcType="VARCHAR" />
+    <result column="G_HEIGHT" property="gheight" jdbcType="VARCHAR" />
+    <result column="G_WEIGHT" property="gweight" jdbcType="VARCHAR" />
+    <result column="G_WHEEL" property="gwheel" jdbcType="VARCHAR" />
+    <result column="G_INSIDE" property="ginside" jdbcType="VARCHAR" />
+    <result column="G_OUTSIDE" property="goutside" jdbcType="VARCHAR" />
+    <result column="G_HOLE" property="ghole" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="UPLOAD_TYPE" property="uploadType" jdbcType="DECIMAL" />
+    <result column="DEFAULTPIC" property="defaultPic" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, BN, CREATETIME, MODIFYTIME, MEMBERID, DISABLED, BRAND, SERIES, TYPE, COMPONENT, 
+    CAT, G_LENGTH, G_WIDTH, G_HEIGHT, G_WEIGHT, G_WHEEL, G_INSIDE, G_OUTSIDE, G_HOLE, 
+    STATUS,UPLOAD_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ACTIVE_COLLECT_GOODS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ACTIVE_COLLECT_GOODS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.qlzy.model.ActiveCollectGoods" >
+    insert into QL_ACTIVE_COLLECT_GOODS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="bn != null" >
+        BN,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+      <if test="series != null" >
+        SERIES,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="component != null" >
+        COMPONENT,
+      </if>
+      <if test="cat != null" >
+        CAT,
+      </if>
+      <if test="glength != null" >
+        G_LENGTH,
+      </if>
+      <if test="gwidth != null" >
+        G_WIDTH,
+      </if>
+      <if test="gheight != null" >
+        G_HEIGHT,
+      </if>
+      <if test="gweight != null" >
+        G_WEIGHT,
+      </if>
+      <if test="gwheel != null" >
+        G_WHEEL,
+      </if>
+      <if test="ginside != null" >
+        G_INSIDE,
+      </if>
+      <if test="goutside != null" >
+        G_OUTSIDE,
+      </if>
+      <if test="ghole != null" >
+        G_HOLE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+       <if test="uploadType != null" >
+        UPLOAD_TYPE,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bn != null" >
+        #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="series != null" >
+        #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null" >
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="cat != null" >
+        #{cat,jdbcType=VARCHAR},
+      </if>
+      <if test="glength != null" >
+        #{glength,jdbcType=VARCHAR},
+      </if>
+      <if test="gwidth != null" >
+        #{gwidth,jdbcType=VARCHAR},
+      </if>
+      <if test="gheight != null" >
+        #{gheight,jdbcType=VARCHAR},
+      </if>
+      <if test="gweight != null" >
+        #{gweight,jdbcType=VARCHAR},
+      </if>
+      <if test="gwheel != null" >
+        #{gwheel,jdbcType=VARCHAR},
+      </if>
+      <if test="ginside != null" >
+        #{ginside,jdbcType=VARCHAR},
+      </if>
+      <if test="goutside != null" >
+        #{goutside,jdbcType=VARCHAR},
+      </if>
+      <if test="ghole != null" >
+        #{ghole,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadType != null" >
+        #{uploadType,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ActiveCollectGoods" >
+    update QL_ACTIVE_COLLECT_GOODS
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bn != null" >
+        BN = #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="series != null" >
+        SERIES = #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null" >
+        COMPONENT = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="cat != null" >
+        CAT = #{cat,jdbcType=VARCHAR},
+      </if>
+      <if test="glength != null" >
+        G_LENGTH = #{glength,jdbcType=VARCHAR},
+      </if>
+      <if test="gwidth != null" >
+        G_WIDTH = #{gwidth,jdbcType=VARCHAR},
+      </if>
+      <if test="gheight != null" >
+        G_HEIGHT = #{gheight,jdbcType=VARCHAR},
+      </if>
+      <if test="gweight != null" >
+        G_WEIGHT = #{gweight,jdbcType=VARCHAR},
+      </if>
+      <if test="gwheel != null" >
+        G_WHEEL = #{gwheel,jdbcType=VARCHAR},
+      </if>
+      <if test="ginside != null" >
+        G_INSIDE = #{ginside,jdbcType=VARCHAR},
+      </if>
+      <if test="goutside != null" >
+        G_OUTSIDE = #{goutside,jdbcType=VARCHAR},
+      </if>
+      <if test="ghole != null" >
+        G_HOLE = #{ghole,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadType != null" >
+        UPLOAD_TYPE = #{uploadType,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据会员id查询上传的数据条数 -->
+  <select id="gainUploadCount" resultType="Long" parameterType="java.util.Map" >
+	select count("ID") as uploadCount from QL_ACTIVE_COLLECT_GOODS ACG where ACG.DISABLED = 'false' and ACG.MEMBERID = #{memberid,jdbcType=VARCHAR} and ACG.STATUS != 3 
+	<if test="status!=null">
+		and ACG.STATUS = #{status,jdbcType=DECIMAL}	
+	</if> 
+  </select>
+  <!-- 根据会员id上传数据且通过的数据条数 -->
+  <select id="gainUploadCountByMemberId" resultType="Long" parameterType="java.util.Map" >
+	select count("ID") as uploadCount from QL_ACTIVE_COLLECT_GOODS ACG where ACG.DISABLED = 'false' and ACG.MEMBERID = #{memberid,jdbcType=VARCHAR} 
+	<if test="status!=null">
+		and ACG.STATUS = #{status,jdbcType=DECIMAL}	
+	</if> 
+  </select>
+  <!-- 根据会员id查询上传数据信息 -->
+  <select id="gainActiveCollectGoodsList" resultType="com.qlzy.model.ActiveCollectGoods" parameterType="java.util.Map" >
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (  
+			select ACG."ID", ACG."NAME", SUBSTR(ACG."NAME",0,10) as dataName, ACG.CREATETIME,ACG.STATUS, ACG.BN   
+			from QL_ACTIVE_COLLECT_GOODS ACG where ACG.DISABLED = 'false' and ACG.MEMBERID = #{memberid,jdbcType=VARCHAR} and ACG.STATUS != 3 
+	        ORDER BY ACG.MODIFYTIME DESC
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}			
+  </select>
+  
+  <!-- 查询上传累计经验值 -->
+  <select id="gainUploadAddUpPoint" resultType="Long" parameterType="String" >
+	select NVL("SUM"(ACPL."POINT"),0) as "POINT" from QL_ACTIVE_COLLECT_POINT_LOG ACPL left join QL_ACTIVE_COLLECT_GOODS ACG on ACPL.GOODS_ID = ACG."ID"  
+	where ACPL.DISABLED = 'false' and ACG.DISABLED = 'false' and ACPL.MEMBER_ID = #{memberid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询上传累计奖金 -->
+  <select id="gainUploadAddUpMoney" resultType="Double" parameterType="String" >
+	select NVL("SUM"(ACML.MONEY),0) as MONEY from QL_ACTIVE_COLLECT_MONEY_LOG ACML left join QL_ACTIVE_COLLECT_GOODS ACG on ACML.GOODS_ID = ACG."ID" 
+	where ACML.DISABLED = 'false' and ACG.DISABLED = 'false' and ACML.MEMBER_ID = #{memberid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询今日、昨日、本月的上传数据统计 -->
+  <select id="gainUploadCountByTime" resultType="Long" parameterType="java.util.Map" >
+	select count("ID") as count1 from QL_ACTIVE_COLLECT_GOODS ACG where ACG.DISABLED = 'false' and ACG.STATUS != 3 and ACG.MEMBERID = #{memberid,jdbcType=VARCHAR}
+	<if test="time==1">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(ACG.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="status!=null">
+		and ACG.STATUS = 1
+	</if>
+	<if test="startTime!=null and startTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')>=#{startTime,jdbcType=TIMESTAMP}]]>
+	</if>
+	<if test="endTime!=null and endTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')<=#{endTime,jdbcType=TIMESTAMP}]]> 
+	</if>	
+  </select> 
+  
+  <!-- 查询今日、昨日、本月的上传数据总排名 -->
+  <select id="gainUploadRankByTime" resultType="Long" parameterType="java.util.Map" >
+	select NVL(t2.UPLOADRANK,0) as UPLOADRANK from (select T1.MEMBERID,T1.COUNT1,row_number() OVER (ORDER BY T1.COUNT1 DESC ) uploadRank from (select ACG.MEMBERID,count("ID") as count1 from QL_ACTIVE_COLLECT_GOODS 
+	ACG where ACG.DISABLED = 'false' and ACG.STATUS != 3
+	<if test="time==1">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(ACG.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="status!=null">
+		and ACG.STATUS = 1
+	</if>
+	<if test="startTime!=null and startTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')>=#{startTime,jdbcType=TIMESTAMP}]]>
+	</if>
+	<if test="endTime!=null and endTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')<=#{endTime,jdbcType=TIMESTAMP}]]> 
+	</if>			
+	 GROUP BY ACG.MEMBERID) t1) t2 where 
+	T2.MEMBERID = #{memberid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询今日、昨日、本月的上传数据采用获得的经验值 -->
+  <select id="gainUploadGetPoint" resultType="Long" parameterType="java.util.Map" >
+	select NVL("SUM"(ACPL."POINT"),0) as "POINT" from QL_ACTIVE_COLLECT_POINT_LOG ACPL left join QL_ACTIVE_COLLECT_GOODS ACG on ACPL.GOODS_ID = ACG."ID"  
+	where ACPL.DISABLED = 'false' and ACG.DISABLED = 'false' and ACPL.MEMBER_ID = #{memberid,jdbcType=VARCHAR} 
+	<if test="time==1">
+		and to_char(ACPL.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACPL.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(ACPL.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="startTime!=null and startTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')>=#{startTime,jdbcType=TIMESTAMP}]]>
+	</if>
+	<if test="endTime!=null and endTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')<=#{endTime,jdbcType=TIMESTAMP}]]> 
+	</if>		
+  </select>
+  
+  <!-- 查询今日、昨日、本月的上传数据采用获得的奖金 -->
+  <select id="gainUploadGetMoney" resultType="Double" parameterType="java.util.Map" >
+	select NVL("SUM"(ACML.MONEY),0) as MONEY from QL_ACTIVE_COLLECT_MONEY_LOG ACML left join QL_ACTIVE_COLLECT_GOODS ACG on ACML.GOODS_ID = ACG."ID" 
+	where ACML.DISABLED = 'false' and ACG.DISABLED = 'false' and ACML.MEMBER_ID = #{memberid,jdbcType=VARCHAR}  
+	<if test="time==1">
+		and to_char(ACML.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACML.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(ACML.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="startTime!=null and startTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')>=#{startTime,jdbcType=TIMESTAMP}]]>
+	</if>
+	<if test="endTime!=null and endTime!=''">
+		and <![CDATA[TO_CHAR(ACG.CREATETIME,'yyyy-MM-dd hh24:mi:ss')<=#{endTime,jdbcType=TIMESTAMP}]]> 
+	</if>		
+  </select>   
+  
+  <select id="gainHasCheckedActiveCollectGoods" parameterType="Map" resultMap="BaseResultMap">
+  		select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (  
+			select a.ID, a.NAME,  a.BN,  a.CREATETIME,  a.MODIFYTIME, a.MEMBERID,  a.DISABLED,  a.BRAND,  a.SERIES,  a.TYPE,  a.COMPONENT, 
+		     a.CAT,  a.G_LENGTH,  a.G_WIDTH,  a.G_HEIGHT,  a.G_WEIGHT,  a.G_WHEEL,  a.G_INSIDE,  a.G_OUTSIDE,  a.G_HOLE,
+		    STATUS,UPLOAD_TYPE
+			from QL_ACTIVE_COLLECT_GOODS a
+			 where a.status =3
+			<if test="cat!=null">
+				and a.cat =#{cat}
+			</if>
+			order by a.createtime desc
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}		
+  </select>
+  <select id="gainHasCheckedActiveCollectGoodsCount" resultType="Long" parameterType="Map" >
+  	select count(ID)
+			from QL_ACTIVE_COLLECT_GOODS  where status =3
+			<if test="cat!=null">
+				and cat =#{cat}
+			</if>
+  </select>
+  
+  <!-- 数据上传排行榜 -->
+  <select id="gainListForUploadRankByTime" resultType="com.qlzy.model.ActiveCollectGoods" parameterType="Map">
+	select T1.MEMBERID,T1.UPLOADCOUNT as uploadCount,row_number() OVER (ORDER BY T1.UPLOADCOUNT DESC ) uploadRank from (select ACG.MEMBERID,count("ID") as UPLOADCOUNT from QL_ACTIVE_COLLECT_GOODS 
+	ACG where ACG.DISABLED = 'false' and ACG.STATUS!=3 
+	<if test="time==1">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACG.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM') 
+	</if>
+	 GROUP BY ACG.MEMBERID) T1
+  </select>
+  
+  <!-- 活动统计-上传或上传采用统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainUploadStatisticsByTime" resultType="Long" parameterType="java.util.Map">
+	select count("ID") as uploadCount from QL_ACTIVE_COLLECT_GOODS ACG where ACG.DISABLED = 'false' and ACG.MEMBERID = #{userId} and ACG.STATUS != 3 
+	<if test="status!=null and status!=''">
+		and ACG.STATUS = #{status,jdbcType=DECIMAL}	
+	</if>
+	<if test="time==1">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(ACG.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(ACG.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(ACG.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>		
+  </select>   
+  
+  <select id="gainActiveCollectGoodsByCompanyId" parameterType="String" resultMap="BaseResultMap">
+  	select 
+    	<include refid="Base_Column_List" />
+    	from QL_ACTIVE_COLLECT_GOODS
+    		where MEMBERID = #{id,jdbcType=VARCHAR}
+  </select> 
+</mapper>

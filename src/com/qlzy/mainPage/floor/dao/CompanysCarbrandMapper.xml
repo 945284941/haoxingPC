@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.floor.dao.CompanysCarbrandMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CompanysCarbrand" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="CAR_BRAND_ID" property="carBrandId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMPANY_ID, CAR_BRAND_ID
+  </sql>
+  
+  <!-- 根据供应商家id查询其汽车品牌信息 -->
+  <select id="gainCompanysCarbrandByCompanyId" resultMap="BaseResultMap" parameterType="String" >
+	select * from (select ROWNUM as RN,t.* from (select CC.*,CB."NAME" as CARBRANDNAME from QL_COMPANYS_CARBRAND CC 
+	left join QL_CAR_BRAND CB on CC.CAR_BRAND_ID = CB."ID" where CB.DISABLED = 'false' and CC.COMPANY_ID = #{companyId,jdbcType=VARCHAR})t) 
+	where <![CDATA[RN<=3]]>	
+  </select>  
+   <insert id="insert" parameterType="com.qlzy.model.CompanysCarbrand" >
+    insert into QL_COMPANYS_CARBRAND (ID, COMPANY_ID, CAR_BRAND_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{carBrandId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.CompanysCarbrand" >
+    insert into QL_COMPANYS_CARBRAND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="carBrandId != null" >
+        CAR_BRAND_ID,
+      </if>
+     
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrandId != null" >
+        #{carBrandId,jdbcType=VARCHAR},
+      </if>
+     
+    </trim>
+  </insert>
+</mapper>

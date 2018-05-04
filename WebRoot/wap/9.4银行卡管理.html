@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">银行卡管理</h1>
+		</header>
+		<div id="OA_task_1" class="mui-content">
+			<div class="vip_box">
+				<div class="mui-content-padded">
+					<div>张先生   **** **** **** 2356</div>
+					<div class="mt05">济南市历下区洪楼支行</div>
+				</div>
+				<div class="mui-table-view-cell mui-radio address">
+					<input name="radio" type="radio"> 设为默认
+				</div>
+				<div class="address_but color_666">
+					<a href="9.4银行卡管理_编辑.html" href=""><em class="iconfont">&#xe609;</em> 编辑</a>
+					<span class="mui-btn"><em class="iconfont">&#xe624;</em> 删除</span>
+				</div>
+			</div>
+			<div class="vip_box mt05">
+				<div class="mui-content-padded">
+					<div>张先生   **** **** **** 2356</div>
+					<div class="mt05">济南市历下区洪楼支行</div>
+				</div>
+				<div class="mui-table-view-cell mui-radio address">
+					<input name="radio" type="radio"> 设为默认
+				</div>
+				<div class="address_but color_666">
+					<a href="9.4银行卡管理_编辑.html" href=""><em class="iconfont">&#xe609;</em> 编辑</a>
+					<span class="mui-btn"><em class="iconfont">&#xe624;</em> 删除</span>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content-padded">
+				<a href="9.4银行卡管理_添加.html" class="vip_but mg0">+ 新增银行卡</a>
+			</div>
+		<script src="js/jquery1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init();
+			(function($) {
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('', '确认删除该条记录？', btnArray, function(e) {
+						if(e.index == 0) {
+							li.parentNode.removeChild(li);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				var btnArray = ['确认', '取消'];
+			})(mui);
+		</script>
+	</body>
+
+</html>

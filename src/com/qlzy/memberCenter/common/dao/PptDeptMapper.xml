@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.PptDeptMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.PptDept" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 根据用户ID查询其好友分组 -->
+  <select id="gainPptDeptsByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select * from QL_PPT_DEPT PD where PD.USER_ID = #{userId} 
+  </select>
+   
+  <insert id="insert" parameterType="com.qlzy.model.PptDept" >
+    insert into QL_PPT_DEPT (ID, USER_ID, DEPT_NAME
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.PptDept" >
+    insert into QL_PPT_DEPT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.indexGoods.dao.GoodsHotMapper">
+	<resultMap id="BaseResultMap" type="com.qlzy.model.GoodsHot">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+		<result column="ACTIVE_CONTENT" property="activeContent" jdbcType="VARCHAR" />
+		<result column="COMPANY_LINKPHONE" property="companyLinkPhone" jdbcType="VARCHAR" />
+		<result column="BN" property="bn" jdbcType="VARCHAR" />
+		<result column="ISSHOW" property="isShow" jdbcType="DECIMAL" />
+		<result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+		<result column="OPTIMAL_CAR" property="optimalCar" jdbcType="VARCHAR" />
+		<result column="ACTIVE_START_TIME" property="activeStartTime" jdbcType="TIMESTAMP" />
+		<result column="ACTIVE_END_TIME" property="activeEndTime" jdbcType="TIMESTAMP" />
+		<result column="GOODSHOT_TIME" property="goodsHotTime" jdbcType="TIMESTAMP" />
+		<result column="ACTIVE_GOODS_ADDR" property="activeGoodsAddr" jdbcType="VARCHAR" />
+		<result column="ACTIVE_TYPE" property="activeType" jdbcType="DECIMAL" />
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="SH_ACTIVE_TYPE" property="shActiveType" jdbcType="DECIMAL" />
+		<result column="CX_PRICE" property="cxPrice" jdbcType="DECIMAL" />
+		<result column="y_price" property="yPrice" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, COMPANY_NAME, ACTIVE_CONTENT, COMPANY_LINKPHONE, BN,
+		ISSHOW,
+		DEFAULT_PIC_SRC, OPTIMAL_CAR, ACTIVE_START_TIME, ACTIVE_END_TIME,GOODSHOT_TIME, ACTIVE_GOODS_ADDR, ACTIVE_TYPE,USER_ID,USER_NAME,y_price,CX_PRICE
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from QL_GOODS_HOT
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	
+	
+	<!--查询这个时间段活动的商品 -->
+	<select id="gainAllWithByPage" resultMap="BaseResultMap"
+		parameterType="com.qlzy.model.GoodsHot">
+		select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+			select h.ID, h.COMPANY_NAME, h.ACTIVE_CONTENT, h.COMPANY_LINKPHONE, h.BN,
+		h.ISSHOW,
+		h.DEFAULT_PIC_SRC, h.OPTIMAL_CAR, h.ACTIVE_START_TIME, h.ACTIVE_END_TIME, h.ACTIVE_GOODS_ADDR, h.ACTIVE_TYPE,h.USER_NAME,h.USER_ID from QL_GOODS_HOT h
+		
+		<if test="companyName != null and companyName != ''">
+			and h.COMPANY_NAME like '%${companyName}%'
+		</if>
+		<if test="isShow != null">
+			and h.ISSHOW =#{isShow,jdbcType=DECIMAL}
+		</if>
+		<if test="activeType != null">
+			and h.ACTIVE_TYPE =#{activeType,jdbcType=DECIMAL}
+		</if>
+		<if test="shActiveType != null">
+			and h.SH_ACTIVE_TYPE =#{shActiveType,jdbcType=DECIMAL}
+		</if>
+		<if test="bn != null and bn != ''">
+			and h.BN like '%${bn}%'
+		</if>
+		<if test="_startTime != null">
+			and h.ACTIVE_START_TIME &gt;= #{_startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="_endTime != null">
+			and h.ACTIVE_END_TIME &lt;= #{_endTime,jdbcType=TIMESTAMP}
+			
+			
+		</if> 
+		order by h.ACTIVE_START_TIME  DESC
+		
+		) t
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+		where RN>(#{page}-1)*#{rows}
+	</select>
+	<!--查询这个时间段活动的商品 -->
+	<select id="gainGoodsHotList" resultMap="BaseResultMap"
+		parameterType="com.qlzy.model.GoodsHot">
+			select
+		<include refid="Base_Column_List" />
+		from QL_GOODS_HOT
+	</select>
+	<select id="gainGoodsHotListCount" parameterType="com.qlzy.model.GoodsHot"
+		resultType="Long">
+		select count(*)  from QL_GOODS_HOT h where 1=1
+		<if test="companyName != null and companyName != ''">
+			and h.COMPANY_NAME like '%${companyName}%'
+		</if>
+		<if test="isShow != null">
+			and h.ISSHOW =#{isShow,jdbcType=DECIMAL}
+		</if>
+		<if test="activeType != null">
+			and h.ACTIVE_TYPE =#{activeType,jdbcType=DECIMAL}
+		</if>
+		<if test="shActiveType != null">
+			and h.SH_ACTIVE_TYPE =#{shActiveType,jdbcType=DECIMAL}
+		</if>
+		<if test="bn != null and bn != ''">
+			and h.BN like '%${bn}%'
+		</if>
+		<if test="_startTime != null">
+			and h.ACTIVE_END_TIME &gt;= #{_startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="_endTime != null">
+			and h.ACTIVE_END_TIME &lt;= #{_endTime,jdbcType=TIMESTAMP}
+			
+			
+		</if> 
+		order by h.GOODSHOT_TIME  DESC
+	</select>
+
+  <select id="gainGoodsHotT" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_HOT where ACTIVE_TYPE=1 AND ISSHOW=1 order by GOODSHOT_TIME  DESC
+  </select>
+  <select id="gainGoodsHotP" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_HOT where ACTIVE_TYPE=2 AND ISSHOW=1 order by GOODSHOT_TIME  DESC
+  </select>
+  <select id="gainGoodsHotG" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_HOT where ACTIVE_TYPE=3 AND ISSHOW=1 order by GOODSHOT_TIME  DESC
+  </select>
+  <select id="gainGoodsHot" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_HOT where  ISSHOW=1 order by GOODSHOT_TIME  DESC
+  </select>
+  <select id="gainGoodsHotS" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_HOT where  ISSHOW=1 and SH_ACTIVE_TYPE=1 and ACTIVE_TYPE=1 and ROWNUM &lt; 5  order by GOODSHOT_TIME  DESC
+  </select>
+</mapper>

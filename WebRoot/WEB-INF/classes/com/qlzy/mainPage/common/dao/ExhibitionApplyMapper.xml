@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.common.dao.ExhibitionApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ExhibitionApply" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ENROLLMENT" property="enrollment" jdbcType="DECIMAL" />
+    <result column="CONTACT" property="contact" jdbcType="VARCHAR" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="BUSINESS_SCOPE" property="businessScope" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_TYPE" property="applyType" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />            
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, PROVINCE, CITY, AREA, ADDRESS, ENROLLMENT, CONTACT, COMPANY_NAME, BUSINESS_SCOPE, 
+    EMAIL, CREATETIME, APPLY_TYPE, DISABLED
+  </sql>
+  
+  <!-- 添加展会报名信息 -->
+  <insert id="addExhibitionApply" parameterType="com.qlzy.model.ExhibitionApply" >
+    insert into QL_EXHIBITION_APPLY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="enrollment != null" >
+        ENROLLMENT,
+      </if>
+      <if test="contact != null" >
+        CONTACT,
+      </if>
+      <if test="companyName != null" >
+        COMPANY_NAME,
+      </if>
+      <if test="businessScope != null" >
+        BUSINESS_SCOPE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="applyType != null" >
+        APPLY_TYPE,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="enrollment != null" >
+        #{enrollment,jdbcType=DECIMAL},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null" >
+        #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="applyType != null" >
+        #{applyType,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

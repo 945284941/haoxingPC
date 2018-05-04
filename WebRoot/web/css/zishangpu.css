@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+/*----------- 内容start------------- */
+.zsp_mian{margin-top:-10px;}
+div.slideBox ul.items li{width:100%;}
+div.slideBox ul.items li a{width:100%;}
+div.slideBox ul.items li a img{width:100%;}
+.zsp_cx{ width:888px; margin:0 auto;margin-top:10px;}
+.zsp_cx_let { float:left;width:415px;height:422px; border:#CCCCCC solid 1px; }
+.zsp_cx_rit{ float:left;width:460px; margin-left:10px;}
+.zsp_man_03{ width:888px; margin:0 auto;margin-top:10px;}
+.zsp_man_03_tu1{ float:left;width:439px; height:223px;margin-top:5px;  border:#CCCCCC solid 1px;}
+.zsp_man_03_tu2{ float:right;width:439px; height:223px;margin-top:5px;  border:#CCCCCC solid 1px;}
+.zsp_man_03_bot{ width:888px; height:318px; margin-top:10px; border:#CCCCCC solid 1px;}
+.zsp_main_04top{ width:888px; height:100px; margin-top:5px;}
+.zsp_main_04bot{ border-bottom:#CCC solid 1px; border-right:#CCC solid 1px; margin-top:5px; width:888px; height:644px;}
+.zsp_main_04bot_one{ float:left; width:221px; height:321px; border-top:#CCC solid 1px; border-left:#CCC solid 1px;}
+.zsp_main_05top{ width:888px; height:140px; margin-top:5px;}
+.zsp_main_05bot1{ float:left; width:439px; height:370px; margin-right:5px; border:#CCCCCC solid 1px; margin-top:5px;}
+.zsp_main_05bot2{ float:right; width:439px; height:370px;  border:#CCCCCC solid 1px; margin-top:5px;}
+.zsp_mian_bot{margin-top:30px;height:566px;}
+.zsp_mian_bot  img{width:100%;height:566px;}

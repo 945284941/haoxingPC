@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+
+.splbxg{ border:1px solid #CF1529; background-color:#fffcee; margin-top:15px; position:fixed;}
+* html .splbxg{position:absolute;left:expression(eval(document.documentElement.scrollLeft+document.documentElement.clientWidth-this.offsetWidth)-(parseInt(this.currentStyle.marginLeft,10)||0)-(parseInt(this.currentStyle.marginRight,10)||0));top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)))}
+.splb-title{ padding-left:20px; font-size:14px; background-color:#b70004; color:#fff; height:35px; line-height:35px;}
+.splb-content{ margin:10px 50px;}
+.splb-cs{ color:#000000; background-color: #FFF;}
+.btn-submit{ width:130px; height:29px; line-height:29px; display:inline-block; background:url(../images/shop/qdsh.gif) no-repeat; text-align:center; color:#fff; font-weight:bold; font-size:14px;}
+.qrshdz{ margin:15px 0; margin-left:20px;}
+.qrshdz a:hover{ color:#fff; text-decoration:none}
+.list{ clear:both; margin:10px;}
+.label{ float:left; margin-right:2px;text-align:right; width:70px; font-weight:normal}
+.label em{ margin-right:5px; color:red}
+.splb-content .textbox{ height:25px; border:1px solid #dedede; line-height:25px; vertical-align:middle}
+.list .field{ float:none}
+.list .field select{ border:1px solid #dedede; margin-right:5px;}
+.xgphone em{ margin-left:5px; float:none}

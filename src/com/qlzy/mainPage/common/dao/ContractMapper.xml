@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.common.dao.ContractMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Contract" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="VIP_GRADE" property="vipGrade" jdbcType="DECIMAL" />
+    <result column="COST" property="cost" jdbcType="DECIMAL" />
+    <result column="START_TIME" property="startTime" jdbcType="DATE" />
+    <result column="END_TIME" property="endTime" jdbcType="DATE" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="EXAMINE_USERID" property="examineUserid" jdbcType="VARCHAR" />
+    <result column="EXAMINE_TIME" property="examineTime" jdbcType="DATE" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="DEPOSIT" property="deposit" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMPANY_ID, VIP_GRADE, COST, START_TIME, END_TIME, USER_ID, CREATETIME, STATE, 
+    EXAMINE_USERID, EXAMINE_TIME, CODE, DEPOSIT, DISABLED
+  </sql>
+  
+  <!-- 根据企业会员ID查询其合同信息 -->
+  <select id="gainContractByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from QL_CONTRACT where DISABLED = 'false' 
+    and COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+  </select>
+</mapper>

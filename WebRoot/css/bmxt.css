@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+.bmxt{ background:#002b4f; width:100%;  padding-top:45px; padding-bottom:150px;}
+.bmxt02{ width:1190px;background:url(../images/bmxt/bg01.jpg) no-repeat center top; margin:0 auto; height:89px;}
+.bmxtbd{ background:url(../images/bmxt/bg03.jpg) repeat-x left top; margin:0 auto; width:1190px;}
+.title{ background:url(../images/bmxt/bg02.jpg) no-repeat left top; height:112px;}
+.titleD{ background:url(../images/bmxt/bg02D.jpg) no-repeat left top; height:112px;}
+.hdlb{ height:88px;}
+.hdlb_0,.hdlb_1,.hdlb_2,.hdlb_3{ float:left; width:182px; height:48px; margin-left:100px; display:inline; padding-top:44px; padding-left:45px;color:#ffffff;font-size:14px;}
+.hdlb_0{ background:url(../images/bmxt/hd01.jpg) no-repeat left -1px;}
+.hdlb_1{ background:url(../images/bmxt/hd01.jpg) no-repeat left -97px;  margin-left:35px;}
+.hdlb_2{ background:url(../images/bmxt/hd01.jpg) no-repeat left -193px;  margin-left:29px;}
+.hdlb_3{ background:url(../images/bmxt/hd01.jpg) no-repeat left -289px;  margin-left:32px;}
+.hdlb_0 a,.hdlb_1 a,.hdlb_2 a,.hdlb_3 a{ color:#ffffff;  text-align:center;}
+.bmbd{ margin-top:50px; }
+.bmleft{ margin-left:54px; float:left;  display:inline}
+.bmleft form label{ color:#ffffff; line-height:40px; font-size:14px;}
+.bmleft form label input{ margin-right:5px;}
+.bmright{ float:left; width:900px;  padding-left:50px;  display:inline;}
+.bmright p.bmtext{ display:block; clear:both; margin-bottom:10px; height:25px; font-size:12px;}
+.bmright p span.label{ width:100px; display:block; text-align:right; float:left; color:#ffffff;}
+.bmright p input{ float:left; margin-right:10px; height:25px; line-height:25px; width:150px;color:#555555; padding-left:5px; background-color:#b3c0cb; border:0}
+.bmright p input.rens{ width:100px;}
+.buttonla{ float:left; margin-right:10px; height:25px; line-height:25px; width:50px;color:#555555; padding-left:5px; background-color:#b3c0cb; border:0}
+.bx{ color:#50afff;}
+.bmright p select{ width:290px; height:25px; line-height:25px; color:#333333;background-color:#b3c0cb; border:0}
+textarea{ width:285px; padding-left:5px; resize:none;background-color:#b3c0cb; color:#333333; border:0}
+.button{ clear:both; margin:0 auto; width:199px;}
+.button input{  background:url(../images/bmxt/hd03.jpg) no-repeat center top; height:49px; width:199px; border:0; margin-bottom:30px; margin-top:20px; cursor:pointer}
+.aqmmtcbm{ position:absolute; z-index:9999; top:50%; left:50%; margin-left:-310px; height:152px; width:598px; background:#ffffff; }
+.tcgbbm{ height:43px; background-color:#00469d; color:#ffffff; line-height:43px; padding-left:20px; font-size:14px;}
+.tcgbbm span.gxzc{ margin-right:430px; float:left; display:inline-block}
+.tcgbbm a{ color:#ffffff; font-size:12px;}
+.listkou{ width:100%; float:left;}
+.listkou li{ font-size:14px;;float:left; padding-left:8px; line-height:40px;  width:560px;color:#ffffff; }
+.listnrkou{ width:500px; float:left; font-size:14px; padding-left:10px;list-style-type:none;}
+.listnum{width:64px; padding-right:20px; float:right; font-size:18px; font-weight:bold;}
+.listnum2{width:64px; padding-right:40px; float:right; font-size:18px; font-weight:bold;}
+.bmxtbdDe{ background:url(../images/bmxt/bg03D.gif) repeat-x left top; margin:0 auto; width:1190px;}

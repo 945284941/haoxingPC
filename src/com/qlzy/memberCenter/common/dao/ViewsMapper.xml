@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.ViewsMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Views" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="VIEW_ID" property="viewId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    
+    <!-- 以下为辅助字段 -->
+    <result column="GOODS_NAME" property="goodsName" jdbcType="VARCHAR" />
+    <result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VIEW_ID, TYPE, USER_ID, CREATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_VIEWS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_VIEWS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.Views" >
+    insert into QL_VIEWS (ID, VIEW_ID, TYPE, 
+      USER_ID, CREATETIME)
+    values (#{id,jdbcType=VARCHAR}, #{viewId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Views" >
+    insert into QL_VIEWS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="viewId != null" >
+        VIEW_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="viewId != null" >
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Views" >
+    update QL_VIEWS
+    <set >
+      <if test="viewId != null" >
+        VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.Views" >
+    update QL_VIEWS
+    set VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 统计信息-浏览统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainBrowseStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+	select COUNT(VS.ID) AS BROWSECOUNT from QL_VIEWS VS where VS.USER_ID = #{userId} 
+	<if test="browseType != null and browseType !=''">
+		and VS.TYPE = #{browseType,jdbcType=VARCHAR}
+	</if>
+	<if test="time==1">
+		and to_char(VS.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(VS.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(VS.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(VS.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(VS.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(VS.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>
+  <!-- 根据用户ID、用户类型、浏览的类型以及浏览时间查询浏览的条数 -->
+  <select id="gainMemberViewsLong" parameterType="java.util.Map" resultType="java.lang.Long">
+	  SELECT COUNT(ID) from QL_VIEWS t where t.type=#{type} and t.USER_ID= #{userId} 
+	    <if test="null != startTime ">
+			and t.CREATETIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+		 </if>
+		 <if test="null != endTime">
+			and t.CREATETIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+		 </if>
+  </select> 
+  
+  <!-- 根据用户ID、用户类型、浏览的类型以及浏览时间查询浏览店铺信息 --> 
+  <select id="gainMemberViewsShopList" parameterType="java.util.Map" resultType="com.qlzy.model.Company">
+	  select * from (
+	  			SELECT c.id as userName, p.id,p.COMPANY_NAME as companyName,p.VIP_GRADE as vipGrade,c.CREATETIME as regTime ,
+	  				(select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.ID = R2.PID and R2.ID = CITY) as PNAME,
+					(select R1.NAME from QL_REGIONS R1 where R1.ID = CITY) as CNAME,
+					(select R1.NAME from QL_REGIONS R1 where R1.ID = AREA) ANAME
+	  			 FROM QL_VIEWS c   left join  QL_COMPANYS p on  c.VIEW_ID = p.id where c.type=#{type} and c.USER_ID= #{userId}
+			  <if test="null != startTime ">
+			  	and c.CREATETIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+			  </if>
+			  <if test="null != endTime">
+			  	and c.CREATETIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+			  </if>
+			  ORDER BY c.CREATETIME DESC
+			  	  		  
+		    ) t limit #{page},#{rows}
+	     
+  
+  </select>
+  
+  <!-- 根据用户ID、用户类型、浏览的类型以及浏览时间查询浏览商品信息 -->
+  <select id="gainMemberViewsList" parameterType="java.util.Map" resultMap="BaseResultMap">
+	   select * from (
+	  			sELECT m.id,m.VIEW_ID,m.CREATETIME,g.NAME as GOODS_NAME,g.DEFAULT_PIC_SRC,g.PRICE,c.COMPANY_NAME,c.ID as COMPANY_ID from QL_VIEWS m
+ left join QL_GOODS g on m.VIEW_ID = g.id  left join QL_COMPANYS c on g.COMPANY_ID = c.id where m.type=#{type}  and m.USER_ID= #{userId}
+			  <if test="null != startTime ">
+			  	and m.CREATETIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+			  </if>
+			  <if test="null != endTime">
+			  	and m.CREATETIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+			  </if>
+			  ORDER BY m.CREATETIME DESC
+			  	  		  
+		    ) t limit #{page},#{rows} 
+	  
+  </select>
+  <!-- 根据USERID、浏览ID、浏览类型查询<br>主要用于判断是否已经浏览该商品或者店铺或者文章 -->
+  <select id="selectViewsLang" parameterType="com.qlzy.model.Views" resultType="java.lang.Integer">
+  	SELECT COUNT(ID) from QL_VIEWS t where t.VIEW_ID = #{viewId,jdbcType=VARCHAR} and t.USER_ID= #{userId,jdbcType=VARCHAR} and t.TYPE= #{type,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据USERID、浏览ID、浏览ID更新浏览的时间<br>主要用于已经浏览过的再次更新则更新一下浏览时间 -->
+  <update id="updateViews" parameterType="com.qlzy.model.Views">
+  	update QL_VIEWS set CREATETIME = #{createtime,jdbcType=TIMESTAMP} where USER_ID = #{userId,jdbcType=VARCHAR} and VIEW_ID = #{viewId,jdbcType=VARCHAR} and TYPE= #{type,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="gainViewOfNews" parameterType="Map" resultType="Map">
+  	select * from (
+  			SELECT V.ID ID,V.VIEW_ID NEWS_ID,V.CREATETIME,NEWS.FIRST_TITLE,CAT.NAME catName  FROM QL_VIEWS V LEFT JOIN QL_NEWS NEWS on   V.VIEW_ID=NEWS.ID  LEFT JOIN   QL_NEWS_CAT CAT 
+		on NEWS.NEWS_CAT_ID=CAT.ID where V.TYPE='news'  AND V.USER_ID=#{userId,jdbcType=VARCHAR}
+			<if test="null != startTime ">
+				and V.CREATETIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="null != endTime">
+				and V.CREATETIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+			</if>
+				ORDER BY V.CREATETIME DESC
+  	 	) t
+     limit #{page},#{rows} 
+  </select>
+  
+  <select id="gainViewCountOfNews" parameterType="Map" resultType="Long">
+  	SELECT COUNT(ID) FROM QL_VIEWS WHERE "TYPE"='news' AND USER_ID=#{userId,jdbcType=VARCHAR}
+			<if test="null != startTime ">
+				and CREATETIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="null != endTime">
+				and CREATETIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+			</if>
+  </select>
+  
+  <delete id="deleteBeach" parameterType="List">
+  	delete from QL_VIEWS  where ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+  </delete>
+  
+  <!-- 统计信息-访问统计-客户浏览商品数(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainCustomerViewsStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+	select COUNT(V."ID") AS COUNT1 from QL_VIEWS V left join QL_GOODS GS on V.VIEW_ID = GS."ID" where GS.COMPANY_ID = #{userId}
+	<if test="browseType != null and browseType !=''">
+		and V."TYPE" = #{browseType,jdbcType=VARCHAR}
+	</if>
+	<if test="time==1">
+		and to_char(V.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(V.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(V.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(V.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(V.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(V.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>  
+</mapper>

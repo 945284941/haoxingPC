@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+
+#warp { MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; PADDING-TOP: 0px; background: url(../images/navbj.gif) repeat-x;
+}
+.bannerzong{WIDTH: 1190px; margin: 0 auto;z-index:0; position:relative;}
+.mainnavzong{ width:980px; margin:0 auto;background: url(../images/dhsj.gif) no-repeat 1130px 0; padding-left:210px; line-height:37px; height:37px; position:relative; z-index:333;}
+.mainnavzong li{ width:101px; float:left; background:url(../images/dhsx.gif) no-repeat right; text-align:center; font-size:14px; font-weight:bold; color:#FFF;}
+.mainnavzong li a{ color:#FFF; display:block;}
+.mainnavzong li a:hover,.mainnavzong li a.hover{background:#CA1225;color:#FFF; text-decoration:none;display:block;}
+#menunew{ width:210px; float:left;  position:absolute; left:0px; top:0px; z-index:225;}
+.menubt_new{ width:210px; float:left; height:37px; background:url(../images/menubtnew.gif) no-repeat; display:inline;}
+.menunew{ display:none}
+.menuzong{width:200px; float:left; font-size:14px; line-height:30px; padding-bottom:15px; padding-left:10px;}
+.menuzong li{width:200px; float:left; border-bottom:1px dashed #E1E1E1; display:list-item;}
+.menuzong li a{ width:150px; float:left;color:#636363;display:block;background:#FFFFFF url(../images/menuli.gif) no-repeat 20px 10px; padding-left:40px;}
+.menuzong li a:hover,.menuzong li a.hover{ width:162px;display:block; background:url(../images/menuli2.gif) no-repeat; padding-left:40px; color:#000; text-decoration:none;}

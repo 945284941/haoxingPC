@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.active.dao.ActiveCollectGoodsCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ActiveCollectGoodsCheck" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="G_FIELDS" property="gfields" jdbcType="VARCHAR" />
+    <result column="G_VALUES" property="gvalues" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="SOURCE_TYPE" property="sourceType" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_ID, MEMBER_ID, CREATETIME, MODIFYTIME, DISABLED, G_FIELDS, G_VALUES, REMARK, 
+    STATUS,SOURCE_TYPE
+  </sql>
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ACTIVE_COLLECT_GOODS_CHECK
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ACTIVE_COLLECT_GOODS_CHECK
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qlzy.model.ActiveCollectGoodsCheck" >
+    insert into QL_ACTIVE_COLLECT_GOODS_CHECK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="goodsId != null" >
+        GOODS_ID,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="gfields != null" >
+        G_FIELDS,
+      </if>
+      <if test="gvalues != null" >
+        G_VALUES,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="sourceType != null" >
+        SOURCE_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="gfields != null" >
+        #{gfields,jdbcType=VARCHAR},
+      </if>
+      <if test="gvalues != null" >
+        #{gvalues,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ActiveCollectGoodsCheck" >
+    update QL_ACTIVE_COLLECT_GOODS_CHECK
+    <set >
+      <if test="goodsId != null" >
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="gfields != null" >
+        G_FIELDS = #{gfields,jdbcType=VARCHAR},
+      </if>
+      <if test="gvalues != null" >
+        G_VALUES = #{gvalues,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+       <if test="sourceType != null" >
+        SOURCE_TYPE = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>   
+  
+  
+  <!-- 根据会员id,校对通过标示查询校对的数据条数-->
+  <select id="gainCheckCount" resultType="Long" parameterType="java.util.Map" >
+	select count("ID") as checkCount from QL_ACTIVE_COLLECT_GOODS_CHECK ACGC where ACGC.DISABLED = 'false' and ACGC.MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+	 and ACGC.SOURCE_TYPE = 1 
+	<if test="status != null">
+		and ACGC.STATUS = #{status,jdbcType=DECIMAL}
+	</if>
+  </select>
+
+  <!-- 根据会员id查询校对的数据信息-->
+  <select id="gainCheckActiveCollectGoodsList" resultType="com.qlzy.model.ActiveCollectGoodsCheck" parameterType="java.util.Map" >
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+			select ACGC."ID",ACG."NAME" acgName,SUBSTR(ACG."NAME",0,10) as dataName,ACGC.CREATETIME,ACGC.MODIFYTIME,ACGC.G_FIELDS,ACGC.G_VALUES,ACGC.STATUS,ACG.BN from QL_ACTIVE_COLLECT_GOODS_CHECK ACGC 
+				left join QL_ACTIVE_COLLECT_GOODS ACG on ACGC.GOODS_ID = ACG."ID" where ACGC.DISABLED = 'false' and ACG.DISABLED = 'false' and ACGC.SOURCE_TYPE = 1  
+				and ACGC.MEMBER_ID = #{memberId,jdbcType=VARCHAR}  		  
+	        ORDER BY ACGC.MODIFYTIME DESC
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}			
+  </select>
+  
+  <!-- 查询会员校对累计经验值 -->
+  <select id="gainCheckAddUpPoint" resultType="Long" parameterType="String" >
+	select NVL("SUM"(ACPL."POINT"),0) as "POINT" from QL_ACTIVE_COLLECT_POINT_LOG ACPL left join QL_ACTIVE_COLLECT_GOODS_CHECK ACGC on ACPL.GOODS_ID = ACGC."ID" 
+	where ACGC.DISABLED = 'false' and ACPL.DISABLED = 'false' and ACGC.SOURCE_TYPE = 1 and ACPL.MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询会员校对累计奖金 -->
+  <select id="gainCheckAddUpMoney" resultType="Double" parameterType="String" >
+	select NVL("SUM"(ACML.MONEY),0) as MONEY from QL_ACTIVE_COLLECT_MONEY_LOG ACML left join QL_ACTIVE_COLLECT_GOODS_CHECK ACGC on ACML.GOODS_ID = ACGC."ID" 
+	where ACML.DISABLED = 'false' and ACGC.DISABLED = 'false' and ACGC.SOURCE_TYPE = 1 and ACML.MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+  </select>  
+  
+  <!-- 查询今日、昨日、本月的校对数据统计 -->
+  <select id="gainCheckCountByTime" resultType="Long" parameterType="java.util.Map" >
+	select count("ID") as checkCount from QL_ACTIVE_COLLECT_GOODS_CHECK ACGC where ACGC.DISABLED = 'false' and ACGC.MEMBER_ID = #{memberId,jdbcType=VARCHAR} 
+	and ACGC.SOURCE_TYPE = 1 
+	<if test="time1==1">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time1==2">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time1==3">
+		and to_char(ACGC.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>	
+	<if test="status != null">
+		and ACGC.STATUS = #{status,jdbcType=DECIMAL}
+	</if>	
+  </select>
+
+  <!-- 查询今日、昨日、本月的校对数据总排名 -->
+  <select id="gainCheckRankByTime" resultType="Long" parameterType="java.util.Map" >
+	select NVL(T2.CHECKRANK,0) from (select T1.MEMBER_ID,T1.COUNT1,row_number() OVER (ORDER BY T1.COUNT1 DESC) checkRank from (select ACGC.MEMBER_ID,"COUNT"("ID") as count1 from QL_ACTIVE_COLLECT_GOODS_CHECK ACGC 
+	where ACGC.DISABLED = 'false' and ACGC.SOURCE_TYPE = 1 
+	<if test="time1==1">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time1==2">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time1==3">
+		and to_char(ACGC.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="status != null">
+		and ACGC.STATUS = #{status,jdbcType=DECIMAL}
+	</if>	
+	 GROUP BY ACGC.MEMBER_ID) T1) T2 where 
+	T2.MEMBER_ID = #{memberId,jdbcType=VARCHAR}  
+  </select>
+
+  <!-- 查询今日、昨日、本月的校对数据采用获得的经验值 -->
+  <select id="gainCheckGetPoint" resultType="Long" parameterType="java.util.Map" >
+	select NVL("SUM"(ACPL."POINT"),0) as "POINT" from QL_ACTIVE_COLLECT_POINT_LOG ACPL left join QL_ACTIVE_COLLECT_GOODS_CHECK ACGC on ACPL.GOODS_ID = ACGC."ID" 
+	where ACGC.DISABLED = 'false' and ACPL.DISABLED = 'false' and ACGC.SOURCE_TYPE = 1 and ACPL.MEMBER_ID = #{memberId,jdbcType=VARCHAR} 
+	<if test="time1==1">
+		and to_char(ACPL.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time1==2">
+		and to_char(ACPL.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time1==3">
+		and to_char(ACPL.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>	
+  </select>
+
+  <!-- 查询今日、昨日、本月的校对数据采用获得的奖金 -->
+  <select id="gainCheckGetMoney" resultType="Double" parameterType="java.util.Map" >
+	select NVL("SUM"(ACML.MONEY),0) as MONEY from QL_ACTIVE_COLLECT_MONEY_LOG ACML left join QL_ACTIVE_COLLECT_GOODS_CHECK ACGC on ACML.GOODS_ID = ACGC."ID" 
+	where ACML.DISABLED = 'false' and ACGC.DISABLED = 'false' and ACGC.SOURCE_TYPE = 1 and ACML.MEMBER_ID = #{memberId,jdbcType=VARCHAR} 
+	<if test="time1==1">
+		and to_char(ACML.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time1==2">
+		and to_char(ACML.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time1==3">
+		and to_char(ACML.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>	
+  </select>
+        
+    <select id="gainCheckCountByParam" parameterType="com.qlzy.model.ActiveCollectGoodsCheck" resultType="Long">
+    	select count(ID) from QL_ACTIVE_COLLECT_GOODS_CHECK where MEMBER_ID= #{memberId,jdbcType=VARCHAR}
+    		and GOODS_ID= #{goodsId,jdbcType=VARCHAR}
+    		and G_FIELDS=#{gfields,jdbcType=VARCHAR}
+    		and G_VALUES=#{gvalues,jdbcType=VARCHAR}
+    </select>
+    
+  <!-- 活动统计-校对或校对采用统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainCheckStatisticsByTime" resultType="Long" parameterType="java.util.Map">
+	select count("ID") as checkCount from QL_ACTIVE_COLLECT_GOODS_CHECK ACGC where ACGC.DISABLED = 'false' and ACGC.MEMBER_ID = #{userId} and ACGC.SOURCE_TYPE = 1 
+	<if test="status != null and status!=''">
+		and ACGC.STATUS = #{status,jdbcType=DECIMAL}
+	</if>
+	<if test="time==1">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(ACGC.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(ACGC.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(ACGC.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>		
+  </select>    
+</mapper>

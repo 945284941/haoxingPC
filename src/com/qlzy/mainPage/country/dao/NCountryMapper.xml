@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.country.dao.NCountryMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.NCountry" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="name_eng" property="nameEng" jdbcType="VARCHAR" />
+    <result column="img_src" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, name_eng, img_src, sort, create_time, create_by
+  </sql>
+  <select id="gainNCountryByLikeName" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> from n_country where name like '%${name}%' or name_eng like '%${name}%'
+  </select>
+  <!-- 查询所有的国家 -->
+  <select id="gainAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from n_country
+  </select>
+  <!--<select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from n_country-->
+    <!--where name = #{name,jdbcType=VARCHAR}-->
+  <!--</select>-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from n_country
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from n_country
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.NCountry" >
+    insert into n_country (id, name, name_eng, 
+      img_src, sort, create_time,
+      create_by)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nameEng,jdbcType=VARCHAR}, 
+      #{imgSrc,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{createTime,jdbcType=DATE},
+      #{createBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.NCountry" >
+    insert into n_country
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nameEng != null" >
+        name_eng,
+      </if>
+      <if test="imgSrc != null" >
+        img_src,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEng != null" >
+        #{nameEng,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null" >
+        #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.NCountry" >
+    update n_country
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEng != null" >
+        name_eng = #{nameEng,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null" >
+        img_src = #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.NCountry" >
+    update n_country
+    set name = #{name,jdbcType=VARCHAR},
+      name_eng = #{nameEng,jdbcType=VARCHAR},
+      img_src = #{imgSrc,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE},
+      create_by = #{createBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

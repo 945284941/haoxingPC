@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.khzj.dao.KhcontentMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Khcontent" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="KH_CONTENT" property="khContent" jdbcType="VARCHAR" />
+    <result column="KH_PONIT" property="khPonit" jdbcType="DECIMAL" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+   		ID,KH_CONTENT,KH_PONIT
+   </sql>
+  <insert id="insert" parameterType="com.qlzy.model.Khcontent" >
+    insert into QL_KH_CONTENT (ID, KH_CONTENT, KH_PONIT
+      )
+    values (#{id,jdbcType=VARCHAR}, #{khContent,jdbcType=VARCHAR}, #{khPonit,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Khcontent" >
+    insert into QL_KH_CONTENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="khContent != null" >
+        KH_CONTENT,
+      </if>
+      <if test="khPonit != null" >
+        KH_PONIT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="khContent != null" >
+        #{khContent,jdbcType=VARCHAR},
+      </if>
+      <if test="khPonit != null" >
+        #{khPonit,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="gainKhzjContentAll" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_KH_CONTENT 
+  </select> 
+   <select id="gainKhcontentById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_KH_CONTENT where  ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <update id="updatePointSelective" parameterType="com.qlzy.model.Khcontent">
+  		update QL_KH_CONTENT
+		<set>
+			<if test="khContent != null">
+				KH_CONTENT = #{khContent,jdbcType=VARCHAR},
+			</if>
+			<if test="khPonit != null">
+				KH_PONIT = #{khPonit,jdbcType=DECIMAL},
+			</if>
+	</set>
+	where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainKhzjContentTop4" resultMap="BaseResultMap">
+	select ID,KH_CONTENT,KH_PONIT from (
+	 	select ID,KH_CONTENT,KH_PONIT
+			from QL_KH_CONTENT order by KH_PONIT desc
+	 )  where rownum &lt;= 4
+  </select>
+</mapper>

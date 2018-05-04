@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlzy.memberCenter.call.dao.MemberCollectMapper">
+    <resultMap id="BaseResultMap" type="com.qlzy.model.MemberCollect">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="COLLECT_ID" jdbcType="VARCHAR" property="collectId" />
+        <result column="COLLECT_TIME" jdbcType="TIMESTAMP" property="collectTime" />
+        <result column="COLLECT_IP" jdbcType="VARCHAR" property="collectIp" />
+        <result column="USER_TYPE" jdbcType="VARCHAR" property="userType" />
+        <result column="TYPE" property="type" jdbcType="VARCHAR" />
+
+        <!-- 以下为辅助字段 -->
+        <result column="GOODS_NAME" property="goodsName" jdbcType="VARCHAR" />
+        <result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="DECIMAL" />
+        <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+        <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, USER_ID, COLLECT_ID, COLLECT_TIME,COLLECT_IP,USER_TYPE, TYPE
+  </sql>
+
+    <!--  -->
+    <select id="selectCollectByCollectId" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT COUNT(ID) FROM QL_MEMBER_COLLECT t where t.COLLECT_ID = #{collectId,jdbcType=VARCHAR}
+  </select>
+    <!--  -->
+    <select id="selectCollectLong" parameterType="com.qlzy.model.MemberCollect" resultType="java.lang.Integer">
+  	SELECT COUNT(ID) FROM QL_MEMBER_COLLECT t where t.USER_ID = #{userId,jdbcType=VARCHAR} and t.COLLECT_ID = #{collectId,jdbcType=VARCHAR} and t.TYPE= #{type,jdbcType=VARCHAR}
+  </select>
+    <!-- 根据USERID、收藏ID、收藏ID更新收藏的时间 -->
+    <update id="updateCollect" parameterType="com.qlzy.model.MemberCollect">
+  	update QL_MEMBER_COLLECT set COLLECT_TIME = #{collectTime,jdbcType=TIMESTAMP} where USER_ID = #{userId,jdbcType=VARCHAR} and COLLECT_ID = #{collectId,jdbcType=VARCHAR} and TYPE= #{type,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 根据用户ID、用户类型、收藏的类型以及收藏时间查询收藏店铺信息 -->
+    <select id="gainMemberCollectShopList" parameterType="java.util.Map" resultType="com.qlzy.model.Company">
+
+        select * from (
+        SELECT c.id as userName, p.id,p.COMPANY_NAME as companyName,p.VIP_GRADE as vipGrade,c.COLLECT_TIME as regTime ,
+        (select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.ID = R2.PID and R2.ID = CITY) as PNAME,
+        (select R1.NAME from QL_REGIONS R1 where R1.ID = CITY) as CNAME,
+        (select R1.NAME from QL_REGIONS R1 where R1.ID = AREA) ANAME
+        FROM QL_MEMBER_COLLECT c  left join QL_COMPANYS p on c.COLLECT_ID = p.id  where  c.type=#{type} and c.USER_ID= #{userId}
+        <if test="null != startTime ">
+            and c.COLLECT_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != endTime">
+            and c.COLLECT_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY c.COLLECT_TIME DESC
+
+        ) t limit #{page},#{rows}
+
+    </select>
+    <!-- 根据用户ID、用户类型、收藏的类型以及收藏时间查询收藏信息 -->
+    <select id="gainMemberCollectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from (
+        SELECT m.id,m.COLLECT_ID,m.COLLECT_TIME,g.NAME as GOODS_NAME,g.DEFAULT_PIC_SRC,g.PRICE,c.COMPANY_NAME,c.ID as COMPANY_ID
+        from QL_MEMBER_COLLECT m  left join  QL_GOODS g on m.COLLECT_ID = g.id LEFT JOIN QL_COMPANYS c on  g.COMPANY_ID = c.id  where  m.type=#{type} and m.USER_ID= #{userId}
+        <if test="null != startTime ">
+            and m.COLLECT_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != endTime">
+            and m.COLLECT_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY m.COLLECT_TIME DESC
+
+        ) t limit #{page},#{rows}
+
+    </select>
+    <!-- 根据用户ID、收藏的类型查询收藏店铺信息 -->
+    <select id="gainShopCollect" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT m.id,m.COLLECT_ID,m.COLLECT_TIME,c.IMG,c.shoper_name as shoperName,c.shoper_content as shoperContent,c.ID as cid
+        from QL_MEMBER_COLLECT m  LEFT JOIN QL_COMPANYS c on  m.COLLECT_ID = c.ID
+        where  m.type=#{type,jdbcType=VARCHAR}
+        and m.USER_ID= #{userId,jdbcType=VARCHAR}
+        ORDER BY m.COLLECT_TIME DESC
+    </select>
+
+    <!-- 根据用户ID、收藏的类型查询收藏商品信息 -->
+    <select id="gainGoodsCollect" parameterType="java.util.Map" resultType="com.qlzy.model.MemberCollect">
+        SELECT m.id,m.COLLECT_ID as collectId,m.COLLECT_TIME,
+        g.ID as goodsId,g.price,g.yuanjia,g.QUERY_NUM as queryNum,g.store,g.name,
+        g.EN_NAME as enName,g.praise_rate as praiseRate,g.DEFAULT_PIC_SRC as defaultPicSrc
+        from QL_MEMBER_COLLECT m  LEFT JOIN QL_GOODS g on  m.COLLECT_ID = g.ID
+        where  m.type=#{type,jdbcType=VARCHAR}
+        and m.USER_ID= #{userId,jdbcType=VARCHAR}
+        ORDER BY m.COLLECT_TIME DESC
+    </select>
+
+    <!-- 根据用户ID、用户类型、收藏的类型以及收藏时间查询收藏的条数 -->
+    <select id="gainMemberCollectLong" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT COUNT(ID) from QL_MEMBER_COLLECT t where t.type=#{type} and t.USER_ID= #{userId}
+        <if test="null != startTime ">
+            and t.COLLECT_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != endTime">
+            and t.COLLECT_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from QL_MEMBER_COLLECT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.qlzy.model.MemberCollect">
+    insert into QL_MEMBER_COLLECT (ID, USER_ID, COLLECT_ID, 
+      COLLECT_TIME,COLLECT_IP,USER_TYPE, 
+      TYPE)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, 
+      #{collectTime,jdbcType=TIMESTAMP},#{collectIp,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+    <delete id="deleteMemberCollect" parameterType="com.qlzy.model.MemberCollect">
+        delete from QL_MEMBER_COLLECT
+        where USER_ID = #{userId,jdbcType=VARCHAR}
+          and COLLECT_ID = #{collectId,jdbcType=VARCHAR}
+          and TYPE = #{type,jdbcType=VARCHAR}
+    </delete>
+    <select id="findListByMemberCollect" parameterType="com.qlzy.model.MemberCollect" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+         FROM  QL_MEMBER_COLLECT
+        <where>
+            <if test="id != null and id !='' ">
+                  and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null and userId !='' ">
+                and USER_ID = #{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="collectId != null and collectId !='' ">
+                and COLLECT_ID = #{collectId,jdbcType=VARCHAR}
+            </if>
+            <if test="collectTime != null and collectTime !='' ">
+                and COLLECT_TIME #{collectTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="collectIp != null and collectIp !='' ">
+                and COLLECT_IP = #{collectIp,jdbcType=VARCHAR}
+            </if>
+            <if test="userType != null and userType !='' ">
+                and USER_TYPE = #{userType,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null and type !='' ">
+                and TYPE = #{type,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <insert id="insertSelective" parameterType="com.qlzy.model.MemberCollect">
+        insert into QL_MEMBER_COLLECT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="collectId != null">
+                COLLECT_ID,
+            </if>
+            <if test="collectTime != null">
+                COLLECT_TIME,
+            </if>
+            <if test="collectIp != null">
+                COLLECT_IP,
+            </if>
+            <if test="userType != null">
+                USER_TYPE,
+            </if>
+            <if test="type != null" >
+                TYPE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="collectId != null">
+                #{collectId,jdbcType=VARCHAR},
+            </if>
+            <if test="collectTime != null">
+                #{collectTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="collectIp != null">
+                #{collectIp,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Cart" >
+        update QL_CART
+        <set >
+            <if test="collectId != null" >
+                COLLECT_ID = #{collectId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                USER_ID = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createIp != null" >
+                CREATE_IP = #{createIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null" >
+                USER_TYPE = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsNum != null" >
+                GOODS_NUM = #{goodsNum,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 统计信息-收藏统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+    <select id="gainCollectStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+        select COUNT(MC."ID") AS COLLECTCOUNT from QL_MEMBER_COLLECT MC where MC.USER_ID = #{userId}
+        <if test="collectType !=null and collectType != ''">
+            and MC."TYPE" = #{collectType,jdbcType=VARCHAR}
+        </if>
+        <if test="time==1">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+        </if>
+        <if test="time==2">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+        </if>
+        <if test="time==3">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD')
+        </if>
+        <if test="time==4">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD')
+        </if>
+        <if test="time==5">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+        </if>
+        <if test="time==6">
+            and to_char(MC.COLLECT_TIME,'YYYY')=to_char(SYSDATE,'YYYY')
+        </if>
+    </select>
+
+    <select id="gainMemberCollectOfNews" parameterType="Map" resultType="Map">
+        select * from (
+        SELECT MC.ID COLLECT_ID,MC.USER_ID userId,MC.COLLECT_TIME,MC.COLLECT_IP,NEWS.FIRST_TITLE,NEWS.SECOND_TITLE,NEWS.ID,CAT.NAME catName FROM QL_MEMBER_COLLECT MC LEFT JOIN QL_NEWS NEWS  on MC.COLLECT_ID=NEWS.ID
+        left join QL_NEWS_CAT CAT on  NEWS.NEWS_CAT_ID=CAT.ID
+        where MC.TYPE='news'  AND MC.USER_ID=#{userId,jdbcType=VARCHAR}
+        <if test="null != startTime ">
+            and MC.COLLECT_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != endTime">
+            and MC.COLLECT_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY MC.COLLECT_TIME DESC
+        ) t  limit #{page},#{rows}
+    </select>
+    <select id="gainMemberCollectCountOfNews" parameterType="Map" resultType="Long">
+        SELECT COUNT(ID) FROM QL_MEMBER_COLLECT WHERE "TYPE"='news' AND USER_ID=#{userId,jdbcType=VARCHAR}
+        <if test="null != startTime ">
+            and COLLECT_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != endTime">
+            and COLLECT_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+    <delete id="deleteBeach" parameterType="List">
+        delete from QL_MEMBER_COLLECT  where ID in
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 统计信息-访问统计-客户收藏商品数(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+    <select id="gainCustomerCollectsStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+        select COUNT(MC."ID") AS COUNT1 from QL_MEMBER_COLLECT MC left join QL_GOODS GS on MC.COLLECT_ID = GS."ID" where GS.COMPANY_ID = #{userId}
+        <if test="collectType !=null and collectType != ''">
+            and MC."TYPE" = #{collectType,jdbcType=VARCHAR}
+        </if>
+        <if test="time==1">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+        </if>
+        <if test="time==2">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+        </if>
+        <if test="time==3">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD')
+        </if>
+        <if test="time==4">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD')
+        </if>
+        <if test="time==5">
+            and to_char(MC.COLLECT_TIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+        </if>
+        <if test="time==6">
+            and to_char(MC.COLLECT_TIME,'YYYY')=to_char(SYSDATE,'YYYY')
+        </if>
+    </select>
+</mapper>

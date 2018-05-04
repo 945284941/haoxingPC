@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.goods.dao.GoodsAndLabelMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsAndLabel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+    <result column="GOODS_LABEL_ID" property="goodsLabelId" jdbcType="VARCHAR" />
+     <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_ID, GOODS_LABEL_ID,DISABLED
+  </sql>
+ 
+  <insert id="addGoodsLabel" parameterType="com.qlzy.model.GoodsAndLabel" >
+    insert into QL_GOODS_GOODSLABEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="goodsId != null" >
+        GOODS_ID,
+      </if>
+      <if test="goodsLabelId != null" >
+        GOODS_LABEL_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsLabelId != null" >
+        #{goodsLabelId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="gainGoodsListByLabelId"  parameterType="com.qlzy.model.GoodsLabel" resultType="com.qlzy.model.Goods">
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+		  	SELECT GL.GOODS_ID as id,g."NAME" as name,g.BN as bn,GL.GOODS_LABEL_ID as labelId,
+		  	g."STORE" as store ,g.MARKETABLE as marketable
+			from QL_GOODS_GOODSLABEL gl LEFT JOIN QL_GOODS g on GL.GOODS_ID = g."ID"
+			where GL.GOODS_LABEL_ID =#{id}
+		) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}
+ </select>
+ <select id="gainGoodsListByLabelIdCount" parameterType="java.lang.String" resultType="Long"> 
+  	select COUNT(gl."ID") from QL_GOODS_GOODSLABEL gl LEFT JOIN QL_GOODS g on GL.GOODS_ID = g."ID" 
+  	where GL.GOODS_LABEL_ID =#{labelId}
+  </select>
+
+ 
+ 
+ 
+ <select id="gainGoodsListByLabelCountEdit" parameterType="com.qlzy.model.GoodsLabel" resultType="Long"> 
+  	select COUNT("ID") from QL_GOODS 
+			 where ID not in
+			 (
+			 	SELECT g.GOODS_ID from QL_GOODS_GOODSLABEL g where g.GOODS_LABEL_ID=#{id}
+			 )
+  </select>
+ 
+   <select id="gainGoodsListByLabelIdEdit" parameterType="com.qlzy.model.GoodsLabel" resultType="com.qlzy.model.Goods">
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+	  		SELECT ID ,NAME ,BN ,STORE ,MARKETABLE 
+			from QL_GOODS 
+			 where ID not in
+			 (
+			 	SELECT g.GOODS_ID from QL_GOODS_GOODSLABEL g where g.GOODS_LABEL_ID=#{id}
+			 )
+		 
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}
+  </select>
+
+  
+  <delete id="deleteGoodsByGoodsLabel" parameterType="java.util.List" >
+    delete from QL_GOODS_GOODSLABEL
+    where GOODS_ID in 
+     <foreach item="aids"  collection="list"
+		open="(" close=")" separator=",">
+		#{aids}
+    </foreach>
+  </delete>
+  
+  <delete id="deleteByGoodsLabel" parameterType="java.lang.String" >
+    delete from QL_GOODS_GOODSLABEL
+    where GOODS_LABEL_ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 根据GoodsId获取GoodsAndLabel中间表实体类 -->
+  <select id="gainGoodsAndLabelByGoodsId" parameterType="String" resultMap="BaseResultMap">
+  	select * from QL_GOODS_GOODSLABEL where GOODS_ID=#{id,jdbcType=VARCHAR} and DISABLED='false'
+  </select>
+  <!-- 
+  	/**
+	* @Title: addGoodsAndLabel
+	* @Description: TODO批量添加商品跟标签的关联
+	* @param @param li    设定文件
+	* @return void    返回类型
+	*/ 
+	-->
+	<insert id="addGoodsAndLabel" parameterType="com.qlzy.model.GoodsAndLabel">
+		insert into QL_GOODS_GOODSLABEL(ID,GOODS_ID,GOODS_LABEL_ID) 
+  	   <foreach collection="list" item="t" index="index" separator="union all">
+			select #{t.id},#{t.goodsId},#{t.goodsLabelId} from dual
+		</foreach>
+	</insert>
+	
+	<!-- 删除商品跟标签的关数据 -->
+	<delete id="dropGoodsAndLabelByGoodsId" parameterType="String">
+		 delete from QL_GOODS_GOODSLABEL
+   			 where GOODS_ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量更新商品跟GoodsLabel的中间数据 -->
+	<update id="deleteGoodsMidGoodsLabelByGoodsId" parameterType="java.util.List">
+		update QL_GOODS_GOODSLABEL set disabled='true' where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<!-- 批量删除商品跟GoodsLabel的中间数据 -->
+	<delete id="dropGoodsMidGoodsLabelByGoodsId" parameterType="java.util.List">
+		delete from QL_GOODS_GOODSLABEL  where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<update id="recoverGoodsMidGoodsLabel" parameterType="java.util.List">
+		update QL_GOODS_GOODSLABEL set disabled='false' where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+</mapper>

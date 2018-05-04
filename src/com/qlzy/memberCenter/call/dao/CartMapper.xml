@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.call.dao.CartMapper">
+	<resultMap id="BaseResultMap" type="com.qlzy.model.Cart">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+		<result column="ITEM_ID" property="itemId" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="CREATE_IP" property="createIp" jdbcType="VARCHAR" />
+		<result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+		<result column="GOODS_NUM" property="goodsNum" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, GOODS_ID, ITEM_ID,USER_ID, CREATE_TIME, CREATE_IP,
+		USER_TYPE,GOODS_NUM
+	</sql>
+	<!-- 根据ID删除购物车信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from QL_CART
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<!-- 根据商品ID删除购物车信息 -->
+	<delete id="deleteByGoodeIds" parameterType="Map">
+		delete from QL_CART where USER_ID = #{userId} and ID IN
+		<foreach collection="item" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!-- 根据用户ID删除购物车信息 -->
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+		delete from QL_CART where USER_ID = #{userId,jdbcType=VARCHAR}
+	</delete>
+	<!-- 加入购物车 -->
+	<insert id="insert" parameterType="com.qlzy.model.Cart">
+		insert into QL_CART (ID,GOODS_ID, ITEM_ID, USER_ID,
+		CREATE_TIME, CREATE_IP, USER_TYPE,GOODS_NUM
+		)
+		values (#{id,jdbcType=VARCHAR},#{goodsId,jdbcType=VARCHAR},
+		#{itemId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{createIp,jdbcType=VARCHAR},
+		#{userType,jdbcType=VARCHAR},
+		#{goodsNum,jdbcType=DECIMAL}
+		)
+	</insert>
+	<!-- gianCarByUserId -->
+	<select id="gianCarByUserId" resultType="java.util.List"
+		parameterType="java.lang.String">
+		select GOODS_ID from QL_CART t where t.USER_ID = #{userId,jdbcType=VARCHAR}
+	</select>
+	<!--根据商品的ID获取该商品在购物车中的数量 -->
+	<select id="selectGoodsNumInCartByGoodsId" resultMap="BaseResultMap"
+		parameterType="com.qlzy.model.Cart">
+		SELECT * from QL_CART t where t.USER_ID = #{userId,jdbcType=VARCHAR} AND
+		t.ITEM_ID = #{itemId,jdbcType=VARCHAR}
+	</select>
+	<!--根据单品的ID获取该商品在购物车中的数量 -->
+	<select id="selectGoodsNumInCartByItemId" resultMap="BaseResultMap"
+		parameterType="com.qlzy.model.Cart">
+		SELECT * from QL_CART t where t.USER_ID = #{userId,jdbcType=VARCHAR} AND
+		t.ITEM_ID = #{itemId,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据用户的ID查询该用户下购物车商品的数量 -->
+	<select id="selectCartNumByUserId" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT SUM(t.GOODS_NUM) from QL_CART t where t.USER_ID =
+		#{userId,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="com.qlzy.model.Cart">
+		update QL_CART
+		set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+		ITEM_ID = #{itemId,jdbcType=VARCHAR},
+		USER_ID = #{userId,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		CREATE_IP = #{createIp,jdbcType=VARCHAR},
+		USER_TYPE = #{userType,jdbcType=VARCHAR},
+		GOODS_NUM = #{goodsNum,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateCartNumByGoodsId" parameterType="com.qlzy.model.Cart">
+		update QL_CART
+		set GOODS_NUM = #{goodsNum,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="selectCartsByUserId" parameterType="String"
+		resultMap="BaseResultMap">
+		select * from ql_cart where user_id =#{userId,jdbcType=VARCHAR}
+	</select>
+	<select id="gainCartsByIds" parameterType="List" resultMap="BaseResultMap">
+		select * from ql_cart where id in
+		<foreach item="id" collection="list" open="(" close=")"
+			separator=",">
+			#{id}
+		</foreach>
+	</select>
+	
+	<select id="gainCartById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from ql_cart where id = #{id, jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" 
+       "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.0</jspversion>
+	<shortname>e7lu</shortname>
+	<uri>http://jakarta.apache.org/struts/tags-tiles</uri>
+
+	<!-- 有属性无标签体 -->
+	<tag>
+		<!-- 标签名称 -->
+		<name>base64</name>
+		<!-- 标签对应的处理类 -->
+		<tagclass>com.qlzy.common.tag.Base64EncryptTag</tagclass>
+		<!-- 标签体内容,没有标签体则设为empty -->
+		<bodycontent>empty</bodycontent>
+		<!-- 标签的属性声明 -->
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- 有属性无标签体 -->
+	<tag>
+		<!-- 标签名称 -->
+		<name>encoder</name>
+		<!-- 标签对应的处理类 -->
+		<tagclass>com.qlzy.common.tag.URLEncoderTag</tagclass>
+		<!-- 标签体内容,没有标签体则设为empty -->
+		<bodycontent>empty</bodycontent>
+		<!-- 标签的属性声明 -->
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

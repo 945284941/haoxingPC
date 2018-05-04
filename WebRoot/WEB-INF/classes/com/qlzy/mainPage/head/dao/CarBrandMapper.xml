@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.head.dao.CarBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CarBrand" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PIC" property="pic" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CAR_TYPE_ID" property="carTypeId" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="P_ORDER" property="pOrder" jdbcType="VARCHAR" />
+     <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.qlzy.model.CarBrand" extends="BaseResultMap" >
+    <result column="PTREE" property="ptree" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PID, NAME, PIC, REMARK, CAR_TYPE_ID, DISABLED, P_ORDER,GRADE
+  </sql>
+  <sql id="Blob_Column_List" >
+    PTREE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_CAR_BRAND
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_CAR_BRAND
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.CarBrand" >
+    insert into QL_CAR_BRAND (ID, PID, NAME, 
+      PIC, REMARK, CAR_TYPE_ID, 
+      DISABLED, P_ORDER, PTREE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{pic,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{carTypeId,jdbcType=VARCHAR}, 
+      #{disabled,jdbcType=VARCHAR}, #{pOrder,jdbcType=VARCHAR}, #{ptree,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.CarBrand" >
+    insert into QL_CAR_BRAND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="pic != null" >
+        PIC,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="carTypeId != null" >
+        CAR_TYPE_ID,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER,
+      </if>
+      <if test="ptree != null" >
+        PTREE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeId != null" >
+        #{carTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="pOrder != null" >
+        #{pOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="ptree != null" >
+        #{ptree,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CarBrand" >
+    update QL_CAR_BRAND
+    <set >
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        PIC = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeId != null" >
+        CAR_TYPE_ID = #{carTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER = #{pOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="ptree != null" >
+        PTREE = #{ptree,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qlzy.model.CarBrand" >
+    update QL_CAR_BRAND
+    set PID = #{pid,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PIC = #{pic,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CAR_TYPE_ID = #{carTypeId,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      P_ORDER = #{pOrder,jdbcType=VARCHAR},
+      PTREE = #{ptree,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CarBrand" >
+    update QL_CAR_BRAND
+    set PID = #{pid,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PIC = #{pic,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CAR_TYPE_ID = #{carTypeId,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      P_ORDER = #{pOrder,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <select id="gainCarBrandList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer"  >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_CAR_BRAND
+    where DISABLED='false' and GRADE = #{grade} order by P_ORDER asc
+  </select>
+  
+  <select id="gainCarBrandListPidNotNull" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer"  >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_CAR_BRAND
+    where DISABLED='false' and GRADE = #{grade} and ID in (select e.pid from ql_car_brand e ) order by P_ORDER asc
+  </select>
+  
+  <select id="gainCarBrandListByPid" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String"  >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_CAR_BRAND
+    where DISABLED='false' and PID = #{pid} order by P_ORDER asc
+  </select>
+  
+  <select id="gainCarBrandListByPidBeach" resultMap="ResultMapWithBLOBs" parameterType="java.util.List"  >
+    select 
+   	ID,NAME,PID
+    from QL_CAR_BRAND
+    	where DISABLED='false' and PID in
+    		<foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                   #{item}
+            </foreach> 
+        order by P_ORDER asc
+  </select>
+  
+  <select id="gainCarBrandNameById" parameterType="java.util.List" resultType="String">
+  	select NAME from QL_CAR_BRAND
+    	where DISABLED='false' and ID in
+    		<foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                   #{item}
+            </foreach>
+  </select>
+  
+  <select id="gainBrandListByBrandName" parameterType="java.util.List" resultMap="ResultMapWithBLOBs">
+  select ID, PID, NAME, PIC, REMARK, CAR_TYPE_ID, DISABLED, P_ORDER,GRADE from QL_CAR_BRAND
+    	where DISABLED='false' and NAME in
+    		<foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                   #{item}
+            </foreach>
+  </select>
+  
+  <select id="gainNextCarBrandListByPName" parameterType="java.util.List" resultMap="ResultMapWithBLOBs">
+  	select  a.ID, a.PID, a.NAME, a.PIC, a.REMARK, a.CAR_TYPE_ID, a.DISABLED, a.P_ORDER, a.GRADE from QL_CAR_BRAND a inner join QL_CAR_BRAND b on a.pid= b.id where a.disabled='false' and  b.name in
+  			<foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                   #{item}
+            </foreach>
+  </select>
+  
+ <!-- 根据商品id，查找适用车型id -->
+  <select id="gainCarBrandIdListByGoodsId" parameterType="java.lang.String" resultType="com.qlzy.model.GoodsCarBrand">
+  	SELECT GB.CAR_BRAND_ID as carBrandId from QL_GOODS_CARBRAND gb 
+  	where GB.GOODS_ID=#{id,jdbcType=VARCHAR} and GB.DISABLED='false'
+  </select>
+ <!-- 根据id查找商品品牌 -->
+  <select id="gainCarBrandById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_CAR_BRAND
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询所有车型 -->
+  <select id="gainCarBrandListAll" resultMap="BaseResultMap">
+  	select ID,PID,NAME,DISABLED from QL_CAR_BRAND WHERE DISABLED='false' and PID is not null
+  </select>
+  
+  <!-- 根据子类集合查询父类-->
+  <select id="gainCarBrandsByChildIds" resultType="java.lang.String" parameterType="java.util.List">
+  	<![CDATA[select ID from QL_CAR_BRAND t where t.PID is not null and t.disabled='false' and  t."ID" in (SELECT q.pid from QL_CAR_BRAND q where q.id IN  ]]>
+		<foreach item="id" collection="list" open="(" close=")"
+			separator=",">
+			#{id}
+		</foreach>
+		<![CDATA[ ) ]]>
+  </select>
+  <select id="gainCarBrandIdByName" parameterType="String" resultType="String">
+  	select ID from QL_CAR_BRAND where NAME=#{name,jdbcType=VARCHAR}
+  </select>
+    
+   <select id="gainCarBrandListForOneSelect" resultMap="BaseResultMap">
+   		select * from QL_CAR_BRAND c WHERE c.DISABLED = 'false' and c.GRADE =1
+   </select>
+   <select id="gainCarBrandListCountByPid" parameterType="String" resultType="Long">
+   		select COUNT(ID)
+    		from QL_CAR_BRAND  where DISABLED = 'false' and PID = #{pid} 
+   </select>
+   <select id="gainCarBrandPidById" parameterType="String" resultType="String">
+   		select pid from QL_CAR_BRAND where disabled = 'false' and ID = #{id,jdbcType=VARCHAR}
+   </select>
+</mapper>

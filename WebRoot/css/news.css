@@ -1,0 +1,136 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{
+      -webkit-text-size-adjust:none;
+}
+
+.shc{
+	margin:10px 0 15px 0;
+	height:175px
+}
+.gzgz_new{ width:1190px; position:relative; margin:0 auto}
+.left{ width:965px; float:left}
+.right{ width:210px; float:right;  margin-top:10px; border:1px solid #DDDDDD; display:block}
+.jrsc{ width:208px; float:left}
+.bannernewImg{ width:740px;}
+.banner_new{ width:740px; _width:740px; float:right;  display:block; margin-left:10px; height:172px; z-index:220px}
+.banner_new_1
+{ position: absolute; top:70px; left:20px; z-index:222; WIDTH: 23px; FLOAT: left; }
+.banner_new_r {
+	position: absolute; top:70px; left:710px; z-index:222; WIDTH: 23px; FLOAT: left;
+}
+.new{ margin-bottom:15px; width:965px;}
+.xw{ width:473px; float:left; border:1px solid #DDDDDD;  padding-bottom:10px; margin-bottom:15px; display: block; overflow:hidden;height: 280px;}
+.xw2{ width:473px; float:right; border:1px solid #DDDDDD; display: block; padding-bottom:10px; margin-bottom:15px; overflow:hidden;height: 280px;}
+.schqbt_new{ width:473px; margin-bottom:10px}
+.schqlist_new{ width:473px; _width:458px; margin-left:15px; _margin-left:8px; display:block; }
+.schqlist_new li{ float:left; padding-left:8px; line-height:25px; display:block; width:440px; background:url(../images/libg.gif) no-repeat left;}
+.bannernewImg .bannerPage{ top:160px}
+
+.gg{ width:965px; margin:0 auto 15px auto; _margin:-15px auto 15px auto; overflow:hidden;}
+.gg img{ display:block; }
+.txw{ margin-left:15px; margin-right:15px; width:130px; float:left; border:1px solid #dddddd}
+.tlgg2{ height:90px; }
+.wz{ float:left; width:290px;}
+.wz a{ font-size:14px; font-weight:bold; text-align:center}
+.ck a{ font-size:12px; color:red}
+.wznr{ margin-top:10px}
+.shj{ width:210px; background:url(../images/sj.gif) no-repeat 8px center; border-bottom:1px solid #DDDDDD; }
+.sjtj{ padding:25px 6px 0 10px; _padding:5px 6px 0 10px; }
+.listms{ text-align:center; margin-top:8px }
+.listms a{ color:red;}
+.sjtj ul li{ margin:15px 0; line-height:20px; text-align:center; display:block }
+.listms span{ border-bottom:1px dashed #DDDDDD; margin-bottom:15px; padding-bottom:8px;  font-size:11px; text-align:center; overflow:hidden}
+br{ margin-bottom:0;}
+.gengd2{ color:#999; float:left}
+
+.hellonew{ float:left; line-height:29px; color:#666666; padding-left:10px;}
+#menunew{ width:210px; float:left;  position:absolute; left:0px; top:0px; z-index:225;}
+.menunew{ display:none}
+.menubt_new{ width:210px; float:left; height:37px; background:url(../images/menubtnew.gif) no-repeat; display:inline;}
+.dht{ border-bottom:1px solid #DDD;line-height:26px; margin:0 auto;  margin-top:10px}
+
+
+
+
+/*7.17 文章终端页添加css*/
+.newszd{border:1px solid #DDDDDD;overflow:hidden;margin:0 auto;}
+.newszd h1{100% float:left; text-align:center; font-size:24px; line-height:80px;}
+.wzly{
+width:1145px;
+float:left;
+background:#f7f7f7;
+line-height:28px;
+border:1px solid #e8e8e8;
+margin-left:21px;
+margin-bottom:15px;
+display:inline;
+text-align:center;
+color:#000;
+}
+.wzly span{padding-right:15px;}
+.newssc{ background:url(../images/sc.gif) no-repeat 25px 1px; padding-right:30px;}
+.wzzy{
+width:1105px;
+margin-left:21px;
+margin-top:15px;
+display:inline;
+border:1px  dashed #d6d6d6;
+padding:5px 20px;
+height:98px;
+background:#FBFBFB;
+float:left;
+}
+.wzzy h2{
+font-size:12px;
+font-weight:normal;
+color:#8A8A8A;
+}
+.nrzy{ font-weight:bold;}
+.newswznr1{
+width:1145px;
+margin:0 auto;
+margin-left:20px;
+display:inline;
+padding:20px 4px 20px 0px;
+font-size:14px;
+float:left;
+
+}
+.newswznr1 p{
+padding-bottom:15px;
+line-height:28px;
+}
+.newswznr1 p a{
+color:#09446E;
+}
+.newswznr1 p a:hover{
+font-weight:bold;
+}
+.newspic{ width:340px; height:228px; float:left; padding:4px; border:1px solid #C9C9C9; margin-right:20px; display:inline; margin-bottom:20px;}
+
+
+/*newslist页面添加css 开始*/
+.listleft{display: inline;}
+.listright{ width:208px; float:left;margin-top:10px; border:1px solid #DDDDDD; display:inline;}
+.listbk{ float:left;border:1px solid #DDDDDD; margin-bottom:15px;}
+.zplist_new{  margin-bottom:10px;border-bottom:1px solid #DDD; height:28px; line-height:28px;}
+.listnew{ width:100%; float:left;}
+.listnew li{ float:left; padding-left:8px; width:90%;line-height:25px; display:block;background:url(../images/libg.gif) no-repeat left; margin-left:30px; display: inline; padding-right:40px; line-height:30px;}
+.listnr{ width:80%; float:left; font-size:14px; padding-left:10px;}
+.listgg{ width:963px; padding-top:13px; height:100px; float:left; overflow:hidden;}
+.listgg img{ display:block; }
+.listdate{width:100px; float:right; font-size:12px; color:#AAAAAA;}
+/*newslist页面添加css 结束*/
+/*泉利重配城改版begin*/
+.xwql{ width:586px; margin-right:0; border:0}
+.xwqlr{ margin-right:14px;}
+.qlschqbt{ width:586px; border-bottom:2px solid #cccccc; background: url(../images/newsli.gif) no-repeat 1px 5px #ffffff;}
+.wzql{ width:400px;}
+.xwzxzql{ border-bottom:2px solid #ca0d0d; margin-bottom:-2px; padding-left:24px;}
+.schqlistql{ width:550px;}
+.schqlistql li{ width:535px;}
+.schqlistnrql{ width:410px;}
+.qlzpcgg{ width:1190px; margin:0 auto; margin-bottom:15px;}
+.txwql img{ width:130px;height:95px;}
+/*泉利重配城改版end*/

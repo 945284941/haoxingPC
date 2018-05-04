@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.point.dao.CourtesyMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CourtesyMember" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="member_type" property="memberType" jdbcType="VARCHAR" />
+    <result column="courtesy_card_id" property="courtesyCardId" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="DECIMAL" />
+    <result column="disabled" property="disabled" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, member_id, member_type, courtesy_card_id, num, status, disabled, order_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_courtesy_member
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_courtesy_member
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.CourtesyMember" >
+    insert into ql_courtesy_member (id, member_id, member_type, 
+      courtesy_card_id, num, status, 
+      disabled, order_id)
+    values (#{id,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, #{memberType,jdbcType=VARCHAR}, 
+      #{courtesyCardId,jdbcType=VARCHAR}, #{num,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{disabled,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.CourtesyMember" >
+    insert into ql_courtesy_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="memberType != null" >
+        member_type,
+      </if>
+      <if test="courtesyCardId != null" >
+        courtesy_card_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="disabled != null" >
+        disabled,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="courtesyCardId != null" >
+        #{courtesyCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CourtesyMember" >
+    update ql_courtesy_member
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        member_type = #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="courtesyCardId != null" >
+        courtesy_card_id = #{courtesyCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        disabled = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CourtesyMember" >
+    update ql_courtesy_member
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      member_type = #{memberType,jdbcType=VARCHAR},
+      courtesy_card_id = #{courtesyCardId,jdbcType=VARCHAR},
+      num = #{num,jdbcType=DECIMAL},
+      status = #{status,jdbcType=DECIMAL},
+      disabled = #{disabled,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainYouhuiquanList" resultType="com.qlzy.model.CourtesyMember" parameterType="java.util.Map" >
+    select  a.id,num,status,disabled,b.name,b.start_time as startTime,b.timeRange,b.price,a.remark
+    from ql_courtesy_member a left join ql_courtesy_card  b on a.courtesy_card_id=b.id
+    where a.member_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="gainCourtesyMemberMapperByMemberId" resultType="Long" parameterType="java.lang.String" >
+    select 
+  	count(id)
+    from ql_courtesy_member
+    where member_id = #{member_id,jdbcType=VARCHAR}
+  </select>
+</mapper>

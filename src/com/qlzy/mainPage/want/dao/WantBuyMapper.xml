@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.want.dao.WantBuyMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.WantBuy" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="cat_id" property="catId" jdbcType="VARCHAR" />
+    <result column="from_country_id" property="fromCountryId" jdbcType="VARCHAR" />
+    <result column="from_address" property="fromAddress" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="to_country_id" property="toCountryId" jdbcType="VARCHAR" />
+    <result column="to_address" property="toAddress" jdbcType="VARCHAR" />
+    <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="goods_weight" property="goodsWeight" jdbcType="VARCHAR" />
+    <result column="goods_size" property="goodsSize" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="buy_type" property="buyType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, cat_id, from_country_id, from_address, mobile, to_country_id, to_address, 
+    send_date, goods_weight, goods_size, email, content, create_date, update_date, del_flag, 
+    pic_url, member_id, buy_type
+  </sql>
+  <!-- 查询求购信息 -->
+  <select id="gainWantBuyPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> from  want_buy
+    where del_flag = '0'
+    <if test="catId != null" >
+      and  cat_id = #{catId}
+    </if>
+    <if test="fromCountryId != null ">
+      and from_country_id = #{fromCountryId}
+    </if>
+    <if test="toCountryId != null ">
+      and to_country_id = #{toCountryId}
+    </if>
+    <if test="buyType != null ">
+      and buy_type = #{buyType}
+    </if>
+    <if test="page != null and rows != null " >
+      limit #{page},#{rows}
+    </if>
+  </select>
+  <!-- 查询求购信息的数量 -->
+  <select id="gainWantBuyPageCount" parameterType="java.util.Map" resultType="Long">
+    SELECT count(1) from  want_buy
+    where del_flag = '0'
+    <if test="catId != null" >
+      and  cat_id = #{catId}
+    </if>
+    <if test="fromCountryId != null ">
+      and from_country_id = #{fromCountryId}
+    </if>
+    <if test="toCountryId != null ">
+      and to_country_id = #{toCountryId}
+    </if>
+    <if test="buyType != null ">
+      and buy_type = #{buyType}
+    </if>
+  </select>
+  <!--  根据参数查询相关信息 -->
+  <select id="selectByParm" resultType="com.qlzy.model.WantBuy" parameterType="java.util.Map">
+    select t.id as id ,t.buy_type as buyType,t.title as title ,t.pic_url as picUrl,
+    t.update_date as sendDate,t.content,t.email,
+    t.from_address as fromAddress, t.mobile,t.to_address as toAddress,t.goods_weight goodsWeight,
+    t.goods_size as goodsSize,
+    c.name as catName ,c.en_name as enName,n.name as countryName,n.name_eng as countryNameEng
+    from want_buy t left join ql_goods_cat c on t.cat_id = c.id
+    left join n_country n on t.from_country_id = n.id
+    where 1=1
+    <if test="id != null">
+      and t.id =  #{id}
+    </if>
+    <if test="buyType != null">
+      and t.buy_type =  #{buyType}
+    </if>
+    <if test="fromCountryId != null ">
+      and t.from_country_id = #{fromCountryId}
+    </if>
+  </select>
+  <select id="selectLclByParm" resultType="com.qlzy.model.WantBuy" parameterType="java.util.Map">
+    select t.id as id ,t.buy_type as buyType,t.title as title ,t.pic_url as picUrl,
+    t.send_date as sendDate,t.content,t.email,
+    t.from_address as fromAddress, t.mobile,t.to_address as toAddress,t.goods_weight goodsWeight,
+    t.goods_size as goodsSize,
+    c.name as catName ,c.en_name as enName,n.name as countryName,n.name_eng as countryNameEng,
+    r.name as toCountryName,r.name_eng as toCountryNameEng
+    from want_buy t left join ql_goods_cat c on t.cat_id = c.id
+    left join n_country n on t.from_country_id = n.id
+    left join n_country r on t.to_country_id = r.id
+    where 1=1
+    <if test="id != null">
+      and t.id =  #{id}
+    </if>
+    <if test="buyType != null">
+      and t.buy_type =  #{buyType}
+    </if>
+    <if test="fromCountryId != null ">
+      and t.from_country_id = #{fromCountryId}
+    </if>
+    <if test="toCountryId != null ">
+      and t.to_country_id = #{toCountryId}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from want_buy
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from want_buy
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.WantBuy" >
+    insert into want_buy (id, title, cat_id, 
+      from_country_id, from_address, mobile, 
+      to_country_id, to_address, send_date, 
+      goods_weight, goods_size, email, 
+      content, create_date, update_date, 
+      del_flag, pic_url, member_id, 
+      buy_type)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{catId,jdbcType=VARCHAR}, 
+      #{fromCountryId,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{toCountryId,jdbcType=VARCHAR}, #{toAddress,jdbcType=VARCHAR}, #{sendDate,jdbcType=TIMESTAMP}, 
+      #{goodsWeight,jdbcType=VARCHAR}, #{goodsSize,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR}, #{picUrl,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, 
+      #{buyType,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.WantBuy" >
+    insert into want_buy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="catId != null" >
+        cat_id,
+      </if>
+      <if test="fromCountryId != null" >
+        from_country_id,
+      </if>
+      <if test="fromAddress != null" >
+        from_address,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="toCountryId != null" >
+        to_country_id,
+      </if>
+      <if test="toAddress != null" >
+        to_address,
+      </if>
+      <if test="sendDate != null" >
+        send_date,
+      </if>
+      <if test="goodsWeight != null" >
+        goods_weight,
+      </if>
+      <if test="goodsSize != null" >
+        goods_size,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="buyType != null" >
+        buy_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="catId != null" >
+        #{catId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromCountryId != null" >
+        #{fromCountryId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAddress != null" >
+        #{fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="toCountryId != null" >
+        #{toCountryId,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddress != null" >
+        #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsWeight != null" >
+        #{goodsWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSize != null" >
+        #{goodsSize,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyType != null" >
+        #{buyType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.WantBuy" >
+    update want_buy
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="catId != null" >
+        cat_id = #{catId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromCountryId != null" >
+        from_country_id = #{fromCountryId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromAddress != null" >
+        from_address = #{fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="toCountryId != null" >
+        to_country_id = #{toCountryId,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddress != null" >
+        to_address = #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsWeight != null" >
+        goods_weight = #{goodsWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSize != null" >
+        goods_size = #{goodsSize,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyType != null" >
+        buy_type = #{buyType,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.WantBuy" >
+    update want_buy
+    set title = #{title,jdbcType=VARCHAR},
+      cat_id = #{catId,jdbcType=VARCHAR},
+      from_country_id = #{fromCountryId,jdbcType=VARCHAR},
+      from_address = #{fromAddress,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      to_country_id = #{toCountryId,jdbcType=VARCHAR},
+      to_address = #{toAddress,jdbcType=VARCHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      goods_weight = #{goodsWeight,jdbcType=VARCHAR},
+      goods_size = #{goodsSize,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=VARCHAR},
+      buy_type = #{buyType,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,102 @@
+@charset "utf-8";
+/*内页分页标签添加css begin*/
+/*
+#showpages{
+WIDTH: 100%;margin-bottom:10px; WHITE-SPACE: nowrap;OVERFLOW:HIDDEN; CLEAR: both; PADDING-TOP: 20px; line-height:24px;BACKGROUND-COLOR:#FFF}
+
+#wzpage {
+	PADDING-RIGHT: 0px; WHITE-SPACE: nowrap; line-height:20px;margin-left:10%;
+}
+#wzpage .pc,#wzpage .pc2 {
+    border: 1px solid #E7ECF0;
+    cursor: pointer;
+    width: 22px; float:left;}
+#wzpage strong .pc{		
+	color:#fff;
+	background:#E22C37;
+}
+#wzpage a .pc:hover,#wzpage a .n:hover,#wzpage a .n2:hover,#wzpage a .btn-skipsearch:hover{border:1px solid red;}
+#wzpage .pc2{ cursor:auto; float:left;}
+
+#wzpage a {
+    cursor: pointer; float:left;
+}
+#wzpage a, #wzpage strong,#wzpage span {
+    background: none repeat scroll 0 0 white;
+    display: inline-block;
+	font-size:12px;
+    margin-right: 2px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none; float:left;
+     padding: 2px;     
+     color:#666;
+}
+#wzpage strong{ color:#fff; font-weight:normal; float:left;border:1px solid #717171;}
+
+#wzpage .n,#wzpage .n2 ,#wzpage .btn-skipsearch{
+    border: 1px solid #E7ECF0;
+    padding: 2px 5px;
+	width:45px;
+ float:left;}
+#wzpage .n2{ width:30px; float:left;}
+#wzpage strong .n2,#wzpage strong .n,#wzpage strong .pc{ border:0; padding-left:5px; float:left;}
+#wzpage .btn-skipsearch{
+  float:left;
+}
+
+.page-skip {
+border: medium none;
+font-size: 12px;
+float:left;
+cursor:auto;
+display:inline-block;
+}
+a .page-skip:hover{ color:#000; float:left;}
+em {
+font-style: normal;
+float:left;
+}
+.jumpto {
+border:1px solid #CCCCCC;
+font-family: verdana;
+display: inline-block;
+text-align: center;
+width: 36px;
+padding: 2px 0;
+margin-left:2px;
+margin-right:2px;
+margin-top:-2px;
+float:left;
+line-height:18px;
+}
+*/
+
+#wzpage a{text-decoration:none;}
+#wzpage{margin:0px auto;line-height:21px;height:40px;overflow:hidden;display:table;}
+#wzpage a,#wzpage strong{float:left;font-weight:normal;padding:5px;display:table-cell; }
+#wzpage input{width:15px;height:20px;line-height:20px;text-align:center;border:none;}
+#wzpage a span em{font-style:normal;}
+#wzpage a span.pc{border:1px solid #DDDDDD;padding:5px 10px;color:#A7ACBB;width:30px;margin-top:-3px;}
+#wzpage strong span.pc{border:1px solid #E22C37;padding:5px 10px;color:#fff;background:#E22C37;height:31px;width:30px;margin-top:-3px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*内页分页标签添加css end*/

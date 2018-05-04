@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.shop.dao.CompanysGoodsCatMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CompanysGoodsCat" >
+      <id column="ID" property="id" jdbcType="VARCHAR" />
+      <result column="PID" property="pid" jdbcType="VARCHAR" />
+      <result column="P_TREE" property="pTree" jdbcType="VARCHAR" />
+      <result column="NAME" property="name" jdbcType="VARCHAR" />
+      <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+      <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+      <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+      <result column="P_ORDER" property="pOrder" jdbcType="DECIMAL" />
+      <result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+      <result column="FLOOR" property="floor" jdbcType="DECIMAL" />
+      <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+      <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   ID, PID, P_TREE, NAME, EN_NAME, COMPANY_ID, DISABLED, P_ORDER, KEY_WORD, FLOOR, GRADE
+  </sql>
+    <!--根据参数查询分类 -->
+    <select id="gainCompanyCatByParm" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from QL_COMPANYS_GOODS_CAT where 1=1
+        <if test="grade != null">
+            and grade = #{grade}
+        </if>
+        <if test="pid != null">
+            and pid = #{pid}
+        </if>
+        <if test="companyId != null">
+            and company_id = #{companyId}
+        </if>
+    </select>
+    <select id="findCompanyGoodsCatByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String">
+      SELECT  <include refid="Base_Column_List"/>
+        FROM  QL_COMPANYS_GOODS_CAT
+
+          WHERE 1=1
+                and COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+
+             and pid  =  '8c97b1123b234933b235489d17a87e65'
+
+    </select>
+    <select id="findChildrenByPid" resultMap="BaseResultMap" parameterType="java.lang.String">
+         select <include refid="Base_Column_List"/>
+        FROM QL_COMPANYS_GOODS_CAT where PID = #{pid,jdbcType=VARCHAR}
+    </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_COMPANYS_GOODS_CAT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insert" parameterType="com.qlzy.model.CompanysGoodsCat" >
+     insert into ql_companys_goods_cat (ID, PID, P_TREE,
+      NAME, EN_NAME, COMPANY_ID,
+      DISABLED, P_ORDER, KEY_WORD,
+      FLOOR, GRADE, REMARK
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{pTree,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{enName,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR},
+      #{disabled,jdbcType=VARCHAR}, #{pOrder,jdbcType=DECIMAL}, #{keyWord,jdbcType=VARCHAR},
+      #{floor,jdbcType=DECIMAL}, #{grade,jdbcType=DECIMAL}, #{remark,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CompanysGoodsCat" >
+      update ql_companys_goods_cat
+      <set >
+          <if test="pid != null" >
+              PID = #{pid,jdbcType=VARCHAR},
+          </if>
+          <if test="pTree != null" >
+              P_TREE = #{pTree,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null" >
+              NAME = #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="enName != null" >
+              EN_NAME = #{enName,jdbcType=VARCHAR},
+          </if>
+          <if test="companyId != null" >
+              COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+          </if>
+          <if test="disabled != null" >
+              DISABLED = #{disabled,jdbcType=VARCHAR},
+          </if>
+          <if test="pOrder != null" >
+              P_ORDER = #{pOrder,jdbcType=DECIMAL},
+          </if>
+          <if test="keyWord != null" >
+              KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+          </if>
+          <if test="floor != null" >
+              FLOOR = #{floor,jdbcType=DECIMAL},
+          </if>
+          <if test="grade != null" >
+              GRADE = #{grade,jdbcType=DECIMAL},
+          </if>
+          <if test="remark != null" >
+              REMARK = #{remark,jdbcType=LONGVARCHAR},
+          </if>
+      </set>
+      where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CompanysGoodsCat" >
+  update ql_companys_goods_cat
+    set PID = #{pid,jdbcType=VARCHAR},
+      P_TREE = #{pTree,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      EN_NAME = #{enName,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      FLOOR = #{floor,jdbcType=DECIMAL},
+      GRADE = #{grade,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+ <!-- 店铺商品分类列表 -->
+   <select id="gainCompanyGoodsCatList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select CGC.*,GC."NAME" as name,GC.GRADE from QL_COMPANYS_GOODS_CAT cgc LEFT JOIN QL_GOODS_CAT gc on CGC.GOODS_CAT_ID=GC."ID"
+    where cgc.COMPANY_ID = #{memberIdString,jdbcType=VARCHAR}  order by cgc.P_ORDER
+  </select>
+ <!-- 删除店铺商品分类 -->
+ <delete id="deleteById" parameterType="java.lang.String" >
+    delete from QL_COMPANYS_GOODS_CAT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <!-- 更新商品排序 -->
+  <update id="updateById" parameterType="java.util.Map" >
+    update QL_COMPANYS_GOODS_CAT
+    <set >
+        P_ORDER = #{porderNum,jdbcType=DECIMAL},
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainGoodsCatListShop" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   SELECT GC."NAME" as name,GC."ID" as GOODS_CAT_ID from QL_GOODS_CAT gc where GC.GRADE='1' AND gc."ID" 
+	not in (SELECT g.GOODS_CAT_ID from QL_COMPANYS_GOODS_CAT g where g.COMPANY_ID = #{memberIdString,jdbcType=VARCHAR}) ORDER BY GC.P_ORDER
+  </select>
+  
+   <insert id="addCompanyGoods" parameterType="com.qlzy.model.CompanysGoodsCat" >
+    insert into QL_COMPANYS_GOODS_CAT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="goodsCatId != null" >
+        GOODS_CAT_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="porder != null" >
+        P_ORDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCatId != null" >
+        #{goodsCatId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="porder != null" >
+        #{porder,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据用户ID查询热销品类数量 -->
+  <select id="gainCompanysGoodsCats" resultType="Long" parameterType="Map" >
+	select COUNT(CGC."ID") AS COUNT1 from QL_COMPANYS_GOODS_CAT CGC where CGC.COMPANY_ID = #{userId}
+  </select>
+
+    <insert id="insertSelective" parameterType="com.qlzy.model.CompanysGoodsCat" >
+        insert into ql_companys_goods_cat
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                ID,
+            </if>
+            <if test="pid != null" >
+                PID,
+            </if>
+            <if test="pTree != null" >
+                P_TREE,
+            </if>
+            <if test="name != null" >
+                NAME,
+            </if>
+            <if test="enName != null" >
+                EN_NAME,
+            </if>
+            <if test="companyId != null" >
+                COMPANY_ID,
+            </if>
+            <if test="disabled != null" >
+                DISABLED,
+            </if>
+            <if test="pOrder != null" >
+                P_ORDER,
+            </if>
+            <if test="keyWord != null" >
+                KEY_WORD,
+            </if>
+            <if test="floor != null" >
+                FLOOR,
+            </if>
+            <if test="grade != null" >
+                GRADE,
+            </if>
+            <if test="remark != null" >
+                REMARK,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="pTree != null" >
+                #{pTree,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="enName != null" >
+                #{enName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null" >
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="disabled != null" >
+                #{disabled,jdbcType=VARCHAR},
+            </if>
+            <if test="pOrder != null" >
+                #{pOrder,jdbcType=DECIMAL},
+            </if>
+            <if test="keyWord != null" >
+                #{keyWord,jdbcType=VARCHAR},
+            </if>
+            <if test="floor != null" >
+                #{floor,jdbcType=DECIMAL},
+            </if>
+            <if test="grade != null" >
+                #{grade,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

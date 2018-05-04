@@ -1,0 +1,116 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{
+      -webkit-text-size-adjust:none;
+}
+
+.shc{
+	margin:10px 0 15px 0;
+	height:175px
+}
+.gzgz{ width:1190px; margin:0 auto;}
+.left{ width:965px; float:left}
+.right{ width:210px; float:right; margin-left:12px!important; *margin-left:5px; margin-top:10px; border:1px solid #DDDDDD; display:block}
+.jrsc{ width:208px; float:left}
+.bannernewImg{ width:740px;}
+.banner_new{ width:740px; _width:740px; float:right;  display:block; margin-left:10px; height:172px; z-index:220px}
+.banner_new_1
+{ position: absolute; top:70px; left:20px; z-index:222; WIDTH: 23px; FLOAT: left; }
+.banner_new_r {
+	position: absolute; top:70px; left:710px; z-index:222; WIDTH: 23px; FLOAT: left;
+}
+.new{ margin-bottom:15px; width:965px;}
+.xw{ width:473px; float:left; border:1px solid #DDDDDD;  padding-bottom:10px; margin-right:14px; margin-bottom:15px; display: block; overflow:hidden;height: 280px;}
+.xw2{ width:473px; float:left; border:1px solid #DDDDDD; display: block; padding-bottom:10px; margin-bottom:15px; overflow:hidden;height: 280px;}
+.schqbt_new{ width:473px; margin-bottom:10px}
+.schqlist_new{ width:473px; _width:458px; margin-left:15px; _margin-left:8px; display:block; }
+.schqlist_new li{ float:left; padding-left:8px; line-height:25px; display:block; width:440px; background:url(../images/libg.gif) no-repeat left;}
+.bannernewImg .bannerPage{ top:160px}
+
+.gg{ width:965px; margin:0 auto 15px auto; _margin:-15px auto 15px auto; overflow:hidden;}
+.gg img{ display:block; }
+.txw{ margin-left:15px; margin-right:15px; width:130px; float:left; border:1px solid #dddddd}
+.tlgg2{ height:90px; }
+.wz{ float:left; width:290px;}
+.wz a{ font-size:14px; font-weight:bold; text-align:center}
+.ck a{ font-size:12px; color:red}
+.wznr{ margin-top:10px}
+.shj{ width:210px; background:url(../images/sj.gif) no-repeat 8px center; border-bottom:1px solid #DDDDDD; }
+.sjtj{ padding:25px 6px 0 10px; _padding:5px 6px 0 10px; }
+.listms{ text-align:center; margin-top:8px }
+.listms a{ color:red;}
+.sjtj ul li{ margin:15px 0; line-height:20px; text-align:center; display:block }
+.listms span{ border-bottom:1px dashed #DDDDDD; margin-bottom:15px; padding-bottom:8px;  font-size:11px; text-align:center; overflow:hidden}
+br{ margin-bottom:0;}
+.gengd2{ color:#999;}
+
+.hellonew{ float:left; line-height:29px; color:#666666; padding-left:10px;}
+#menunew{ width:210px; float:left;  position:absolute; left:0px; top:0px; z-index:225;}
+.menunew{ display:none}
+.menubt_new{ width:210px; float:left; height:37px; background:url(../images/menubtnew.gif) no-repeat; display:inline;}
+.dht{ border:1px solid #DDDDDD; margin:0 auto; width:1175px; padding-left:15px; margin-top:10px}
+
+
+
+
+
+
+/*泉利杂志页面添加css 开始*/
+.listleft{ width:965px; float:left;  margin-right:15px; display: inline;}
+.listright{ width:210px; float:left;margin-top:10px;display:inline;}
+.jpnrdd{ width:600px; float:left; border:1px solid #dddddd;}
+.jpddbt{ float:left; height:41px; background:url(../images/zzsk/jpddbt.gif) repeat-x; width:600px; border-bottom:1px solid #e3e3e3;}
+.jpddbt img{ width:108px; height:17px; margin-left:246px; margin-top:11px; display:inline;}
+.qlzzmenu{ width:145px; float:left; font-size:14px; font-weight:bold; text-align:center;}
+.qlzzmenu li{ width:145px; float:left; height:35px; line-height:35px;}
+.qlzzmenu li a{ width:145px; float:left; height:35px;background:url(../images/zzsk/qlzzmenu.gif) no-repeat; display:block;}
+.qlzzmenu li a:hover,.qlzzmenu li a.hover{ width:145px; float:left; height:35px;background:url(../images/zzsk/qlzzmenu2.gif) no-repeat; color:#FFF;text-decoration:none;}
+.jpnr{ width:450px; float:left;}
+.jpnr dt{ font-size:14px;text-align:center; color:#333; font-weight:bold; line-height:40px; margin:0 auto; width:330px; white-space: nowrap; word-spacing: normal; overflow: hidden;}
+.jpnr dd{ width:420px; float:left; padding-left:25px; background:url(../images/zzsk/nrli.gif) no-repeat 10px 10px; line-height:30px;}
+.qlzzjj{width:344px; float:right; border:1px solid #e1e1e1; display:inline;}
+.qlzzjjbt{font-size:14px; font-weight:bold; line-height:38px; border-bottom:1px solid #e1e1e1; color:#333; background:#f1f2f4 url(../images/zzsk/jjqtb.gif) no-repeat 15px 15px; padding-left:40px;}
+.qlzznr{ width:324px; float:left; line-height:29px; margin-left:10px; display:inline;}
+.qlzznr p{ text-indent:2em;}
+.zgzpdzb{ width:960px; float:left; border:1px solid #dddddd; margin-top:15px; display:inline;}
+.zgzpdzbbt{font-size:14px; font-weight:bold; line-height:38px; border-bottom:1px solid #e1e1e1; color:#333; background:#f1f2f4 url(../images/zzsk/dzbtb.gif) no-repeat 15px 15px; padding-left:40px;}
+.zgzpdzblist{ width:960px; float:left;}
+.dzbleft{ width:22px; float:left; padding-left:5px; height:117px; padding-top:93px;}
+.dzbright{ width:22px; float:right; padding-left:5px; height:117px; padding-top:93px;}
+.dzbsklizong li{ width:290px; float: left; padding-top:20px; margin-left:10px; display:inline;}
+.dzbsklizong{width:900px; float: left;}
+.zgzpbook{ width:112px; float:left; }
+.zgzppic{ width:110px; float:left; border:1px solid #dcdcdc;}
+.zgzpwz{width:100%; float:left; text-align:center;}
+.bookjs{ width:160px; float:left; padding-left:15px;}
+.bqjsbt{ width:100%; float:left; font-weight:bold;}
+.bqjsmore{ width:95%; float:left; text-align:right;}
+.bqjsmore a{ color:#ff0002;}
+.zpzzlogo{ width:200px; float:left; height:50px; padding-left:5px;}
+.zqzzxx{ width:208px; float:left; border:1px solid #e1e1e1; line-height:23px;}
+.zqzzxxbt{ width:208px; float:left; background:url(../images/zzsk/bookxxbj.gif) repeat-x; line-height:30px; font-size:14px; font-weight:bold; text-align:center;}
+.zqzzxxnr{ width:200px; float:left; padding-top:17px; padding-left:8px;}
+.zqzzxxnr li{width:200px; float:left;}
+.zqzzxxnrpage{ width:200px; float:left;padding-left:8px;}
+.zqzzxxnrpage li{width:200px; float:left;}
+.gwdwbt{ font-weight:bold; float:left;}
+.gwdwnr{ float:left;}
+.skleftlist{ width:208px; float:left;border:1px solid #e1e1e1;}
+.sklistleft{ width:104px; float:left; text-align:center; font-size:14px; font-weight:bold; line-height:30px;}
+.sklistleft a{ display:block;background:url(../images/zzsk/leftlistbt2.gif) repeat-x;}
+.sklistleft a:hover,.sklistleft a.hover{ display:block;background:url(../images/zzsk/leftlistbt.gif) repeat-x; text-decoration:none; color:#ca1225;}
+.zpsjlist{ width:208px; float:left;}
+.upan{ padding-left:92px; float:left;  width:92px; height:27px; padding-top:10px;}
+.upan a{float:left;  width:92px; display:block;}
+.zpsjli{ width:208px; float:left;}
+.zpsjpic{ width:180px; height:245px; float:left; border:1px  solid #dcdcdc; margin-left:13px; display:inline;}
+.zpsjmc{ width:208px; float:left; text-align:center; line-height:30px;}
+.zqsjdzbbt{font-size:14px; font-weight:bold; line-height:38px; border-bottom:1px solid #e1e1e1; color:#333; background:#f1f2f4; padding-left:10px;}
+.dzbright{ width:965px; float:left;  margin-left:15px; display: inline;}
+.dzbnr{ height:620px; padding-left:10px;}
+.dzbnrmain{ width:960px; float:left; border:1px solid #dddddd;}
+.jpnrnr{ width:330px; float:left;}
+.jpdatea{float:right; width:70px;line-height:24px;}
+.jpggpic{ width:440px; float:left; padding-left:15px; padding-top:15px;}
+
+/*泉利杂志页面添加css 结束*/

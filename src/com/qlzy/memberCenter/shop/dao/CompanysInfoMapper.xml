@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.shop.dao.CompanysInfoMapper">
+	<resultMap id="BaseResultMap" type="com.qlzy.model.CompanysInfo">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+		<result column="FIRST_TITLE" property="firstTitle" jdbcType="VARCHAR" />
+		<result column="SECOND_TITLE" property="secondTitle" jdbcType="VARCHAR" />
+		<result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+		<result column="VIEWS" property="views" jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.qlzy.model.CompanysInfo"
+		extends="BaseResultMap">
+		<result column="CONTENT" property="content" jdbcType="CLOB" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, COMPANY_ID, FIRST_TITLE, SECOND_TITLE, DISABLED,
+		CREATE_TIME,
+		MODIFYTIME, VIEWS
+	</sql>
+	<sql id="Blob_Column_List">
+		CONTENT
+	</sql>
+
+	<!-- 根据资讯ID查询其详细信息 -->
+	<select id="gainById" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from QL_COMPANYS_INFO
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询资讯的上下篇 -->
+	<select id="gainForAdjacent" resultMap="ResultMapWithBLOBs"
+		parameterType="Map">
+		select * from (
+			select * from QL_COMPANYS_INFO CI where CI.DISABLED ='false' and CI.COMPANY_ID = #{companyId,jdbcType=VARCHAR} 
+			<if test="type==1">
+			<![CDATA[
+			and CI.CREATE_TIME <
+				(
+					select CI.CREATE_TIME from QL_COMPANYS_INFO CI where CI.DISABLED ='false' and CI."ID" = #{id,jdbcType=VARCHAR}
+				) ORDER BY CI.CREATE_TIME DESC]]>
+			</if>
+			<if test="type==2">
+			<![CDATA[
+			and CI.CREATE_TIME >
+				(
+					select CI.CREATE_TIME from QL_COMPANYS_INFO CI where CI.DISABLED ='false' and CI."ID" = #{id,jdbcType=VARCHAR}
+				) ORDER BY CI.CREATE_TIME]]>		
+			</if>
+		)t where ROWNUM = 1
+	</select>
+
+	<!-- 根据商家ID查询商家店铺首页资讯列表 -->
+	<select id="gainCompanysInfoList" resultMap="ResultMapWithBLOBs"
+		parameterType="Map">
+		select CI."ID",CI.FIRST_TITLE,CI.CREATE_TIME,CI.VIEWS
+		from QL_COMPANYS_INFO CI where CI.DISABLED = 'false' and CI.COMPANY_ID
+		= #{companyId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询企业资讯列表 -->
+	<select id="gainCompanysInfoListForPage" resultMap="ResultMapWithBLOBs"
+		parameterType="Map">
+		select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+		select *
+		from QL_COMPANYS_INFO CI where CI.DISABLED = 'false' and CI.COMPANY_ID
+		= #{companyId,jdbcType=VARCHAR}
+		<if test="baseKey != null and baseKey != ''">
+			and (CI.FIRST_TITLE like '%${baseKey}%' or CI.SECOND_TITLE
+			LIKE
+			'%${baseKey}%' or CI."CONTENT" LIKE '%${baseKey}%')
+		</if>
+		<if test="timeRange != null and timeRange != ''">
+			and (CI.CREATE_TIME between (select
+			trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual) and
+			(select sysdate value from dual))
+		</if>
+		) t
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+		where RN>(#{page}-1)*#{rows}
+	</select>
+
+	<!-- 查询企业资讯列表的数量 -->
+	<select id="gainCompanysInfoListCount" resultType="Long"
+		parameterType="Map">
+		select count(CI."ID") as count1 from QL_COMPANYS_INFO CI where
+		CI.DISABLED = 'false' and CI.COMPANY_ID =
+		#{companyId,jdbcType=VARCHAR}
+		<if test="baseKey != null and baseKey != ''">
+			and (CI.FIRST_TITLE like '%${baseKey}%' or CI.SECOND_TITLE
+			LIKE
+			'%${baseKey}%' or CI."CONTENT" LIKE '%${baseKey}%')
+		</if>
+		<if test="timeRange != null and timeRange != ''">
+			and (CI.CREATE_TIME between (select
+			trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual) and
+			(select sysdate value from dual))
+		</if>
+	</select>
+	<!-- 添加咨询 -->
+	<insert id="addCompanyInfo" parameterType="com.qlzy.model.CompanysInfo">
+		insert into QL_COMPANYS_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID,
+			</if>
+			<if test="firstTitle != null">
+				FIRST_TITLE,
+			</if>
+			<if test="secondTitle != null">
+				SECOND_TITLE,
+			</if>
+			<if test="disabled != null">
+				DISABLED,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="modifytime != null">
+				MODIFYTIME,
+			</if>
+			<if test="views != null">
+				VIEWS,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="firstTitle != null">
+				#{firstTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="secondTitle != null">
+				#{secondTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null">
+				#{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="views != null">
+				#{views,jdbcType=DECIMAL},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=CLOB},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新资讯 -->
+	<update id="updateCompanyInfo" parameterType="com.qlzy.model.CompanysInfo">
+		update QL_COMPANYS_INFO
+		<set>
+			<if test="companyId != null">
+				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="firstTitle != null">
+				FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="secondTitle != null">
+				SECOND_TITLE = #{secondTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null">
+				DISABLED = #{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="views != null">
+				VIEWS = #{views,jdbcType=DECIMAL},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=CLOB},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="deleteCompanyInfoList" parameterType="java.util.List">
+		update QL_COMPANYS_INFO set disabled='true' where ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		QL_COMPANYS_INFO
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.qlzy.model.CompanysInfo">
+		insert into QL_COMPANYS_INFO
+		(ID, COMPANY_ID, FIRST_TITLE,
+		SECOND_TITLE, DISABLED, CREATE_TIME,
+		MODIFYTIME, VIEWS, CONTENT)
+		values (#{id,jdbcType=VARCHAR},
+		#{companyId,jdbcType=VARCHAR},
+		#{firstTitle,jdbcType=VARCHAR},
+		#{secondTitle,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{modifytime,jdbcType=TIMESTAMP},
+		#{views,jdbcType=DECIMAL},
+		#{content,jdbcType=CLOB})
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CompanysInfo">
+		update QL_COMPANYS_INFO
+		<set>
+			<if test="companyId != null">
+				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="firstTitle != null">
+				FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="secondTitle != null">
+				SECOND_TITLE = #{secondTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null">
+				DISABLED = #{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="views != null">
+				VIEWS = #{views,jdbcType=DECIMAL},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=CLOB},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qlzy.model.CompanysInfo">
+		update
+		QL_COMPANYS_INFO
+		set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+		FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR},
+		SECOND_TITLE =
+		#{secondTitle,jdbcType=VARCHAR},
+		DISABLED =
+		#{disabled,jdbcType=VARCHAR},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		MODIFYTIME =
+		#{modifytime,jdbcType=TIMESTAMP},
+		VIEWS = #{views,jdbcType=DECIMAL},
+		CONTENT = #{content,jdbcType=CLOB}
+		where
+		ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.qlzy.model.CompanysInfo">
+		update
+		QL_COMPANYS_INFO
+		set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+		FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR},
+		SECOND_TITLE =
+		#{secondTitle,jdbcType=VARCHAR},
+		DISABLED =
+		#{disabled,jdbcType=VARCHAR},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		MODIFYTIME =
+		#{modifytime,jdbcType=TIMESTAMP},
+		VIEWS = #{views,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.PptDeptUsersMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.PptDeptUsers" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_REMARK" property="userRemark" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 根据用户ID查询其好友 -->
+  <select id="gainPptDeptUsersByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select PDU.USER_ID,PDU.USER_TYPE,PD.DEPT_NAME from QL_PPT_DEPT_USERS PDU LEFT JOIN QL_PPT_DEPT PD on PDU.DEPT_ID = PD."ID" 
+	where PD.USER_ID = #{userId} 
+  </select>
+    
+  <insert id="insert" parameterType="com.qlzy.model.PptDeptUsers" >
+    insert into QL_PPT_DEPT_USERS (ID, DEPT_ID, USER_ID, 
+      USER_REMARK, USER_TYPE)
+    values (#{id,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userRemark,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 添加好友 -->
+  <insert id="addPptDeptUsers" parameterType="com.qlzy.model.PptDeptUsers" >
+    insert into QL_PPT_DEPT_USERS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userRemark != null" >
+        USER_REMARK,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemark != null" >
+        #{userRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

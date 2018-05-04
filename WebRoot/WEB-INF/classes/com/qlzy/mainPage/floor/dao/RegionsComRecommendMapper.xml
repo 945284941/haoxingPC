@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.floor.dao.RegionsComRecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.RegionsComRecommend" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_CAT_ID" property="goodsCatId" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    
+    <result column="MAIN_CARBRAND" property="mainCarBrand" jdbcType="VARCHAR" /><!-- 扩展字段 -->
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_CAT_ID, COMPANY_ID, PROVINCE, CITY, CREATETIME, MODIFYTIME, USER_ID
+  </sql>
+  
+  <!-- 查询首页设置显示的前三家区域商家推荐 -->  
+  <select id="gainRegionsComRecommendByShow" resultMap="BaseResultMap" parameterType="java.util.Map">
+	select RCR.COMPANY_ID as companyId,c.COMPANY_NAME as CNAME,c.STOREFRONT_SRC as comSrc,c.VIP_GRADE as VIPGRADE,
+	c.MAIN_CARBRAND from QL_REGIONS_COM_RECOMMEND RCR left join QL_GOODS_CAT GC on RCR.GOODS_CAT_ID = GC."ID" 
+	  left join QL_COMPANYS c on RCR.COMPANY_ID = c."ID" where GC.DISABLED = 'false' and c.DISABLED = 'false' 
+	  and c.IS_CHECK = '1' and GC."FLOOR" = #{rcr.floor} 
+	  <if test="oper == 1">
+	  	and RCR.ISSHOW = '1'
+	  </if>
+	  <if test="oper == 2">
+	 	  <if test="0!=rcr.province">
+		  	and RCR.PROVINCE = #{rcr.province}
+		  </if>
+		  <if test="0!=rcr.city">
+		  	and RCR.CITY = #{rcr.city}
+		  </if>	  
+	  </if>
+  </select>
+
+  <!-- 根据当前分类与区域查询商家推荐列表 -->
+  <select id="gainRegionsComRecommendByArea" resultType="com.qlzy.model.RegionsComRecommend" parameterType="java.util.Map">
+  	select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+		  select RCR.*,c.COMPANY_NAME as companyName,c.STOREFRONT_SRC as comSrc,c.VIP_GRADE as VIPGRADE,c.QQ_NUMBER as qqNumber,
+			(select R2."NAME" from QL_REGIONS R1,QL_REGIONS R2 where R1.PID = R2."ID" and c.CITY = R1."ID" and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
+			(select r."NAME" from QL_REGIONS r where r."ID" = c.CITY and r.DISABLED = 'false') as CNAME,
+			(select r."NAME" from QL_REGIONS r where r."ID" = c.AREA and r.DISABLED = 'false') as ANAME,
+			c.ADDRESS,c.MOBILE,c.TELPHONE,c.REG_TIME as regTime,c.ID as companyId	  
+		   from QL_REGIONS_COM_RECOMMEND RCR left join QL_GOODS_CAT GC on RCR.GOODS_CAT_ID = GC."ID" 
+	      left join QL_COMPANYS c on RCR.COMPANY_ID = c."ID" where GC.DISABLED = 'false' and c.DISABLED = 'false' and c.IS_CHECK = '1'
+		   <if test="''!=rcr.topSearchLike and null!=rcr.topSearchLike">
+		  	and C."COMPANY_NAME" like '%${rcr.topSearchLike}%' 
+		  </if>
+		   <if test="0!=rcr.floor">
+		  	and GC."FLOOR" = #{rcr.floor}
+		  </if>
+		  <if test="0!=rcr.province">
+		  	and RCR.PROVINCE = #{rcr.province}
+		  </if>
+		  <if test="0!=rcr.city">
+		  	and RCR.CITY = #{rcr.city}
+		  </if>
+		  ORDER BY RCR.MODIFYTIME 
+		  <if test="null!=order and ''!=order">
+		  	 ${order}
+		  </if>		  		  
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}	
+  </select>
+  
+  <!-- 获取总行数 -->
+  <select id="gainRegionsComRecommendCountByArea" resultType="Long" parameterType="java.util.Map">
+    select count(*) from QL_REGIONS_COM_RECOMMEND RCR 
+     left join QL_GOODS_CAT GC on RCR.GOODS_CAT_ID = GC."ID" 
+	 left join QL_COMPANYS c on RCR.COMPANY_ID = c."ID" 
+	 where GC.DISABLED = 'false' and c.DISABLED = 'false' and c.IS_CHECK = '1' 
+	 <if test="''!=rcr.topSearchLike and null!=rcr.topSearchLike">
+		  	and C."COMPANY_NAME" like '%${rcr.topSearchLike}%' 
+		  </if> 
+		   <if test="0!=rcr.floor">
+		  	and GC."FLOOR" = #{rcr.floor}
+		  </if>
+	  <if test="0!=rcr.province">
+	  	and RCR.PROVINCE = #{rcr.province}
+	  </if>
+	  <if test="0!=rcr.city">
+	  	and RCR.CITY = #{rcr.city}
+	  </if>   	
+  </select>
+  
+  <!-- 展示相关商家推荐 -->
+  <select id="gainRegionsComRecommendList" resultMap="BaseResultMap">
+	select RCR.COMPANY_ID as companyId,c.COMPANY_NAME as CNAME,c.STOREFRONT_SRC as comSrc,c.VIP_GRADE as VIPGRADE from QL_REGIONS_COM_RECOMMEND RCR left join QL_GOODS_CAT GC on RCR.GOODS_CAT_ID = GC."ID" 
+	  left join QL_COMPANYS c on RCR.COMPANY_ID = c."ID" where GC.DISABLED = 'false' and c.DISABLED = 'false' and c.IS_CHECK = '1' ORDER BY RCR.MODIFYTIME DESC
+  </select>   
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.floor.dao.HomeSysMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.HomeSys" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+     <result column="href" property="href" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="old_price" property="oldPrice" jdbcType="DOUBLE" />
+    <result column="en_name" property="enName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, position, image_url, good_name, price,href,type,old_price,en_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_home_sys
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_home_sys
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.HomeSys" >
+    insert into ql_home_sys (id, position, image_url, 
+      good_name, price)
+    values (#{id,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{goodName,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.HomeSys" >
+    insert into ql_home_sys
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="goodName != null" >
+        good_name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.HomeSys" >
+    update ql_home_sys
+    <set >
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        good_name = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="href != null" >
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.HomeSys" >
+    update ql_home_sys
+    set position = #{position,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      good_name = #{goodName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--根据type和个数查询相应信息 -->
+  <select id="selectByType" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from ql_home_sys where type=#{type}
+    <if test="limitNum != null">
+       limit 0, #{limitNum}
+    </if>
+
+  </select>
+    <select id="gainAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_home_sys where type = 0 or type=2
+  
+  </select>
+  <select id="gainTemaiSysList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_home_sys where type = 1 order by position
+  
+  </select>
+  <select id="gainLunbotu" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_home_sys where id='pcgg-1'  or  id= 'pcgg-2' or  id= 'pcgg-3' or  id='pcgg-4' or  id='pcgg-5' 
+    or  id='pcgg-12' or  id='pcgg-13' or  id='pcgg-14'
+    order by id
+  
+  </select>
+  <select id="gainLunbotuByType" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from ql_home_sys where type=#{type}
+  </select>
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.call.dao.TradePayDeailMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.TradePayDeail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="total_price" property="totalPrice" jdbcType="DOUBLE" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_msg" property="orderMsg" jdbcType="VARCHAR" />
+    <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+    <result column="product_url" property="productUrl" jdbcType="VARCHAR" />
+    <result column="paydate" property="paydate" jdbcType="TIMESTAMP" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+    <result column="mysign" property="mysign" jdbcType="VARCHAR" />
+    <result column="sign_type" property="signType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    id, total_price, order_num, order_id, order_msg, order_name, product_url, paydate, 
+    trade_no, trade_status, mysign, sign_type
+  </sql>
+  	<!-- 插入数据信息 -->
+	<insert id="insertSelective" parameterType="com.qlzy.model.TradePayDeail">
+		insert into trade_pay_deail 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="totalPrice != null">
+				total_price,
+			</if>
+			<if test="orderNum != null">
+				order_num,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="orderMsg != null">
+				order_msg,
+			</if>
+			<if test="orderName != null">
+				order_name,
+			</if>
+			<if test="productUrl != null">
+				product_url,
+			</if>
+			<if test="paydate != null">
+				paydate,
+			</if>
+			<if test="tradeNo != null">
+				trade_no,
+			</if>
+			<if test="tradeStatus != null">
+				trade_status,
+			</if>
+			<if test="mysign != null">
+				mysign,
+			</if>
+			<if test="signType != null">
+				sign_type,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="totalPrice != null">
+				#{totalPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderMsg != null">
+				#{orderMsg,jdbcType=VARCHAR},
+			</if>
+			<if test="orderName != null">
+				#{orderName,jdbcType=VARCHAR},
+			</if>
+			<if test="productUrl != null">
+				#{productUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="paydate != null">
+				#{paydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tradeNo != null">
+				#{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeStatus != null">
+				#{tradeStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="mysign != null">
+				#{mysign,jdbcType=VARCHAR},
+			</if>
+			<if test="signType != null">
+				#{signType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+  <update id="updateBySelective" parameterType="com.qlzy.model.TradePayDeail" >
+    update trade_pay_deail
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum},
+      </if>
+      <if test="totalPrice != null">
+		total_price = #{totalPrice},
+	  </if>
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo},
+      </if>
+      <if test="tradeStatus != null" >
+        trade_status = #{tradeStatus},
+      </if>
+      <if test="orderMsg != null">
+		order_msg =	#{orderMsg,jdbcType=VARCHAR},
+			</if>
+			<if test="orderName != null">
+		order_name =#{orderName,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="tradeNo != null">
+		trade_no =	#{tradeNo,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="mysign != null">
+		mysign = #{mysign,jdbcType=VARCHAR},
+			</if>
+			<if test="signType != null">
+		sign_type = #{signType,jdbcType=VARCHAR},
+			</if>
+    </set>
+    where  id = #{id}
+  </update>
+  <select id="gainPObyOrderNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+  SELECT
+		<include refid="Base_Column_List" />
+		FROM trade_pay_deail WHERE  order_num= #{orderNum,jdbcType=VARCHAR} 
+  </select>
+   <select id="gainPayDeailPoByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  SELECT
+		<include refid="Base_Column_List" />
+		FROM trade_pay_deail WHERE  order_id= #{orderId,jdbcType=VARCHAR} 
+  </select>
+  
+  <update id="upadteOrderPayType" parameterType="com.qlzy.model.TradePayDeail" >
+    update trade_pay_deail
+    <set >
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo},
+      </if>
+      <if test="tradeStatus != null" >
+        trade_status = #{tradeStatus},
+      </if>
+    </set>
+    where  order_num = #{orderNum}
+  </update> 
+  
+</mapper>

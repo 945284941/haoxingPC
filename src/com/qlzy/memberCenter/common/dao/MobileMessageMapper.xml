@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.MobileMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.MobileMessage" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MSG_ID" property="msgId" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TO_MOBILE" property="toMobile" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="STATUS_DESCRIPTION" property="statusDescription" jdbcType="VARCHAR" />
+    <result column="VERIFICATION_CODE" property="verificationCode" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MSG_ID, CONTENT, TO_MOBILE, CREATETIME, TYPE, STATUS, STATUS_DESCRIPTION, VERIFICATION_CODE, 
+    USER_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MOBILE_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_MOBILE_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.MobileMessage" >
+    insert into QL_MOBILE_MESSAGE (ID, MSG_ID, CONTENT, 
+      TO_MOBILE, CREATETIME, TYPE, 
+      STATUS, STATUS_DESCRIPTION, VERIFICATION_CODE, 
+      USER_ID)
+    values (#{id,jdbcType=VARCHAR}, #{msgId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{toMobile,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{statusDescription,jdbcType=VARCHAR}, #{verificationCode,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR})      
+  </insert>
+  
+  <!-- 记录发送短信验证码日志 -->
+  <insert id="addMobileMessage" parameterType="com.qlzy.model.MobileMessage" >
+    insert into QL_MOBILE_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="msgId != null" >
+        MSG_ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="toMobile != null" >
+        TO_MOBILE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="statusDescription != null" >
+        STATUS_DESCRIPTION,
+      </if>
+      <if test="verificationCode != null" >
+        VERIFICATION_CODE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="msgId != null" >
+        #{msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="toMobile != null" >
+        #{toMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDescription != null" >
+        #{statusDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="verificationCode != null" >
+        #{verificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.MobileMessage" >
+    update QL_MOBILE_MESSAGE
+    <set >
+      <if test="msgId != null" >
+        MSG_ID = #{msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="toMobile != null" >
+        TO_MOBILE = #{toMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDescription != null" >
+        STATUS_DESCRIPTION = #{statusDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="verificationCode != null" >
+        VERIFICATION_CODE = #{verificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.MobileMessage" >
+    update QL_MOBILE_MESSAGE
+    set MSG_ID = #{msgId,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      TO_MOBILE = #{toMobile,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS_DESCRIPTION = #{statusDescription,jdbcType=VARCHAR},
+      VERIFICATION_CODE = #{verificationCode,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+ <!-- 根据用户id及验证码查找消息记录 -->
+  <select id="gainMobileByUserId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MOBILE_MESSAGE
+    where  VERIFICATION_CODE =#{verificationCode,jdbcType=VARCHAR} and TO_MOBILE = #{toMobile,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

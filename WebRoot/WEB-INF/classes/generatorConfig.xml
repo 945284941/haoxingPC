@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+  <context id="context1" >
+ 	<!-- 不要注解 -->
+  	<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+	</commentGenerator>
+  	<!-- 数据库链接URL、用户名、密码 -->
+	<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://rm-2ze57s84u680za4wro.mysql.rds.aliyuncs.com:3306/haoxing" userId="root" password="Xzm995544">
+	</jdbcConnection>
+	<javaTypeResolver>
+		<property name="forceBigDecimals" value="true" />
+	</javaTypeResolver>
+	<!-- 生成模型的包名和位置 -->
+	<javaModelGenerator targetPackage="com.qlzy.model" targetProject="../sgh_mall/src">
+		<property name="enableSubPackages" value="true" />
+		<property name="trimStrings" value="true" />
+	</javaModelGenerator>
+	<!-- 生成的映射文件包名和位置 -->
+	<sqlMapGenerator targetPackage="com.qlzy.mainPage.companyBarnd.dao" targetProject="../sgh_mall/src">
+		<property name="enableSubPackages" value="true" />
+	</sqlMapGenerator>
+	<!-- 生成DAO的包名和位置 -->
+	<javaClientGenerator type="XMLMAPPER" targetPackage="com.qlzy.mainPage.companyBarnd.dao" targetProject="../sgh_mall/src">
+		<property name="enableSubPackages" value="true" />
+	</javaClientGenerator>
+	<!-- 生成的表 -->
+    <table tableName="ql_company_barnd" domainObjectName="CompanyBarnd" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		
+  </context>
+</generatorConfiguration>

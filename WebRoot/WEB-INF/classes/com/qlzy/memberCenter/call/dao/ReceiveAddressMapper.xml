@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.call.dao.ReceiveAddressMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ReceiveAddress" >
+    <id column="id"  property="id"   jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="RECEIVE_ADDRESS" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="IS_DEFAULT" property="isDefault" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="ZIP" property="zip" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="RECEIVE_NAME" property="receiveName" jdbcType="VARCHAR"/>
+    <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+    <result column="country_id" property="countryId" jdbcType="VARCHAR"/>
+     <!-- 以下为扩展字段 -->
+    <result column="PNAME" property="pname" jdbcType="VARCHAR" />
+    <result column="CNAME" property="cname" jdbcType="VARCHAR" />
+    <result column="ANAME" property="aname" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
+    AREA, TELEPHONE,RECEIVE_NAME,EMAIL,country_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
+    	AREA, TELEPHONE,EMAIL,RECEIVE_NAME,country_id,
+    	(select R1.name from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
+	(select R.name from QL_REGIONS R where R.id = CITY and R.DISABLED = 'false') as CNAME,
+	(select R.name from QL_REGIONS R where R.id = AREA and R.DISABLED = 'false') as ANAME 
+    from QL_RECEIVE_ADDRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_RECEIVE_ADDRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="cancelDefaultAddrkByUserId" parameterType="com.qlzy.model.ReceiveAddress">
+  	update QL_RECEIVE_ADDRESS set IS_DEFAULT = 'false' where USER_ID =#{userId,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="insertSelective" parameterType="com.qlzy.model.ReceiveAddress" >
+    insert into ql_receive_address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="receiveAddress != null" >
+        RECEIVE_ADDRESS,
+      </if>
+      <if test="isDefault != null" >
+        IS_DEFAULT,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="zip != null" >
+        ZIP,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="receiveName != null" >
+        RECEIVE_NAME,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="countryId != null" >
+        country_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null" >
+        #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null" >
+        #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null" >
+        #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null" >
+        #{countryId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ReceiveAddress" >
+    update QL_RECEIVE_ADDRESS
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null" >
+        RECEIVE_ADDRESS = #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null" >
+        IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null" >
+        ZIP = #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        AREA = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null" >
+        COUNTRY_ID = #{countryId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--  查询用户的默认收货地址 -->
+  <select id="selectReceiveAddressDefault" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
+    	AREA, TELEPHONE,EMAIL,RECEIVE_NAME,
+    	(select R1.name from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
+	(select R.name from QL_REGIONS R where R.id = CITY and R.DISABLED = 'false') as CNAME,
+	(select R.name from QL_REGIONS R where R.id = AREA and R.DISABLED = 'false') as ANAME
+     from QL_RECEIVE_ADDRESS t where t.DISABLED = 'false' and t.IS_DEFAULT = 'true' and t.USER_ID = #{userId,jdbcType=VARCHAR} 
+  </select>
+  
+  <!--  查询用户的收货地址 -->
+  <select id="gainReceiveAddresses" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
+    	AREA, TELEPHONE,EMAIL,RECEIVE_NAME,
+    	(select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
+	(select R.NAME from QL_REGIONS R where R.id = CITY and R.DISABLED = 'false') as CNAME,
+	(select R.NAME from QL_REGIONS R where R.id = AREA and R.DISABLED = 'false') as ANAME from QL_RECEIVE_ADDRESS t where t.DISABLED = 'false' and t.USER_ID = #{userId,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 根据用户的ID查询该用户的所有收货地址 -->
+  <select id="selectReceiveAddressAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
+    	AREA, TELEPHONE,EMAIL,RECEIVE_NAME,
+    	(select R1.name from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
+	(select R.name from QL_REGIONS R where R.id = CITY and R.DISABLED = 'false') as CNAME,
+	(select R.name from QL_REGIONS R where R.id = AREA and R.DISABLED = 'false') as ANAME  from QL_RECEIVE_ADDRESS t where t.DISABLED = 'false' and t.USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+</mapper>

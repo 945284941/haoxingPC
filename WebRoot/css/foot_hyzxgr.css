@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+/*----------全局样式 begin------*/
+html{
+width:100%;
+margin:0 auto;
+background:#FFFFFF;
+}
+body{
+margin:0 auto;
+font-size:12px;
+font-family: Arial, Helvetica, sans-serif,"宋体";
+line-height:24px;
+color:#666666;
+}
+* ul,li,p,div,label{
+margin:0;
+padding:0;
+}
+* P,li,ul,h,em,dt,dd{ margin:0;padding:0;}
+* ul,dl{
+list-style:none;
+}
+* {PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px}
+* LI {
+LIST-STYLE-TYPE: none
+}
+A IMG {
+BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none; BORDER-LEFT-STYLE: none
+}
+EM {
+FONT-STYLE: normal; FONT-WEIGHT: normal
+}
+.clear {
+	DISPLAY: inline; HEIGHT: 0px; CLEAR: both
+}
+A {
+COLOR: #666666; TEXT-DECORATION: none; cursor:pointer;
+}
+A:hover {
+TEXT-DECORATION:underline; color:#CF1529;
+}
+
+/*----------全局样式 end------*/
+
+
+.mainnavzong{ width:980px; margin:0 auto;background: url(../images/dhsj.gif) no-repeat 1130px 0; padding-left:210px; line-height:37px; height:37px; position:relative; z-index:333;}
+.mainnavzong li{ width:101px; float:left; background:url(../images/dhsx.gif) no-repeat right; text-align:center; font-size:14px; font-weight:bold; color:#FFF;}
+.mainnavzong li a{ color:#FFF; display:block;}
+.mainnavzong li a:hover,.mainnavzong li a.hover{background:#CA1225;color:#FFF; text-decoration:none;display:block;}
+#warp { MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; PADDING-TOP: 0px; background: url(../images/navbj.gif) repeat-x;
+}
+
+#menu{ width:210px; float:left; border-top:10px solid #E3E3E3;border-bottom:10px solid #E3E3E3; background: url(../images/menuzongbj1.gif) repeat-y; position:absolute; left:0px; top:0px; z-index:225;}
+.menubt{ width:190px; float:left; height:37px; background:url(../images/menubt.gif) no-repeat; margin-left:10px; display:inline;}
+.menuzong{width:200px; float:left; font-size:14px; line-height:30px; padding-bottom:15px; padding-left:10px;}
+.menuzong li{width:200px; float:left; border-bottom:1px dashed #E1E1E1; display:list-item;}
+.menuzong li a{ width:150px; float:left;color:#636363;display:block;background:#FFFFFF url(../images/menuli.gif) no-repeat 20px 10px; padding-left:40px;}
+.menuzong li a:hover,.menuzong li a.hover{ width:162px;display:block; background:url(../images/menuli2.gif) no-repeat; padding-left:40px; color:#000; text-decoration:none;}
+#menunew{ width:210px; float:left;  position:absolute; left:0px; top:0px; z-index:225;}
+.menunew{ display:none}
+.menubt_new{ width:210px; float:left; height:37px; background:url(../images/menubtnew.gif) no-repeat; display:inline;}
+.dht{ border:1px solid #DDDDDD; margin:0 auto; width:1173px; padding-left:15px; margin-top:10px}
+
+
+
+

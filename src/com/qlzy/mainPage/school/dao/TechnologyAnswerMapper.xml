@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.school.dao.TechnologyAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.TechnologyAnswer" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="QUESTION_ID" property="questionId" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="KZ1" property="kz1" jdbcType="VARCHAR" />
+    <result column="KZ2" property="kz2" jdbcType="VARCHAR" />
+    <result column="KZ3" property="kz3" jdbcType="VARCHAR" />
+    <result column="KZ4" property="kz4" jdbcType="VARCHAR" />
+    <result column="KZ5" property="kz5" jdbcType="VARCHAR" />
+    <result column="KZ6" property="kz6" jdbcType="VARCHAR" />
+    <result column="KZ7" property="kz7" jdbcType="VARCHAR" />
+    <result column="KZ9" property="kz9" jdbcType="VARCHAR" />
+    <result column="KZ10" property="kz10" jdbcType="VARCHAR" />
+    <result column="KZ11" property="kz11" jdbcType="VARCHAR" />
+    <result column="KZ12" property="kz12" jdbcType="VARCHAR" />
+    <result column="KZ13" property="kz13" jdbcType="VARCHAR" />
+    <result column="KZ14" property="kz14" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, QUESTION_ID, CREATETIME, USER_ID, USER_NAME, USER_TYPE, DISABLED, MODIFYTIME, 
+    KZ1, KZ2, KZ3, KZ4, KZ5, KZ6, KZ7, KZ9, KZ10, KZ11, KZ12, KZ13, KZ14
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_TCCHNOLOGY_ANSWER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_TCCHNOLOGY_ANSWER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.TechnologyAnswer" >
+    insert into QL_TCCHNOLOGY_ANSWER (ID, CONTENT, QUESTION_ID, 
+      CREATETIME, USER_ID, USER_NAME, 
+      USER_TYPE, DISABLED, MODIFYTIME, 
+      KZ1, KZ2, KZ3, KZ4, 
+      KZ5, KZ6, KZ7, KZ9, 
+      KZ10, KZ11, KZ12, KZ13, 
+      KZ14)
+    values (#{id,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{questionId,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{kz1,jdbcType=VARCHAR}, #{kz2,jdbcType=VARCHAR}, #{kz3,jdbcType=VARCHAR}, #{kz4,jdbcType=VARCHAR}, 
+      #{kz5,jdbcType=VARCHAR}, #{kz6,jdbcType=VARCHAR}, #{kz7,jdbcType=VARCHAR}, #{kz9,jdbcType=VARCHAR}, 
+      #{kz10,jdbcType=VARCHAR}, #{kz11,jdbcType=VARCHAR}, #{kz12,jdbcType=VARCHAR}, #{kz13,jdbcType=VARCHAR}, 
+      #{kz14,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.TechnologyAnswer" >
+    insert into QL_TCCHNOLOGY_ANSWER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="questionId != null" >
+        QUESTION_ID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME,
+      </if>
+      <if test="kz1 != null" >
+        KZ1,
+      </if>
+      <if test="kz2 != null" >
+        KZ2,
+      </if>
+      <if test="kz3 != null" >
+        KZ3,
+      </if>
+      <if test="kz4 != null" >
+        KZ4,
+      </if>
+      <if test="kz5 != null" >
+        KZ5,
+      </if>
+      <if test="kz6 != null" >
+        KZ6,
+      </if>
+      <if test="kz7 != null" >
+        KZ7,
+      </if>
+      <if test="kz9 != null" >
+        KZ9,
+      </if>
+      <if test="kz10 != null" >
+        KZ10,
+      </if>
+      <if test="kz11 != null" >
+        KZ11,
+      </if>
+      <if test="kz12 != null" >
+        KZ12,
+      </if>
+      <if test="kz13 != null" >
+        KZ13,
+      </if>
+      <if test="kz14 != null" >
+        KZ14,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="kz1 != null" >
+        #{kz1,jdbcType=VARCHAR},
+      </if>
+      <if test="kz2 != null" >
+        #{kz2,jdbcType=VARCHAR},
+      </if>
+      <if test="kz3 != null" >
+        #{kz3,jdbcType=VARCHAR},
+      </if>
+      <if test="kz4 != null" >
+        #{kz4,jdbcType=VARCHAR},
+      </if>
+      <if test="kz5 != null" >
+        #{kz5,jdbcType=VARCHAR},
+      </if>
+      <if test="kz6 != null" >
+        #{kz6,jdbcType=VARCHAR},
+      </if>
+      <if test="kz7 != null" >
+        #{kz7,jdbcType=VARCHAR},
+      </if>
+      <if test="kz9 != null" >
+        #{kz9,jdbcType=VARCHAR},
+      </if>
+      <if test="kz10 != null" >
+        #{kz10,jdbcType=VARCHAR},
+      </if>
+      <if test="kz11 != null" >
+        #{kz11,jdbcType=VARCHAR},
+      </if>
+      <if test="kz12 != null" >
+        #{kz12,jdbcType=VARCHAR},
+      </if>
+      <if test="kz13 != null" >
+        #{kz13,jdbcType=VARCHAR},
+      </if>
+      <if test="kz14 != null" >
+        #{kz14,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.TechnologyAnswer" >
+    update QL_TCCHNOLOGY_ANSWER
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        QUESTION_ID = #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="kz1 != null" >
+        KZ1 = #{kz1,jdbcType=VARCHAR},
+      </if>
+      <if test="kz2 != null" >
+        KZ2 = #{kz2,jdbcType=VARCHAR},
+      </if>
+      <if test="kz3 != null" >
+        KZ3 = #{kz3,jdbcType=VARCHAR},
+      </if>
+      <if test="kz4 != null" >
+        KZ4 = #{kz4,jdbcType=VARCHAR},
+      </if>
+      <if test="kz5 != null" >
+        KZ5 = #{kz5,jdbcType=VARCHAR},
+      </if>
+      <if test="kz6 != null" >
+        KZ6 = #{kz6,jdbcType=VARCHAR},
+      </if>
+      <if test="kz7 != null" >
+        KZ7 = #{kz7,jdbcType=VARCHAR},
+      </if>
+      <if test="kz9 != null" >
+        KZ9 = #{kz9,jdbcType=VARCHAR},
+      </if>
+      <if test="kz10 != null" >
+        KZ10 = #{kz10,jdbcType=VARCHAR},
+      </if>
+      <if test="kz11 != null" >
+        KZ11 = #{kz11,jdbcType=VARCHAR},
+      </if>
+      <if test="kz12 != null" >
+        KZ12 = #{kz12,jdbcType=VARCHAR},
+      </if>
+      <if test="kz13 != null" >
+        KZ13 = #{kz13,jdbcType=VARCHAR},
+      </if>
+      <if test="kz14 != null" >
+        KZ14 = #{kz14,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.TechnologyAnswer" >
+    update QL_TCCHNOLOGY_ANSWER
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      QUESTION_ID = #{questionId,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      KZ1 = #{kz1,jdbcType=VARCHAR},
+      KZ2 = #{kz2,jdbcType=VARCHAR},
+      KZ3 = #{kz3,jdbcType=VARCHAR},
+      KZ4 = #{kz4,jdbcType=VARCHAR},
+      KZ5 = #{kz5,jdbcType=VARCHAR},
+      KZ6 = #{kz6,jdbcType=VARCHAR},
+      KZ7 = #{kz7,jdbcType=VARCHAR},
+      KZ9 = #{kz9,jdbcType=VARCHAR},
+      KZ10 = #{kz10,jdbcType=VARCHAR},
+      KZ11 = #{kz11,jdbcType=VARCHAR},
+      KZ12 = #{kz12,jdbcType=VARCHAR},
+      KZ13 = #{kz13,jdbcType=VARCHAR},
+      KZ14 = #{kz14,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="gainTechnologyAnswerListWithPage" parameterType="Map" resultMap="BaseResultMap">
+  	 select * from (select * from (
+			select ROWNUM AS RN,s.* from (
+			  	select ID, CONTENT, QUESTION_ID, CREATETIME, USER_ID, USER_NAME, USER_TYPE, DISABLED, MODIFYTIME FROM QL_TCCHNOLOGY_ANSWER 
+			  	WHERE  QUESTION_ID = #{questionId,jdbcType=VARCHAR} ORDER BY CREATETIME DESC
+			 ) s
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+	where RN>(#{page}-1)*#{rows}
+  </select>
+  <select id="gainTechnologyAnswerListCountWithPage" parameterType="Map" resultType="Long">
+ 	 select COUNT(ID) FROM QL_TCCHNOLOGY_ANSWER 
+			  	WHERE  QUESTION_ID = #{questionId,jdbcType=VARCHAR} ORDER BY CREATETIME DESC
+  </select>
+  
+  
+   <!-- 会员中心问题列表 -->
+  <select id="gainAnswerList" parameterType="Map" resultType="com.qlzy.model.QuestionLog">
+	 select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+			select q.ID as id,q.CREATETIME as createTime,ta.QUESTION_TITLE as titleNews,ta.QUESTION_TYPE as catNews ,ta.id as questionId
+	      from QL_TCCHNOLOGY_ANSWER Q LEFT JOIN QL_TECHNOLOGY_QUESTION ta ON q.QUESTION_ID=ta."ID"
+	       where Q.USER_ID = #{userId,jdbcType=VARCHAR}
+		    <if test="timeRange != null and timeRange != ''">
+					and (Q.CREATETIME between (select
+					trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual) and
+					(select sysdate value from dual))
+				</if>
+		    ) t
+				) where <![CDATA[RN <= #{page}*#{rows}]]>)
+				where RN>(#{page}-1)*#{rows}
+	    
+  </select>
+   <select id="gainAnswerListCount" parameterType="Map" resultType="Long">
+  		select count("ID") from QL_TCCHNOLOGY_ANSWER Q 
+		    where Q.USER_ID = #{userId,jdbcType=VARCHAR}  
+		    <if test="timeRange != null and timeRange != ''">
+					and (Q.CREATETIME between (select
+					trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual) and
+					(select sysdate value from dual))
+			</if>
+  </select>
+  <delete id="deleteByIds" parameterType="java.util.List" >
+    delete from QL_TCCHNOLOGY_ANSWER
+    where ID in 
+    <foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+  </delete>
+   <delete id="deleteByQuestionById" parameterType="java.lang.String" >
+    delete from QL_TCCHNOLOGY_ANSWER
+    where QUESTION_ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 活动统计-回答问题统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainAnswerStatisticsByTime" parameterType="Map" resultType="Long">
+  	select COUNT(TA."ID") ANSWERCOUNT from QL_TCCHNOLOGY_ANSWER TA where TA.DISABLED = 'false' and TA.USER_ID = #{userId,jdbcType=VARCHAR} 
+	<if test="time==1">
+		and to_char(TA.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(TA.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(TA.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(TA.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(TA.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(TA.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>  	
+  </select>  
+  <select id="gainJsdyAnswerPaihangbangList" parameterType="Map" resultType="Map">
+  		select count(id) num,USER_NAME from QL_TCCHNOLOGY_ANSWER GROUP BY USER_NAME  ORDER BY count(ID) desc
+  </select>
+  <select id="gainXiazaiBangList" parameterType="Map" resultType="Map">
+  		select count(id) num,USER_NAME from QL_DATA_DOWNLOAD GROUP BY USER_NAME  ORDER BY count(ID) desc
+  </select>
+</mapper>

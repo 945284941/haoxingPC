@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+/*----------全局样式 begin------*/
+.main_main{ width:100%; margin:0 auto;}
+.cplist_main{ width:1190px; margin:0 auto;}
+.mbx{width:958px; float:left; margin-left:220px; margin-top:10px; display:inline; border:1px solid #D7D7D7; position:relative; z-index:10; padding-left:10px;}
+.flsx{width:968px; float:left; margin-left:220px; margin-top:10px; display:inline; border:1px solid #DDDDDD; position:relative; z-index:10; height:55px;}
+.sxflbt{ width:968px; float:left; background:url(../images/sxbtbj.gif) repeat-x;}
+.ssdh{width:860px; float:left;}
+.ssdh a{float:left; padding-left:10px; padding-right:5px;}
+.shpguig{width:870px; float:left; white-space:nowrap;}
+.shpguig li{float:left; padding-right:20px;}
+.shpguiginput{ width:105px; float:left; margin-top:3px; display:inline;}
+.shpguiglabel{width:60px; float:left;}
+.shpguiglabel2{width:35px; float:left;}
+.threefl{width:950px; float:left;}
+.threefl a{ float:left; padding-right:10px; display: list-item; padding-left:10px; line-height:30px; white-space:nowrap; display:block;}
+.listgg{ width:970px; float:left; margin-left:220px; margin-top:15px; display:inline; position:relative; z-index:10;}
+.spguig{ height:65px; padding-top:15px;}
+.wltime{ height:33px; padding-top:5px;}
+.cplistleft{ width:208px; float:left; border:1px solid #D8D3D3; background:#F8F8F8;margin-top:15px; display: inline;}
+.rxphbt{ width:198px; float:left; font-size:12px; font-weight:bold; color:#333333; padding-left:10px; line-height:28px; border-bottom:1px solid #D8D3D3;}
+.listleftz{width:208px; float:left;}
+.listleftz li{ width:198px; float:left;  border-bottom:1px solid #F0EEEE; padding-left:10px; margin-top:25px; display:inline; padding-bottom:20px;}
+.listnum{ color:#FF6600; float:left; width:15px;}
+.numpic{width:55px; float:left; padding:2px; border:1px solid #EBEBEB; margin-top:5px; display:inline;}
+.listnummc{ width:90px; float:left; padding-left:15px; height:90px;}
+.listjg{ width:90px; float:left; font-size:16px; color:#FF0000; font-weight:bold;}
+.cplistright{ width:970px; float:left; padding-left:10px;margin-top:15px; display: inline;}
+.spbzk{ width:968px; float:left; border:1px solid #ED1B23;}
+.spbzkbt{ width:928px; float:left; background:#C72412 url(../images/bzkq.gif) no-repeat 15px 10px; padding-left:40px; font-size:14px; font-weight:bold; color:#FFF; line-height:35px;}
+.spname{ width:968px; float:left; text-align: center; line-height:40px; color:#C52311; font-size:14px; font-weight: bold; border-bottom:1px solid #E1E1E1;}
+.spsize{ font-size:12px; font-weight:normal;}
+.spbzkxq{ width:806px; float:left; padding-top:10px; }
+.spbzpic{ width: 120px; height:90px; border:1px solid #F2F2F2; margin-left:15px; margin-top:15px; padding:1px;margin-right:20px;display: block; float:left;}
+.spbzkxq li{ float:left; width:268px;}
+.splist{width:970px; float:left; padding-top:15px;}
+.sppxbt{ width:968px; float:left; border:1px solid #DDDDDD; background: url(../images/pxbtbj.gif) repeat-x; line-height:40px;}
+
+/*6.5搜索产品列表商家展示css*/
+.sear_cpcx{ width:970px; float:left; height:140px; border-bottom:1px dashed #D7D7D7; padding-top:10px;}
+.sear_left{ width:575px; float:left; padding-top:15px; padding-left:15px;}
+.sear_right{ width:380px; float:left; background:#F9F9F9; padding-top:10px;}
+.sear_cppic{ width:120px; float:left; height:90px; padding:2px; border:1px solid #F2F2F2; margin-right:20px; display:inline;}
+.sear_left dt{ width:410px; float:left; font-weight:bold;}
+.sear_left dl{ width:420px; float:left; font-weight: normal;}
+.sear_left dl dd{ width:210px; float:left;}
+.sear_right p{ width:370px; float:left; padding-left:10px;}
+.ckmap{ width:63px; float:left; height:18px; line-height:18px; background:#C82512;  text-align:center;}
+.ckmap a{color:#FFF;}
+.ckmap a:hover{color:#FFFF00; display:block;}
+.cksjmc{ width:285px; float:left;}
+.ckszqy{ width:180px; float:left;}
+
+
+/*搜索列表标准库修改css begin*/
+.spbzkxq p{ float:left; white-space:nowrap;}
+.bzkycbh{ padding-right:25px;}
+.bzksycx{ width:100%;}
+/*搜索列表标准库修改css end*/
+
+
+
+
+
+

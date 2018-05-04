@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+		"http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.1</jsp-version>
+	<short-name>pagination</short-name>
+
+	<tag>
+		<!-- 标签名 -->
+		<name>pagination</name>
+		<!-- 对应的标签处理类 -->
+		<tag-class>com.qlzy.util.PaginationTag</tag-class>
+		<!-- 标签主体的类型 -->
+		<body-content>empty</body-content>
+
+		<!-- 属性的描述信息 -->
+		<attribute>
+			<!-- 路径-->
+			<name>path</name>
+			<!-- 该属性是否为必要的 -->
+			<required>true</required>
+			<!-- 属性值是否可以在JSP运行时期动态产生 -->
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<!-- form名称-->
+			<name>formName</name>
+			<!-- 该属性是否为必要的 -->
+			<required>false</required>
+			<!-- 属性值是否可以在JSP运行时期动态产生 -->
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<!-- 标签名 -->
+		<name>page</name>
+		<!-- 对应的标签处理类 -->
+		<tag-class>com.qlzy.util.PaginationTagForActive</tag-class>
+		<!-- 标签主体的类型 -->
+		<body-content>empty</body-content>
+
+		<!-- 属性的描述信息 -->
+		<attribute>
+			<!-- 路径-->
+			<name>path</name>
+			<!-- 该属性是否为必要的 -->
+			<required>true</required>
+			<!-- 属性值是否可以在JSP运行时期动态产生 -->
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<!-- form名称-->
+			<name>formName</name>
+			<!-- 该属性是否为必要的 -->
+			<required>false</required>
+			<!-- 属性值是否可以在JSP运行时期动态产生 -->
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+

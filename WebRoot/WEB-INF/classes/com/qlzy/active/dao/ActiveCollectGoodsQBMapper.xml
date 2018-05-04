@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.active.dao.ActiveCollectGoodsQBMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ActiveCollectGoodsQB" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BN" property="bn" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="SERIES" property="series" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="COMPONENT" property="component" jdbcType="VARCHAR" />
+    <result column="CAT" property="cat" jdbcType="VARCHAR" />
+    <result column="G_LENGTH" property="glength" jdbcType="VARCHAR" />
+    <result column="G_WIDTH" property="gwidth" jdbcType="VARCHAR" />
+    <result column="G_HEIGHT" property="gheight" jdbcType="VARCHAR" />
+    <result column="G_WEIGHT" property="gweight" jdbcType="VARCHAR" />
+    <result column="G_WHEEL" property="gwheel" jdbcType="VARCHAR" />
+    <result column="G_INSIDE" property="ginside" jdbcType="VARCHAR" />
+    <result column="G_OUTSIDE" property="goutside" jdbcType="VARCHAR" />
+    <result column="G_HOLE" property="ghole" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="EDIT_FIELD" property="editField" jdbcType="VARCHAR" />
+    <result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, BN, CREATETIME, MODIFYTIME, MEMBERID, DISABLED, BRAND, SERIES, TYPE, COMPONENT, 
+    CAT, G_LENGTH, G_WIDTH, G_HEIGHT, G_WEIGHT, G_WHEEL, G_INSIDE, G_OUTSIDE, G_HOLE, 
+    STATUS, EDIT_FIELD,DEFAULT_PIC_SRC
+  </sql>
+  <!-- 根据ID查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ACTIVE_COLLECT_GOODS_QB t
+    where t.DISABLED= 'false' and t.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询所有的数据 -->
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select * from (select * from (  
+  		select ROWNUM AS RN,t.* from (
+			select 
+    		<include refid="Base_Column_List" />
+    	from QL_ACTIVE_COLLECT_GOODS_QB t where t.DISABLED= 'false' 
+    	<if test="carBrandName != null and ''!=carBrandName">
+    		and t.BRAND = #{carBrandName} 
+    	</if>
+    	<if test="goodsCatName != null">
+    		and t.CAT = #{goodsCatName} 
+    	</if>
+    	<if test="type == 1">
+    		and t.TYPE is not null
+    	</if>
+    	<if test="type == 0">
+    		and t.TYPE is null
+    	</if>
+    	<if test="name != null and ''!=name">
+    		and t.NAME like '%${name}%'
+    	</if>
+    	<if test="bn != null and ''!=bn">
+    		and t.bn like '%${bn}%'
+    	</if>
+    	order by
+		case SERIES
+		when '豪沃' then 1
+		when '斯太尔' then 2
+		when '斯太尔王' then 3
+		when '新黄河' then 4
+		end   	
+	    ) t
+     ) where <![CDATA[RN <= #{page}*#{rows}]]>) where  RN>(#{page}-1)*#{rows}	
+  </select>
+  
+  <!-- 获取题库的总数量 --> 
+  <select id="gainActiveGoodsQBNum" resultType="java.lang.Long">
+  	select count(ID) from QL_ACTIVE_COLLECT_GOODS_QB t where t.DISABLED= 'false' 
+  	<if test="carBrandName != null and ''!=carBrandName">
+    		and t.BRAND = #{carBrandName} 
+    	</if>
+    	<if test="goodsCatName != null ">
+    		and t.CAT = #{goodsCatName} 
+    	</if>
+    	<if test="type == 1">
+    		and t.TYPE is not null
+    	</if>
+    	<if test="type == 0">
+    		and t.TYPE is null
+    	</if>
+    	<if test="name != null and ''!=name">
+    		and t.NAME like '%${name}%'
+    	</if>
+    	<if test="bn != null and ''!=bn">
+    		and t.bn like '%${bn}%'
+    	</if>
+  </select>
+</mapper>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--侧滑菜单容器-->
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+			<!--菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-right my_canvas">
+				<div class="filter_t">
+					<h3>价格</h3>
+					<input class="w40 mui-text-center" type="text" name="" id="" value="" placeholder="最低价" /> — <input class="w40 mui-text-center" type="text" name="" id="" value="" placeholder="最高价" />
+					<h3>城市</h3>
+					<input type="text" name="" id="" value="" />
+				</div>
+				<div class="filter_b">
+					<button>重置</button>
+					<button>确认</button>
+				</div>
+			</aside>
+			<div class="mui-inner-wrap">
+				<div class="mui-content ">
+					<header class="mui-bar mui-bar-nav">
+						<div class="search_box">
+							<input type="text" name="" id="" value="女装" />
+						</div>
+						<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+						<div class="addPopover_2" style="position: relative;">
+							<a href="#Popover_2" id="meau" class="mui-icon mui-pull-right iconfont">&#xe617;</a>
+							<div id="Popover_2" class="mui-popover mui-bar-popover meau_down" style="top: 44px !important;">
+								<div class="mui-popover-arrow"></div>
+								<ul class="">
+									<li class="mui-table-view-cell">
+										<a href="index.jsp"><i class="iconfont">&#xe604;</i> 首页</a>
+									</li>
+									<li class="mui-table-view-cell">
+										<a href=""><i class="iconfont">&#xe600;</i>分类搜索</a>
+									</li>
+									<li class="mui-table-view-cell">
+										<a href="5.1购物车管理.html"><i class="iconfont">&#xe778;</i>购物车</a>
+									</li>
+									<li class="mui-table-view-cell">
+										<a href=""><i class="iconfont">&#xe66e;</i>我的</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</header>
+					<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="pro_class">
+								<div class="swiper-container swiper-container-horizontal swiper-container-free-mode pro_class_slide">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide">
+											<a href="#">
+												<img src="images/pro_class_img.jpg" />
+												<p>三级分类</p>
+											</a>
+										</div>
+										<div class="swiper-slide">
+											<a href="#">
+												<img src="images/pro_class_img.jpg" />
+												<p>三级分类</p>
+											</a>
+										</div>
+										<div class="swiper-slide">
+											<a href="#">
+												<img src="images/pro_class_img.jpg" />
+												<p>三级分类</p>
+											</a>
+										</div>
+										<div class="swiper-slide">
+											<a href="#">
+												<img src="images/pro_class_img.jpg" />
+												<p>三级分类</p>
+											</a>
+										</div>
+										<div class="swiper-slide">
+											<a href="#">
+												<img src="images/pro_class_img.jpg" />
+												<p>三级分类</p>
+											</a>
+										</div>
+										<div class="swiper-slide">
+											<a href="#">
+												<img src="images/pro_class_img.jpg" />
+												<p>三级分类</p>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="product_list">
+								<ul>
+									<li>
+										<a href=""><i class="iconfont">&#xe615;</i> </a>
+									</li>
+									<li>
+										<a href="">综合</a>
+									</li>
+									<li>
+										<a href="">销量 <i class="iconfont">&#xe618;</i></a>
+									</li>
+									<li>
+										<a href="">价格 <i class="iconfont">&#xe81b;</i></a>
+									</li>
+									<li>
+										<a id="offCanvasBtn" href="#offCanvasSide" class="">筛选 <i class="iconfont">&#xe614;</i></a>
+									</li>
+								</ul>
+							</div>
+							<!--数据列表-->
+							<ul class="mui-table-view mui-table-view-chevron product">
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix color_999">
+												<p class="mui-pull-left">销量<em>1212</em></p>
+												<p class="mui-pull-right">好评<em>98%</em></p>
+											</div>
+										</div>
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix color_999">
+												<p class="mui-pull-left">销量<em>1212</em></p>
+												<p class="mui-pull-right">好评<em>98%</em></p>
+											</div>
+										</div>
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix color_999">
+												<p class="mui-pull-left">销量<em>1212</em></p>
+												<p class="mui-pull-right">好评<em>98%</em></p>
+											</div>
+										</div>
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix color_999">
+												<p class="mui-pull-left">销量<em>1212</em></p>
+												<p class="mui-pull-right">好评<em>98%</em></p>
+											</div>
+										</div>
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix color_999">
+												<p class="mui-pull-left">销量<em>1212</em></p>
+												<p class="mui-pull-right">好评<em>98%</em></p>
+											</div>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+				<!-- off-canvas backdrop -->
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			function pulldownRefresh() {
+				setTimeout(function() {
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for(var i = cells.length, len = i + 3; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<li class="mui-table-view-cell">New Slide' + (i + 1) + '</li>';
+						//下拉刷新，新纪录插到最前面；
+						table.insertBefore(li, table.lastChild);
+					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			var count = 0;
+
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for(var i = cells.length, len = i + 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<li class="mui-table-view-cell">New Slide' + (i + 1) + '</li>';
+
+						table.appendChild(li);
+					}
+				}, 1500);
+			}
+		</script>
+		<script>
+			var pro_class_slide = new Swiper('.pro_class_slide', {
+				slidesPerView: 4.3,
+				spaceBetween: 10,
+				freeMode: true,
+				pagination: {
+					clickable: true,
+				},
+			});
+		</script>
+	</body>
+
+</html>

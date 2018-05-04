@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.shanghui.head.dao.GoodsCatShMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsCatSh" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="P_TREE" property="pTree" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="P_ORDER" property="pOrder" jdbcType="DECIMAL" />
+    <result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+    <result column="FLOOR" property="floor" jdbcType="DECIMAL" />
+    <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <result column="P_NUM" property="pnum" jdbcType="VARCHAR" />
+    <result column="PIC_SRC" property="picSrc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.qlzy.model.GoodsCatSh" extends="BaseResultMap" >
+    <result column="REMARK" property="remark" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PID, P_TREE, NAME, DISABLED, P_ORDER, KEY_WORD, FLOOR, GRADE,P_NUM,PIC_SRC
+  </sql>
+  <sql id="Blob_Column_List" >
+    REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SH_GOODS_CAT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SH_GOODS_CAT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.GoodsCatSh" >
+    insert into SH_GOODS_CAT (ID, PID, P_TREE, 
+      NAME, DISABLED, P_ORDER, 
+      KEY_WORD, FLOOR, GRADE, P_NUM,PIC_SRC,
+      REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{pTree,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR}, #{pOrder,jdbcType=DECIMAL}, 
+      #{keyWord,jdbcType=VARCHAR}, #{floor,jdbcType=DECIMAL}, #{grade,jdbcType=DECIMAL}, 
+      #{pnum,jdbcType=VARCHAR},#{picSrc,jdbcType=VARCHAR},
+      #{remark,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.GoodsCatSh" >
+    insert into SH_GOODS_CAT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="pTree != null" >
+        P_TREE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER,
+      </if>
+      <if test="keyWord != null" >
+        KEY_WORD,
+      </if>
+      <if test="floor != null" >
+        FLOOR,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="pnum != null" >
+        P_NUM,
+      </if>
+      <if test="picSrc != null" >
+        PIC_SRC,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="pTree != null" >
+        #{pTree,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="pOrder != null" >
+        #{pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="keyWord != null" >
+        #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=DECIMAL},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="pnum != null" >
+        #{pnum,jdbcType=VARCHAR},
+      </if>
+      <if test="picSrc != null" >
+        #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.GoodsCatSh" >
+    update SH_GOODS_CAT
+    <set >
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="pTree != null" >
+        P_TREE = #{pTree,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="keyWord != null" >
+        KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="pnum != null" >
+       P_NUM = #{pnum,jdbcType=VARCHAR},
+      </if>
+      <if test="picSrc != null" >
+       PIC_SRC = #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qlzy.model.GoodsCatSh" >
+    update SH_GOODS_CAT
+    set PID = #{pid,jdbcType=VARCHAR},
+      P_TREE = #{pTree,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      FLOOR = #{floor,jdbcType=DECIMAL},
+      GRADE = #{grade,jdbcType=DECIMAL},
+      P_NUM = #{pnum,jdbcType=VARCHAR},
+      PIC_SRC = #{picSrc,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.GoodsCatSh" >
+    update SH_GOODS_CAT
+    set PID = #{pid,jdbcType=VARCHAR},
+      P_TREE = #{pTree,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      FLOOR = #{floor,jdbcType=DECIMAL},
+      GRADE = #{grade,jdbcType=DECIMAL},
+      P_NUM = #{pnum,jdbcType=VARCHAR},
+      PIC_SRC = #{picSrc,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="gainCatalogueShByGrade" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from SH_GOODS_CAT  where DISABLED = 'false' and GRADE =  #{grade} order by P_ORDER asc
+  </select>
+  
+  <select id="gainCatalogueShByPid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SH_GOODS_CAT  where DISABLED = 'false' and PID = #{pid} order by P_ORDER asc
+  </select>
+  <select id="gainCatalogueShCountByPid" parameterType="String" resultType="Long">
+   select COUNT(ID)
+    from SH_GOODS_CAT  where DISABLED = 'false' and PID = #{pid} order by P_ORDER asc
+  </select>
+  <select id="gainCatalogueCountByPid" parameterType="String" resultType="Long">
+   select COUNT(ID)
+    from SH_GOODS_CAT  where DISABLED = 'false' and PID = #{pid} order by P_ORDER asc
+  </select>
+  <select id="gainGoodsCatPidShById" parameterType="String" resultType="String">
+   		select pid from SH_GOODS_CAT where disabled = 'false' and ID = #{id,jdbcType=VARCHAR}
+   </select>
+</mapper>

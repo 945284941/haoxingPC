@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*----------- 内容start------------- */
+.sq_mid{width:1190px;margin:0 auto; }
+.regin-btn{position:absolute;bottom:10px;left:508px;cursor:pointer;display:block;width:158px;height:52px;}
+.sq_top{ height:40px; padding:15px 0 5px 0;border-bottom:#ccc solid 1px;}
+.sq_bot{ float:left; font-size:18px;margin-top:20px;border-bottom:#358375 solid 2px; width:1190px;}
+.sq_botli{ float:left; width:160px; height:50px; text-align:center; margin-right:5px;margin-bottom:0; background:url(../images/shequ/shequ_bj2.png);}
+.sq_botli a{ color:#333333;width:160px; line-height:50px;}
+.sq_botli a:hover,.sq_botli a.hover{ color:#FFF; background:url(../images/shequ/shequ_bj1.png);width:160px; float:left;text-decoration:none; }
+.sq_bot_nr{ height:380px; margin-top:20px;}
+.sq_bot_nr_tu{ float:left;width:500px; border:#CCC solid 1px;}
+.sq_bot_nr_tu img{ padding:8px;}
+.sq_bot_nr_rit{float:left; width:670px; padding-left:10px;}
+.sq_nr{line-height:45px; margin-top:5px; border-bottom:#CCC  dashed 1px; margin-bottom:5px;overflow:hidden;}
+.sq_nr .shequ_time{color:#999;}
+.sq_nr1{ float:left;width:400px; font-size:16px;text-overflow:ellipsis;overflow :hidden;}
+.sq_nr1 img{ padding-left:10px; padding-right:10px; padding-top:10px;}
+.sq_nr1 span a{ color:#F00; font-size:12px; padding-left:10px;}
+.sq_nr2{float:left; width:90px;text-overflow:ellipsis;overflow :hidden; line-height:15px; padding-top:6px; text-align:center;}
+.sq_nr2 span{ color:#666666;}
+.sq_nr3{ float:left;width:80px;text-overflow:ellipsis;overflow :hidden; color:#030; text-align:center;}
+.sq_nr3 span{ color:#F00;}
+.sq_nr4{ float:left;width:95px;text-overflow:ellipsis;overflow :hidden;line-height:15px; padding-top:6px;}
+.sq_nr4 span{ color:#666666;}
+.sq_gengduo{ float:right; width:100px; height:30px; line-height:30px; border:#358375 solid 1px; margin:10px; text-align:center; color:#358375; font-weight:bold;}
+.sq_gengduo span{ font-size:16px;}
+.sq_gengduo a{ color:#358375;}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.forum.dao.ForumMapper">
+	<resultMap id="BaseResultMap" type="com.qlzy.model.Forum">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="information" property="information" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="huitie_sum" property="huitieSum" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="visits" property="visits" jdbcType="INTEGER" />
+		<result column="viewnums" property="viewnums" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,title,information,create_time,user_id,type,huitie_sum,disabled,user_name,visits,viewnums
+	</sql>
+    <select id="gainHysqIndex" parameterType="Map" resultMap="BaseResultMap">
+  	 <![CDATA[
+  		SELECT a.*,b.* from
+		(SELECT * from ql_forum WHERE disabled='false' and type=#{type,jdbcType=VARCHAR}) a  
+		left  join
+		(SELECT forum_id,viewnum as viewnum,create_time as createTimes,user_name as userNames FROM (SELECT *FROM ql_huitie ORDER BY create_time DESC) `temp`  GROUP BY forum_id ORDER BY create_time DESC) b ON a.id= b.forum_id 
+		 order by a.create_time desc
+    ]]>
+    </select>
+    <select id="gainMoreForum" parameterType="Map"
+		resultType="com.qlzy.model.Forum">
+		select * from (
+		SELECT f.title,f.id,f.huitie_sum as huitieSum,f.viewnums,f.create_time as createTime,f.user_name as userName,h.createTimes,h.userNames 
+		from ql_forum f left join (SELECT forum_id,create_time as createTimes,user_name as userNames FROM (SELECT *FROM ql_huitie ORDER BY create_time DESC) `temp`  GROUP BY forum_id ORDER BY create_time DESC) 
+		h on f.id = h.forum_id 
+		WHERE f.type = #{type,jdbcType=VARCHAR} AND f.disabled = 'false'  order by f.create_time desc
+		) s  limit #{page},#{rows}
+		
+	</select>
+	
+	<select id="gainMoreForumCount"
+		parameterType="Map" resultType="Long">
+		select count(f.ID)  from ql_forum f  WHERE f.type = #{type,jdbcType=VARCHAR} AND f.disabled = 'false'  
+	</select>
+	
+	<select id="gainForumById" parameterType="String" resultMap="BaseResultMap">
+		select *
+		 from ql_forum  where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<!-- 个人会员中心我的帖子 -->
+	<select id="MyForum" parameterType="Map"
+		resultMap="BaseResultMap">
+		<![CDATA[
+		SELECT * from ql_forum  WHERE user_id = #{userId,jdbcType=VARCHAR} order by create_time desc
+		]]>
+	</select>
+	
+	<select id="MyForumList" parameterType="Map"
+		resultMap="BaseResultMap">
+		select * from (
+		SELECT * from ql_forum  WHERE user_id = #{userId,jdbcType=VARCHAR}  order by create_time desc
+		) s  limit #{page},#{rows}
+		
+	</select>
+	
+	<select id="MyForumListCount"
+		parameterType="Map" resultType="Long">
+		select count(t.ID) from (
+		SELECT * from ql_forum  WHERE user_id = #{userId,jdbcType=VARCHAR}  order by create_time desc
+		)t limit #{page},#{rows}
+	</select>
+	
+	<select id="gainZuixin" parameterType="Integer"
+		resultMap="BaseResultMap">
+		select * from (
+		SELECT * from ql_forum    order by create_time desc
+		) s  limit 0,#{i}
+		</select>
+	<insert id="InsertForum" parameterType="com.qlzy.model.Forum" >
+    insert into ql_forum
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="information != null" >
+        information,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="information != null" >
+        #{information,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectById" parameterType="com.qlzy.model.Forum"
+		resultMap="BaseResultMap">		
+		SELECT * from ql_forum where id = #{id,jdbcType=VARCHAR} 		
+  </select>
+  
+  <update id="updateById" parameterType="com.qlzy.model.Forum" >
+    update ql_forum
+    <set >
+      <if test="praise != null" >
+        praise = #{praise,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByViewnums" parameterType="com.qlzy.model.Forum" >
+    update ql_forum
+    <set >
+      <if test="viewnums != null" >
+        viewnums = #{viewnums,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByHuiTieSum" parameterType="com.qlzy.model.Forum" >
+    update ql_forum
+    <set >
+      <if test="huitieSum != null" >
+        huitie_sum = #{huitieSum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByForumId" parameterType="String" resultMap="BaseResultMap">
+		select *
+		 from ql_forum  where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByShouCang" parameterType="String" resultMap="BaseResultMap">
+		select *
+		 from ql_forum  where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<update id="updateByVisits" parameterType="com.qlzy.model.Forum" >
+    update ql_forum
+    <set >
+      <if test="visits != null" >
+        visits = #{visits,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

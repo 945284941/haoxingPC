@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.AppraiseMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Appraise" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="QUALITY" property="quality" jdbcType="DECIMAL" />
+    <result column="CREDIT" property="credit" jdbcType="DECIMAL" />
+    <result column="SERVE" property="serve" jdbcType="DECIMAL" />
+    <result column="LOGISTICS" property="logistics" jdbcType="DECIMAL" />
+    <result column="SINCERITY" property="sincerity" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+      <result column="is_pic" property="isPic" jdbcType="VARCHAR" />
+      <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+      <result column="reply_date" property="replyDate" jdbcType="TIMESTAMP" />
+    <!-- 一下为扩展字段 -->
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="memberName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_ID, COMPANY_ID, MEMBER_ID, ORDER_ID, QUALITY, CREDIT, SERVE, LOGISTICS, 
+    SINCERITY, CONTENT, CREATETIME,is_pic,reply_content,reply_date
+  </sql>
+    <sql id="Join_Base_Column_List">
+        a.ID, a.GOODS_ID, a.COMPANY_ID, a.MEMBER_ID, a.ORDER_ID, a.QUALITY, a.CREDIT, a.SERVE, a.LOGISTICS,
+    a.SINCERITY, a.CONTENT, a.CREATETIME,a.is_pic,a.reply_content,a.reply_date
+    </sql>
+    <!-- 查询产品的评论数量 -->
+    <select id="selectAppraiseCount" parameterType="java.lang.String" resultType="com.qlzy.model.Goods">
+        SELECT
+        count(id) as allCount,
+        sum(if(SINCERITY &gt;= 4,1,0)) as haopingCount,
+        sum(if(SINCERITY &gt;=2 and SINCERITY &lt;=3,1,0)) as zhongpingCount,
+        sum(if(SINCERITY &lt;=1,1,0)) as chapingCount,
+        sum(if(is_pic='1',1,0)) as tupianCount
+        FROM
+        ql_appraise
+        where
+        GOODS_ID = #{goodsId}
+    </select>
+    <!-- 商品评论分页 -->
+    <select id="selectAppariseByTypeAndPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Join_Base_Column_List" />,
+        CONCAT_WS('****',SUBSTRING(m.username,1,3),SUBSTRING(m.username,-4)) as memberName
+        from QL_APPRAISE a left join ql_members m on a.MEMBER_ID=m.id
+        where 1=1
+        <if test="appraiseType == 2" ><!--查询好评-->
+            and a.SINCERITY &gt;= 4
+        </if>
+        <if test="appraiseType == 3" ><!--查询中评-->
+            and a.SINCERITY &gt;=2 and a.SINCERITY &lt;=3
+        </if>
+        <if test="appraiseType == 4" ><!--查询差评-->
+            and a.SINCERITY &lt;=1
+        </if>
+        <if test="appraiseType == 5" ><!--有图-->
+            and a.is_pic = '1'
+        </if>
+        <if test="goodsId != null">
+            and a.GOODS_ID = #{goodsId}
+        </if>
+          ORDER BY a.CREATETIME DESC
+        <if test="page != null and rows != null " >
+            limit #{page},#{rows}
+        </if>
+    </select>
+    <select id="selectAppariseByTypeAndPageCount" parameterType="Map" resultType="Long">
+        SELECT count(1) from QL_APPRAISE where 1=1
+        <if test="appraiseType == 2" ><!--查询好评-->
+            and SINCERITY &gt;= 4
+        </if>
+        <if test="appraiseType == 3" ><!--查询中评-->
+            and SINCERITY &gt;=2 and SINCERITY &lt;3
+        </if>
+        <if test="appraiseType == 4" ><!--查询差评-->
+            and SINCERITY &lt;=1
+        </if>
+        <if test="appraiseType == 5" ><!--有图-->
+            and is_pic = '1'
+        </if>
+        <if test="goodsId != null">
+            and GOODS_ID = #{goodsId}
+        </if>
+    </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_APPRAISE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_APPRAISE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByOrderId" parameterType="java.lang.String" >
+    delete from QL_APPRAISE
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.Appraise" >
+    insert into QL_APPRAISE (ID, GOODS_ID, COMPANY_ID, 
+      MEMBER_ID, ORDER_ID, QUALITY, 
+      CREDIT, SERVE, LOGISTICS, 
+      SINCERITY, CONTENT, CREATETIME,is_pic
+      )
+    values (#{id,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{memberId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{quality,jdbcType=DECIMAL}, 
+      #{credit,jdbcType=DECIMAL}, #{serve,jdbcType=DECIMAL}, #{logistics,jdbcType=DECIMAL}, 
+      #{sincerity,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      , #{isPic,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Appraise" >
+    insert into QL_APPRAISE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="goodsId != null" >
+        GOODS_ID,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="quality != null" >
+        QUALITY,
+      </if>
+      <if test="credit != null" >
+        CREDIT,
+      </if>
+      <if test="serve != null" >
+        SERVE,
+      </if>
+      <if test="logistics != null" >
+        LOGISTICS,
+      </if>
+      <if test="sincerity != null" >
+        SINCERITY,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+        <if test="isPic != null" >
+            is_pic,
+        </if>
+        <if test="replyContent != null" >
+            reply_content,
+        </if>
+        <if test="replyDate != null" >
+            reply_date,
+        </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null" >
+        #{quality,jdbcType=DECIMAL},
+      </if>
+      <if test="credit != null" >
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="serve != null" >
+        #{serve,jdbcType=DECIMAL},
+      </if>
+      <if test="logistics != null" >
+        #{logistics,jdbcType=DECIMAL},
+      </if>
+      <if test="sincerity != null" >
+        #{sincerity,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="isPic != null" >
+            #{isPic,jdbcType=VARCHAR},
+        </if>
+        <if test="replyContent != null" >
+            #{replyContent,jdbcType=VARCHAR},
+        </if>
+        <if test="replyDate != null" >
+            #{replyDate,jdbcType=TIMESTAMP},
+        </if>
+
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Appraise" >
+    update QL_APPRAISE
+    <set >
+      <if test="goodsId != null" >
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null" >
+        QUALITY = #{quality,jdbcType=DECIMAL},
+      </if>
+      <if test="credit != null" >
+        CREDIT = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="serve != null" >
+        SERVE = #{serve,jdbcType=DECIMAL},
+      </if>
+      <if test="logistics != null" >
+        LOGISTICS = #{logistics,jdbcType=DECIMAL},
+      </if>
+      <if test="sincerity != null" >
+        SINCERITY = #{sincerity,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="isPic != null" >
+            is_pic = #{isPic,jdbcType=VARCHAR},
+        </if>
+        <if test="replyContent != null" >
+            reply_content = #{replyContent,jdbcType=VARCHAR},
+        </if>
+        <if test="replyDate != null" >
+            reply_date = #{replyDate,jdbcType=TIMESTAMP},
+        </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.Appraise" >
+    update QL_APPRAISE
+    set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      QUALITY = #{quality,jdbcType=DECIMAL},
+      CREDIT = #{credit,jdbcType=DECIMAL},
+      SERVE = #{serve,jdbcType=DECIMAL},
+      LOGISTICS = #{logistics,jdbcType=DECIMAL},
+      SINCERITY = #{sincerity,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+       is_pic = #{isPic,jdbcType=VARCHAR},
+      reply_content = #{replyContent,jdbcType=VARCHAR},
+      reply_date = #{replyDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 信息统计-商品评论统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainGoodsReviewsStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+	select COUNT(AE."ID") AS COMMENTCOUNT from QL_APPRAISE AE where 1 = 1
+	<if test="userType == 'member'">
+		and AE.MEMBER_ID = #{userId}
+	</if>
+	<if test="userType == 'company'">
+		and AE.COMPANY_ID = #{userId}
+	</if>	 
+	<if test="time==1">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(AE.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(AE.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>  
+  
+  
+  
+  
+   <!--得到我的评论列表  -->
+     <select id="gainAppraiseList" resultType="com.qlzy.model.Appraise" parameterType="Map" >
+     select * from (
+		     select AP.CONTENT as content,AP.GOODS_ID as goodsID,AP.ID as id ,AP.CREATETIME as createtime,g.NAME as goodsName,AP.QUALITY as quality
+   			 from QL_APPRAISE ap LEFT JOIN QL_GOODS g on AP.GOODS_ID=g.ID
+    		where AP.MEMBER_ID =#{userId,jdbcType=VARCHAR} 
+    ) t
+		  limit #{page},#{rows} 
+  </select>
+   <!--得到我的评论列表数目  -->
+     <select id="gainAppraiseListCount" resultType="Long" parameterType="Map" >
+  	 select count(ID)
+	    from QL_APPRAISE
+	    where MEMBER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <!--个人会员得到我的评论列表数目  -->
+  <select id="gainAllCountRight" resultType="com.qlzy.pojo.StatisticsInfo" parameterType="java.lang.String" >
+  	  SELECT  "COUNT"("ID") as sumAllCount,NVL("SUM"(CASE WHEN a.QUALITY=1 THEN 1 ELSE 0 END),0) as bellCount ,NVL("SUM"(CASE WHEN a.QUALITY=-1 THEN 1 ELSE 0 END),0) as  badCount,
+		NVL("SUM"(CASE WHEN a.QUALITY=0 THEN 1 ELSE 0 END),0) as  middleCount
+     	FROM  QL_APPRAISE a
+	    where a.MEMBER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  <!--企业得到买家评论列表  -->
+     <select id="gainAppraiseListByType" resultType="com.qlzy.model.Appraise" parameterType="Map" >
+     select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+		   select AP."CONTENT" as content,AP.GOODS_ID as goodsID,AP.ID as id,AP.CREATETIME as createtime,g."NAME" as goodsName,AP.QUALITY as quality
+   			 from QL_APPRAISE ap LEFT JOIN QL_GOODS g on AP.GOODS_ID=g."ID"
+    		where AP.COMPANY_ID =#{userId,jdbcType=VARCHAR} 
+    ) t
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+		where RN>(#{page}-1)*#{rows}
+  </select>
+   <!--得到企业买家评论列表数目  -->
+     <select id="gainAppraiseListCountByType" resultType="Long" parameterType="Map" >
+  	 select count("ID")
+	    from QL_APPRAISE
+	    where COMPANY_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+   <!--企业会员得到我的评论列表数目  -->
+  <select id="gainAllCountRightByCompany" resultType="com.qlzy.pojo.StatisticsInfo" parameterType="java.lang.String" >
+  	  SELECT  "COUNT"("ID") as sumAllCount,NVL("SUM"(CASE WHEN a.QUALITY=1 THEN 1 ELSE 0 END),0) as bellCount ,NVL("SUM"(CASE WHEN a.QUALITY=-1 THEN 1 ELSE 0 END),0) as  badCount,
+		NVL("SUM"(CASE WHEN a.QUALITY=0 THEN 1 ELSE 0 END),0) as  middleCount
+     	FROM  QL_APPRAISE a
+	    where a.COMPANY_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+   <!--根据商品ID查询评价内容  -->
+  <select id="gainAllByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	  SELECT a.ID, QUALITY, CREDIT, SERVE, LOGISTICS, SINCERITY, CONTENT, CREATETIME ,c.USERNAME as COMPANY_NAME,m.USERNAME AS MEMBER_NAME
+     	FROM  QL_APPRAISE a LEFT JOIN QL_COMPANYS c on a.MEMBER_ID =c.id LEFT JOIN QL_MEMBERS m on  a.MEMBER_ID = m.id
+	    where  a.GOODS_ID  = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 信息统计-诚信(信誉+质量+服务+物流)等级统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainIntegrityLevelStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+	select 
+	<if test="selType == 1">
+		COUNT(AE."ID") AS COUNT1
+	</if>
+	<if test="selType == 2">
+		<if test="sumType == 'credit'">
+			SUM(AE.CREDIT) AS CREDITPOINT
+		</if>
+		<if test="sumType == 'serve'">
+			SUM(AE.SERVE) AS SERVEPOINT
+		</if>
+		<if test="sumType == 'quality'">
+			SUM(AE.QUALITY) AS QUALITYPOINT
+		</if>
+		<if test="sumType == 'logistics'">
+			SUM(AE.LOGISTICS) AS LOGISTICSPOINT
+		</if>		
+	</if>
+	 from QL_APPRAISE AE where AE.COMPANY_ID = #{userId}
+	<if test="appraiseType == 'credit'">
+		and AE.CREDIT = #{appraiseLevel}
+	</if>
+	<if test="appraiseType == 'serve'">
+		and AE.SERVE = #{appraiseLevel}
+	</if>
+	<if test="appraiseType == 'quality'">
+		and AE.QUALITY = #{appraiseLevel}
+	</if>
+	<if test="appraiseType == 'logistics'">
+		and AE.LOGISTICS = #{appraiseLevel}
+	</if>			
+	<if test="time==1">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(AE.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(AE.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(AE.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>  
+</mapper>

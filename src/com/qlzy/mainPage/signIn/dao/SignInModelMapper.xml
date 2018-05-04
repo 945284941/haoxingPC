@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.signIn.dao.SignInModelMapper" >
+   <resultMap id="BaseResultMap" type="com.qlzy.model.SignInModel">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+    <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+    <result column="FIRST_TIME" jdbcType="TIMESTAMP" property="firstTime" />
+    <result column="LAST_TIME" jdbcType="TIMESTAMP" property="lastTime" />
+    <result column="LOGIN_NUM" jdbcType="DECIMAL" property="loginNum" />
+    <result column="DISABLE" jdbcType="VARCHAR" property="disable" />
+    <result column="GUANGBI" jdbcType="DECIMAL" property="guangbi" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, COMPANY_ID, COMPANY_NAME, FIRST_TIME, LAST_TIME, LOGIN_NUM, DISABLE, GUANGBI
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SIGN_IN
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from QL_SIGN_IN
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.SignInModel">
+    insert into QL_SIGN_IN (ID, COMPANY_ID, COMPANY_NAME, 
+      FIRST_TIME, LAST_TIME, LOGIN_NUM, 
+      DISABLE, GUANGBI)
+    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
+      #{firstTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, #{loginNum,jdbcType=DECIMAL}, 
+      #{disable,jdbcType=VARCHAR}, #{guangbi,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.SignInModel">
+    insert into QL_SIGN_IN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID,
+      </if>
+      <if test="companyName != null">
+        COMPANY_NAME,
+      </if>
+      <if test="firstTime != null">
+        FIRST_TIME,
+      </if>
+      <if test="lastTime != null">
+        LAST_TIME,
+      </if>
+      <if test="loginNum != null">
+        LOGIN_NUM,
+      </if>
+      <if test="disable != null">
+        DISABLE,
+      </if>
+      <if test="guangbi != null">
+        GUANGBI,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstTime != null">
+        #{firstTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginNum != null">
+        #{loginNum,jdbcType=DECIMAL},
+      </if>
+      <if test="disable != null">
+        #{disable,jdbcType=VARCHAR},
+      </if>
+      <if test="guangbi != null">
+        #{guangbi,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.SignInModel">
+    update QL_SIGN_IN
+    <set>
+      <if test="companyId != null">
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstTime != null">
+        FIRST_TIME = #{firstTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginNum != null">
+        LOGIN_NUM = #{loginNum,jdbcType=DECIMAL},
+      </if>
+      <if test="disable != null">
+        DISABLE = #{disable,jdbcType=VARCHAR},
+      </if>
+      <if test="guangbi != null">
+        GUANGBI = #{guangbi,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.SignInModel">
+    update QL_SIGN_IN
+    set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      FIRST_TIME = #{firstTime,jdbcType=TIMESTAMP},
+      LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
+      LOGIN_NUM = #{loginNum,jdbcType=DECIMAL},
+      DISABLE = #{disable,jdbcType=VARCHAR},
+      GUANGBI = #{guangbi,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="isAlreadySigned" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SIGN_IN
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR} and DISABLE = 'false'
+     <if test="null != startTime ">
+		  	and LAST_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP}
+		  </if>
+		  <if test="null != endTime">
+		  	and LAST_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP}
+		  </if>
+  </select>
+   <select id="selectByComanyId" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_SIGN_IN
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR} ORDER BY  LAST_TIME DESC
+  </select>
+</mapper>

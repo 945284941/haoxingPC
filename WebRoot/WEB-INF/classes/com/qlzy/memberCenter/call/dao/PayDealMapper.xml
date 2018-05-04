@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.call.dao.PayDealMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.PayDeal" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="DEAL_ORDER" property="dealOrder" jdbcType="VARCHAR" />
+    <result column="DEAL_FEE" property="dealFee" jdbcType="DECIMAL" />
+    <result column="DEAL_STATE" property="dealState" jdbcType="VARCHAR" />
+    <result column="DEAL_SIGNURE" property="dealSignure" jdbcType="VARCHAR" />
+    <result column="DEAL_ID" property="dealId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_PRICE_RESULT" property="updatePriceResult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DEAL_ORDER, DEAL_FEE, DEAL_STATE, DEAL_SIGNURE, DEAL_ID, TYPE,UPDATETIME,UPDATE_PRICE_RESULT
+  </sql>
+  <select id="selectByDealId" resultMap="BaseResultMap" parameterType="com.qlzy.model.PayDeal" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_PAY_DEAL
+    where DEAL_ID = #{dealId,jdbcType=VARCHAR} and TYPE = #{type,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select 
+    <include refid="Base_Column_List" />
+    from QL_PAY_DEAL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+ 
+  <select id="selectByOrderNum" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select 
+    <include refid="Base_Column_List" />
+    from QL_PAY_DEAL
+    where DEAL_ORDER = #{dealOrder,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.qlzy.model.PayDeal" >
+    insert into QL_PAY_DEAL (ID, DEAL_ORDER, DEAL_FEE, 
+      DEAL_STATE, DEAL_SIGNURE, DEAL_ID, 
+      TYPE,UPDATETIME,UPDATE_PRICE_RESULT)
+    values (#{id,jdbcType=VARCHAR}, #{dealOrder,jdbcType=VARCHAR}, #{dealFee,jdbcType=DECIMAL}, 
+      #{dealState,jdbcType=VARCHAR}, #{dealSignure,jdbcType=VARCHAR}, #{dealId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR},#{updatetime,jdbcType=TIMESTAMP},#{updatePriceResult,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.PayDeal" >
+    insert into QL_PAY_DEAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="dealOrder != null" >
+        DEAL_ORDER,
+      </if>
+      <if test="dealFee != null" >
+        DEAL_FEE,
+      </if>
+      <if test="dealState != null" >
+        DEAL_STATE,
+      </if>
+      <if test="dealSignure != null" >
+        DEAL_SIGNURE,
+      </if>
+      <if test="dealId != null" >
+        DEAL_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+       <if test="updatePriceResult != null" >
+        UPDATE_PRICE_RESULT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dealOrder != null" >
+        #{dealOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="dealFee != null" >
+        #{dealFee,jdbcType=DECIMAL},
+      </if>
+      <if test="dealState != null" >
+        #{dealState,jdbcType=VARCHAR},
+      </if>
+      <if test="dealSignure != null" >
+        #{dealSignure,jdbcType=VARCHAR},
+      </if>
+      <if test="dealId != null" >
+        #{dealId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="updatePriceResult != null" >
+        #{updatePriceResult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.PayDeal" >
+    update QL_PAY_DEAL
+    <set >
+      <if test="dealOrder != null" >
+        DEAL_ORDER = #{dealOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="dealFee != null" >
+        DEAL_FEE = #{dealFee,jdbcType=DECIMAL},
+      </if>
+      <if test="dealState != null" >
+        DEAL_STATE = #{dealState,jdbcType=VARCHAR},
+      </if>
+      <if test="dealSignure != null" >
+        DEAL_SIGNURE = #{dealSignure,jdbcType=VARCHAR},
+      </if>
+      <if test="dealId != null" >
+        DEAL_ID = #{dealId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePriceResult != null">
+      UPDATE_PRICE_RESULT = #{updatePriceResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

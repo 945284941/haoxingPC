@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<div class="pro_tab">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item mui-active" href="#item1mobile">
+						商品
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						详情
+					</a>
+					<a class="mui-control-item" href="#item3mobile">
+						评价
+					</a>
+				</div>
+			</div>
+			<div class="addPopover_2" style="position: relative;">
+				<a href="#Popover_2" id="meau" class="mui-icon mui-pull-right iconfont">&#xe617;</a>
+				<div id="Popover_2" class="mui-popover mui-bar-popover meau_down" style="top: 44px !important;">
+					<div class="mui-popover-arrow"></div>
+					<ul class="">
+						<li class="mui-table-view-cell">
+							<a href="index.jsp"><i class="iconfont">&#xe604;</i> 首页</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe600;</i>分类搜索</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="5.1购物车管理.html"><i class="iconfont">&#xe778;</i>购物车</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe66e;</i>我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="mui-content">
+			<div class="mui-slider-group">
+				<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+					<div class="swiper-container procon_slider">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide"><img src="images/product_bgimg.jpg" /></div>
+							<div class="swiper-slide"><img src="images/product_bgimg.jpg" /></div>
+							<div class="swiper-slide"><img src="images/product_bgimg.jpg" /></div>
+							<div class="swiper-slide"><img src="images/product_bgimg.jpg" /></div>
+							<div class="swiper-slide"><img src="images/product_bgimg.jpg" /></div>
+							<div class="swiper-slide"><img src="images/product_bgimg.jpg" /></div>
+						</div>
+						<!-- Add Pagination -->
+						<div class="swiper-pagination"></div>
+						<div class="procon_ewm"><img src="images/2Dbarcode.png" /></div>
+					</div>
+					<div class="procon_tex">
+						<div class="procon_tex_bt"><i>一级标签</i> MOCO2017冬季新品喇叭袖金属圆环拉链高领毛衣</div>
+						<div class="procon_tex_tb">
+							<a><span class="iconfont">&#xe61d;</span></a>
+							<a><span class="iconfont">&#xe62b;</span></a>
+						</div>
+
+						<div class="clearfix buying_tex">
+							<div class="mui-pull-left">
+								<p>￥<em>29.9</em></p>
+								<s>￥<em>36.9</em></s>
+							</div>
+							<div class="mui-pull-right mui-text-right">
+								<p class="fn09">$<em>30.00</em></p>
+								<p class="fn09">AED<em>3000.00</em></p>
+							</div>
+						</div>
+						<div class="procon_zs">购买商品成功后可得100心动值</div>
+						<div class="clearfix color_999">
+							<p class="mui-pull-left">销量<em>1212</em></p>
+							<p class="mui-pull-right">收藏数<em>5000</em></p>
+						</div>
+					</div>
+					<div class="app_box mt05">
+						<p class="mui-content-padded color_666">以下小伙伴已发起拼团，您可以直接参加</p>
+						<div class="pro_offered mui-content-padded clearfix">
+							<p class="mui-pull-left"><img src="images/avatar.jpg" /></p>
+							<p class="mui-pull-left color_999">Gemini</p>
+							<p class="mui-pull-right color_999">还差 <span class="color_black">1</span> 人成团
+								<a href="">参团</a>
+							</p>
+						</div>
+					</div>
+					<div class="app_box2">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">国家 山东济南</li>
+							<li class="mui-table-view-cell">
+								<a href="#forward" class="mui-navigate-right">
+									选择 颜色color / 尺码size
+								</a>
+							</li>
+							<li class="mui-table-view-cell procon_ys">
+								<i class="iconfont">&#xe60f;</i>完税
+								<i class="iconfont">&#xe60c;</i>24小时内发货
+								<i class="iconfont">&#xe602;</i>所售商品由平台监管
+							</li>
+						</ul>
+						<div id="forward" class="mui-popover mui-popover-action mui-popover-bottom">
+							<div class="pro_data clearfix">
+								<p class="mui-text-right my_close">
+									<a href="#forward"><em class="iconfont">&#xe634;</em> </a>
+								</p>
+								<div class="product3">
+									<div class="product_img">
+										<img src="images/product.png" />
+									</div>
+									<div class="product_tex">
+										<p>加厚法莱绒床笠</p>
+										<div class="clearfix buying_tex">
+											<div class="mui-pull-left">
+												<p>￥<em>29.9</em></p>
+												<s>￥<em>36.9</em></s>
+											</div>
+											<div class="mui-pull-right mui-text-right">
+												<p>$<em>30.00</em></p>
+												<p>AED<em>3000.00</em></p>
+											</div>
+										</div>
+										<div class="clearfix">
+											<p>库存145件 </p>
+											<p>选择颜色分类</p>
+										</div>
+									</div>
+								</div>
+								<div class="procon_select">
+									<h3>颜色</h3>
+									<ul class="mui-row">
+										<li class="mui-col-sm-4 mui-col-xs-4">
+											<a class="active">白色</a>
+										</li>
+										<li class="mui-col-sm-4 mui-col-xs-4">
+											<a>黑色</a>
+										</li>
+									</ul>
+								</div>
+								<div class="procon_select">
+									<h3>尺寸</h3>
+									<ul class="mui-row">
+										<li class="mui-col-sm-4 mui-col-xs-4">
+											<a class="active">165</a>
+										</li>
+										<li class="mui-col-sm-4 mui-col-xs-4">
+											<a>170</a>
+										</li>
+										<li class="mui-col-sm-4 mui-col-xs-4">
+											<a>180</a>
+										</li>
+									</ul>
+								</div>
+								<div class="procon_select procon_select_sumb clearfix">
+									<h3 class="mui-pull-left">数量</h3>
+									<div class="mui-numbox" data-numbox-min="0">
+										<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+										<input class="mui-input-numbox" type="number">
+										<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+									</div>
+								</div>
+								<button class="bottom_but">确定</button>
+							</div>
+						</div>
+					</div>
+					<div class="buying">
+						<div class="mui-row">
+							<div class="mui-col-sm-2 mui-col-xs-2 shop_img"><img src="images/shop_logo.jpg" /></div>
+							<div class="mui-col-sm-6 mui-col-xs-6 shop_tex">
+								<h3>绘果积木家具</h3>
+								<p>商家简介商家简简介商..</p>
+							</div>
+							<div class="mui-col-sm-4 mui-col-xs-4 mui-text-right">
+								<a class="shop_into" href="">进店</a>
+							</div>
+						</div>
+					</div>
+					<p class="mt05 color_999 mui-text-center">拖动查看图文详情</p>
+				</div>
+				<div id="item2mobile" class="mui-slider-item mui-control-content">
+					<div class="procon_details">
+						<p><img src="images/procon_03.png" /></p>
+						<p><img src="images/procon_06.png" /></p>
+						<p><img src="images/procon_12.jpg" /></p>
+					</div>
+				</div>
+				<div id="item3mobile" class="mui-slider-item mui-control-content">
+					<div class="procon_tle">MOCO2017冬季新品喇叭袖金属圆环拉...</div>
+					<div class="procon_tle">
+						<p class="active">全部</p>
+						<p>好评<em>999+</em></p>
+						<p>中评<em>1</em></p>
+						<p>差评<em>0</em></p>
+						<p>有图<em>99</em></p>
+					</div>
+					<div class="procon_evaluate clearfix">
+						<ul>
+							<li>
+								<div class="clearfix">
+									<p class="mui-pull-left star">
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span><i class="iconfont">&#xe60b;</i></span>
+									</p>
+									<p class="mui-pull-right color_999">2015-06-09</p>
+								</div>
+								<div class="color_999">187****1235</div>
+								<div class="color_666">商品不错，质量很好，是正品，商家态度也好，服务也好，赞奥。</div>
+								<div class="mui-row mt05">
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+
+								</div>
+							</li>
+							<li>
+								<div class="clearfix">
+									<p class="mui-pull-left star">
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span><i class="iconfont">&#xe60b;</i></span>
+									</p>
+									<p class="mui-pull-right color_999">2015-06-09</p>
+								</div>
+								<div class="color_999">187****1235</div>
+								<div class="color_666">商品不错，质量很好，是正品，商家态度也好，服务也好，赞奥。</div>
+								<div class="mui-row mt05">
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+
+								</div>
+							</li>
+							<li>
+								<div class="clearfix">
+									<p class="mui-pull-left star">
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span><i class="iconfont">&#xe60b;</i></span>
+									</p>
+									<p class="mui-pull-right color_999">2015-06-09</p>
+								</div>
+								<div class="color_999">187****1235</div>
+								<div class="color_666">商品不错，质量很好，是正品，商家态度也好，服务也好，赞奥。</div>
+								<div class="mui-row mt05">
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+
+								</div>
+							</li>
+							<li>
+								<div class="clearfix">
+									<p class="mui-pull-left star">
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span><i class="iconfont">&#xe60b;</i></span>
+									</p>
+									<p class="mui-pull-right color_999">2015-06-09</p>
+								</div>
+								<div class="color_999">187****1235</div>
+								<div class="color_666">商品不错，质量很好，是正品，商家态度也好，服务也好，赞奥。</div>
+								<div class="mui-row mt05">
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+
+								</div>
+							</li>
+							<li>
+								<div class="clearfix">
+									<p class="mui-pull-left star">
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span><i class="iconfont">&#xe60b;</i></span>
+									</p>
+									<p class="mui-pull-right color_999">2015-06-09</p>
+								</div>
+								<div class="color_999">187****1235</div>
+								<div class="color_666">商品不错，质量很好，是正品，商家态度也好，服务也好，赞奥。</div>
+								<div class="mui-row mt05">
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+									<div class="mui-col-sm-4 mui-col-xs-4"><img src="images/product_bgimg.jpg" /></div>
+
+								</div>
+							</li>
+							<li>
+								<div class="clearfix">
+									<p class="mui-pull-left star">
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span class="active"><i class="iconfont">&#xe60b;</i></span>
+										<span><i class="iconfont">&#xe60b;</i></span>
+									</p>
+									<p class="mui-pull-right color_999">2015-06-09</p>
+								</div>
+								<div class="color_999">187****1235</div>
+								<div class="color_666">商品不错，质量很好，是正品，商家态度也好，服务也好，赞奥。</div>
+								<div class="procon_reply">[回复]：谢谢支持！</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div style="padding-bottom: 50px;"></div>
+			<nav class="mui-bar-tab pro_foot mui-row">
+				<a href="">
+					<span class="mui-icon iconfont">&#xe67a;</span><br />
+					<span class="mui-tab-label">客服</span>
+				</a>
+				<a href="#">
+					<span class="mui-icon iconfont">&#xe66d;</span><br />
+					<span class="mui-tab-label">购物车</span>
+				</a>
+				<a class="foot_but1" href="#">
+					<span class="mui-tab-label">单独买</span><br />
+					<span class="mui-tab-label">￥120</span>
+				</a>
+				<a class="foot_but2" href="#">
+					<span class="mui-tab-label">2人团</span><br />
+					<span class="mui-tab-label">￥80</span>
+				</a>
+			</nav>
+
+			<script src="js/mui.min.js"></script>
+			<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+			<script>
+				var swiper = new Swiper('.swiper-container', {
+					pagination: {
+						el: '.swiper-pagination',
+						type: 'fraction',
+					}
+				});
+			</script>
+			<script type="text/javascript" charset="utf-8">
+				var active = null,
+					lastid, span;
+				mui(".mui-content").on("tap", "a", function() {
+					var id = this.getAttribute("id");
+					if(!active) {
+						this.classList.add("active");
+						if(id) {
+							span = this.querySelector("span");
+							span.classList.remove("mui-" + id);
+							span.classList.add("mui-" + id + "-filled");
+						}
+						active = this;
+					} else {
+						active.classList.remove("active");
+						if(lastid) {
+							span.classList.remove("mui-" + lastid + "-filled");
+							span.classList.add("mui-" + lastid);
+						}
+
+						this.classList.add("active");
+						if(id) {
+							span = this.querySelector("span");
+							span.classList.remove("mui-" + id);
+							span.classList.add("mui-" + id + "-filled");
+						}
+
+						active = this;
+					}
+					lastid = id;
+				});
+			</script>
+
+</html>

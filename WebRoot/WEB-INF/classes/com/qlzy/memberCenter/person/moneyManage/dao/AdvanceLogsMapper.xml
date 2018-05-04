@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.moneyManage.dao.AdvanceLogsMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.AdvanceLogs" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
+    <result column="DO_TIME" property="doTime" jdbcType="TIMESTAMP" />
+    <result column="PAYMENT_ID" property="paymentId" jdbcType="VARCHAR" />
+    <result column="DO_TYPE" property="doType" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="DO_WHAT" property="doWhat" jdbcType="VARCHAR" />
+    <result column="DO_MONEY" property="doMoney" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="BANK" property="bank" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="TRADING" property="trading" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, MESSAGE, DO_TIME, PAYMENT_ID, DO_TYPE, ORDER_ID, DO_WHAT, DO_MONEY, 
+    DISABLED, USER_TYPE, BALANCE,BANK,BANK_ACCOUNT,TRADING		
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ADVANCE_LOGS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ADVANCE_LOGS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qlzy.model.AdvanceLogs" >
+    insert into QL_ADVANCE_LOGS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="message != null" >
+        MESSAGE,
+      </if>
+      <if test="doTime != null" >
+        DO_TIME,
+      </if>
+      <if test="paymentId != null" >
+        PAYMENT_ID,
+      </if>
+      <if test="doType != null" >
+        DO_TYPE,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="doWhat != null" >
+        DO_WHAT,
+      </if>
+      <if test="doMoney != null" >
+        DO_MONEY,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="bank != null" >
+        BANK,
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT,
+      </if>
+      <if test="trading != null" >
+        TRADING,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="doTime != null" >
+        #{doTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="doType != null" >
+        #{doType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="doWhat != null" >
+        #{doWhat,jdbcType=VARCHAR},
+      </if>
+      <if test="doMoney != null" >
+        #{doMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="trading != null" >
+        #{trading,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.AdvanceLogs" >
+    update QL_ADVANCE_LOGS
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="doTime != null" >
+        DO_TIME = #{doTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentId != null" >
+        PAYMENT_ID = #{paymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="doType != null" >
+        DO_TYPE = #{doType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="doWhat != null" >
+        DO_WHAT = #{doWhat,jdbcType=VARCHAR},
+      </if>
+      <if test="doMoney != null" >
+        DO_MONEY = #{doMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=VARCHAR},
+      </if>
+       <if test="bank != null" >
+        BANK = #{balance,jdbcType=VARCHAR},
+      </if>
+       <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="trading != null" >
+        TRADING = #{trading,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+ 
+     <!--得到所有资金列表 gainMoneyAllList -->
+     <select id="gainMoneyAllList" resultMap="BaseResultMap" parameterType="Map" >
+  
+    select 
+    *
+    from QL_ADVANCE_LOGS
+    where USER_ID = #{userId,jdbcType=VARCHAR} and DISABLED='false'
+    <if test="moneyType != null and moneyType != ''">
+    	and DO_TYPE = #{moneyType,jdbcType=VARCHAR} 
+    </if>
+     order by DO_TIME desc
+  limit #{page},#{rows} 
+  </select>
+   <!--得到所有资金数目  -->
+     <select id="gainMoneyAllListCount" resultType="Long" parameterType="Map" >
+  	 select count(ID)
+    from QL_ADVANCE_LOGS
+    where USER_ID = #{userId,jdbcType=VARCHAR} and DISABLED='false'
+     <if test="moneyType != null and moneyType != ''">
+    	and DO_TYPE = #{moneyType,jdbcType=VARCHAR} 
+    </if>
+  </select>
+  
+  <!-- 统计信息-资金统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年  -->
+  <select id="gainFundStatisticsByTime" resultType="Double" parameterType="java.util.Map" >
+	select SUM(AL.DO_MONEY) AS TOTALMONEY from QL_ADVANCE_LOGS AL where AL.DISABLED = 'false' and AL.TRADING = '1' and AL.USER_ID = #{userId} 
+	<if test="operateType!=null and operateType!=''">
+		and AL.DO_TYPE = #{operateType,jdbcType=VARCHAR}
+	</if>
+	<if test="time==1">
+		and to_char(AL.DO_TIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(AL.DO_TIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(AL.DO_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(AL.DO_TIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(AL.DO_TIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(AL.DO_TIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>  
+</mapper>

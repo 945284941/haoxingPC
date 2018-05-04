@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlzy.memberCenter.goods.dao.GoodsPicMapper">
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsPic">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+    <result column="PIC_SRC" jdbcType="VARCHAR" property="picSrc" />
+    <result column="THUMB_PIC_SRC" jdbcType="VARCHAR" property="thumbPicSrc" />
+    <result column="STANDARD_PIC_SRC" jdbcType="VARCHAR" property="standardPicSrc" />
+    <result column="PIC_SIZE" jdbcType="DECIMAL" property="picSize" />
+    <result column="WIDTH" jdbcType="DECIMAL" property="width" />
+    <result column="HEIGHT" jdbcType="DECIMAL" property="height" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, GOODS_ID, COMPANY_ID, PIC_SRC, THUMB_PIC_SRC, STANDARD_PIC_SRC, PIC_SIZE, WIDTH, 
+    HEIGHT
+  </sql>
+  <!-- 根据goodsId查看用户的图片 -->
+  <select id="gainGoodsPicListByGoodsId" parameterType="java.lang.String" resultType="String">
+    select PIC_SRC
+    from QL_GOODS_PIC where GOODS_ID = #{goodsId}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_PIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from QL_GOODS_PIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qlzy.model.GoodsPic">
+    insert into QL_GOODS_PIC
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID,
+      </if>
+      <if test="picSrc != null">
+        PIC_SRC,
+      </if>
+      <if test="thumbPicSrc != null">
+        THUMB_PIC_SRC,
+      </if>
+      <if test="standardPicSrc != null">
+        STANDARD_PIC_SRC,
+      </if>
+      <if test="picSize != null">
+        PIC_SIZE,
+      </if>
+      <if test="width != null">
+        WIDTH,
+      </if>
+      <if test="height != null">
+        HEIGHT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="picSrc != null">
+        #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbPicSrc != null">
+        #{thumbPicSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="standardPicSrc != null">
+        #{standardPicSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.GoodsPic">
+    update QL_GOODS_PIC
+    <set>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="picSrc != null">
+        PIC_SRC = #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbPicSrc != null">
+        THUMB_PIC_SRC = #{thumbPicSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="standardPicSrc != null">
+        STANDARD_PIC_SRC = #{standardPicSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="picSize != null">
+        PIC_SIZE = #{picSize,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null">
+        WIDTH = #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        HEIGHT = #{height,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+	<insert id="insertByList" parameterType="java.util.List">
+		insert into
+		QL_GOODS_PIC(ID,GOODS_ID,COMPANY_ID,PIC_SRC,PIC_SIZE)
+		<foreach collection="list" item="gp" index="index" separator="union all">
+			select #{gp.id},#{gp.goodsId},#{gp.companyId},#{gp.picSrc},#{gp.picSize}
+			from dual
+		</foreach>
+	</insert>
+	<select id="gainGoodsPicListByGoodsIds" parameterType="java.util.List" resultType="String">
+		  select PIC_SRC
+		    from QL_GOODS_PIC where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<delete id="dropGoodsPicBySrc" parameterType="String">
+		delete from QL_GOODS_PIC
+    	where PIC_SRC = #{picSrc,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="dropGoodsPicByGoodsId" parameterType="java.util.List">
+		delete from QL_GOODS_PIC  where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

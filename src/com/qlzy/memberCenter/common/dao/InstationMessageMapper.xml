@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.InstationMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.InstationMessage" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="FROM_ID" property="fromId" jdbcType="VARCHAR" />
+    <result column="TO_ID" property="toId" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="MESSAGE_TITLE" property="messageTitle" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, FROM_ID, TO_ID, CREATETIME, STATUS, MESSAGE_TITLE, TYPE, DISABLED, USER_TYPE
+  </sql>
+  
+  <!-- 根据主键查询站内详细信息 -->
+  <select id="gainById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_INSTATION_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据会员ID查询站内短信列表 -->
+  <select id="gainInstationMessagesByUserId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select * from (select * from (
+			select ROWNUM AS RN,t.* from (
+				select IM."ID",IM."CONTENT",IM.FROM_ID,IM.TO_ID,IM.CREATETIME,IM.STATUS,IM.MESSAGE_TITLE,IM."TYPE",IM.USER_TYPE from QL_INSTATION_MESSAGE IM 
+				where IM.DISABLED = 'false'
+				<if test="isReceive==0">
+					and IM.TO_ID = #{userId} 
+				</if>				
+				<if test="isReceive==1">
+					and IM.FROM_ID = #{userId} 
+				</if>
+				<if test="null!=name and ''!=name and isReceive==0">
+					and IM.FROM_ID = #{name}
+				</if>
+				<if test="null!=name and ''!=name and isReceive==1">
+					and IM.TO_ID = #{name}
+				</if>				
+    ) t ) where <![CDATA[RN <= #{page}*#{rows}]]>) where RN>(#{page}-1)*#{rows}  
+  </select>
+  
+  <!-- 根据会员ID查询站内短信总记录数 -->
+  <select id="gainInstationMessageCountByUserId" resultType="Long" parameterType="java.util.Map" >
+	select COUNT(IM."ID") from QL_INSTATION_MESSAGE IM where IM.DISABLED = 'false' 
+				<if test="isReceive==0">
+					and IM.TO_ID = #{userId} 
+				</if>				
+				<if test="isReceive==1">
+					and IM.FROM_ID = #{userId} 
+				</if>
+				<if test="null!=name and ''!=name and isReceive==0">
+					and IM.FROM_ID = #{name}
+				</if>
+				<if test="null!=name and ''!=name and isReceive==1">
+					and IM.TO_ID = #{name}
+				</if>
+				<if test="null!=status">
+					and IM.STATUS = #{status}
+				</if>				
+  </select>
+    
+  <!-- 单条或批量删除站内短信(逻辑删除) --> 
+  <delete id="deleteInstationMessage" parameterType="java.util.List">         
+   <![CDATA[update QL_INSTATION_MESSAGE set DISABLED = 'true'
+    where ID in ]]>         
+       <foreach collection="list" item="ids"  open="(" separator="," close=")">#{ids}</foreach>    
+  </delete>
+    
+  <!-- 单条或批量删除站内短信(物理删除) -->
+  <delete id="dropInstationMessage" parameterType="java.util.List" >
+   <![CDATA[delete from QL_INSTATION_MESSAGE
+    where ID in ]]>    
+       <foreach collection="list" item="ids"  open="(" separator="," close=")">#{ids}</foreach>    
+  </delete>
+  
+  <!-- 发送站内短信 -->
+  <insert id="addInstationMessage" parameterType="com.qlzy.model.InstationMessage" >
+    insert into QL_INSTATION_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="fromId != null" >
+        FROM_ID,
+      </if>
+      <if test="toId != null" >
+        TO_ID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="messageTitle != null" >
+        MESSAGE_TITLE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fromId != null" >
+        #{fromId,jdbcType=VARCHAR},
+      </if>
+      <if test="toId != null" >
+        #{toId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="messageTitle != null" >
+        #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>      
+    </trim>
+  </insert>
+  
+  <!-- 修改 -->
+  <update id="updateInstationMessage" parameterType="com.qlzy.model.InstationMessage" >
+    update QL_INSTATION_MESSAGE
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fromId != null" >
+        FROM_ID = #{fromId,jdbcType=VARCHAR},
+      </if>
+      <if test="toId != null" >
+        TO_ID = #{toId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="messageTitle != null" >
+        MESSAGE_TITLE = #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=VARCHAR},
+      </if>      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

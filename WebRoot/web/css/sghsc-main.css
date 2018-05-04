@@ -1,0 +1,275 @@
+html{overflow-x:hidden}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,figure{margin:0;padding:0;outline:none;font-family:"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var,b,i{font-style:normal;font-weight:normal}ol,ul,li{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%}
+body{background-color:#f1f1f1;}
+.clear{clear:both;content:" ";display:block;height:0px; }
+.nodcn:hover{text-decoration: none;}
+.right{float:right;}
+.left{float:left;}
+.sghsc-right{float:right;margin-top:0px;border:none;}
+.sghsc-left{float:left;width:460px;}
+
+.menu-main{z-index:1500;position:absolute;margin-top:50px;width:480px;height:420px;color:#000;}
+
+@-moz-document url-prefix(){.menu-index{margin-left:-190px;}} 
+
+
+.cat1{height:280px;width:190px;background-color:#EFE9E5;}
+.cat1 li{height:35px;line-height:35px;}
+.cat1 li:hover{background:#FFFFFF;color:#DD2626;}
+a.cat11{font-size:15px;letter-spacing:2px; color:#333;}
+.cat1 li:hover a.cat11{color:#DD2626;font-size:15px;text-decoration:none;}
+.cat1 li:hover .cat2 li{background:none;}
+.cat2{position:absolute;height:454px;top:0px;display:none;padding:0px;margin:0px;margin-left:190px;background:#FFF;}
+.cat2 li{padding:10px;margin:10px 5px;height:20px;float:left;font-weight:normal;background:none;}
+.cat2 li a{color:#000;}
+.cat2 li a:hover{color:#CC0001;text-decoration:none}
+
+#wzpage a{color:#002123;}
+
+.menu-index{}
+.menu-index .cat1{width:190px;}
+/*----------------------------top---------------------------------*/
+ .sghsc-topbox{
+    width:100%;
+	background-color:#f1f1f1;
+ }
+ .sghsc-top{
+    width:1190px;
+	height:30px;
+	line-height:30px;
+	margin:0 auto;
+	background-color:#f1f1f1;
+	font-size:12px;
+ }
+ .sghsc-top-let {
+    float: left;
+	color:#626262;	
+}
+ .sghsc-top-let a{
+	color:#999;	
+	text-decoration: none;
+}
+ .sghsc-top-let span{
+	padding: 0 6px;
+	color:#b9b9b9;	
+} 
+ .sghsc-top-let-hy{
+	padding: 0 14px 0 0 !important;
+	color:#666!important;	
+}
+ .sghsc-top-let-dh{
+	padding-right: 6px;
+    vertical-align: text-top;
+}
+
+.sghsc-banner-bg {
+    width:100%;
+    height:auto;
+}
+.sghsc-banner2-bg {
+    width:100%;
+    height:auto;
+	background-color:#ff0000;
+}
+.sghsc-banner{width:1190px;margin:0 auto;height:100px;}
+.sghsc-banner-logo{height:100px; float:left}
+.sghsc-banner-logo img{height: 52px;margin-top: 26px;} 
+.sghsc-banner-navxl{
+	float: left;
+    width: auto;
+    padding-left: 20px;
+    height: 100%;
+}
+.sghsc-banner-navxl-a{
+    font-size: 14px;
+    color: #fff;
+	margin-left: 8px;
+	padding: 2px 6px;
+    line-height: 128px;
+}
+.sghsc-banner-navxl-a:hover{
+    color: #fff;
+	text-decoration: none;
+	background-color: #E87575;
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+.sghsc-banner-navxl-b{
+	float: left;
+    height: 100%;
+    font-size: 12px;
+    line-height: 90px;
+    padding: 4px;
+    color: #666;
+    background: url(../images/sghscorder/sghsc-order-msg.png) no-repeat center 48%;
+}
+.sghsc-banner-search {
+    float: left;
+    width: 730px;
+    height: 100%;
+    padding: 20px 0 0 190px;
+}
+.sghsc-banner2-search {
+    float: left;
+    width: 660px;
+    height: 100%;
+    padding: 20px 0 0 275px;
+}
+.sghsc-banner-search-in {
+    float: left;
+    padding-top: 13px;
+    width: 430px;
+}
+.sghsc-banner2-search-in {
+    float: left;
+    padding-top: 13px;
+    width: 320px;
+	
+}
+.sghsc-banner-search-input {
+    width: 430px;
+    height: 38px;
+    padding: 0 5px;
+    line-height: 30px;
+    border: #D20000 solid 2px;
+    color: #999;
+    background: #FFF;
+    box-sizing: border-box;
+}
+.sghsc-banner2-search-input {
+    width: 320px;
+    height: 38px;
+    padding: 0 5px;
+    line-height: 30px;
+    border: #FFA8A8 solid 2px;
+    color: #999;
+    background: #FFF;
+    box-sizing: border-box;
+}
+.sghsc-banner-search-oik {
+    float: left;
+    display: inline-block;
+    margin-top: 13px;
+    height: 38px;
+    background-color: #D20000;
+    color: #fff;
+    border: 2px solid #D20000;
+    line-height: 35px;
+    border-left: none;
+    padding: 0 20px;
+    font-size: 16px;
+    letter-spacing: 4px;
+}
+.sghsc-banner-search-oik:link {
+    text-decoration: none;
+    color: #fff;
+}
+.sghsc-banner2-search-oik {
+    float: left;
+    display: inline-block;
+    margin-top: 13px;
+    height: 38px;
+    background-color: #fff;
+    color: #b70000;
+    border: 2px solid #FFA8A8;
+    line-height: 33px;
+    border-left: none;
+    padding: 0 10px;
+    font-size: 16px;
+    letter-spacing: 4px;
+}
+.sghsc-banner2-search-oik:link {
+    text-decoration: none;
+    color: #b70000;
+}
+.sghsc-banner2-search-oik:hover {
+    text-decoration: none;
+    color: #b70000;
+	background-color: #FFEBEB;
+}
+.sghsc-banner-shop {
+    float: right;
+    display: inline-block;
+    color: #777;
+    box-sizing: border-box;
+    height: 38px;
+    line-height: 35px;
+    font-size: 14px;
+    margin-top: 33px;
+    border: 1px solid #DEDEDE;
+    background-color: #F3F3F3;
+    padding: 0px 10px;
+}
+.sghsc-banner-shop:hover{
+    color: #777;
+	background-color: #f8f8f8;
+    text-decoration: none;
+}
+.sghsc-banner-shop-icon {
+    vertical-align: middle;
+    width: 20px;
+    margin-right: 8px;
+}
+.sghsc-banner-shop-mnr {
+    color:#FBC91D;
+	padding-left:8px;
+}
+
+.sghsc-goods-nav-box {
+    width: 1190px;
+    margin: 0 auto;
+    height: 50px;
+    line-height: 50px;
+	border-bottom: 2px solid #DF0000;
+	color: #FFF;
+    font-size: 14px;
+	font-weight:bold;
+}
+a.sghsc-goods-nav-all {
+    float: left;
+    display:block;
+    width: 190px;
+	text-align:center;
+	font-size:16px;
+    color: #FFF;
+	background-color:#DF0000;
+}
+a.sghsc-goods-nav-all:hover {
+    color: #FFF;
+	text-decoration: none;
+}
+.sghsc-goods-nav-li {
+    float: left;
+    width: 140px;
+    height: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+.sghsc-goods-nav-li a {
+    color: #000;
+    font-size:16px;
+    font-weight:bolder;
+}
+.sghsc-goods-nav-li a:hover {
+    color: #E91D2D;
+    text-decoration:none;
+    
+}
+/*----------------------------foot---------------------------------*/
+.sghsc-foot {
+    width: 1190px;
+    text-align: left;
+    margin: 0 auto;
+    font-size: 12px;
+    color: #909090;
+    height: 120px;
+    line-height: 30px;
+    margin-top: 36px;
+}
+.sghsc-foot a {
+    color: #333;
+}
+.sghsc-foot span {
+    padding: 0px 10px 0px 12px;
+}
+
+

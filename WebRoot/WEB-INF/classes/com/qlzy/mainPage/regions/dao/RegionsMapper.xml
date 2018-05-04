@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.regions.dao.RegionsMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Regions" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="PTREE" property="ptree" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PID, PTREE, GRADE, NAME, DISABLED
+  </sql>
+  
+  <!-- 查询省份列表 -->
+  <select id="gainProvinceList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_REGIONS
+    where PID is null
+  </select>
+
+  <!-- 根据省份id查询其市列表 -->
+  <select id="gainCityListByPid" resultMap="BaseResultMap" parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from QL_REGIONS
+    where PID = #{pid,jdbcType=VARCHAR} and GRADE = 2
+  </select>
+  <!-- 根据省份id查询其市列表 -->
+  <select id="gainAreaListByCityId" resultMap="BaseResultMap" parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from QL_REGIONS
+    where PID = #{pid,jdbcType=VARCHAR} and GRADE = 3
+  </select>
+  <!-- 获取下一级市区列表 -->
+  <select id="gainNextCityOrAreaListByPid" resultMap="BaseResultMap" parameterType="String">
+  	select 
+    <include refid="Base_Column_List" />
+    from QL_REGIONS
+    where PID IN
+	<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+  </select>
+  
+    <!-- 查询省份列表 -->
+  <select id="gainNameByPid" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_REGIONS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

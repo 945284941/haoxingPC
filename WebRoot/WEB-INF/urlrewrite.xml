@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+		"http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+	<!-- 上传图片 -->
+	<rule>
+		<from>upload.html</from>
+		<to type="forward">up!uploadImg.action</to>
+	</rule>
+	<!-- 切换国家 -->
+	<rule>
+		<from>changeAddress.html</from>
+		<to type="forward">common!changeAddress.action</to>
+	</rule>
+
+	<!--顶部横批菜单栏 -->
+	<rule>
+		<from>toMarket.html</from>
+		<to type="forward">indexFloor/indexFloorAction!toMarket.action</to>
+	</rule>
+	<rule>
+		<from>toBuild.html</from>
+		<to type="forward">indexFloor/indexFloorAction!toBuild.action</to>
+	</rule>
+	<rule>
+		<from>toFlashSale.html</from>
+		<to type="forward">indexFloor/indexFloorAction!toFlashSale.action</to>
+	</rule>
+	<rule>
+		<from>toGroup.html</from>
+		<to type="forward">indexFloor/indexFloorAction!toGroup.action</to>
+	</rule>
+	<rule>
+		<from>toWantBuy.html</from>
+		<to type="forward">indexFloor/indexFloorAction!toWantBuy.action</to>
+	</rule>
+	<!-- 求购 -->
+	<rule>
+		<from>toAddWantBuy/(.*).html</from>
+		<to type="forward">wantBuy!toAddWantBuy.action?wantBuy.buyType=$1</to>
+	</rule>
+	<rule>
+		<from>addWantBuy.html</from>
+		<to type="forward">wantBuy!add.action</to>
+	</rule>
+
+	<rule>
+		<from>toWantBuyView/(.*)/(.*).html</from>
+		<to type="forward">wantBuy!toWantBuyView.action?wantBuy.id=$1&amp;wantBuy.buyType=$2</to>
+	</rule>
+	<!-- 品牌入驻-->
+	<rule>
+		<from>toBrands.html</from>
+		<to type="forward">shopAction!toBrands.action</to>
+	</rule>
+	<rule>
+		<from>toBrandsSuccess.html</from>
+		<to type="forward">shopAction!toBrandsSuccess.action</to>
+	</rule>
+
+	<!-- 会员注册 登录-->
+	<rule>
+		<from>toRegister.html</from>
+		<to type="forward">login!toRegister.action</to>
+	</rule>
+	<rule>
+		<from>toLogin.html</from>
+		<to type="forward">login!toLogin.action</to>
+	</rule>
+	<rule>
+		<from>login.html</from>
+		<to type="forward">login!login.action</to>
+	</rule>
+	<!-- 个人会员中心  -->
+	<rule>
+		<from>person/order/huiyuanzhongxin.html</from>
+		<to type="forward">orderAction!toHuiyuanzhongxin.action</to>
+	</rule>
+	<!-- 个人会员中心 》 订单管理 》 我的订单 -->
+	<rule>
+		<from>person/order/myOrders.html</from>
+		<to type="forward">orderAction!gainOrders.action</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 -->
+	<rule>
+		<from>personalInfo/fenxiaoCenter.html</from>
+		<to type="forward">/person/personalInfo!toFenxiaoCenter.action</to>
+	</rule>
+
+	<!-- 个人信息 -->
+	<rule>
+		<from>/person/toShowBasicInfo.html</from>
+		<to type="forward">/person/personalInfo!toShowBasicInfo.action</to>
+	</rule>
+	<rule>
+		<from>/person/toShowUsername.html</from>
+		<to type="forward">/person/personalInfo!toShowUsername.action</to>
+	</rule>
+	<rule>
+		<from>/person/toShowMobile.html</from>
+		<to type="forward">/person/personalInfo!toShowMobile.action</to>
+	</rule>
+	<rule>
+		<from>/person/toShowImg.html</from>
+		<to type="forward">/person/personalInfo!toShowImg.action</to>
+	</rule>
+	<rule>
+		<from>/person/toShowPassword.html</from>
+		<to type="forward">/person/personalInfo!toShowPassword.action</to>
+	</rule>
+	<!-- 收货地址 --><!--
+	<rule>
+		<from>toPersonShippingAddr.html</from>
+		<to type="forward">memberCallAction!toPersonShippingAddr.action</to>
+	</rule>-->
+	<rule>
+		<from>loadReceiveAddr.html</from>
+		<to type="forward">memberCallAction!loadReceiveAddr.action</to>
+	</rule>
+
+	<!-- 收藏 -->
+	<rule>
+		<from>showShopCollect.html</from>
+		<to type="forward">memberCallAction!showShopCollect.action</to>
+	</rule>
+	<rule>
+		<from>showGoodsCollect.html</from>
+		<to type="forward">memberCallAction!showGoodsCollect.action</to>
+	</rule>
+
+
+	<!-- 银行卡 -->
+	<rule>
+		<from>showBankcard.html</from>
+		<to type="forward">memberCallAction!showBankcard.action</to>
+	</rule>
+
+	<!-- 退出 -->
+	<rule>
+		<from>logout.html</from>
+		<to type="forward">login!logout.action</to>
+	</rule>
+	<!-- 跳转密码修改申请 -->
+	<rule>
+		<from>toMemberCheckMsg.html</from>
+		<to type="forward">login!toMemberCheckMsg.action</to>
+	</rule>
+	<rule>
+		<from>sendCode.html</from>
+		<to type="forward">login!sendCode.action</to>
+	</rule>
+	<rule>
+		<from>register.html</from>
+		<to type="forward">login!register.action</to>
+	</rule>
+	<rule>
+		<from>memberRegister.html</from>
+		<to type="forward">login!memberRegister.action</to>
+	</rule>
+	<!-- goods 根据id访问商品 -->
+	<rule>
+		<from>goods/(.*).html</from>
+		<to type="forward">indexGoodsAction!gainGoods.action?goodsId=$1</to>
+	</rule>
+
+	<!-- 意见反馈 -->
+	<rule>
+		<from>yijian.html</from>
+		<to type="forward">questionAskAction!toadd.action</to>
+	</rule>
+	<!-- 加入购物车 -->
+	<rule>
+		<from>call/joinCart/(.*).html</from>
+		<to type="forward">memberCallAction!memberAddCart.action?goodsId=$1</to>
+	</rule>
+	<!-- 查看购物车商品的数量 -->
+	<rule>
+		<from>call/checkCartNum.html</from>
+		<to type="forward">memberCallAction!gainCartNum.action</to>
+	</rule>
+	<!-- 去购物车 -->
+	<rule>
+		<from>call/goToCart.html</from>
+		<to type="forward">memberCallAction!goCart.action</to>
+	</rule>
+	<!--删除购物车商品 -->
+	<rule>
+		<from>call/delCartGoods.html</from>
+		<to type="forward">memberCallAction!memberDelCartGoods.action</to>
+	</rule>
+	<!-- 修改购物车商品的数量 -->
+	<rule>
+		<from>call/updateCartNum.html</from>
+		<to type="forward">memberCallAction!updateCartNum.action</to>
+	</rule>
+	<!-- 申请体现 -->
+	<rule>
+		<from>tixian.html</from>
+		<to type="forward">shenqing!toList.action</to>
+	</rule>
+
+	<!-- 我的发布(拼箱.二手等列表) -->
+	<rule>
+		<from>qiugou/(.*).html</from>
+		<to type="forward">Release!Qiugoulist.action?buyType=$1</to>
+	</rule>
+	<!-- 求购删除 -->
+	<rule>
+		<from>delectwan.html</from>
+		<to type="forward">wantBuy!delectwan.action?buyType=$1</to>
+	</rule>
+    <!-- 店铺详情 -->
+	<rule>
+		<from>shopDetail/(.*).html</from>
+		<to type="forward">memberCallAction!shopDetail.action?id=$1</to>
+	</rule>
+	<!-- 店铺的商品 包括条件查询 -->
+	<rule>
+		<!--<from>showGoods/(.*)/(.*)/(.*).html</from>-->
+		<from>showGoodsByCompanyId.html</from>
+		<to type="forward">memberCallAction!companyGoodsList.action</to>
+	</rule>
+
+
+</urlrewrite>

@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.login.dao.MemberMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Member" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="TRUENAME" property="truename" jdbcType="VARCHAR" />
+    <result column="FIRSTNAME" property="firstname" jdbcType="VARCHAR" />
+    <result column="LASTNAME" property="lastname" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="TELPHONE" property="telphone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="ZIP" property="zip" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="DECIMAL" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="VOCATION" property="vocation" jdbcType="VARCHAR" />
+     <result column="BANKCARD" property="bankcard" jdbcType="VARCHAR" />
+    <result column="INTEREST" property="interest" jdbcType="VARCHAR" />
+    <result column="ADVANCE" property="advance" jdbcType="DECIMAL" />
+    <result column="POINT" property="point" jdbcType="DECIMAL" />
+    <result column="REG_IP" property="regIp" jdbcType="VARCHAR" />
+    <result column="REG_TIME" property="regTime" jdbcType="TIMESTAMP" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="PWD_ANSWER" property="pwdAnswer" jdbcType="VARCHAR" />
+    <result column="PWD_QUESTION" property="pwdQuestion" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="REMARK_TYPE" property="remarkType" jdbcType="VARCHAR" />
+    <result column="CARD" property="card" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="PAY_PASSWORD" property="payPassword" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="DECIMAL" />
+    <result column="SCOPES" property="scopes" jdbcType="VARCHAR" />
+    <result column="JOB_ROLE" property="jobRole" jdbcType="DECIMAL" />
+    <result column="ENGAGEINDUSTRY" property="engageindustry" jdbcType="VARCHAR" />
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="REWARD_MONEY" property="rewardMoney" jdbcType="DECIMAL" />   
+    <result column="RECOMMEND_USERID" property="recommendUserId" jdbcType="VARCHAR" />
+    <result column="EMAIL_STATUS" property="emailStatus" jdbcType="DECIMAL" />
+    <result column="MOBILE_STATUS" property="mobileStatus" jdbcType="DECIMAL" />
+    <result column="QUESTION_ID" property="questionId" jdbcType="VARCHAR" />
+    <result column="QUESTION_ANSWER" property="questionAnswer" jdbcType="VARCHAR" />
+    <result column="LAST_LOGIN_IP" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="ISONLINE" property="isonline" jdbcType="DECIMAL" />
+    <result column="MYSIGNATURE" property="mysignature" jdbcType="VARCHAR" />
+    <result column="ZITINAME" property="zitiname" jdbcType="VARCHAR" />
+    <result column="FONTSIZE" property="fontsize" jdbcType="DECIMAL" />
+    <result column="FONTSTYLE" property="fontstyle" jdbcType="DECIMAL" />
+    <result column="NAMECOLOR" property="namecolor" jdbcType="VARCHAR" />
+    <result column="CONTENTCOLOR" property="contentcolor" jdbcType="VARCHAR" />
+    <result column="LOOKANDFEEL" property="lookandfeel" jdbcType="VARCHAR" />
+    <result column="TISHI" property="tishi" jdbcType="CHAR" />
+    <result column="ISTOP" property="istop" jdbcType="CHAR" />
+    <result column="SAVEPATH" property="savepath" jdbcType="VARCHAR" />
+    <result column="ISSHOW" property="isshow" jdbcType="CHAR" />       
+    <result column="shangji_id" property="shangjiId" jdbcType="VARCHAR" /> 
+    <result column="only_id" property="onlyId" jdbcType="VARCHAR" /> 
+     <result column="zhekou" property="zhekou" jdbcType="VARCHAR" /> 
+     <result column="xianjinbi" property="xianjinbi" jdbcType="DECIMAL" />
+     <result column="liucunbi" property="liucunbi" jdbcType="DECIMAL" />
+    <result column="is_quxian" property="isQuxian" jdbcType="CHAR" />  
+    <result column="is_xiaofei" property="isXiaofei" jdbcType="CHAR" />
+      <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="WEIXIN" property="weiXin" jdbcType="VARCHAR" />
+    <result column="qr_code" property="qrCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERNAME, PASSWORD, TRUENAME, FIRSTNAME, LASTNAME, AREA, CITY, MOBILE, BANKCARD,TELPHONE,
+    EMAIL, ZIP, ADDRESS, GENDER, EDUCATION, VOCATION, INTEREST, ADVANCE, POINT, REG_IP, 
+    REG_TIME, STATE, PWD_ANSWER, PWD_QUESTION, DISABLED, REMARK, REMARK_TYPE, CARD, TYPE, 
+    PROVINCE, PAY_PASSWORD, AGE, SCOPES, JOB_ROLE, ENGAGEINDUSTRY, LAST_LOGIN_TIME, REWARD_MONEY, 
+    RECOMMEND_USERID, EMAIL_STATUS, MOBILE_STATUS, QUESTION_ID, QUESTION_ANSWER, LAST_LOGIN_IP, 
+    BIRTHDAY, IMG, ISONLINE, MYSIGNATURE, ZITINAME, FONTSIZE, FONTSTYLE, NAMECOLOR, CONTENTCOLOR, 
+    LOOKANDFEEL, TISHI, ISTOP, SAVEPATH, ISSHOW,shangji_id,only_id,xianjinbi,liucunbi,is_quxian,is_xiaofei,QQ,WEIXIN,
+    qr_code
+  </sql>
+  <select id="selectMemberById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT t.PAY_PASSWORD from QL_MEMBERS t where t.DISABLED='false' and t.id= #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据主键id查询会员信息 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select 
+    <include refid="Base_Column_List" />
+    from QL_MEMBERS
+    where ID = #{id,jdbcType=VARCHAR} and DISABLED = 'false'
+  </select>
+  <!-- 查询 -->
+  <select id="selectKey" resultMap="BaseResultMap"  parameterType="com.qlzy.model.Member" >
+    select <include refid="Base_Column_List" />
+    from QL_MEMBERS
+
+  </select>
+  <!-- 根据手机号查询用户信息 -->
+  <select id="selectMemberByMobile" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT * from QL_MEMBERS t where DISABLED='false' and MOBILE= #{mobile,jdbcType=VARCHAR} 
+  </select>
+  
+   <!-- 根据推荐会员ID跟注册IP查看注册权限-->
+  <select id="gainMemberByUpd" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MEMBERS
+    where RECOMMEND_USERID = #{recommendUserId,jdbcType=VARCHAR} and REG_IP = #{regIp,jdbcType=VARCHAR}
+  </select>
+  <select id="gainActiveselectAllRegNameByTime" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.REG_TIME  <![CDATA[ >= ]]> sysdate-15/1440 and t.REG_TIME <![CDATA[ < ]]> sysdate
+  </select> 
+  <select id="gainActiveAllLoginNameByTime" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.ID in(select a.USER_ID from QL_LOGIN_LOG a where a.LOGIN_TIME  <![CDATA[ >= ]]> sysdate-15/1440 and a.LOGIN_TIME <![CDATA[ < ]]> sysdate)
+  </select> 
+  <select id="gainActiveGoodsCheckListByTime" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.ID in(select a.MEMBER_ID from QL_ACTIVE_COLLECT_GOODS_CHECK a where a.CREATETIME    <![CDATA[ >= ]]> sysdate-15/1440 and a.CREATETIME <![CDATA[ < ]]> sysdate)
+  </select> 
+   <select id="gainActiveGoodsListByTime" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.ID in(select a.MEMBERID from QL_ACTIVE_COLLECT_GOODS a where a.CREATETIME    <![CDATA[ >= ]]> sysdate-15/1440 and a.CREATETIME <![CDATA[ < ]]> sysdate)
+  </select> 
+
+    <select id="gainActiveselectAllRegNameAll" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS 
+  </select> 
+  <select id="gainActiveAllLoginNameAll" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.ID in(select a.USER_ID from QL_LOGIN_LOG a)
+  </select> 
+  <select id="gainActiveGoodsCheckListAll" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.ID in(select a.MEMBER_ID from QL_ACTIVE_COLLECT_GOODS_CHECK a )
+  </select> 
+   <select id="gainActiveGoodsListAll" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	 from QL_MEMBERS t where t.ID in(select a.MEMBERID from QL_ACTIVE_COLLECT_GOODS a)
+  </select> 
+  
+  <select id="selectByMemberName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    m.*,lv.DISCOUNT as zhekou
+      from  QL_MEMBERS m LEFT JOIN ql_member_lv lv on m.TYPE = lv.ID  
+    where m.USERNAME = #{username,jdbcType=VARCHAR} or m.MOBILE = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMemberFirstName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MEMBERS
+    where FIRSTNAME = #{firstname,jdbcType=VARCHAR}
+  </select>
+
+
+  <!-- 根据会员id查询会员详细信息 -->
+  <select id="gainMemberById" resultType="com.qlzy.model.Member" parameterType="java.lang.String" >
+select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNAME,MS.LASTNAME,MS.ADDRESS,MS.MOBILE,MS.TELPHONE,MS.EMAIL,MS.point,MS.REG_TIME AS REGTIME,MS.CARD,ms.only_id as onlyId,ms.shangji_id as shangjiId,ms.is_quxian as isQuxian,
+	MS.JOB_ROLE AS JOBROLE,MS.ENGAGEINDUSTRY,MS.LAST_LOGIN_IP,MS.BIRTHDAY,MS.QQ,MS.WEIXIN,MS.IMG,liucunbi,xianjinbi,isonline,lv.max_point as maxPoint,lv.min_point as minPoint,interest,
+	(select R1.name from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = MS.CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,MS.PROVINCE,
+	(select R.name from QL_REGIONS R where R.id = MS.CITY and R.DISABLED = 'false') as CNAME,MS.CITY,
+	(select R.name from QL_REGIONS R where R.id = MS.AREA and R.DISABLED = 'false') as ANAME,MS.AREA,
+	 MS.GENDER,MS.REG_IP AS REGIP,MS.ZIP,MS.ADVANCE,MS.EDUCATION,MS.VOCATION,MS.SCOPES,MS.AGE,MS.PAY_PASSWORD AS PAYPASSWORD,
+	 MS.EMAIL_STATUS AS EMAILSTATUS, MS.MOBILE_STATUS AS MOBILESTATUS, MS.QUESTION_ID AS QUESTIONID, MS.QUESTION_ANSWER AS QUESTIONANSWER,ms.type,
+	 MS.LAST_LOGIN_TIME AS LASTLOGINTIME,MS.REWARD_MONEY,MS.LAST_LOGIN_IP AS LASTLOGINIP from QL_MEMBERS MS left join ql_member_lv lv on ms.type=lv.id where MS.ID = #{id,jdbcType=VARCHAR} and MS.DISABLED = 'false' 
+  </select>
+  
+  <!-- 根据会员昵称查询(用于修改) -->
+  <select id="gainByMemberLastName" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MEMBERS
+    where LASTNAME = #{lastname,jdbcType=VARCHAR} 
+    <if test="update!=null">
+    	and ID != #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!-- 根据用户id与密码查询会员信息 -->
+  <select id="gainMemberByIdAndPassword" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_MEMBERS MS 
+	where MS.DISABLED = 'false' and MS.ID = #{id,jdbcType=VARCHAR} 
+	<if test="type==1">
+		and MS.PASSWORD = #{pwd,jdbcType=VARCHAR}
+	</if>
+	<if test="type==2">
+		and MS.PAY_PASSWORD = #{pwd,jdbcType=VARCHAR}
+	</if>
+	
+  </select>
+  
+  <!-- 查询会员安全保护问题 -->
+  <select id="gainQuestionByMemberId" resultType="java.lang.String" parameterType="java.lang.String" >
+	  select QN.QUESTION AS QUESTION from QL_MEMBERS MS  left join QL_QUESTION QN on  MS.QUESTION_ID = QN.ID where  MS.DISABLED = 'false' 
+	  and MS.ID = #{id,jdbcType=VARCHAR}  
+  </select>
+
+  <!-- 根据用户名查询用户信息 -->
+  <select id="gainMemberByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select * from QL_MEMBERS MS where MS.DISABLED = 'false' and MS.USERNAME = #{username,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据用户ID查询邀请好友数 -->
+  <select id="gainInviteFriendsByMemberId" resultType="Long" parameterType="java.lang.String" >
+  	select COUNT(MS."ID") AS YQCOUNT from QL_MEMBERS MS where MS.DISABLED = 'false' and MS.RECOMMEND_USERID = #{userId}
+  </select>  
+          
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_MEMBERS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Member" >
+    insert into QL_MEMBERS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="truename != null" >
+        TRUENAME,
+      </if>
+      <if test="firstname != null" >
+        FIRSTNAME,
+      </if>
+      <if test="lastname != null" >
+        LASTNAME,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="telphone != null" >
+        TELPHONE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="zip != null" >
+        ZIP,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="vocation != null" >
+        VOCATION,
+      </if>
+      <if test="interest != null" >
+        INTEREST,
+      </if>
+      <if test="advance != null" >
+        ADVANCE,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="regIp != null" >
+        REG_IP,
+      </if>
+      <if test="regTime != null" >
+        REG_TIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="pwdAnswer != null" >
+        PWD_ANSWER,
+      </if>
+      <if test="pwdQuestion != null" >
+        PWD_QUESTION,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="remarkType != null" >
+        REMARK_TYPE,
+      </if>
+      <if test="card != null" >
+        CARD,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="payPassword != null" >
+        PAY_PASSWORD,
+      </if>
+      <if test="age != null" >
+       AGE,
+      </if>
+      <if test="scopes != null" >
+       SCOPES,
+      </if>
+      <if test="jobRole != null" >
+        JOB_ROLE,
+      </if>
+      <if test="engageindustry != null" >
+        ENGAGEINDUSTRY,
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME,
+      </if>
+      <if test="rewardMoney != null" >
+        REWARD_MONEY,
+      </if>            
+      <if test="recommendUserId != null" >
+        RECOMMEND_USERID,
+      </if>
+      <if test="emailStatus != null" >
+        EMAIL_STATUS,
+      </if>
+      <if test="mobileStatus != null" >
+        MOBILE_STATUS,
+      </if>
+      <if test="questionId != null" >
+        QUESTION_ID,
+      </if>
+      <if test="questionAnswer != null" >
+        QUESTION_ANSWER,
+      </if>
+      <if test="lastLoginIp != null" >
+        LAST_LOGIN_IP,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="img != null" >
+        IMG,
+      </if>
+      <if test="isonline != null" >
+        ISONLINE,
+      </if>
+      <if test="mysignature != null" >
+        MYSIGNATURE,
+      </if>
+      <if test="zitiname != null" >
+        ZITINAME,
+      </if>
+      <if test="fontsize != null" >
+        FONTSIZE,
+      </if>
+      <if test="fontstyle != null" >
+        FONTSTYLE,
+      </if>
+      <if test="namecolor != null" >
+        NAMECOLOR,
+      </if>
+      <if test="contentcolor != null" >
+        CONTENTCOLOR,
+      </if>
+      <if test="lookandfeel != null" >
+        LOOKANDFEEL,
+      </if>
+      <if test="tishi != null" >
+        TISHI,
+      </if>
+      <if test="istop != null" >
+        ISTOP,
+      </if>
+      <if test="savepath != null" >
+        SAVEPATH,
+      </if>
+      <if test="isshow != null" >
+        ISSHOW,
+      </if>       
+      <if test="shangjiId != null" >
+        shangji_id,
+      </if>       
+      <if test="onlyId != null" >
+        only_id,
+      </if>                       
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="truename != null" >
+        #{truename,jdbcType=VARCHAR},
+      </if>
+      <if test="firstname != null" >
+        #{firstname,jdbcType=VARCHAR},
+      </if>
+      <if test="lastname != null" >
+        #{lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null" >
+        #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=DECIMAL},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="vocation != null" >
+        #{vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="interest != null" >
+        #{interest,jdbcType=VARCHAR},
+      </if>
+      <if test="advance != null" >
+        #{advance,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="regIp != null" >
+        #{regIp,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null" >
+        #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="pwdAnswer != null" >
+        #{pwdAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion != null" >
+        #{pwdQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkType != null" >
+        #{remarkType,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null" >
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="payPassword != null" >
+        #{payPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+       #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="scopes != null" >
+        #{scopes,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRole != null" >
+       #{jobRole,jdbcType=DECIMAL},
+      </if>
+      <if test="engageindustry != null" >
+        #{engageindustry,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if> 
+      <if test="rewardMoney != null" >
+        #{rewardMoney,jdbcType=DECIMAL},
+      </if>           
+      <if test="recommendUserId != null" >
+       #{recommendUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="emailStatus != null" >
+        #{emailStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="mobileStatus != null" >
+        #{mobileStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionAnswer != null" >
+        #{questionAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        #{isonline,jdbcType=DECIMAL},
+      </if>
+      <if test="mysignature != null" >
+        #{mysignature,jdbcType=VARCHAR},
+      </if>
+      <if test="zitiname != null" >
+        #{zitiname,jdbcType=VARCHAR},
+      </if>
+      <if test="fontsize != null" >
+        #{fontsize,jdbcType=DECIMAL},
+      </if>
+      <if test="fontstyle != null" >
+        #{fontstyle,jdbcType=DECIMAL},
+      </if>
+      <if test="namecolor != null" >
+        #{namecolor,jdbcType=VARCHAR},
+      </if>
+      <if test="contentcolor != null" >
+        #{contentcolor,jdbcType=VARCHAR},
+      </if>
+      <if test="lookandfeel != null" >
+        #{lookandfeel,jdbcType=VARCHAR},
+      </if>
+      <if test="tishi != null" >
+        #{tishi,jdbcType=CHAR},
+      </if>
+      <if test="istop != null" >
+        #{istop,jdbcType=CHAR},
+      </if>
+      <if test="savepath != null" >
+        #{savepath,jdbcType=VARCHAR},
+      </if>
+      <if test="isshow != null" >
+        #{isshow,jdbcType=CHAR},
+      </if>  
+       <if test="shangjiId != null" >
+        #{shangjiId,jdbcType=VARCHAR},
+      </if>
+       <if test="onlyId != null" >
+        #{onlyId,jdbcType=VARCHAR},
+      </if>                     
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Member" >
+    update QL_MEMBERS
+    <set >
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="truename != null" >
+        TRUENAME = #{truename,jdbcType=VARCHAR},
+      </if>
+      <if test="firstname != null" >
+        FIRSTNAME = #{firstname,jdbcType=VARCHAR},
+      </if>
+      <if test="lastname != null" >
+        LASTNAME = #{lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        AREA = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        TELPHONE = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null" >
+        ZIP = #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=DECIMAL},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="vocation != null" >
+        VOCATION = #{vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="interest != null" >
+        INTEREST = #{interest,jdbcType=VARCHAR},
+      </if>
+      <if test="advance != null" >
+        ADVANCE = #{advance,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null" >
+        POINT = #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="regIp != null" >
+        REG_IP = #{regIp,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null" >
+        REG_TIME = #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="pwdAnswer != null" >
+        PWD_ANSWER = #{pwdAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion != null" >
+        PWD_QUESTION = #{pwdQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkType != null" >
+        REMARK_TYPE = #{remarkType,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null" >
+        CARD = #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="payPassword != null" >
+        PAY_PASSWORD = #{payPassword,jdbcType=VARCHAR},
+      </if>
+       <if test="age != null" >
+       AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="scopes != null" >
+       SCOPES = #{scopes,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRole != null" >
+       JOB_ROLE = #{jobRole,jdbcType=DECIMAL},
+      </if>
+      <if test="engageindustry != null" >
+        ENGAGEINDUSTRY = #{engageindustry,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewardMoney != null" >
+        REWARD_MONEY = #{rewardMoney,jdbcType=DECIMAL},
+      </if>                  
+      <if test="recommendUserId != null" >
+        RECOMMEND_USERID = #{recommendUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="emailStatus != null" >
+        EMAIL_STATUS = #{emailStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="mobileStatus != null" >
+        MOBILE_STATUS = #{mobileStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="questionId != null" >
+        QUESTION_ID = #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionAnswer != null" >
+        QUESTION_ANSWER = #{questionAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginIp != null" >
+        LAST_LOGIN_IP = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        IMG = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        ISONLINE = #{isonline,jdbcType=DECIMAL},
+      </if>
+      <if test="mysignature != null" >
+        MYSIGNATURE = #{mysignature,jdbcType=VARCHAR},
+      </if>
+      <if test="zitiname != null" >
+        ZITINAME = #{zitiname,jdbcType=VARCHAR},
+      </if>
+      <if test="fontsize != null" >
+        FONTSIZE = #{fontsize,jdbcType=DECIMAL},
+      </if>
+      <if test="fontstyle != null" >
+        FONTSTYLE = #{fontstyle,jdbcType=DECIMAL},
+      </if>
+      <if test="namecolor != null" >
+        NAMECOLOR = #{namecolor,jdbcType=VARCHAR},
+      </if>
+      <if test="contentcolor != null" >
+        CONTENTCOLOR = #{contentcolor,jdbcType=VARCHAR},
+      </if>
+      <if test="lookandfeel != null" >
+        LOOKANDFEEL = #{lookandfeel,jdbcType=VARCHAR},
+      </if>
+      <if test="tishi != null" >
+        TISHI = #{tishi,jdbcType=CHAR},
+      </if>
+      <if test="istop != null" >
+        ISTOP = #{istop,jdbcType=CHAR},
+      </if>
+      <if test="savepath != null" >
+        SAVEPATH = #{savepath,jdbcType=VARCHAR},
+      </if>
+      <if test="isshow != null" >
+        ISSHOW = #{isshow,jdbcType=CHAR},
+      </if>         
+       <if test="xianjinbi != null" >
+        xianjinbi = #{xianjinbi,jdbcType=DECIMAL},
+      </if>
+       <if test="liucunbi != null" >
+        liucunbi = #{liucunbi,jdbcType=DECIMAL},
+      </if>
+      <if test="qq != null" >
+      QQ = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weiXin != null" >
+      WEIXIN = #{weiXin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="getMemberListByShangjiId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT t.only_id,t.id,t.shangji_id  from QL_MEMBERS t where t.DISABLED='false' and t.only_id= #{onlyId,jdbcType=VARCHAR} 
+  </select>
+  <select id="getMemberListByOnlyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT <include refid="Base_Column_List" /> from QL_MEMBERS t where t.DISABLED='false' and t.only_id= #{onlyId,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据参数查询用户 -->
+  <select id="gainMemberListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List"/> from QL_MEMBERS t where t.DISABLED='false'
+    <if test="onlyId != null ">
+      and t.only_id= #{onlyId,jdbcType=VARCHAR}
+    </if>
+    <if test="shangjiId != null ">
+      and t.shangji_id= #{shangjiId,jdbcType=VARCHAR}
+    </if>
+    <if test="username != null ">
+      and t.username= #{username,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="getMemberListByOnlyIdPutong" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT t.only_id from QL_MEMBERS t where t.DISABLED='false' and t.shangji_id= #{onlyId,jdbcType=VARCHAR}  and type = '0'
+  </select>
+    <select id="gainMemberByShangjiId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from QL_MEMBERS
+		where shangji_id = #{shangjiId,jdbcType=VARCHAR}
+	</select>
+	
+	 <select id="getMemberListByShangjiIdOne" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from QL_MEMBERS
+		where only_id = #{onlyId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="gainMemberByO" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from QL_MEMBERS 
+		where shangji_id = #{onlyId,jdbcType=VARCHAR}
+        order by REG_TIME DESC limit  #{page},#{rows}
+	</select>
+	
+	<select id="xiaxiayou" resultType="com.qlzy.model.Member" parameterType="java.util.Map" >
+    	select * from(
+      select  id,username,type,only_id as onlyId,shangji_id as shangjiId, REG_TIME as regTime  from QL_MEMBERS qal where  shangji_id  in ( select  only_id  from QL_MEMBERS m where  shangji_id = #{onlyId,jdbcType=VARCHAR})
+		 order by qal.REG_TIME desc
+    )t limit  #{page},#{rows}
+    </select>
+    <select id="xiaxiaxiayou" resultType="com.qlzy.model.Member" parameterType="java.util.Map" >
+    	select * from(
+      SELECT id,username,type,only_id as onlyId,shangji_id as shangjiId, REG_TIME as regTime  from ql_members qal where shangji_id in (
+select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in ( select  only_id  from QL_MEMBERS m where shangji_id = #{onlyId,jdbcType=VARCHAR}))
+		 order by qal.REG_TIME desc
+    )t  limit  #{page},#{rows}
+  </select>
+  	<select id="myYijiCount" resultType="Long"
+		parameterType="java.util.Map">
+		select
+		count(id)
+		from QL_MEMBERS
+		where shangji_id = #{onlyId,jdbcType=VARCHAR}
+	</select>
+  	<select id="myErjiCount" resultType="Long"
+		parameterType="java.util.Map">
+	   select count(qal.id)  from QL_MEMBERS qal where  shangji_id  in ( select  only_id  from QL_MEMBERS m where  shangji_id = #{onlyId,jdbcType=VARCHAR})
+	</select>
+  
+  <select id="mySanjiCount" resultType="Long"
+		parameterType="java.util.Map">
+	     SELECT count(qal.id)  from ql_members qal where shangji_id in (
+select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in ( select  only_id  from QL_MEMBERS m where shangji_id = #{onlyId,jdbcType=VARCHAR}))
+	</select>
+		<select id="myYijiCountvip" resultType="Long"
+		parameterType="java.util.Map">
+		select
+		count(id)
+		from QL_MEMBERS
+		where shangji_id = #{onlyId,jdbcType=VARCHAR} and type='82ee892375df4c1e98a3d8c9fd6e7612'
+	</select>
+  	<select id="myErjiCountvip" resultType="Long"
+		parameterType="java.util.Map">
+	   select count(qal.id)
+	   from QL_MEMBERS qal where  shangji_id  in
+	   ( select  only_id  from QL_MEMBERS m where  shangji_id = #{onlyId,jdbcType=VARCHAR})
+	   and type='82ee892375df4c1e98a3d8c9fd6e7612'
+	</select>
+  
+  <select id="mySanjiCountvip" resultType="Long"
+		parameterType="java.util.Map">
+	     SELECT count(qal.id)  from ql_members qal where shangji_id in (
+        select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in
+       ( select  only_id  from QL_MEMBERS m where shangji_id = #{onlyId,jdbcType=VARCHAR})) and
+        type='82ee892375df4c1e98a3d8c9fd6e7612'
+	</select>
+	
+	<select id="nextOnlyId" resultType="java.lang.String">
+		select next_seq('only_id')
+	</select>
+	
+	<!-- 验证用户手机号是否已使用 -->
+	<select id="gainByMobile" parameterType="java.lang.String" resultType="com.qlzy.model.Member" >
+		select 
+			<include refid="Base_Column_List" />
+		from ql_members where (MOBILE = #{mobile, jdbcType=VARCHAR} or USERNAME = #{mobile, jdbcType=VARCHAR}) and MOBILE_STATUS = 1
+	</select>
+	
+	<!-- 根据用户名手机号验证登录 -->
+	<select id="validateLogin" resultMap="BaseResultMap" parameterType="Map" >
+		select 
+			<include refid="Base_Column_List" />
+		from ql_members 
+		where (USERNAME = #{username, jdbcType=VARCHAR} or MOBILE = #{username, jdbcType=VARCHAR}) and PASSWORD = #{password, jdbcType=VARCHAR}
+	</select>
+	<update id="batchUpdateDisableMobile"  parameterType="java.util.List">       
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+                update ql_members   
+                <set> 
+                	mobile_status=0
+                </set>  
+                where USERNAME = #{item.mobile} or MOBILE = #{item.mobile}
+         </foreach>  
+            
+    </update>  
+	<update id="batchUpdateEnableMobile"  parameterType="java.util.List">       
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+                update ql_members   
+                <set> 
+                	mobile_status=1,MOBILE = #{item.mobile},DISABLED = 'false'
+                </set>  
+                where USERNAME = #{item.username}
+         </foreach>  
+    </update>
+    <select id="gainMemberByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    		 <include refid="Base_Column_List" />
+	    from QL_MEMBERS
+	    where (USERNAME = #{username,jdbcType=VARCHAR} or MOBILE = #{username,jdbcType=VARCHAR}) and DISABLED = 'false'
+    </select>
+
+
+</mapper>

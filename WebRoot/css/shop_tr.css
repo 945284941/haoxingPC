@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+
+ .shopgw ul li.thr{ color:#fff; font-weight:normal;background:#b70004 url(../images/shop/hd.gif) left top no-repeat}
+.shopgw ul li.first{color:#969696; font-weight:bold; background:#e6e6e6 url(../images/shop/otwo.gif) left top no-repeat}
+.shopgw ul li.two{ background:#e6e6e6 ;color:#969696; font-weight:bold}
+.shopgw ul li.fou{ background:#e6e6e6 url(../images/shop/gw.gif) no-repeat left top }
+.jsr a{ color:#fff}

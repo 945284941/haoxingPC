@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.EmailSendLogMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.EmailSendLog" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TO_EMAIL" property="toEmail" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="VERIFICATION_CODE" property="verificationCode" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, TO_EMAIL, CREATETIME, VERIFICATION_CODE, USER_ID
+  </sql>
+  
+ <!-- 根据用户ID、邮箱和验证码查询发送日志信息 -->
+  <select id="gainEmailSendLogByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_EMAIL_SEND_LOG
+    where USER_ID = #{userId,jdbcType=VARCHAR} and VERIFICATION_CODE =#{verificationCode,jdbcType=VARCHAR} and TO_EMAIL = #{email,jdbcType=VARCHAR}
+  </select>  
+  
+  <!-- 记录邮箱发送日志 -->
+  <insert id="addEmailSendLog" parameterType="com.qlzy.model.EmailSendLog" >
+    insert into QL_EMAIL_SEND_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="toEmail != null" >
+        TO_EMAIL,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="verificationCode != null" >
+        VERIFICATION_CODE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="toEmail != null" >
+        #{toEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="verificationCode != null" >
+        #{verificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

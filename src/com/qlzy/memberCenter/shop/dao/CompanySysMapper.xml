@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.shop.dao.CompanySysMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CompanySys" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="DECIMAL" />
+    <result column="floor" property="floor" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="href" property="href" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, position, floor, image_url, good_name, price, href, company_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_company_sys
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_company_sys
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.CompanySys" >
+    insert into ql_company_sys (id, position, floor, 
+      image_url, good_name, price, 
+      href, company_id)
+    values (#{id,jdbcType=VARCHAR}, #{position,jdbcType=DECIMAL}, #{floor,jdbcType=VARCHAR}, 
+      #{imageUrl,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{href,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.CompanySys" >
+    insert into ql_company_sys
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="floor != null" >
+        floor,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="goodName != null" >
+        good_name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="href != null" >
+        href,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="href != null" >
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.CompanySys" >
+    update ql_company_sys
+    <set >
+      <if test="position != null" >
+        position = #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null" >
+        floor = #{floor,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        good_name = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="href != null" >
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CompanySys" >
+    update ql_company_sys
+    set position = #{position,jdbcType=DECIMAL},
+      floor = #{floor,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      good_name = #{goodName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      href = #{href,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="gainCompanySysByMember" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_company_sys
+    where company_id = #{companyId,jdbcType=VARCHAR} order by position asc
+  </select>
+  
+  <update id="deleteCompanySys" parameterType="com.qlzy.model.CompanySys" >
+    update ql_company_sys
+    
+       set image_url = null,
+       href = null
+    
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.want.dao.WantBuyPicMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.WantBuyPic" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="buy_id" property="buyId" jdbcType="VARCHAR" />
+    <result column="buy_type" property="buyType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pic_url, buy_id,buy_type
+  </sql>
+
+  <!-- 根据求购id查询求购信息 -->
+  <select id="selectByBuyId" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT  pic_url  from want_buy_pic where buy_id = #{buyId}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.qlzy.model.WantBuyPic" >
+    select 
+    <include refid="Base_Column_List" />
+    from want_buy_pic
+    where id = #{id,jdbcType=VARCHAR}
+      and pic_url = #{picUrl,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.qlzy.model.WantBuyPic" >
+    delete from want_buy_pic
+    where id = #{id,jdbcType=VARCHAR}
+      and pic_url = #{picUrl,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.WantBuyPic" >
+    insert into want_buy_pic (id, pic_url, buy_id,buy_type
+      )
+    values (#{id,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{buyId,jdbcType=VARCHAR},
+    #{buyType,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.WantBuyPic" >
+    insert into want_buy_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="buyId != null" >
+        buy_id,
+      </if>
+      <if test="buyType != null" >
+        buy_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="buyId != null" >
+        #{buyId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyType != null" >
+        #{buyType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 批量添加 -->
+  <insert id="batchInsert">
+    INSERT INTO want_buy_pic(
+    id, pic_url, buy_id,buy_type
+    ) VALUES
+    <foreach collection="list" item="item" index="index" separator="," >
+      (
+      #{item.id},
+      #{item.picUrl},
+      #{item.buyId},
+      #{item.buyType}
+      )
+    </foreach>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.WantBuyPic" >
+    update want_buy_pic
+    <set >
+      <if test="buyId != null" >
+        buy_id = #{buyId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyType != null" >
+        buy_type = #{buyType,jdbcType=CHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.WantBuyPic" >
+    update want_buy_pic
+    set buy_id = #{buyId,jdbcType=VARCHAR}, pic_url = #{picUrl,jdbcType=VARCHAR},buy_type = #{buyType,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.task.dao.CashBackTaskMapper" >
+	<resultMap id="BaseResultMap" type="com.qlzy.task.model.CashBackTask" >
+		<id column="task_id" property="taskId" jdbcType="VARCHAR" />
+		<result column="member_id" property="memberId" jdbcType="VARCHAR" />
+		<result column="member_name" property="memberName" jdbcType="VARCHAR" />
+		<result column="back_key" property="backKey" jdbcType="VARCHAR" />
+		<result column="back_value" property="backValue" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+		<result column="sku_value" property="skuValue" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="total_balance" property="totalBalance" jdbcType="DECIMAL" />
+		<result column="already_balance" property="alreadyBalance" jdbcType="DECIMAL" />
+		<result column="total_number" property="totalNumber" jdbcType="INTEGER" />
+		<result column="already_number" property="alreadyNumber" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="next_back_time" property="nextBackTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		`task_id`, `member_id`, `member_name`, `back_key`, `back_value`,
+		`goods_id`, `goods_name`, `sku_id`, `sku_value`, `amount`,
+		`total_balance`, `already_balance`, `total_number`, `already_number`, `status`,
+		`next_back_time`, `create_time`, `remark`
+	</sql>
+
+	<insert id="insert" parameterType="com.qlzy.task.model.CashBackTask" >
+		insert into sgh_task_cash_back (
+			<include refid="Base_Column_List" />
+		)
+		values (
+			#{taskId,jdbcType=VARCHAR},
+			#{memberId,jdbcType=VARCHAR},
+			#{memberName,jdbcType=VARCHAR},
+			#{backKey,jdbcType=VARCHAR},
+			#{backValue,jdbcType=VARCHAR},
+			#{goodsId,jdbcType=VARCHAR},
+			#{goodsName,jdbcType=VARCHAR},
+			#{skuId,jdbcType=VARCHAR},
+			#{skuValue,jdbcType=VARCHAR},
+			#{amount,jdbcType=DECIMAL},
+			#{totalBalance,jdbcType=DECIMAL},
+			#{alreadyBalance,jdbcType=DECIMAL},
+			#{totalNumber,jdbcType=INTEGER},
+			#{alreadyNumber,jdbcType=INTEGER},
+			#{status,jdbcType=VARCHAR},
+			#{nextBackTime,jdbcType=TIMESTAMP},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.qlzy.task.model.CashBackTask" >
+		insert into sgh_task_cash_back
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="taskId != null" >
+				`task_id`,
+			</if>
+			<if test="memberId != null" >
+				`member_id`,
+			</if>
+			<if test="memberName != null" >
+				`member_name`,
+			</if>
+			<if test="backKey != null" >
+				`back_key`,
+			</if>
+			<if test="backValue != null" >
+				`back_value`,
+			</if>
+			<if test="goodsId != null" >
+				`goods_id`,
+			</if>
+			<if test="goodsName != null" >
+				`goods_name`,
+			</if>
+			<if test="skuId != null" >
+				`sku_id`,
+			</if>
+			<if test="skuValue != null" >
+				`sku_value`,
+			</if>
+			<if test="amount != null" >
+				`amount`,
+			</if>
+			<if test="totalBalance != null" >
+				`total_balance`,
+			</if>
+			<if test="alreadyBalance != null" >
+				`already_balance`,
+			</if>
+			<if test="totalNumber != null" >
+				`total_number`,
+			</if>
+			<if test="alreadyNumber != null" >
+				`already_number`,
+			</if>
+			<if test="status != null" >
+				`status`,
+			</if>
+			<if test="nextBackTime != null" >
+				`next_back_time`,
+			</if>
+			<if test="createTime != null" >
+				`create_time`,
+			</if>
+			<if test="remark != null" >
+				`remark`,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="taskId != null" >
+				#{taskId,jdbcType=VARCHAR},
+			</if>
+			<if test="memberId != null" >
+				#{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="memberName != null" >
+				#{memberName,jdbcType=VARCHAR},
+			</if>
+			<if test="backKey != null" >
+				#{backKey,jdbcType=VARCHAR},
+			</if>
+			<if test="backValue != null" >
+				#{backValue,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null" >
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null" >
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="skuId != null" >
+				#{skuId,jdbcType=VARCHAR},
+			</if>
+			<if test="skuValue != null" >
+				#{skuValue,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null" >
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="totalBalance != null" >
+				#{totalBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="alreadyBalance != null" >
+				#{alreadyBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="totalNumber != null" >
+				#{totalNumber,jdbcType=INTEGER},
+			</if>
+			<if test="alreadyNumber != null" >
+				#{alreadyNumber,jdbcType=INTEGER},
+			</if>
+			<if test="status != null" >
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="nextBackTime != null" >
+				#{nextBackTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null" >
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+		delete from sgh_task_cash_back
+		where `task_id`=#{taskId,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select <include refid="Base_Column_List" />
+		from sgh_task_cash_back
+		where `task_id`=#{taskId,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="com.qlzy.task.model.CashBackTask" >
+		update sgh_task_cash_back
+		set `member_id` = #{memberId,jdbcType=VARCHAR},
+			`member_name` = #{memberName,jdbcType=VARCHAR},
+			`back_key` = #{backKey,jdbcType=VARCHAR},
+			`back_value` = #{backValue,jdbcType=VARCHAR},
+			`goods_id` = #{goodsId,jdbcType=VARCHAR},
+			`goods_name` = #{goodsName,jdbcType=VARCHAR},
+			`sku_id` = #{skuId,jdbcType=VARCHAR},
+			`sku_value` = #{skuValue,jdbcType=VARCHAR},
+			`amount` = #{amount,jdbcType=DECIMAL},
+			`total_balance` = #{totalBalance,jdbcType=DECIMAL},
+			`already_balance` = #{alreadyBalance,jdbcType=DECIMAL},
+			`total_number` = #{totalNumber,jdbcType=INTEGER},
+			`already_number` = #{alreadyNumber,jdbcType=INTEGER},
+			`status` = #{status,jdbcType=VARCHAR},
+			`next_back_time` = #{nextBackTime,jdbcType=TIMESTAMP},
+			`create_time` = #{createTime,jdbcType=TIMESTAMP},
+			`remark` = #{remark,jdbcType=VARCHAR}
+		where `task_id`=#{taskId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.task.model.CashBackTask" >
+		update sgh_task_cash_back
+		<set>
+			<if test="memberId != null" >
+				`member_id` = #{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="memberName != null" >
+				`member_name` = #{memberName,jdbcType=VARCHAR},
+			</if>
+			<if test="backKey != null" >
+				`back_key` = #{backKey,jdbcType=VARCHAR},
+			</if>
+			<if test="backValue != null" >
+				`back_value` = #{backValue,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null" >
+				`goods_id` = #{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null" >
+				`goods_name` = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="skuId != null" >
+				`sku_id` = #{skuId,jdbcType=VARCHAR},
+			</if>
+			<if test="skuValue != null" >
+				`sku_value` = #{skuValue,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null" >
+				`amount` = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="totalBalance != null" >
+				`total_balance` = #{totalBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="alreadyBalance != null" >
+				`already_balance` = #{alreadyBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="totalNumber != null" >
+				`total_number` = #{totalNumber,jdbcType=INTEGER},
+			</if>
+			<if test="alreadyNumber != null" >
+				`already_number` = #{alreadyNumber,jdbcType=INTEGER},
+			</if>
+			<if test="status != null" >
+				`status` = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="nextBackTime != null" >
+				`next_back_time` = #{nextBackTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null" >
+				`create_time` = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null" >
+				`remark` = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where `task_id`=#{taskId,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryShouldCalculateTask" resultMap="BaseResultMap" parameterType="java.util.Date" >
+		select <include refid="Base_Column_List" />
+		from sgh_task_cash_back
+		where next_back_time&lt;#{nowTime,jdbcType=TIMESTAMP} and `status`='1'
+	</select>
+</mapper>

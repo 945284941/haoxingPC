@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.head.dao.GoodsCatMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsCat" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="P_TREE" property="pTree" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="P_ORDER" property="pOrder" jdbcType="DECIMAL" />
+    <result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+    <result column="FLOOR" property="floor" jdbcType="DECIMAL" />
+    <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <result column="en_name" property="enName" jdbcType="VARCHAR" />
+    <result column="shopping_sort" property="shoppingSort" jdbcType="INTEGER" />
+    <result column="market_sort" property="marketSort" jdbcType="INTEGER"/>
+    <!-- 以下为扩展字段 -->
+    <result column="PNAME" property="pname" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PID, P_TREE, NAME, DISABLED, P_ORDER, KEY_WORD, FLOOR,GRADE,en_name,shopping_sort,market_sort
+  </sql>
+  <sql id="Blob_Column_List" >
+    REMARK
+  </sql>
+ 
+ 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from QL_GOODS_CAT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据设置的楼层查询其分类id,再根据其分类id查询其子分类 -->
+  <select id="gainSonGoodsCatByFloor" resultMap="BaseResultMap" parameterType="Integer" >
+	select * from QL_GOODS_CAT GC where GC.PID = (select GC2."ID" from QL_GOODS_CAT GC2 where GC2."FLOOR" = #{floor,jdbcType=DECIMAL})
+  </select>
+
+  <!-- 根据设置的floor的值查询其分类 -->
+  <select id="gainGoodsCatByFloor" resultType="com.qlzy.model.GoodsCat" parameterType="Integer" >
+	select "ID","NAME" from QL_GOODS_CAT where "FLOOR" = #{floor,jdbcType=DECIMAL} and DISABLED = 'false'
+  </select>
+    
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_GOODS_CAT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.GoodsCat" >
+    insert into QL_GOODS_CAT (ID, PID, P_TREE, 
+      NAME, DISABLED, P_ORDER, 
+      KEY_WORD, FLOOR, REMARK,GRADE,en_name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{pTree,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR}, #{pOrder,jdbcType=DECIMAL}, 
+      #{keyWord,jdbcType=VARCHAR}, #{floor,jdbcType=DECIMAL}, #{remark,jdbcType=CLOB},
+       #{grade,jdbcType=DECIMAL},#{enName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.GoodsCat" >
+    insert into QL_GOODS_CAT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="pTree != null" >
+        P_TREE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER,
+      </if>
+      <if test="keyWord != null" >
+        KEY_WORD,
+      </if>
+      <if test="floor != null" >
+        FLOOR,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="enName != null" >
+        en_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="pTree != null" >
+        #{pTree,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="pOrder != null" >
+        #{pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="keyWord != null" >
+        #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=CLOB},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="enName != null" >
+        #{enName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.GoodsCat" >
+    update QL_GOODS_CAT
+    <set >
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="pTree != null" >
+        P_TREE = #{pTree,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="keyWord != null" >
+        KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=CLOB},
+      </if>
+       <if test="grade != null" >
+        GRADE = #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="enName != null" >
+        en_name = #{enName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <!-- 根据目录查询分类List数据 -->
+   <select id="gainCatalogueByGrade" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_CAT  where DISABLED = 'false' and GRADE =  #{grade} order by P_ORDER asc
+  </select>
+  
+  <!--  根据父类id查询分类List数据 -->
+  <select id="gainCatalogueByPid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_CAT  where DISABLED = 'false' and PID = #{pid} order by P_ORDER asc
+  </select>
+
+  <!--  根据父类id查询分类List数据 -->
+  <select id="gainCatalogueByPidAndSort" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from QL_GOODS_CAT  where DISABLED = 'false' and PID = #{pid}
+    <if test="catType == 'gwsc' or catType == 'tdd' or catType == 'xsqg' ">
+      order by shopping_sort
+    </if>
+    <if test="catType == 'cs' ">
+      order by market_sort
+    </if>
+    <if test="catType == 'jcsb'">
+      order by p_order
+    </if>
+  </select>
+  
+  <!--  根据父类id查询分类的数量 -->
+  <select id="gainCatalogueCountByPid" parameterType="String" resultType="Long">
+   select COUNT(ID)
+    from QL_GOODS_CAT  where DISABLED = 'false' and PID = #{pid} order by P_ORDER asc
+  </select>
+  
+  <select id="gainCatalogueByPidBeach" resultMap="BaseResultMap" parameterType="java.util.List" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_GOODS_CAT  where DISABLED = 'false' and PID in
+   			<foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                   #{item}
+            </foreach>  
+           order by P_ORDER asc
+  </select>
+  
+  <!-- 查询一级分类 -->
+   <select id="gainGoodsCat" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	SELECT * FROM (SELECT * from QL_GOODS_CAT t where t.DISABLED = 'false' and t.GRADE = 1 ORDER BY t.P_ORDER)
+	<if test="_parameter != null">
+		 where rownum <![CDATA[ <= ]]>  #{catLang} 
+	</if> 
+   </select>
+   <select id="gainNextGoodsCatListByPName" resultMap="BaseResultMap" parameterType="java.util.List">
+  	 select a.ID, a.PID, a.P_TREE, a.NAME, a.DISABLED, a.P_ORDER, a.KEY_WORD, a.FLOOR,a.GRADE,a.REMARK,a.en_name  from QL_GOODS_CAT a inner join QL_GOODS_CAT b on a.pid= b.id where b.name in
+  			<foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                   #{item}
+            </foreach>
+   </select>
+
+   <!-- 根据商品分类ID查询商品分类名称 -->
+   <select id="gainGoodsCatNameById" resultType="String" parameterType="String">
+	select GC."NAME" from QL_GOODS_CAT GC where GC.DISABLED = 'false' and GC."ID" = #{id}
+   </select>
+      
+   <select id="gainGoodsCatList" resultMap="BaseResultMap">
+   		select 
+	    <include refid="Base_Column_List" />
+	    ,
+	     <include refid="Blob_Column_List" />
+	    from QL_GOODS_CAT where  DISABLED='false' and PID is not null
+   </select>
+   <select id="gainCatIdByName" parameterType="String" resultType="String">
+   	select ID from QL_GOODS_CAT where NAME=#{name,jdbcType=VARCHAR}
+   </select>
+   
+   <!-- 根据父分类ID查询其子分类信息 -->
+   <select id="gainSonGoodsCatsByPid" parameterType="Map" resultMap="BaseResultMap">
+   		select * from QL_GOODS_CAT GC where GC.DISABLED = 'false' and GC.P_TREE like '%${goodsCatId}%'
+   </select>   
+   
+   <select id="gainGoodsCatPidById" parameterType="String" resultType="String">
+   		select pid from QL_GOODS_CAT where disabled = 'false' and ID = #{id,jdbcType=VARCHAR}
+   </select>
+</mapper>

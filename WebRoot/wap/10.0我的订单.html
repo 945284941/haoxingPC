@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<div class="middlePopover" style="position: relative;">
+				<h1 class="mui-title order_down_black"><a href="#middlePopover" class="mui-btn-outlined">我的订单<em class="iconfont">&#xe618;</em> </a></h1>
+				<div id="middlePopover" class="mui-popover mui-bar-popover order_down">
+					<div class="mui-popover-arrow"></div>
+					<ul>
+						<li><a href="">待付款</a></li>
+						<li><a href="">待发货</a></li>
+						<li><a href="">待收货</a></li>
+						<li><a href="">待评价</a></li>
+						<li><a href="">已完成</a></li>
+						<li><a href="">退货</a></li>
+						<li><a href="">已取消</a></li>
+					</ul>
+				</div>
+			</div>		
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<div class="addPopover_2" style="position: relative;">
+				<a href="#Popover_2" id="meau" class="mui-icon mui-pull-right iconfont">&#xe617;</a>
+				<div id="Popover_2" class="mui-popover mui-bar-popover meau_down">
+					<div class="mui-popover-arrow"></div>
+					<ul class="">
+						<li class="mui-table-view-cell"><i class="iconfont">&#xe604;</i> 首页</a>
+						</li>
+						<li class="mui-table-view-cell"><i class="iconfont">&#xe600;</i>分类搜索</a>
+						</li>
+						<li class="mui-table-view-cell"><i class="iconfont">&#xe778;</i>购物车</a>
+						</li>
+						<li class="mui-table-view-cell"><i class="iconfont">&#xe66e;</i>我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="mui-content">
+			<div class="app_box2 mt0 clearfix">
+				<div class="mui-content-padded">店铺名称 <span class="mui-pull-right fn09 color_999">待付款</span></div>
+				<ul class="mui-table-view mui-table-view-chevron product clearfix">
+					<li class="mui-table-view-cell bg_gray">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell bg_gray mt05">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<p class="mui-content-padded mui-text-right">共<span>8</span>件商品 实付款 ￥<span>29.9</span> $<span>29.9</span> AED<span>29.9</span></p>
+				<p class="shopcar_subtotal">
+					<a class="order_but" href="">去支付</a>
+				</p>
+			</div>
+			<div id="OA_task_1" class="app_box2 clearfix">
+				<div class="mui-content-padded">店铺名称 <span class="mui-pull-right fn09 color_999">已取消</span></div>
+				<ul class="mui-table-view mui-table-view-chevron product clearfix">
+					<li class="mui-table-view-cell bg_gray">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<p class="mui-content-padded mui-text-right">共<span>8</span>件商品 实付款 ￥<span>29.9</span> $<span>29.9</span> AED<span>29.9</span></p>
+				<p class="shopcar_subtotal">
+					<button class="mui-btn order_but" href="">删除订单</button>
+				</p>
+			</div>
+			<div class="app_box2 clearfix">
+				<div class="mui-content-padded">店铺名称 <span class="mui-pull-right fn09 color_999">待发货</span></div>
+				<ul class="mui-table-view mui-table-view-chevron product clearfix">
+					<li class="mui-table-view-cell bg_gray">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<p class="mui-content-padded mui-text-right">共<span>8</span>件商品 实付款 ￥<span>29.9</span> $<span>29.9</span> AED<span>29.9</span></p>
+				<p class="shopcar_subtotal">
+					<button class="mui-btn order_but" href="">取消订单</button>
+				</p>
+			</div>
+			<div class="app_box2 clearfix">
+				<div class="mui-content-padded">店铺名称 <span class="mui-pull-right fn09 color_999">待收货</span></div>
+				<ul class="mui-table-view mui-table-view-chevron product clearfix">
+					<li class="mui-table-view-cell bg_gray">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<p class="mui-content-padded mui-text-right">共<span>8</span>件商品 实付款 ￥<span>29.9</span> $<span>29.9</span> AED<span>29.9</span></p>
+				<p class="shopcar_subtotal">
+					<button class="mui-btn order_but" href="">确认收货</button>
+				</p>
+			</div>
+			<div class="app_box2 clearfix">
+				<div class="mui-content-padded">店铺名称 <span class="mui-pull-right fn09 color_999">待评价</span></div>
+				<ul class="mui-table-view mui-table-view-chevron product clearfix">
+					<li class="mui-table-view-cell bg_gray">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<p class="mui-content-padded mui-text-right">共<span>8</span>件商品 实付款 ￥<span>29.9</span> $<span>29.9</span> AED<span>29.9</span></p>
+				<p class="shopcar_subtotal">
+					<button class="mui-btn order_but" href="">去评价</button>
+				</p>
+			</div>
+			<div class="app_box2 clearfix">
+				<div class="mui-content-padded">店铺名称 <span class="mui-pull-right fn09 color_999">已完成</span></div>
+				<ul class="mui-table-view mui-table-view-chevron product clearfix">
+					<li class="mui-table-view-cell bg_gray">
+						<a href="">
+							<div class="product_img">
+								<img src="images/product.png" />
+								<p>仅剩3件</p>
+								<span>抢购</span>
+							</div>
+							<div class="product_tex">
+								<p>加厚法莱绒床笠</p>
+								<div class="clearfix buying_tex">
+									<div class="mui-pull-left">
+										<p>￥<em>29.9</em></p>
+										<s>￥<em>36.9</em></s>
+									</div>
+									<div class="mui-pull-right mui-text-right">
+										<p class="fn09">$<em>30.00</em></p>
+										<p class="fn09">AED<em>3000.00</em></p>
+									</div>
+								</div>
+								<p class="mui-text-right">x2</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<p class="mui-content-padded mui-text-right">共<span>8</span>件商品 实付款 ￥<span>29.9</span> $<span>29.9</span> AED<span>29.9</span></p>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init();
+			(function($) {
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('确认删除该条记录？', '', btnArray, function(e) {
+						if(e.index == 0) {
+							li.parentNode.removeChild(li);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				var btnArray = ['确认', '取消'];
+			})(mui);
+		</script>
+	</body>
+
+</html>

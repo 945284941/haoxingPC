@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlzy.memberCenter.call.dao.BankcardMapper">
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Bankcard">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="MEMBER_ID" jdbcType="VARCHAR" property="memberId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CARD_NUMBER" jdbcType="VARCHAR" property="cardNumber" />
+    <result column="bank" jdbcType="VARCHAR" property="bank" />
+    <result column="OPEN_BANK" jdbcType="VARCHAR" property="openBank" />
+    <result column="card_type" jdbcType="VARCHAR" property="cardType" />
+    <result column="IS_DEFAULT" jdbcType="VARCHAR" property="isDefault" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, MEMBER_ID, NAME, CARD_NUMBER, bank, OPEN_BANK, card_type, IS_DEFAULT, CREATE_TIME, 
+    UPDATE_TIME, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ql_bankcard
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findBankCardByCid" parameterType="com.qlzy.model.Bankcard" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from  ql_bankcard
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="memberId != null">
+       AND  MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        AND NAME = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="cardNumber != null">
+        AND CARD_NUMBER = #{cardNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="bank != null">
+        AND  bank = #{bank,jdbcType=VARCHAR}
+      </if>
+      <if test="openBank != null">
+        AND  OPEN_BANK = #{openBank,jdbcType=VARCHAR}
+      </if>
+      <if test="cardType != null">
+        AND  card_type = #{cardType,jdbcType=VARCHAR}
+      </if>
+      <if test="isDefault != null">
+        AND IS_DEFAULT = #{isDefault,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ql_bankcard
+    where MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ql_bankcard
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.Bankcard">
+    insert into ql_bankcard (id, MEMBER_ID, NAME, 
+      CARD_NUMBER, bank, OPEN_BANK, 
+      card_type, IS_DEFAULT, CREATE_TIME, 
+      UPDATE_TIME, remark)
+    values (#{id,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{cardNumber,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, #{openBank,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=VARCHAR}, #{isDefault,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.Bankcard">
+    insert into ql_bankcard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="cardNumber != null">
+        CARD_NUMBER,
+      </if>
+      <if test="bank != null">
+        bank,
+      </if>
+      <if test="openBank != null">
+        OPEN_BANK,
+      </if>
+      <if test="cardType != null">
+        card_type,
+      </if>
+      <if test="isDefault != null">
+        IS_DEFAULT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNumber != null">
+        #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="openBank != null">
+        #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Bankcard">
+    update ql_bankcard
+    <set>
+      <if test="memberId != null">
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNumber != null">
+        CARD_NUMBER = #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="openBank != null">
+        OPEN_BANK = #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        card_type = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.Bankcard">
+    update ql_bankcard
+    set MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      CARD_NUMBER = #{cardNumber,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      OPEN_BANK = #{openBank,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=VARCHAR},
+      IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.common.dao.PointDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.PointDetail" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="POINT" property="point" jdbcType="DECIMAL" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, POINT, MEMBER_ID, REMARK, CREATETIME, BALANCE, TYPE,DISABLED
+  </sql>
+  <!-- 统计信息-经验值统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainPointStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+	select "SUM"(PD."POINT") AS "POINT" from QL_POINT_DETAIL PD where PD.MEMBER_ID = #{userId} 
+	<if test="operateType!=null and operateType!=''">
+		and PD."TYPE" = #{operateType,jdbcType=VARCHAR}
+	</if>
+	<if test="time==1">
+		and to_char(PD.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(PD.CREATETIME,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(PD.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(PD.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(PD.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(PD.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_POINT_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_POINT_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 添加经验值日志 -->
+  <insert id="addPointLog" parameterType="com.qlzy.model.PointDetail" >
+    insert into QL_POINT_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.PointDetail" >
+    update QL_POINT_DETAIL
+    <set >
+      <if test="point != null" >
+        POINT = #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.PointDetail" >
+    update QL_POINT_DETAIL
+    set POINT = #{point,jdbcType=DECIMAL},
+      MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      BALANCE = #{balance,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+ 
+   <!--得到所有经验值列表 gainPointList -->
+     <select id="gainPointList" resultType="com.qlzy.model.PointDetail" parameterType="Map" >
+    select 
+    *
+    from QL_POINT_DETAIL
+    where MEMBER_ID = #{userId,jdbcType=VARCHAR} and DISABLED='false'
+    <if test="pointType != null and pointType != ''">
+    	and TYPE = #{pointType,jdbcType=VARCHAR} 
+    </if> order by CREATETIME desc
+      limit #{page},#{rows} 
+  </select>
+   <!--得到所有资金数目  -->
+     <select id="gainPointListCount" resultType="Long" parameterType="Map" >
+  	 select count(ID)
+    from QL_POINT_DETAIL
+    where MEMBER_ID = #{userId,jdbcType=VARCHAR} and DISABLED='false'
+     <if test="pointType != null and pointType != ''">
+    	and TYPE = #{pointType,jdbcType=VARCHAR} 
+    </if>
+  </select>
+  <update id="deletePointList" parameterType="java.lang.String" >
+    update QL_POINT_DETAIL
+    set DISABLED = 'true'
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+   <insert id="insertSelective" parameterType="com.qlzy.model.PointDetail" >
+    insert into ql_point_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

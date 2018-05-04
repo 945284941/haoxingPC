@@ -1,0 +1,49 @@
+@charset "utf-8";
+/* CSS Document */
+*{ padding:0; margin:0}
+img{ border:0}
+.top01,.top02,.top03,.top04,.top05,.top06{  height:99px;width:100% }
+.top01{ background:url(../images/cx/bg01.jpg) center top; }
+.top02{ background:url(../images/cx/bg02.jpg) center top; }
+.top03{ background:url(../images/cx/bg03.jpg) center top;}
+.top04{ background:url(../images/cx/bg04.jpg) center top;}
+.top05{ background:url(../images/cx/bg05.jpg) center top;}
+.top06{ background: url(../images/cx/bg06.jpg)  center top;}
+.activity{ width:1200px; margin:0 auto; margin-top:15px; _margin-top:5px; clear:both}
+.sale,.sale_2{ width:357px; height:265px; background:url(../images/cx/salf_bg.gif) no-repeat left bottom; padding:15px; margin:0 6px; _ margin:0 5px; float:left; display:inline; position:relative}
+.sale h2,.sale_2 h2{ background:url(../images/cx/hspan.png) no-repeat 83px bottom; height:51px; margin-bottom:15px; font-family:SimHei;}
+.sale h2 span,.sale_2 h2 span{ line-height:32px; height:32px; padding:6px 5px 6px 3px; background:#b20d00 url(../images/cx/salf_h.jpg) no-repeat left top; color:#ffffff; font-size:18px; font-weight:normal}
+.sale p,.sale_2 p{ font-size:14px; color:#523f00; line-height:20px; height:60px; overflow:hidden;}
+.pro{ margin:15px 0}
+.pro_pic{ float:left; margin-right:15px; display:inline;}
+.pro_con,.pro_con_2{ margin-top:5px;}
+.pro_con p,.pro_con_2 p{ line-height:18px;height:18px; margin:0; font-size:12px; width:237px; overflow:hidden}
+.pro_con p.ckxq,.pro_con_2 p .ckxq{ height:33px; line-height:33px; margin-top:10px;}
+.activity2{ width:1206px;}
+.pro_2{ margin:10px 0 10px;}
+.pro_2 img{ width:153px; height:116px;}
+.sale_2{ width:557px; height:225px; margin:10px 8px; _margin:15px 6px;background:url(../images/cx/salf_bg02.jpg) no-repeat left 38px; padding-top:0}
+.pro_con_2 p{ width:370px;}
+.pro_con_2 p.pro_contitle{ line-height:18px; height:55px; font-size:14px; overflow:hidden; margin-bottom:12px;}
+.sale_2 p.hdtime{ height:30px;clear:both;}
+a.ckxq{ position:absolute; right:20px; bottom:20px;}
+.activity_3{ width:1190px; clear:both; margin:10px auto 20px; background:url(../images/cx/salf_bg03.jpg) no-repeat left top; padding-top:17px;}
+.activity_3_1{ border-left:1px solid #cccccc; width:1189px; padding-left:1px;}
+.sale_3{ padding:40px 30px 30px; border-bottom:1px solid #cccccc; border-right:1px solid #cccccc; width:236px; color:#4d2d00; float:left; height:308px;}
+.sale_3 h2{ font-size:16px; font-family:SimHei; text-align:center; color:#ba7538; margin-bottom:25px;}
+.sale_3 p{ height:72px; overflow:hidden; line-height:18px; font-size:14px; margin-bottom:10px;}
+.sale_3 .pro_pic img{ width:72px; height:54px;}
+.sale_3 .pro_pic{ margin-right:8px;}
+.sale_3 .pro_con{ margin-top:0}
+.sale_3 .pro_con p{ font-size:12px; width:150px; height:16px; margin-bottom:8px;}
+.sale_3 .pro_con p.cxlbcx{ height:33px;}
+.sale_3 p.hdtime{ height:20px;}
+.sale_3 p.ckxq_3{ height:35px;}
+.sxgg{ text-align:center;}
+.sxgg p.ggjr{ height:220px; padding-top:30px;}
+.gqcxhd{ background:#e4e6e4 url(../images/cx/gqbg.png) repeat-x left top; padding-bottom:20px;}
+.gqcxhd02{ width:1190px; margin:0 auto;  padding-top:25px; color:#999}
+.gqcxhd02 h2{ text-align:center; padding-bottom:30px;}
+.gqcxhd02 .sale_3 h2,.gqcxhd02 .sale_3{ color:#888}
+.foot{ width:100%; margin:0 auto; padding-top:30px; text-align:center; background:url(../images/cx/footbg.png) repeat-x left top; }
+.foot p{ font-size:12px; height:25px;}

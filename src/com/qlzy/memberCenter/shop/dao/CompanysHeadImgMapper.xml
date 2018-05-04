@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.shop.dao.CompanysHeadImgMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.CompanysHeadImg" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="P_ORDER" property="porder" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMPANY_ID, IMG_SRC, P_ORDER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_COMPANYS_HEAD_IMG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_COMPANYS_HEAD_IMG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.CompanysHeadImg" >
+    insert into QL_COMPANYS_HEAD_IMG (ID, COMPANY_ID, IMG_SRC, 
+      P_ORDER)
+    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{imgSrc,jdbcType=VARCHAR}, 
+      #{porder,jdbcType=DECIMAL})
+  </insert>
+ 
+  
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.CompanysHeadImg" >
+    update QL_COMPANYS_HEAD_IMG
+    set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      IMG_SRC = #{imgSrc,jdbcType=VARCHAR},
+      P_ORDER = #{porder,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查找广告列表 -->
+   <select id="gainCompanysHeadImgsByMember" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_COMPANYS_HEAD_IMG
+    where COMPANY_ID = #{string,jdbcType=VARCHAR}  ORDER BY P_ORDER DESC 
+  </select>
+  <!-- 添加广告 -->
+   <insert id="addCompanysHeadImg" parameterType="com.qlzy.model.CompanysHeadImg" >
+    insert into QL_COMPANYS_HEAD_IMG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC,
+      </if>
+      <if test="porder != null" >
+        P_ORDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null" >
+        #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="porder != null" >
+        #{porder,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateHeadImg" parameterType="com.qlzy.model.CompanysHeadImg" >
+    update QL_COMPANYS_HEAD_IMG
+    <set >
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC = #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="porder != null" >
+        P_ORDER = #{porder,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="deleteHeadImg" parameterType="com.qlzy.model.CompanysHeadImg" >
+    update QL_COMPANYS_HEAD_IMG
+    
+       set IMG_SRC = null
+    
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 企业店铺-头部广告图片 -->
+   <select id="gainCompanysHeadImgsByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_COMPANYS_HEAD_IMG
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR} and IMG_SRC is not null ORDER BY P_ORDER DESC 
+  </select>
+    
+</mapper>

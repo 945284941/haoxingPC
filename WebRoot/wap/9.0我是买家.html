@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">会员中心</h1>
+			<div class="addPopover_2" style="position: relative;">
+				<a href="#Popover_2" id="meau" class="mui-icon mui-pull-right iconfont">&#xe617;</a>
+				<div id="Popover_2" class="mui-popover mui-bar-popover meau_down" style="top: 44px !important;">
+					<div class="mui-popover-arrow"></div>
+					<ul class="">
+						<li class="mui-table-view-cell">
+							<a href="index.jsp"><i class="iconfont">&#xe604;</i> 首页</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe600;</i>分类搜索</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="5.1购物车管理.html"><i class="iconfont">&#xe778;</i>购物车</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe66e;</i>我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="mui-content">
+			<div class="vip_box clearfix">
+				<div class="mui-table-view-cell">
+					<span class="mui-badge bgnone"><a href="9.1账户管理.html" href="">账户管理 &gt; </a></span>
+					<a href="9.2个人资料.html">
+						<span class="vip_avatar mui-pull-left"><img src="images/avatar.jpg" /></span>
+						<span class="vip_name mui-pull-left">
+							樱桃丸子
+							<em class="iconfont">&#xe60b;</em>
+							<em class="iconfont">&#xe60b;</em>
+							<em class="iconfont">&#xe60b;</em>
+							<em class="iconfont">&#xe60b;</em>
+							<em class="iconfont">&#xe60b;</em>
+						</span>
+					</a>
+				</div>
+				<div class="vip_identity">
+					<a href="">我是分销商</a>
+					<a class="active" href="">我是买家</a>
+				</div>
+			</div>
+			<div class="vip_mainlist clearfix mt05">
+				<h3>我的订单 <a href="10.0我的订单.html" class="mui-pull-right color_999 fn09" href="">查看更多订单 &gt; </a></h3>
+				<ul>
+					<li>
+						<a href="">
+							<p class="iconfont">&#xe65b;</p>待付款</a>
+					</li>
+					<li>
+						<a href="">
+							<p class="iconfont">&#xe62f;</p>待发货</a>
+					</li>
+					<li>
+						<a href="">
+							<p class="iconfont">&#xe67b;</p>待收货</a>
+					</li>
+					<li>
+						<a href="">
+							<p class="iconfont">&#xe621;</p>退款/退货</a>
+					</li>
+				</ul>
+			</div>
+			<div class="vip_data mui-text-center clearfix">
+				<div class="mui-pull-left">100
+					<p class="color_666">消费总额</p>
+				</div>
+				<div class="mui-pull-left">60
+					<p class="color_666">我的心动值</p>
+				</div>
+			</div>
+			<div class="mt05">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="11.2我的收藏.html" class="mui-navigate-right">
+							<em class="iconfont">&#xe607;</em> 我的收藏
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="11.3商品评价.html" class="mui-navigate-right">
+							<em class="iconfont">&#xe65a;</em> 商品评论
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="11.1我的发布.html" class="mui-navigate-right">
+							<em class="iconfont">&#xe64d;</em> 我的发布
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="11.4意见反馈.html" class="mui-navigate-right">
+							<em class="iconfont">&#xe63c;</em> 意见反馈
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							<em class="iconfont">&#xe673;</em> 在线客服
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-content-padded">
+				<button class="vip_but mg0">退出</button>
+			</div>
+		</div>
+		<div style="padding-bottom: 70px;"></div>
+		<nav class="mui-bar mui-bar-tab my_foot">
+			<a class="mui-tab-item mui-active" href="#">
+				<span class="mui-icon iconfont">&#xe604;</span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="#">
+				<span class="mui-icon iconfont">&#xe6fa;</span>
+				<span class="mui-tab-label">分类</span>
+			</a>
+			<a class="mui-tab-item" href="#">
+				<img class="foot_avatar" src="images/avatar.jpg" />
+			</a>
+			<a class="mui-tab-item" href="#">
+				<span class="mui-icon iconfont">&#xe778;</span>
+				<span class="mui-tab-label">购物车</span>
+			</a>
+			<a class="mui-tab-item" href="#">
+				<span class="mui-icon iconfont">&#xe6be;</span>
+				<span class="mui-tab-label">中文</span>
+			</a>
+		</nav>
+		<script src="js/jquery1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

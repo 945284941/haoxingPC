@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.goods.dao.SpecificationMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsSpecification" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PTREE" property="ptree" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PID, NAME, PTREE, DISABLED, UNIT
+  </sql>
+  <select id="gainGoodsSpecifications" parameterType="com.qlzy.model.GoodsSpecification" resultMap="BaseResultMap">
+  	select 
+  	 <include refid="Base_Column_List" />
+    from QL_GOODS_SPECIFICATION where PID =(select ID from QL_GOODS_SPECIFICATION where PID is null)
+  </select>
+  <select id="gainGoodsSpecificationsCount" parameterType="com.qlzy.model.GoodsSpecification" resultType="Long">
+  	select count(id) from QL_GOODS_SPECIFICATION
+  </select>
+  
+  <select id="gainGoodsSpecificationsByPid" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> 
+  	from QL_GOODS_SPECIFICATION where PID = #{PID,jdbcType=VARCHAR}
+  </select>
+</mapper>

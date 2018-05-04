@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">支付</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<div class="addPopover_2" style="position: relative;">
+				<a href="#Popover_2" id="meau" class="mui-icon mui-pull-right iconfont">&#xe617;</a>
+				<div id="Popover_2" class="mui-popover mui-bar-popover meau_down" style="top: 44px !important;">
+					<div class="mui-popover-arrow"></div>
+					<ul class="">
+						<li class="mui-table-view-cell">
+							<a href="index.jsp"><i class="iconfont">&#xe604;</i> 首页</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe600;</i>分类搜索</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="5.1购物车管理.html"><i class="iconfont">&#xe778;</i>购物车</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe66e;</i>我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="info"></div>
+		</header>
+		<div class="mui-content">
+			<p class="title">结算信息</p>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a><span class="color_666">订单号</span> <span class="mui-pull-right">ODD201712280189</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a><span class="color_666">交易金额</span> <span class="mui-pull-right">￥500.00($50.00  AED20.00)</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a><span class="color_666">颐佳币</span> <span class="mui-pull-right">-100(￥500.00 $50.00  AED20.00)</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a><span class="color_666">还需支付</span> <span class="mui-pull-right">￥500.00 $50.00  AED20.00</span></a>
+				</li>
+			</ul>
+			<p class="title">选择支付币种</p>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">人民币（CNY）</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">美元（USD）</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">迪拉姆（AED）</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+			</form>
+			<p class="title">请选择以下支付方式</p>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">支付宝</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">paypal</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">线下支付</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='confirmBtn' class="vip_but">确认支付</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			document.getElementById("confirmBtn").addEventListener('tap', function() {
+				var btnArray = ['返回首页', '查看订单'];
+				mui.confirm('您已经提交过一次，请勿重复提交，您可以选择支付已提交订单，或者返回首页', '', btnArray, function(e) {
+					if(e.index == 1) {
+						info.innerText = '';
+					} else {
+						info.innerText = ''
+					}
+				})
+			});
+		</script>
+
+	</body>
+
+</html>

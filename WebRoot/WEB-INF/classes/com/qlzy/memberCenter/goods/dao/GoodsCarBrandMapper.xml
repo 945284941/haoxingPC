@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.goods.dao.GoodsCarBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsCarBrand" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+    <result column="CAR_BRAND_ID" property="carBrandId" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_ID, CAR_BRAND_ID, DISABLED
+  </sql>
+  <insert id="addGoodsMidCarBrand" parameterType="java.util.List">
+  	  insert into QL_GOODS_CARBRAND(ID,GOODS_ID,CAR_BRAND_ID) 
+  	   <foreach collection="list" item="t" index="index" separator="union all">
+			select #{t.id},#{t.goodsId},#{t.carBrandId} from dual
+		</foreach>
+  </insert>
+  
+  <delete id="dropGoodsMidCarBrand" parameterType="String">
+  	delete from QL_GOODS_CARBRAND where GOODS_ID= #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="gainGoodsMidCarBrand" parameterType="String" resultType="String">
+  	select CAR_BRAND_ID from QL_GOODS_CARBRAND where GOODS_ID= #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="deleteGoodsMidCarBrandByGoodsId" parameterType="java.util.List">
+  	update QL_GOODS_CARBRAND set disabled='true' where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+  </update>
+  
+  <delete id="dropGoodsMidCarBrandByGoodsId" parameterType="java.util.List">
+  	delete from QL_GOODS_CARBRAND  where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+  </delete>
+  
+  <update id="recoverGoodsMidCarBrand" parameterType="java.util.List">
+  		update QL_GOODS_CARBRAND set disabled='false' where GOODS_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+  </update>
+  <!-- excel批量添加操作 -->
+    <insert id="addGoodsCarBrandExcel" parameterType="java.util.List">
+  	  insert into TEST_GOODS_CARBRAND(ID,GOODS_ID,CAR_BRAND_ID) 
+  	   <foreach collection="list" item="t" index="index" separator="union all">
+			select #{t.id},#{t.goodsId},#{t.carBrandId} from dual
+		</foreach>
+  </insert>
+</mapper>

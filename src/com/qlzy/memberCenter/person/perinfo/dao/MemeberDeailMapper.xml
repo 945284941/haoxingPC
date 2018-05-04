@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.perinfo.dao.MemeberDeailMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.MemeberDeail" >
+     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="memberId" property="memberid" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DECIMAL" />
+    <result column="zengsongType" property="zengsongtype" jdbcType="VARCHAR" />
+    <result column="guliangbiNum" property="guliangbinum" jdbcType="DECIMAL" />
+    <result column="stutas" property="stutas" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="TIMESTAMP" />
+    <result column="point" property="point" jdbcType="DECIMAL" />
+    <result column="youhuiquanname" property="youhuiquanname" jdbcType="VARCHAR" />
+    <result column="membername" property="membername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, memberId, message, num, zengsongType, guliangbiNum, stutas, createtime,updatetime,user_id,point,membername,youhuiquanname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_memeber_deail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_memeber_deail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.MemeberDeail" >
+    insert into ql_memeber_deail (id, memberId, message, 
+      num, zengsongType, guliangbiNum, 
+      stutas, createtime)
+    values (#{id,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{num,jdbcType=DECIMAL}, #{zengsongtype,jdbcType=VARCHAR}, #{guliangbinum,jdbcType=DECIMAL}, 
+      #{stutas,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.MemeberDeail" >
+    insert into ql_memeber_deail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="zengsongtype != null" >
+        zengsongType,
+      </if>
+      <if test="guliangbinum != null" >
+        guliangbiNum,
+      </if>
+      <if test="stutas != null" >
+        stutas,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="membername != null" >
+        membername,
+      </if>
+      <if test="youhuiquanname != null" >
+        youhuiquanname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="zengsongtype != null" >
+        #{zengsongtype,jdbcType=VARCHAR},
+      </if>
+      <if test="guliangbinum != null" >
+        #{guliangbinum,jdbcType=DECIMAL},
+      </if>
+      <if test="stutas != null" >
+        #{stutas,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if> 
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="youhuiquanname != null" >
+        #{youhuiquanname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.MemeberDeail" >
+    update ql_memeber_deail
+    <set >
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="zengsongtype != null" >
+        zengsongType = #{zengsongtype,jdbcType=VARCHAR},
+      </if>
+      <if test="guliangbinum != null" >
+        guliangbiNum = #{guliangbinum,jdbcType=DECIMAL},
+      </if>
+      <if test="stutas != null" >
+        stutas = #{stutas,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+       <if test="point != null" >
+        point = #{point,jdbcType=DECIMAL},
+      </if>
+       <if test="youhuiquanname != null" >
+        youhuiquanname = #{youhuiquanname,jdbcType=VARCHAR},
+      </if>
+       <if test="membername != null" >
+        membername = #{membername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.MemeberDeail" >
+    update ql_memeber_deail
+    set memberId = #{memberid,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR},
+      num = #{num,jdbcType=DECIMAL},
+      zengsongType = #{zengsongtype,jdbcType=VARCHAR},
+      guliangbiNum = #{guliangbinum,jdbcType=DECIMAL},
+      stutas = #{stutas,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="gainMemberDeailList" resultMap="BaseResultMap" parameterType="com.qlzy.model.MemeberDeail" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_memeber_deail order by createtime desc  limit #{page},#{rows}
+  </select>
+	<select id="gainMemberDeailListcount" parameterType="com.qlzy.model.MemeberDeail"
+		resultType="Long">
+		select count(id)  from  ql_memeber_deail
+	</select>
+</mapper>

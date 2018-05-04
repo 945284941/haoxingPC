@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">提现申请</h1>
+			<a id='confirmBtn' class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-btn mui-btn-link mui-pull-right"><span class="color_999">提现记录</span></a>
+		</header>
+		<div class="mui-content">
+			<div class="app_box3">可提现金额：￥700($20 AED23)</div>
+			<p class="title">选择支付币种</p>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">人民币（CNY）</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">美元（USD）</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label class="color_666">迪拉姆（AED）</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+			</form>
+			<p class="title"><span class="color_666">到账银行卡</span><span class="mui-pull-right">招商银行(8040)</span></p>
+			<div class="app_box3">
+				<div>提现金额</div>
+				<div class="mt05">￥ <input class="tixian" type="text" name="" id="" value="200" /> </div>
+				<div class="zhushi">手续费（个人所得税及管理费）：2.00元<br /> 每次提现最低金额￥100.00<br />每日最高提现金额￥50000.00
+					<br /> 实际收款金额：￥98.00
+				</div>
+			</div>
+			<div class="mui-content-padded">
+				<button class="vip_but">确认支付</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			document.getElementById("confirmBtn").addEventListener('tap', function() {
+				var btnArray = ['继续支付', '确认离开'];
+				mui.confirm('确认离开？超过支付实效后订单将会被取消，请尽快完成支付？', '', btnArray, function(e) {
+					if(e.index == 1) {
+						info.innerText = '';
+					} else {
+						info.innerText = ''
+					}
+				})
+			});
+		</script>
+
+	</body>
+
+</html>

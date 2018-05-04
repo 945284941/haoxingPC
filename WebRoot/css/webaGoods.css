@@ -1,0 +1,128 @@
+@charset "utf-8";
+/* CSS Document */
+/*----------全局样式 begin------*/
+html{
+width:100%;
+margin:0 auto;
+background:#FFFFFF;
+}
+body{
+margin:0 auto;
+font-size:12px;
+font-family: Arial, Helvetica, sans-serif,"宋体";
+line-height:24px;
+color:#666666;
+}
+* ul,li,p,div,label{
+margin:0;
+padding:0;
+}
+* P,li,ul,h,em,dt,dd{ margin:0;padding:0;}
+* ul,dl{
+list-style:none;
+}
+* {PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px}
+* LI {
+LIST-STYLE-TYPE: none
+}
+A IMG {
+BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none; BORDER-LEFT-STYLE: none
+}
+EM {
+FONT-STYLE: normal; FONT-WEIGHT: normal
+}
+.clear {
+	DISPLAY: inline; HEIGHT: 0px; CLEAR: both
+}
+A {
+COLOR: #666666; TEXT-DECORATION: none; cursor:pointer;
+}
+A:hover {
+TEXT-DECORATION:underline; color:#CF1529;
+}
+
+/*----------全局样式 end------*/
+
+
+
+.banner{width: 1190px;margin:0 auto;height:0px;}
+
+.banner{height:0px; }
+.index_banner_02_let{float:left; background:#faf8f8;height:379px;width:195px; color:#999; font-size:14px; line-height:31px; border:#dddddd solid 1px;}
+.index_banner_02_let img{ padding:12px 10px 0 0;}
+.index_banner_02_let a{display:block;height:31px; color:#333; background:url(../imges/lft_bg.jpg) no-repeat bottom center; padding-left:50px; }
+.index_banner_02_let a:hover{ background:#FAFAFA;}
+.banner_02_right{float:left;}
+.banner_02_right_top{float:left; padding-left:25px;height:280px;width:942px;border:#dddddd solid 1px;}
+.banner_02_right_top01{line-height:40px; color:#999}
+.banner_02_right_top02{line-height:40px;}
+.banner_02_right_top03{float:left;line-height:20px;}
+.banner_02_right_top03_1{padding-top:20px;float:left;height:40px;width:60px;}
+.banner_02_right_top03_2{padding-top:20px;padding-left:25px;float:left;height:40px;width:700px;padding-top:20px;}
+.banner_02_right_top04 img{padding-top:10px;margin-top:10px; padding-left:14px;}
+.banner_02_right_top02 img{padding-left:24px;}
+.banner_02_right_bot_01{height:45px;}
+.banner_02_right_bot_01 img{padding-top:5px;}
+.banner_02_right_bot_03_1{float:right;height:260px;width:230px; margin:14px 0 0 6px;}
+.banner_02_right_bot_03_1_bot{}
+.banner_02_right_bot_03_1_bot b{color:#C00; font-size:16px;line-height:40px;}
+.banner_02_right_bot_03_1_bot span{ color:#999;padding-left:5px;}
+.banner_02_right_bot_03_1_bot img{ padding-top:10px;}
+.mid_left_top_01{height:25px; width:195px; text-align:center;padding-top:7px; font-weight:bold;font-size:14px;background:url(tu_01.jpg)}
+.mid_left_top_01 span{color:#C00; font-size:14px}
+
+
+.banner{width: 1190px;margin:0 auto;height:0px;}
+.banner_02{ }
+.index_banner_02_let{float:left; background:#faf8f8;height:379px;width:195px; color:#999; font-size:14px; line-height:31px; border:#dddddd solid 1px;}
+.index_banner_02_let img{ padding:12px 10px 0 0;}
+.index_banner_02_let a{display:block;height:31px; color:#333; background:url(../imges/lft_bg.jpg) no-repeat bottom center; padding-left:50px; }
+.index_banner_02_let a:hover{ background:#FAFAFA;}
+.banner_02_left{width: 195px;float:left;}
+.banner_02_right{float:left;}
+.banner_02_right_top{float:left; padding-left:25px;height:280px;width:941px; border:#dddddd solid 1px;}
+.banner_02_right_top01{line-height:40px; color:#999}
+.banner_02_right_top02{line-height:40px;}
+.banner_02_right_top03{float:left;line-height:20px;}
+.banner_02_right_top03_1{padding-top:20px;float:left;height:40px;width:60px;}
+.banner_02_right_top03_2{padding-top:20px;padding-left:25px;float:left;height:40px;width:700px;padding-top:20px;}
+.banner_02_right_top04 img{padding-top:10px;margin-top:10px; padding-left:14px;}
+.banner_02_right_top02 img{padding-left:24px;}
+.banner_02_right_bot_01{ font-size:14px; line-height:50px; ;border-bottom-color:#666; border-bottom:solid; border-bottom-width:2px}
+.banner_02_right_bot_01 li{float:left; margin:5px 0 5px 5px;  font-size:14px; color:#333; line-height:34px;}
+.banner_02_right_bot_03{margin-top:10px;}
+.banner_02_right_bot_03_1{float:left;width:220px;margin-top:15px;margin-right:10px;border:#ece9ea solid 1px;height:265px;}
+.banner_02_right_bot_03_1_top{float:left;width:220px;}
+.banner_02_right_bot_03_1_bot{float:left; width:220px;font-size:12px; background:#F3F3F3;font-family:"宋体";line-height:17px;}
+.banner_02_right_bot_03_1_bot span{ color:#999;font-size:12px}
+.banner_02_right_bot_03_1_bot2{float:left;height:30px; color:#FFF;width:210px;font-size:22px;font-family:"Impact"; background:#d11838;padding-top:5px;padding-left:10px;}
+.banner_02_right_bot_03_1_bot2 span{font-size:16px; }
+.banner_02_right_bot_03_1_bot2 img{padding-left:50px;padding-top:5px;}
+.banner_02_right_bot_03_1_bot3{padding-left:6px;color:#666}
+.banner_02_right_bot_03_1_bot3 span{ color:#F60; }
+.banner_02_right_bot_03_2{float:left;width:230px;margin-top:15px;;border:#ece9ea solid 1px;}
+.mid_left_top_01{ height:28px; width:195px; text-align:center; border-top-style:solid; border-top-color:#000; border-top-width:2px;font-weight:bold;font-size:14px; background:url(../imges/tu_01.jpg);}
+.mid_left_bot01{height:60px; width:195px;margin-top:10px; border-bottom:#CCCCCC solid 1px;}
+.mid_left_bot01_tu{height:60px; width:70px;float:left;padding-left:20px;}
+.mid_left_bot01_tu1{height:60px; width:75px;float:left;padding:1px;}
+.mid_left_bot01_wenzi{float:left;padding-left:5px; color:#666;line-height:18px;font-size:12px;}
+.mid_left_bot01_wenzi1{float:left;padding-left:10px; color:#666;line-height:18px;font-size:12px;}
+.mid_left_bot01_wenzi b{ color:#C00;font-size:12px;}
+.mid_left_bot01_wenzi1 b{ color:#666;font-size:12px;}
+.mid_left_bot01_wenzi span{ color:#F60}
+.mid_left_bot01_wenzi1 span{ color:#F60}
+.banner_02_top1{border:#dddddd solid 1px; }
+.banner_02_top1-1{margin-top:20px;border:#dddddd solid 1px; width:195px; }
+
+.banner_02_top3_1{margin-top:10px;}
+
+.banner_right_bottom{}
+.fenye{ width:620px; margin:0 auto 20px auto;height:47px; font-size:14px;border-left:#e4e4e4 solid 1px;}
+.fenye ul{}
+.fenye input{ width:30px; height:18px; border:#e4e4e4 solid 1px;}
+.fenye a{ display:block; background-color:#fbfbfb;  }
+.fenye a:hover{ color:#FFF; background:#C00;}
+.fenye li{ float:left; line-height:45px; height:45px; width:60px;border:#e4e4e4 solid 1px;border-left:none; text-align:center;}
+#fenye{border:none;}
+#fenyea{ width:40px;border:none;}
+#fenyeb{ width:40px;border:none;padding-top:12px; height:33px; line-height:18px;}

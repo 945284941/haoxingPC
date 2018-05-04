@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.active.dao.ActiveCollectGoodsPicMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ActiveCollectGoodsPic" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
+    <result column="SRC" property="src" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GOODS_ID, SRC
+  </sql>
+  <insert id="insertSelectiveBeach" parameterType="List">
+  	insert into
+		QL_ACTIVE_COLLECT_GOODS_PIC(ID,GOODS_ID,SRC)
+		<foreach collection="list" item="l" index="index" separator="union all">
+			select #{l.id},#{l.goodsId},#{l.src}
+			from dual
+		</foreach>
+  </insert>
+  
+  <select id="gainActiveCollectGoodsPicByGoodsId" parameterType="String" resultType="String">
+   select SRC
+    from QL_ACTIVE_COLLECT_GOODS_PIC
+    where GOODS_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!--參考  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ACTIVE_COLLECT_GOODS_PIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ACTIVE_COLLECT_GOODS_PIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.ActiveCollectGoodsPic" >
+    insert into QL_ACTIVE_COLLECT_GOODS_PIC (ID, GOODS_ID, SRC
+      )
+    values (#{id,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{src,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.ActiveCollectGoodsPic" >
+    insert into QL_ACTIVE_COLLECT_GOODS_PIC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="goodsId != null" >
+        GOODS_ID,
+      </if>
+      <if test="src != null" >
+        SRC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null" >
+        #{src,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ActiveCollectGoodsPic" >
+    update QL_ACTIVE_COLLECT_GOODS_PIC
+    <set >
+      <if test="goodsId != null" >
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null" >
+        SRC = #{src,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.ActiveCollectGoodsPic" >
+    update QL_ACTIVE_COLLECT_GOODS_PIC
+    set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      SRC = #{src,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>-->
+  
+</mapper>

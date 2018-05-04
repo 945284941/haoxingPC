@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.perinfo.dao.ZhuanpanLogMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.ZhuanpanLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="DECIMAL" />
+    <result column="ramark" property="ramark" jdbcType="VARCHAR" />
+    <result column="zhuanpan_id" property="zhuanpanId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, member_id, point, ramark, zhuanpan_id, status, createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_zhuanpan_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_zhuanpan_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.ZhuanpanLog" >
+    insert into ql_zhuanpan_log (id, member_id, point, 
+      ramark, zhuanpan_id, status, 
+      createtime)
+    values (#{id,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, #{point,jdbcType=DECIMAL}, 
+      #{ramark,jdbcType=VARCHAR}, #{zhuanpanId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.ZhuanpanLog" >
+    insert into ql_zhuanpan_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="ramark != null" >
+        ramark,
+      </if>
+      <if test="zhuanpanId != null" >
+        zhuanpan_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="ramark != null" >
+        #{ramark,jdbcType=VARCHAR},
+      </if>
+      <if test="zhuanpanId != null" >
+        #{zhuanpanId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.ZhuanpanLog" >
+    update ql_zhuanpan_log
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="ramark != null" >
+        ramark = #{ramark,jdbcType=VARCHAR},
+      </if>
+      <if test="zhuanpanId != null" >
+        zhuanpan_id = #{zhuanpanId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.ZhuanpanLog" >
+    update ql_zhuanpan_log
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      point = #{point,jdbcType=DECIMAL},
+      ramark = #{ramark,jdbcType=VARCHAR},
+      zhuanpan_id = #{zhuanpanId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="getByMultiCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ql_zhuanpan_log
+    <where>
+    	<if test="memberId">and member_id = #{memberId}</if>
+    	<if test="remark">and ramark like #{remark}</if>
+    </where>
+  </select>
+</mapper>

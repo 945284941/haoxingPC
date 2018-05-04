@@ -1,0 +1,1421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlzy.memberCenter.order.dao.OrderMapper">
+	<resultMap id="BaseResultMap" type="com.qlzy.model.Order">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="MEMBER_ID" jdbcType="VARCHAR" property="memberId" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="SOURCE_TYPE" jdbcType="VARCHAR" property="sourceType" />
+		<result column="SALE_TYPE" jdbcType="VARCHAR" property="saleType" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="PAY_STATUS" jdbcType="VARCHAR" property="payStatus" />
+		<result column="SHIP_STATUS" jdbcType="VARCHAR" property="shipStatus" />
+		<result column="KESH_STATUS" jdbcType="VARCHAR" property="keshStatus" />
+		<result column="IS_DELIVERY" jdbcType="VARCHAR" property="isDelivery" />
+		<result column="LOGISTICS_ID" jdbcType="VARCHAR" property="logisticsId" />
+		<result column="LOGISTICS_NUM" jdbcType="VARCHAR" property="logisticsNum" />
+		<result column="LOGISTICS_NAME" jdbcType="VARCHAR" property="logisticsName" />
+		<result column="LOGISTICS_TEL" jdbcType="VARCHAR" property="logisticsTel" />
+		<result column="PAY_MENT" jdbcType="VARCHAR" property="payMent" />
+		<result column="PAY_TIME" jdbcType="TIMESTAMP" property="payTime" />
+		<result column="SHIP_NAME" jdbcType="VARCHAR" property="shipName" />
+		<result column="AREA" jdbcType="VARCHAR" property="area" />
+		<result column="SHIP_ZIP" jdbcType="VARCHAR" property="shipZip" />
+		<result column="SHIP_TEL" jdbcType="VARCHAR" property="shipTel" />
+		<result column="SHIP_EMAIL" jdbcType="VARCHAR" property="shipEmail" />
+		<result column="SHIP_TIME" jdbcType="TIMESTAMP" property="shipTime" />
+		<result column="TOTAL_COST" jdbcType="DECIMAL" property="totalCost" />
+		<result column="CARRIAGE" jdbcType="DECIMAL" property="carriage" />
+		<result column="COST_PROTECT" jdbcType="DECIMAL" property="costProtect" />
+		<result column="ADVANCE" jdbcType="DECIMAL" property="advance" />
+		<result column="EBANK_MON" jdbcType="DECIMAL" property="ebankMon" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="MODIFYTIME" jdbcType="TIMESTAMP" property="modifytime" />
+		<result column="ORDER_POINTS" jdbcType="DECIMAL" property="orderPoints" />
+		<result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+		<result column="CITY" jdbcType="VARCHAR" property="city" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="MEMBER_TYPE" jdbcType="VARCHAR" property="memberType" />
+		<result column="BILL_TYPE" jdbcType="VARCHAR" property="billType" />
+		<result column="BILL_HEAD" jdbcType="VARCHAR" property="billHead" />
+		<result column="BILL_CONTENT" jdbcType="VARCHAR" property="billContent" />
+		<result column="DISABLED" jdbcType="VARCHAR" property="disabled" />
+		<result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+		<result column="ORDER_NUM" jdbcType="VARCHAR" property="orderNum" />
+		<result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+		<result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType" />
+		<result column="HK_TIME" jdbcType="TIMESTAMP" property="hkTime" />
+		<result column="HK_TYPE" jdbcType="VARCHAR" property="hkType" />
+		<result column="SJHK_TIME" jdbcType="TIMESTAMP" property="sjhkTIME" />
+
+		<!-- 扩展字段 -->
+		<result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+		<result column="memberName" jdbcType="VARCHAR" property="memberName" />
+		<result column="PNAME" jdbcType="VARCHAR" property="pname" />
+		<result column="CNAME" jdbcType="VARCHAR" property="cname" />
+		<result column="ANAME" jdbcType="VARCHAR" property="aname" />
+		<result column="linkman_phone" jdbcType="VARCHAR" property="linkmanPhone" />
+
+		<result column="ORDER_TYPE" jdbcType="VARCHAR" property="orderType" />
+		<result column="ZONE_TYPE" jdbcType="VARCHAR" property="zoneType" />
+		<result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MEMBER_ID, CREATETIME, SOURCE_TYPE, SALE_TYPE, STATUS,
+		PAY_STATUS,
+		SHIP_STATUS,
+		KESH_STATUS, IS_DELIVERY, LOGISTICS_ID,
+		LOGISTICS_NUM, LOGISTICS_NAME,
+		LOGISTICS_TEL, PAY_MENT,
+		PAY_TIME,
+		SHIP_NAME, AREA, SHIP_ZIP, SHIP_TEL, SHIP_EMAIL, SHIP_TIME,
+		TOTAL_COST,
+		CARRIAGE, COST_PROTECT, ADVANCE, EBANK_MON, REMARK,
+		MODIFYTIME, ORDER_POINTS,
+		PROVINCE,
+		CITY,
+		ADDRESS,MEMBER_TYPE,BILL_TYPE,BILL_HEAD,BILL_CONTENT,DISABLED,COMPANY_ID,ORDER_NUM,DEAL_ID,DEAL_TYPE,
+		ORDER_TYPE,HK_TYPE,HK_TIME,ZONE_TYPE,COMPLETE_TIME
+	</sql>
+	<!-- 根据商家ID查询商家的出售订单总数 -->
+	<select id="gainOrdersByCompanyIdGetLong" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(ID) from QL_ORDER t where t.DISABLED='false' 
+		
+		<if test="null != startTime ">
+			and t.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and t.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and t.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and t.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and t.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and t.MEMBER_ID = #{memberId}
+		</if>
+	</select>
+	<!-- 根据商家ID查询该商家出售订单的信息 -->
+	<select id="gainOrdersByCompanyIdGetList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+
+		select
+		o.ID,o.ORDER_NUM,o.SALE_TYPE,o.PAY_STATUS,o.SHIP_STATUS,o.CREATETIME,o.TOTAL_COST,m.username
+		as memberName,o.pay_ment as payMent,m.truename as pname,m.mobile as
+		linkmanPhone, o.LOGISTICS_NUM from ql_members m left join QL_ORDER o on
+		o.member_id=m.id where 
+<!-- 		o.COMPANY_ID= #{userId} and  -->
+		o.DISABLED='false'
+		<if test="null != startTime ">
+			and o.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and o.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and o.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and o.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and o.MEMBER_ID = #{memberId}
+		</if>
+		ORDER BY o.CREATETIME DESC
+		limit #{page},#{rows}
+	</select>
+
+
+	<select id="gainOrdersByCompanyIdGetLongCh" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(ID) from QL_ORDER t where t.DISABLED='false' and
+		t.COMPANY_ID= #{userId}
+		<if test="null != startTime ">
+			and t.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and t.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and t.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and t.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and t.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and t.MEMBER_ID = #{memberId}
+		</if>
+	</select>
+	<!-- 根据商家ID查询该商家出售订单的信息 -->
+	<select id="gainOrdersByCompanyIdGetListCh" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+
+		select * from (
+		SELECT
+		o.ID,o.ORDER_NUM,o.SALE_TYPE,o.PAY_STATUS,o.SHIP_STATUS,o.CREATETIME,o.TOTAL_COST,c.COMPANY_NAME
+		as companyName,o.HK_TIME,o.HK_TYPE from ql_companys c,QL_ORDER o where
+		o.DISABLED='false'
+		and o.member_id=c.id(+) and o.COMPANY_ID= #{userId}
+		<if test="null != startTime ">
+			and o.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and o.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and o.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and o.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and o.MEMBER_ID = #{memberId}
+		</if>
+		ORDER BY o.CREATETIME DESC
+
+		) t
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+		where RN>(#{page}-1)*#{rows}
+
+	</select>
+
+
+	<!-- 根据商家ID查询该商家出售订单的信息 -->
+	<select id="gainOrdersByCompanyIdGetListxs" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+
+
+		select c.company_name,c.linkman_phone,o.member_id,sum(o.total_cost) as
+		totalCost from ql_companys c,QL_ORDER o where o.DISABLED='false' and
+		o.member_id=c.id and o.COMPANY_ID= #{userId}
+		and o.ORDER_TYPE='1'
+		<if test="null != startTime ">
+			and o.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and o.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and o.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and o.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and o.MEMBER_ID = #{memberId}
+		</if>
+		group by o.member_id, c.company_name,c.linkman_phone
+
+
+
+	</select>
+
+	<select id="gainOrdersByCompanyIdGetLongxs" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(ID) from QL_ORDER t where t.DISABLED='false' and
+		t.COMPANY_ID= #{userId} and t.ORDER_TYPE='1'
+		<if test="null != startTime ">
+			and t.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and t.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and t.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and t.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and t.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and t.MEMBER_ID = #{memberId}
+		</if>
+	</select>
+
+
+	<select id="gainOrdersByCompanyIdGetListgm" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+
+
+		select
+		c.company_name,c.linkman_phone,o.company_id,sum(o.total_cost) as
+		totalCost from ql_companys c,QL_ORDER o where o.DISABLED='false' and
+		o.company_id=c.id and o.MEMBER_ID= #{userId}
+		and o.ORDER_TYPE='1'
+		<if test="null != startTime ">
+			and o.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and o.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and o.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and o.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and o.MEMBER_ID = #{memberId}
+		</if>
+		group by o.company_id, c.company_name,c.linkman_phone
+
+
+
+	</select>
+
+	<select id="gainOrdersByCompanyIdGetLonggm" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(ID) from QL_ORDER t where t.DISABLED='false' and
+		t.MEMBER_ID= #{userId} and t.ORDER_TYPE='1'
+		<if test="null != startTime ">
+			and t.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and t.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus ">
+			and t.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus">
+			and t.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and t.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != memberId">
+			and t.MEMBER_ID = #{memberId}
+		</if>
+	</select>
+
+	<select id="gaintotalCostxs" parameterType="java.util.Map"
+		resultType="Double">
+		select sum(o.total_cost) as totalCost from
+		QL_ORDER o where
+		o.DISABLED='false' and o.company_id=#{userId} and
+		o.order_type='1'
+	</select>
+
+	<select id="gaintotalCostgm" parameterType="java.util.Map"
+		resultType="Double">
+		select sum(o.total_cost) as totalCost from
+		QL_ORDER o where
+		o.DISABLED='false' and o.member_id=#{userId} and
+		o.order_type='1'
+	</select>
+
+	<!-- 根据用户的id统计购买订单总数 -->
+	<select id="gainOrdersByUserIdGetLong" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(ID) from QL_ORDER t where t.DISABLED='false' and
+		t.MEMBER_ID= #{userId} <!-- and t.MEMBER_TYPE = #{userType} -->
+		<if test="null != startTime ">
+			and t.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and t.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus and payStatus != ''">
+			and t.PAY_STATUS = #{payStatus}
+		</if>
+		<if test="null != shipStatus and shipStatus != ''">
+			and t.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and t.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != companyId">
+			and t.COMPANY_ID = #{companyId}
+		</if>
+		<if test="null != orderNum and orderNum != ''">
+			and t.ORDER_NUM like '%${orderNum}%'
+		</if>
+	</select>
+
+	<!-- 根据商品的ID查询商品的成交量 -->
+	<select id="selectTransactionNumByGoodsId" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT SUM(i.NUMS) FROM QL_ORDER o, QL_ORDER_ITEMS i where
+		i.ORDER_ID =
+		o.id(+) and o.SHIP_STATUS = '2' and i.GOODS_ID =
+		#{goodsId}
+	</select>
+
+	<!-- 根据商家ID查询订单的成交量 -->
+	<select id="selectTransactionNumByCompanyId" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		SELECT COUNT(o.id) FROM QL_ORDER o where o.SHIP_STATUS =
+		'2' and
+		o.COMPANY_ID = #{companyId}
+	</select>
+
+	<!-- 统计信息-订单统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年 -->
+	<select id="gainOrderStatisticsByTime" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select count("ID") as ordersCount from QL_ORDER OS where OS.DISABLED =
+		'false' and OS.MEMBER_ID = #{userId}
+		<if test="payStatus!=null and payStatus!=''">
+			and OS.PAY_STATUS = #{payStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="shipStatus!=null and shipStatus!=''">
+			and OS.SHIP_STATUS = #{shipStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="status!=null and status!=''">
+			and OS.STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="null != orderType">
+			and OS.ORDER_TYPE = #{orderType,jdbcType=VARCHAR}
+		</if>
+		<if test="time==1">
+			and
+			to_char(OS.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+		</if>
+		<if test="time==2">
+			and to_char(OS.CREATETIME,'YYYY-MM-DD')=
+			to_char(SYSDATE-1,'YYYY-MM-DD')
+		</if>
+		<if test="time==3">
+			<!-- and TRUNC(SYSDATE -to_date(OS.CREATETIME, 'YYYY-MM-DD'))<![CDATA[ 
+				<= ]]>3 -->
+			and to_char(OS.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD')
+		</if>
+		<if test="time==4">
+			and to_char(OS.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD')
+		</if>
+		<if test="time==5">
+			and
+			to_char(OS.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+		</if>
+		<if test="time==6">
+			and to_char(OS.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+		</if>
+	</select>
+
+	<!-- 统计信息-订单统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年 -->
+	<select id="gainOrderStatisticsByTimexs" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select count("ID") as ordersCount from QL_ORDER OS where OS.DISABLED =
+		'false' and OS.COMPANY_ID = #{userId}
+		<if test="payStatus!=null and payStatus!=''">
+			and OS.PAY_STATUS = #{payStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="shipStatus!=null and shipStatus!=''">
+			and OS.SHIP_STATUS = #{shipStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="status!=null and status!=''">
+			and OS.STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="null != orderType">
+			and OS.ORDER_TYPE = #{orderType,jdbcType=VARCHAR}
+		</if>
+		<if test="time==1">
+			and
+			to_char(OS.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+		</if>
+		<if test="time==2">
+			and to_char(OS.CREATETIME,'YYYY-MM-DD')=
+			to_char(SYSDATE-1,'YYYY-MM-DD')
+		</if>
+		<if test="time==3">
+			<!-- and TRUNC(SYSDATE -to_date(OS.CREATETIME, 'YYYY-MM-DD'))<![CDATA[ 
+				<= ]]>3 -->
+			and to_char(OS.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD')
+		</if>
+		<if test="time==4">
+			and to_char(OS.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD')
+		</if>
+		<if test="time==5">
+			and
+			to_char(OS.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+		</if>
+		<if test="time==6">
+			and to_char(OS.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+		</if>
+	</select>
+	<!-- 统计信息-结算统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+	<select id="gainSettleStatisticsByTime" parameterType="java.util.Map"
+		resultType="Double">
+		select SUM(O.TOTAL_COST) AS TOTALCOST from QL_ORDER O LEFT JOIN
+		QL_ORDER_ITEMS OI on O."ID" = OI.ORDER_ID where O.DISABLED = 'false'
+		and OI.COMPANY_ID = #{userId}
+		<if test="payStatus!=null and payStatus!=''">
+			and O.PAY_STATUS = #{payStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="shipStatus!=null and shipStatus!=''">
+			and O.SHIP_STATUS = #{shipStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType,jdbcType=VARCHAR}
+		</if>
+		<if test="time==1">
+			and
+			to_char(O.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+		</if>
+		<if test="time==2">
+			and to_char(O.CREATETIME,'YYYY-MM-DD')=
+			to_char(SYSDATE-1,'YYYY-MM-DD')
+		</if>
+		<if test="time==3">
+			and to_char(O.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD')
+		</if>
+		<if test="time==4">
+			and to_char(O.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD')
+		</if>
+		<if test="time==5">
+			and
+			to_char(O.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+		</if>
+		<if test="time==6">
+			and to_char(O.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+		</if>
+	</select>
+
+	<!-- 统计信息-物流统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+	<select id="gainLogisticsStatisticsByTime" parameterType="java.util.Map"
+		resultType="Long">
+		select COUNT(O."ID") COUNT1 from QL_ORDER O left join QL_ORDER_ITEMS
+		OI on O."ID" = OI.ORDER_ID where O.DISABLED = 'false'
+		and OI.COMPANY_ID
+		= #{userId}
+		<if test="shipStatus!=null and shipStatus!=''">
+			and O.SHIP_STATUS = #{shipStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType,jdbcType=VARCHAR}
+		</if>
+		<if test="isDelivery!=null and isDelivery!=''">
+			and O.IS_DELIVERY = #{isDelivery,jdbcType=VARCHAR}
+		</if>
+		<if test="time==1">
+			and
+			to_char(O.CREATETIME,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+		</if>
+		<if test="time==2">
+			and to_char(O.CREATETIME,'YYYY-MM-DD')=
+			to_char(SYSDATE-1,'YYYY-MM-DD')
+		</if>
+		<if test="time==3">
+			and to_char(O.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD')
+		</if>
+		<if test="time==4">
+			and to_char(O.CREATETIME,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD')
+		</if>
+		<if test="time==5">
+			and
+			to_char(O.CREATETIME,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+		</if>
+		<if test="time==6">
+			and to_char(O.CREATETIME,'YYYY')=to_char(SYSDATE,'YYYY')
+		</if>
+	</select>
+
+	<!-- 根据用户ID获取订单信息 -->
+	<select id="gainOrdersByUserIdGetList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+
+		select * from (
+		SELECT
+		o.ID,o.ORDER_NUM,o.LOGISTICS_NUM,o.LOGISTICS_NAME,o.LOGISTICS_TEL,o.SALE_TYPE,o.PAY_STATUS,o.SHIP_STATUS,
+		o.CREATETIME,o.TOTAL_COST,o.COMPANY_ID,o.DEAL_ID,c.COMPANY_NAME,o.HK_TIME,o.HK_TYPE,o.pay_ment
+		from QL_ORDER o left join QL_COMPANYS c on o.COMPANY_ID = c.id where
+		o.DISABLED='false' and o.MEMBER_ID= #{userId}
+		<!-- 
+		 and o.MEMBER_TYPE = #{userType}
+		 -->
+		<if test="null != startTime ">
+			and o.CREATETIME <![CDATA[ >= ]]>
+			#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != endTime">
+			and o.CREATETIME <![CDATA[ <= ]]>
+			#{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="null != payStatus and payStatus != ''">
+			and o.PAY_STATUS = #{payStatus}
+		</if>
+
+		<if test="null != shipStatus and shipStatus != ''">
+			and o.SHIP_STATUS = #{shipStatus}
+		</if>
+		<if test="null != orderType">
+			and o.ORDER_TYPE = #{orderType}
+		</if>
+		<if test="null != companyId">
+			and o.COMPANY_ID = #{companyId}
+		</if>
+		<if test="null != orderNum and orderNum != ''">
+			and o.ORDER_NUM like '%${orderNum}%'
+		</if>
+		) t order by t.CREATETIME DESC limit #{page},#{rows}
+		  
+
+	</select>
+
+
+
+
+
+
+	<!-- 根据ID查询 -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />, 
+			if(PROVINCE REGEXP '[^0-9.]',PROVINCE,(select R1.NAME from QL_REGIONS R1 where R1.ID = PROVINCE)) AS PNAME,
+			if(CITY REGEXP '[^0-9.]',CITY,(select R1.NAME from QL_REGIONS R1 where R1.ID = CITY)) AS CNAME,
+			if(AREA REGEXP '[^0-9.]',AREA,(select R1.NAME from QL_REGIONS R1 where R1.ID = AREA)) AS ANAME,
+			(select COMPANY_NAME from ql_companys com where com.id = COMPANY_ID) as companyName 
+		from QL_ORDER
+		where DISABLED ='false' and ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKeyOld" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />, 
+			(select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.ID= R2.PID and R2.ID = CITY) as PNAME, 
+			(select R1.NAME from QL_REGIONS R1 where R1.ID = CITY) as CNAME, 
+			(select R1.NAME from QL_REGIONS R1 where R1.ID = AREA) as ANAME, 
+			(select COMPANY_NAME from ql_companys com where com.id = COMPANY_ID) as companyName 
+		from QL_ORDER
+		where DISABLED ='false' and ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据订单编号查询订单信息 -->
+	<select id="gainOrderByOrderNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		(select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.ID = R2.PID
+		and
+		R2.ID = CITY) as PNAME,
+		(select R1.NAME from QL_REGIONS R1 where
+		R1.ID = CITY) as CNAME,
+		(select R1.NAME from QL_REGIONS R1 where R1.ID
+		= AREA) ANAME
+		from QL_ORDER
+		where DISABLED ='false' and ORDER_NUM =
+		#{orderNum,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据ID删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		QL_ORDER
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 插入数据信息 -->
+	<insert id="insertSelective" parameterType="com.qlzy.model.Order">
+		insert into QL_ORDER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="memberId != null">
+				MEMBER_ID,
+			</if>
+			<if test="createtime != null">
+				CREATETIME,
+			</if>
+			<if test="sourceType != null">
+				SOURCE_TYPE,
+			</if>
+			<if test="saleType != null">
+				SALE_TYPE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="payStatus != null">
+				PAY_STATUS,
+			</if>
+			<if test="shipStatus != null">
+				SHIP_STATUS,
+			</if>
+			<if test="keshStatus != null">
+				KESH_STATUS,
+			</if>
+			<if test="isDelivery != null">
+				IS_DELIVERY,
+			</if>
+			<if test="logisticsId != null">
+				LOGISTICS_ID,
+			</if>
+			<if test="logisticsNum != null">
+				LOGISTICS_NUM,
+			</if>
+			<if test="logisticsName != null">
+				LOGISTICS_NAME,
+			</if>
+			<if test="logisticsTel != null">
+				LOGISTICS_TEL,
+			</if>
+			<if test="payMent != null">
+				PAY_MENT,
+			</if>
+			<if test="payTime != null">
+				PAY_TIME,
+			</if>
+			<if test="shipName != null">
+				SHIP_NAME,
+			</if>
+			<if test="area != null">
+				AREA,
+			</if>
+			<if test="shipZip != null">
+				SHIP_ZIP,
+			</if>
+			<if test="shipTel != null">
+				SHIP_TEL,
+			</if>
+			<if test="shipEmail != null">
+				SHIP_EMAIL,
+			</if>
+			<if test="shipTime != null">
+				SHIP_TIME,
+			</if>
+			<if test="totalCost != null">
+				TOTAL_COST,
+			</if>
+			<if test="carriage != null">
+				CARRIAGE,
+			</if>
+			<if test="costProtect != null">
+				COST_PROTECT,
+			</if>
+			<if test="advance != null">
+				ADVANCE,
+			</if>
+			<if test="ebankMon != null">
+				EBANK_MON,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="modifytime != null">
+				MODIFYTIME,
+			</if>
+			<if test="orderPoints != null">
+				ORDER_POINTS,
+			</if>
+			<if test="province != null">
+				PROVINCE,
+			</if>
+			<if test="city != null">
+				CITY,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="memberType != null">
+				MEMBER_TYPE,
+			</if>
+			<if test="billType != null">
+				BILL_TYPE,
+			</if>
+			<if test="billHead != null">
+				BILL_HEAD,
+			</if>
+			<if test="billContent != null">
+				BILL_CONTENT,
+			</if>
+			<if test="disabled != null">
+				DISABLED,
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID,
+			</if>
+			<if test="orderNum != null">
+				ORDER_NUM,
+			</if>
+			<if test="dealId != null">
+				DEAL_ID,
+			</if>
+			<if test="dealType != null">
+				DEAL_TYPE,
+			</if>
+			<if test="orderType != null">
+				ORDER_TYPE,
+			</if>
+			<if test="zoneType != null">
+				ZONE_TYPE,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="memberId != null">
+				#{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sourceType != null">
+				#{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="saleType != null">
+				#{saleType,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="payStatus != null">
+				#{payStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="shipStatus != null">
+				#{shipStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="keshStatus != null">
+				#{keshStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelivery != null">
+				#{isDelivery,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsId != null">
+				#{logisticsId,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsNum != null">
+				#{logisticsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsName != null">
+				#{logisticsName,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsTel != null">
+				#{logisticsTel,jdbcType=VARCHAR},
+			</if>
+			<if test="payMent != null">
+				#{payMent,jdbcType=VARCHAR},
+			</if>
+			<if test="payTime != null">
+				#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shipName != null">
+				#{shipName,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				#{area,jdbcType=VARCHAR},
+			</if>
+			<if test="shipZip != null">
+				#{shipZip,jdbcType=VARCHAR},
+			</if>
+			<if test="shipTel != null">
+				#{shipTel,jdbcType=VARCHAR},
+			</if>
+			<if test="shipEmail != null">
+				#{shipEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="shipTime != null">
+				#{shipTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalCost != null">
+				#{totalCost,jdbcType=DECIMAL},
+			</if>
+			<if test="carriage != null">
+				#{carriage,jdbcType=DECIMAL},
+			</if>
+			<if test="costProtect != null">
+				#{costProtect,jdbcType=DECIMAL},
+			</if>
+			<if test="advance != null">
+				#{advance,jdbcType=DECIMAL},
+			</if>
+			<if test="ebankMon != null">
+				#{ebankMon,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderPoints != null">
+				#{orderPoints,jdbcType=DECIMAL},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="memberType != null">
+				#{memberType,jdbcType=VARCHAR},
+			</if>
+			<if test="billType != null">
+				#{billType,jdbcType=VARCHAR},
+			</if>
+			<if test="billHead != null">
+				#{billHead,jdbcType=VARCHAR},
+			</if>
+			<if test="billContent != null">
+				#{billContent,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null">
+				#{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=VARCHAR},
+			</if>
+			<if test="dealId != null">
+				#{dealId,jdbcType=VARCHAR},
+			</if>
+			<if test="dealType != null">
+				#{dealType,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				#{orderType,jdbcType=VARCHAR},
+			</if>
+			<if test="zoneType != null">
+				#{zoneType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertSelectiveCh" parameterType="com.qlzy.model.Order">
+		insert into QL_ORDER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			HK_TIME,
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="memberId != null">
+				MEMBER_ID,
+			</if>
+			<if test="createtime != null">
+				CREATETIME,
+			</if>
+			<if test="sourceType != null">
+				SOURCE_TYPE,
+			</if>
+			<if test="saleType != null">
+				SALE_TYPE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="payStatus != null">
+				PAY_STATUS,
+			</if>
+			<if test="shipStatus != null">
+				SHIP_STATUS,
+			</if>
+			<if test="keshStatus != null">
+				KESH_STATUS,
+			</if>
+			<if test="isDelivery != null">
+				IS_DELIVERY,
+			</if>
+			<if test="logisticsId != null">
+				LOGISTICS_ID,
+			</if>
+			<if test="logisticsNum != null">
+				LOGISTICS_NUM,
+			</if>
+			<if test="logisticsName != null">
+				LOGISTICS_NAME,
+			</if>
+			<if test="logisticsTel != null">
+				LOGISTICS_TEL,
+			</if>
+			<if test="payMent != null">
+				PAY_MENT,
+			</if>
+			<if test="payTime != null">
+				PAY_TIME,
+			</if>
+			<if test="shipName != null">
+				SHIP_NAME,
+			</if>
+			<if test="area != null">
+				AREA,
+			</if>
+			<if test="shipZip != null">
+				SHIP_ZIP,
+			</if>
+			<if test="shipTel != null">
+				SHIP_TEL,
+			</if>
+			<if test="shipEmail != null">
+				SHIP_EMAIL,
+			</if>
+			<if test="shipTime != null">
+				SHIP_TIME,
+			</if>
+			<if test="totalCost != null">
+				TOTAL_COST,
+			</if>
+			<if test="carriage != null">
+				CARRIAGE,
+			</if>
+			<if test="costProtect != null">
+				COST_PROTECT,
+			</if>
+			<if test="advance != null">
+				ADVANCE,
+			</if>
+			<if test="ebankMon != null">
+				EBANK_MON,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="modifytime != null">
+				MODIFYTIME,
+			</if>
+			<if test="orderPoints != null">
+				ORDER_POINTS,
+			</if>
+			<if test="province != null">
+				PROVINCE,
+			</if>
+			<if test="city != null">
+				CITY,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="memberType != null">
+				MEMBER_TYPE,
+			</if>
+			<if test="billType != null">
+				BILL_TYPE,
+			</if>
+			<if test="billHead != null">
+				BILL_HEAD,
+			</if>
+			<if test="billContent != null">
+				BILL_CONTENT,
+			</if>
+			<if test="disabled != null">
+				DISABLED,
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID,
+			</if>
+			<if test="orderNum != null">
+				ORDER_NUM,
+			</if>
+			<if test="dealId != null">
+				DEAL_ID,
+			</if>
+			<if test="dealType != null">
+				DEAL_TYPE,
+			</if>
+			<if test="orderType != null">
+				ORDER_TYPE,
+			</if>
+			<if test="zoneType != null">
+				ZONE_TYPE,
+			</if>
+			<if test="hkType != null">
+				HK_TYPE,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			add_months(sysdate,1),
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="memberId != null">
+				#{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sourceType != null">
+				#{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="saleType != null">
+				#{saleType,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="payStatus != null">
+				#{payStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="shipStatus != null">
+				#{shipStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="keshStatus != null">
+				#{keshStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelivery != null">
+				#{isDelivery,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsId != null">
+				#{logisticsId,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsNum != null">
+				#{logisticsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsName != null">
+				#{logisticsName,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsTel != null">
+				#{logisticsTel,jdbcType=VARCHAR},
+			</if>
+			<if test="payMent != null">
+				#{payMent,jdbcType=VARCHAR},
+			</if>
+			<if test="payTime != null">
+				#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shipName != null">
+				#{shipName,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				#{area,jdbcType=VARCHAR},
+			</if>
+			<if test="shipZip != null">
+				#{shipZip,jdbcType=VARCHAR},
+			</if>
+			<if test="shipTel != null">
+				#{shipTel,jdbcType=VARCHAR},
+			</if>
+			<if test="shipEmail != null">
+				#{shipEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="shipTime != null">
+				#{shipTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalCost != null">
+				#{totalCost,jdbcType=DECIMAL},
+			</if>
+			<if test="carriage != null">
+				#{carriage,jdbcType=DECIMAL},
+			</if>
+			<if test="costProtect != null">
+				#{costProtect,jdbcType=DECIMAL},
+			</if>
+			<if test="advance != null">
+				#{advance,jdbcType=DECIMAL},
+			</if>
+			<if test="ebankMon != null">
+				#{ebankMon,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderPoints != null">
+				#{orderPoints,jdbcType=DECIMAL},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="memberType != null">
+				#{memberType,jdbcType=VARCHAR},
+			</if>
+			<if test="billType != null">
+				#{billType,jdbcType=VARCHAR},
+			</if>
+			<if test="billHead != null">
+				#{billHead,jdbcType=VARCHAR},
+			</if>
+			<if test="billContent != null">
+				#{billContent,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null">
+				#{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=VARCHAR},
+			</if>
+			<if test="dealId != null">
+				#{dealId,jdbcType=VARCHAR},
+			</if>
+			<if test="dealType != null">
+				#{dealType,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				#{orderType,jdbcType=VARCHAR},
+			</if>
+			<if test="zoneType != null">
+				#{zoneType,jdbcType=VARCHAR},
+			</if>
+			<if test="hkType != null">
+				#{hkType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 根据ID更新数据 -->
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Order">
+		update QL_ORDER
+		<set>
+			<if test="memberId != null">
+				MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sourceType != null">
+				SOURCE_TYPE = #{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="saleType != null">
+				SALE_TYPE = #{saleType,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="payStatus != null">
+				PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="shipStatus != null">
+				SHIP_STATUS = #{shipStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="keshStatus != null">
+				KESH_STATUS = #{keshStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelivery != null">
+				IS_DELIVERY = #{isDelivery,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsId != null">
+				LOGISTICS_ID = #{logisticsId,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsNum != null">
+				LOGISTICS_NUM = #{logisticsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsName != null">
+				LOGISTICS_NAME = #{logisticsName,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsTel != null">
+				LOGISTICS_TEL = #{logisticsTel,jdbcType=VARCHAR},
+			</if>
+			<if test="payMent != null">
+				PAY_MENT = #{payMent,jdbcType=VARCHAR},
+			</if>
+			<if test="payTime != null">
+				PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shipName != null">
+				SHIP_NAME = #{shipName,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				AREA = #{area,jdbcType=VARCHAR},
+			</if>
+			<if test="shipZip != null">
+				SHIP_ZIP = #{shipZip,jdbcType=VARCHAR},
+			</if>
+			<if test="shipTel != null">
+				SHIP_TEL = #{shipTel,jdbcType=VARCHAR},
+			</if>
+			<if test="shipEmail != null">
+				SHIP_EMAIL = #{shipEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="shipTime != null">
+				SHIP_TIME = #{shipTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalCost != null">
+				TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
+			</if>
+			<if test="carriage != null">
+				CARRIAGE = #{carriage,jdbcType=DECIMAL},
+			</if>
+			<if test="costProtect != null">
+				COST_PROTECT = #{costProtect,jdbcType=DECIMAL},
+			</if>
+			<if test="advance != null">
+				ADVANCE = #{advance,jdbcType=DECIMAL},
+			</if>
+			<if test="ebankMon != null">
+				EBANK_MON = #{ebankMon,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderPoints != null">
+				ORDER_POINTS = #{orderPoints,jdbcType=DECIMAL},
+			</if>
+			<if test="province != null">
+				PROVINCE = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				CITY = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="memberType != null">
+				MEMBER_TYPE = #{memberType,jdbcType=VARCHAR},
+			</if>
+			<if test="billType != null">
+				BILL_TYPE = #{billType,jdbcType=VARCHAR},
+			</if>
+			<if test="billHead != null">
+				BILL_HEAD = #{billHead,jdbcType=VARCHAR},
+			</if>
+			<if test="billContent != null">
+				BILL_CONTENT = #{billContent,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null">
+				DISABLED = #{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNum != null">
+				ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
+			</if>
+			<if test="dealId != null">
+				DEAL_ID = #{dealId,jdbcType=VARCHAR},
+			</if>
+			<if test="dealType != null">
+				DEAL_TYPE = #{dealType,jdbcType=VARCHAR},
+			</if>
+			<if test="hkType != null">
+				HK_TYPE = #{hkType,jdbcType=VARCHAR},
+			</if>
+			<if test="hkTime != null">
+				HK_TIME = #{hkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sjhkTime != null">
+				SJHK_TIME = #{sjhkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="zoneType != null">
+				ZONE_TYPE = #{zoneType,jdbcType=VARCHAR},
+			</if>
+			<if test="completeTime != null">
+				COMPLETE_TIME = #{completeTime, jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+
+	<select id="gainOrderByCreateTime" parameterType="Integer"
+		resultType="com.qlzy.model.Order">
+
+		select
+		QC.COMPANY_NAME as companyName,g.TOTAL_COST as totalCost from
+		QL_ORDER g LEFT JOIN
+		QL_COMPANYS qc on QC."ID"=g.COMPANY_ID where
+		ROWNUM <![CDATA[ <= ]]>
+		#{i} ORDER BY g.CREATETIME DESC
+	</select>
+
+
+
+
+	<select id="gainChuanhuoList" parameterType="Integer"
+		resultType="com.qlzy.model.Order">
+		select
+		QC.COMPANY_NAME as companyName,g.CREATETIME from
+		QL_ORDER g LEFT JOIN
+		QL_COMPANYS qc on QC."ID"=g.COMPANY_ID where
+		ORDER_TYPE = '1' ORDER BY g.CREATETIME DESC
+	</select>
+	<update id="upadteOrderPayType" parameterType="com.qlzy.model.Order">
+		update QL_ORDER
+		<set>
+			<if test="payMent != null">
+				pay_ment = #{payMent,jdbcType=VARCHAR},
+			</if>
+			<if test="payStatus != null">
+				pay_status = #{payStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where order_num = #{orderNum,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据订单编号查询订单信息 -->
+	<select id="gainOrdersByOrderNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from QL_ORDER where ORDER_NUM = #{orderNum,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询当前时间14天的数据未收货的数据 -->
+	<select id="receiveQuartz" parameterType="Integer" resultType="com.qlzy.model.Order">
+		select q.* from ql_order q
+		where q.disabled='false' and q.pay_status ='1' and q.ship_status='1'
+			and date(q.ship_time) &lt; date_sub(curdate(), interval #{i} day)
+	</select>
+	
+	<!-- 未付款的数据撤销 -->
+	<select id="noPayQuartz" parameterType="java.util.Map">
+		update ql_order set DISABLED='true' where CREATETIME&lt;DATE_SUB(#{timeNow,jdbcType=TIMESTAMP},INTERVAL #{timeout,jdbcType=NUMERIC} hour) and DISABLED='false' and PAY_STATUS ='0'
+	</select>
+	
+	<!-- 批量更新收货信息 -->
+	<update id="updateBatchReceive" parameterType="java.util.Map">
+		update QL_ORDER set SHIP_STATUS=#{shipStatus},COMPLETE_TIME=#{completeTime} where id in
+		<foreach collection="orderIds" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<select id="queryNopayOrders" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="Base_Column_List" />
+		from QL_ORDER
+		where CREATETIME&lt;DATE_SUB(#{timeNow,jdbcType=TIMESTAMP},INTERVAL #{timeout,jdbcType=NUMERIC} hour) and DISABLED='false' and PAY_STATUS ='0'
+	</select>
+</mapper>

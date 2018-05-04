@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的收藏</h1>
+			<div class="addPopover_2" style="position: relative;">
+				<a href="#Popover_2" id="meau" class="mui-icon mui-pull-right iconfont">&#xe617;</a>
+				<div id="Popover_2" class="mui-popover mui-bar-popover meau_down" style="top: 44px !important;">
+					<div class="mui-popover-arrow"></div>
+					<ul class="">
+						<li class="mui-table-view-cell">
+							<a href="index.jsp"><i class="iconfont">&#xe604;</i> 首页</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe600;</i>分类搜索</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="5.1购物车管理.html"><i class="iconfont">&#xe778;</i>购物车</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href=""><i class="iconfont">&#xe66e;</i>我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="mui-content">
+				<div id="slider" class="mui-slider">
+					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted my_tab">
+						<a class="mui-control-item mui-active" href="#item1mobile">
+							商品收藏
+						</a>
+						<a class="mui-control-item" href="#item2mobile">
+							店铺收藏
+						</a>
+					</div>
+					
+					<div class="mui-slider-group">
+						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active my_tab_con">
+							<ul class="mui-table-view mui-table-view-chevron product">
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix mui-text-right">
+											      
+											</div>
+										</div>
+									</a>
+									<p class="unfavorite" href=""><a href="">取消收藏</a></p>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+											<p>仅剩3件</p>
+											<span>抢购</span>
+										</div>
+										<div class="product_tex">
+											<p>加厚法莱绒床笠</p>
+											<div class="clearfix buying_tex">
+												<div class="mui-pull-left">
+													<p>￥<em>29.9</em></p>
+													<s>￥<em>36.9</em></s>
+												</div>
+												<div class="mui-pull-right mui-text-right">
+													<p class="fn09">$<em>30.00</em></p>
+													<p class="fn09">AED<em>3000.00</em></p>
+												</div>
+											</div>
+											<div class="clearfix mui-text-right">
+											      
+											</div>
+										</div>
+									</a>
+									<p class="unfavorite" href=""><a href="">取消收藏</a></p>
+								</li>
+							</ul>
+						</div>
+						<div id="item2mobile" class="mui-slider-item mui-control-content my_tab_con">
+							<ul class="mui-table-view mui-table-view-chevron product">
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+										</div>
+										<div class="product_tex">
+											<p>商家名称商家名称商家名称</p>	
+											<span class="color_666">商家简介商家简介商家简介商家简介商家简介商家简介简介</span>
+										</div>
+									</a>
+									<p class="unfavorite" href=""><a href="">取消收藏</a></p>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="">
+										<div class="product_img">
+											<img src="images/product.png" />
+										</div>
+										<div class="product_tex">
+											<p>商家名称商家名称商家名称</p>	
+											<span class="color_666">商家简介商家简介商家简介商家简介商家简介商家简介简介</span>
+										</div>
+									</a>
+									<p class="unfavorite" href=""><a href="">取消收藏</a></p>
+								</li>
+							</ul>
+						</div>						
+					</div>
+			</div>
+			<script src="js/mui.min.js"></script>
+			<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

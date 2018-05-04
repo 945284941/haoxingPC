@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>浩星APP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('iconfont.eot');
+				src: url('iconfont.eot?#iefix') format('embedded-opentype'), url('iconfont.woff') format('woff'), url('iconfont.ttf') format('truetype'), url('iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		</style>
+	</head>
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">选择国家</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label><em><img style="width: 2rem; vertical-align: middle;" src="images/national_cn.png"/></em> &nbsp;中国 &nbsp;China</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label><em><img style="width: 2rem; vertical-align: middle;" src="images/national_us.png"/></em> &nbsp;美国 &nbsp;America</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+			</form>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+//			限时抢购
+			var buying_slider = new Swiper('.buying_slider', {
+				slidesPerView: 2,
+				spaceBetween: 20,
+				freeMode: true,
+				pagination: {
+					clickable: true,
+				},
+			});
+//			今日公告
+			var index_notice = new Swiper('.index_notice', {
+				spaceBetween: 30,
+				centeredSlides: true,
+				autoplay: {
+					delay: 2500,
+					disableOnInteraction: false,
+				},
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+			});
+		</script>
+	</body>
+
+</html>

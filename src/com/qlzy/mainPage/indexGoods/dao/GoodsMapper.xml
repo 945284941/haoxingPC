@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.indexGoods.dao.GoodsMapper" >
+	<resultMap id="BaseResultMap" type="com.qlzy.model.Goods" >
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="en_name" property="enName" jdbcType="VARCHAR" />
+		<result column="CAR_PARTS_ID" property="carPartsId" jdbcType="VARCHAR" />
+		<result column="CAR_PARTS_PRODUCER_ID" property="carPartsProducerId" jdbcType="VARCHAR" />
+		<result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="yuanjia" property="yuanjia" jdbcType="DECIMAL" />
+		<result column="BN" property="bn" jdbcType="VARCHAR" />
+		<result column="PRODUCT_AREA" property="productArea" jdbcType="VARCHAR" />
+		<result column="UNIT" property="unit" jdbcType="VARCHAR" />
+		<result column="STORE" property="store" jdbcType="DECIMAL" />
+		<result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+		<result column="MARKETABLE" property="marketable" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+		<result column="IS_CAR_PRODUCTER" property="isCarProducter" jdbcType="VARCHAR" />
+		<result column="IS_MEMBER_DISCOUNT" property="isMemberDiscount" jdbcType="DECIMAL" />
+		<result column="P_ORDER" property="pOrder" jdbcType="VARCHAR" />
+		<result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+		<result column="PRODUCT_BN" property="productBn" jdbcType="VARCHAR" />
+		<result column="IN_CITY" property="inCity" jdbcType="DECIMAL" />
+		<result column="IN_PROVINCE" property="inProvince" jdbcType="DECIMAL" />
+		<result column="OUT_PROVINCE" property="outProvince" jdbcType="DECIMAL" />
+		<result column="QUERY_NUM" property="queryNum" jdbcType="DECIMAL" />
+		<result column="CLICK_NUMBER" property="clickNumber" jdbcType="DECIMAL" />
+		<result column="IS_MAIL" property="isMail" jdbcType="VARCHAR" />
+		<result column="IS_STANDER" property="isStander" jdbcType="DECIMAL" />
+		<result column="SEND_IP" property="sendIp" jdbcType="VARCHAR" />
+		<result column="SH_CAT_ID" property="shCatId" jdbcType="VARCHAR" />
+		<result column="lessinformation" property="lessinformation" jdbcType="VARCHAR" />
+		<result column="goodstype" property="goodstype" jdbcType="VARCHAR" />
+		<result column="is_mailing" property="isMailing" jdbcType="VARCHAR" />
+		<result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+		<result column="yiji" property="yiji" jdbcType="DECIMAL" />
+		<result column="erji" property="erji" jdbcType="DECIMAL" />
+		<result column="sanji" property="sanji" jdbcType="DECIMAL" />
+		<result column="yijinum" property="yijinum" jdbcType="DECIMAL" />
+		<result column="erjinum" property="erjinum" jdbcType="DECIMAL" />
+		<result column="sanjinum" property="sanjinum" jdbcType="DECIMAL" />
+		<result column="wuliu" property="wuliu" jdbcType="DECIMAL" />
+		<result column="fanxian" property="fanxian" jdbcType="DECIMAL" />
+		<result column="fanxiannum" property="fanxiannum" jdbcType="DECIMAL" />
+		<result column="freePostageNum" property="freepostagenum" jdbcType="INTEGER" />
+		<result column="isConsultingPostage" property="isconsultingpostage" jdbcType="CHAR" />
+		<result column="is_point" property="isPoint" jdbcType="BIT" />
+		<result column="point_percentage" property="pointPercentage" jdbcType="DECIMAL" />
+		<result column="sell_country_id" property="sellCountryId" jdbcType="VARCHAR" />
+		<result column="is_building" property="isBuilding" jdbcType="VARCHAR" />
+		<result column="is_market" property="isMarket" jdbcType="VARCHAR" />
+		<result column="is_shop" property="isShop" jdbcType="VARCHAR" />
+		<result column="is_group" property="isGroup" jdbcType="VARCHAR" />
+		<result column="is_flash_sale" property="isFlashSale" jdbcType="VARCHAR" />
+		<result column="activity_price" property="activityPrice" jdbcType="DECIMAL" />
+		<result column="praise_rate" property="praiseRate" jdbcType="DECIMAL" />
+		<result column="praise_num" property="praiseNum" jdbcType="DECIMAL" />
+		<result column="order_end_num" property="orderEndNum" jdbcType="DECIMAL" />
+		<result column="click_num" property="clickNum" jdbcType="DECIMAL" />
+		<result column="zonghe" property="zonghe" jdbcType="DECIMAL" />
+		<result column="is_index_shop" property="isIndexShop" jdbcType="CHAR" />
+		<result column="is_index_market" property="isIndexMarket" jdbcType="CHAR" />
+		<result column="is_index_build" property="isIndexBuild" jdbcType="CHAR" />
+		<result column="sys_update_date" property="sysUpdateDate" jdbcType="TIMESTAMP" />
+		<result column="INFOMATION" property="infomation" jdbcType="LONGVARCHAR" />
+		<result column="UNIN_GOODS" property="uninGoods" jdbcType="LONGVARCHAR" />
+		<!-- 以下为扩展字段 -->
+	</resultMap>
+	<sql id="Base_Column_List" >
+		ID, COMPANY_ID, NAME, en_name, CAR_PARTS_ID, CAR_PARTS_PRODUCER_ID, DEFAULT_PIC_SRC,
+		PRICE, yuanjia, BN, PRODUCT_AREA, UNIT, STORE, CREATETIME, MODIFYTIME, MARKETABLE,
+		USER_ID, IS_CAR_PRODUCTER, IS_MEMBER_DISCOUNT, P_ORDER, DISABLED, PRODUCT_BN, IN_CITY,
+		IN_PROVINCE, OUT_PROVINCE, QUERY_NUM, CLICK_NUMBER, IS_MAIL, IS_STANDER, SEND_IP,
+		SH_CAT_ID, lessinformation, goodstype, is_mailing, sku_id, yiji, erji, sanji, yijinum,
+		erjinum, sanjinum, wuliu, fanxian, fanxiannum, freePostageNum, isConsultingPostage,
+		is_point, point_percentage, sell_country_id, is_building, is_market, is_shop, is_group,
+		is_flash_sale, activity_price, praise_rate, praise_num, order_end_num, click_num,
+		zonghe, is_index_shop, is_index_market, is_index_build, sys_update_date,INFOMATION, UNIN_GOODS
+	</sql>
+	<sql id="Join_Base_Column_List" >
+		a.ID as id ,a.NAME as name, a.en_name as enName,a.company_id as companyId, a.CAR_PARTS_ID as carPartsId , a.CAR_PARTS_PRODUCER_ID as carPartsProducerId, a.DEFAULT_PIC_SRC as defaultPicSrc,
+		a.PRICE as price, a.yuanjia as yuanjia, a.BN as bn, a.PRODUCT_AREA as productArea, a.UNIT as unit, a.STORE as store, a.CREATETIME, a.MODIFYTIME, a.MARKETABLE,
+		a.USER_ID, a.IS_CAR_PRODUCTER, a.IS_MEMBER_DISCOUNT, a.P_ORDER, a.DISABLED, a.PRODUCT_BN, a.IN_CITY,
+		 a.QUERY_NUM as queryNum, a.CLICK_NUMBER as clickNumber,
+		 a.goodstype, a.is_mailing as isMailing, a.sku_id as skuId, a.yiji, a.erji, a.sanji, a.yijinum,
+		a.erjinum,a.sanjinum, a.wuliu, a.fanxian, a.fanxiannum, a.freePostageNum, a.isConsultingPostage,
+		a.is_point as isPoint,  a.is_building isBuilding, a.is_market as isMarket, a.is_shop as isShop, a.is_group as isGroup,
+		a.is_flash_sale as isFlashsale, a.activity_price AS activityPrice, a.praise_rate AS praiseRate, a.praise_num AS praiseNum, a.order_end_num as orderEndNum,
+		a.click_num AS clickNum,a.zonghe, a.is_index_shop AS isIndexShop, a.is_index_market AS isIndexMarket,
+		 a.is_index_build AS isIndexBuild, a.sys_update_date AS sysUpdateDate,a.INFOMATION as infomation,
+		cp.COMPANY_NAME as companyName,cp.id as companyId,
+		 <if test="isFlashSale != null or isGroup != null">
+			 a.activity_price * b.value as docPrice,
+			 a.activity_price * d.value as dlmPrice,
+-- 			 FORMAT(a.activity_price * b.value,2) as docPrice,
+-- 			 FORMAT(a.activity_price * d.value,2) as dlmPrice,
+-- 			 Convert(decimal(18,2),a.activity_price * b.value) as docPrice,
+-- 			 Convert(decimal(18,2),a.activity_price * d.value) as dlmPrice,
+		 </if>
+		<if test="isFlashSale == null and isGroup == null">
+			a.PRICE * b.value as docPrice,
+			a.PRICE * d.value as dlmPrice,
+-- 			FORMAT(a.PRICE * b.value,2) as docPrice,
+-- 			FORMAT(a.PRICE * d.value,2) as dlmPrice,
+-- 			Convert(decimal(18,2),a.PRICE * b.value) as docPrice,
+-- 			Convert(decimal(18,2),a.PRICE * d.value) as dlmPrice,
+		</if>
+		a.UNIN_GOODS AS uninGoods
+	</sql>
+	<select id="gainGoodsByPrm" resultType="com.qlzy.model.Goods" parameterType="java.util.Map" >
+		SELECT <include refid="Join_Base_Column_List" /> from  ql_goods a
+		left join ql_dict b on b.type='hv_type' and b.label='now_rate_doc'
+		left join ql_dict d on d.type='hv_type' and d.label='now_rate_dlm'
+		left join company_country com on com.good_id = a.id
+		left join ql_companys cp on a.company_id = cp.id
+		where 1=1
+		<if test="isGroup != null" >
+			and a.is_group = #{isGroup}
+		</if>
+		<if test="isFlashSale != null" >
+			and a.is_flash_sale = #{isFlashSale}
+		</if>
+		<if test="addressId != null ">
+			and com.country_id=#{addressId}
+		</if>
+		<if test="companyId != null">
+			and a.company_id = #{companyId}
+		</if>
+		<if test="goodsId != null">
+			and a.id = #{goodsId}
+		</if>
+	</select>
+
+	<!-- 根据商品类型查询商品信息 -->
+	<select id="selectGoodsByType" parameterType="java.util.Map" resultType="com.qlzy.model.Goods">
+		SELECT <include refid="Join_Base_Column_List" /> from  ql_goods a
+		left join ql_dict b on b.type='hv_type' and b.label='now_rate_doc'
+		left join ql_dict d on d.type='hv_type' and d.label='now_rate_dlm'
+		left join company_country com on com.good_id = a.id
+		left join ql_companys cp on a.company_id = cp.id
+		where 1=1
+		<if test="isBuilding != null" >
+			and a.is_building = #{isBuilding}
+		</if>
+		<if test="isMarket != null" >
+			and a.is_market = #{isMarket}
+		</if>
+		<if test="isGroup != null" >
+			and a.is_group = #{isGroup}
+		</if>
+		<if test="isFlashSale != null" >
+			and a.is_flash_sale = #{isFlashSale}
+		</if>
+		<if test="isIndexShop != null" >
+			and a.is_index_shop = #{isIndexShop}
+		</if>
+		<if test="isIndexMarket != null" >
+			and a.is_index_market = #{isIndexMarket}
+		</if>
+		<if test="isIndexBuild != null" >
+			and a.is_index_build = #{isIndexBuild}
+		</if>
+		<if test="addressId != null ">
+			and com.country_id=#{addressId}
+		</if>
+		<if test="companyId != null">
+			and a.company_id = #{companyId}
+		</if>
+		<if test="isSort == '0'" >
+			ORDER BY a.MODIFYTIME
+		</if>
+		<if test="isSort == '1'" >
+			ORDER BY a.sys_update_date
+		</if>
+		<if test="isSort == '2'" >
+			ORDER BY a.QUERY_NUM
+		</if>
+		<if test="limitNum != null" >
+			limit 0, #{limitNum,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<!--根据商品类型分页查询 -->
+	<select id="selectGoodsByTypeAndPage" parameterType="java.util.Map" resultType="com.qlzy.model.Goods">
+		SELECT <include refid="Join_Base_Column_List" /> from  ql_goods a
+		left join ql_dict b on b.type='hv_type' and b.label='now_rate_doc'
+		left join ql_dict d on d.type='hv_type' and d.label='now_rate_dlm'
+		left join company_country com on com.good_id = a.id
+		left join ql_companys cp on a.company_id = cp.id
+		where 1=1
+		<if test="isBuilding != null" >
+			and a.is_building = #{isBuilding}
+		</if>
+		<if test="isMarket != null" >
+			and a.is_market = #{isMarket}
+		</if>
+		<if test="isGroup != null" >
+			and a.is_group = #{isGroup}
+		</if>
+		<if test="isFlashSale != null" >
+			and a.is_flash_sale = #{isFlashSale}
+		</if>
+		<if test="isIndexShop != null" >
+			and a.is_index_shop = #{isIndexShop}
+		</if>
+		<if test="isIndexMarket != null" >
+			and a.is_index_market = #{isIndexMarket}
+		</if>
+		<if test="isIndexBuild != null" >
+			and a.is_index_build = #{isIndexBuild}
+		</if>
+		<if test="addressId != null">
+			and com.country_id=#{addressId}
+		</if>
+		<if test="isSort != null" >
+			ORDER BY a.sys_update_date
+		</if>
+		<if test="page != null and rows != null " >
+			limit #{page},#{rows}
+		</if>
+	</select>
+	<select id="findGoodsListByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		 select <include refid="Base_Column_List"/>
+		FROM
+		ql_goods WHERE COMPANY_ID = #{companyId,jdbcType=VARCHAR} limit 0,2
+	</select>
+	<select id="selectGoodsByTypeAndPageCount" parameterType="Map" resultType="Long">
+		SELECT count(1) from  ql_goods a left join company_country com on com.good_id = a.id
+		where 1=1
+		<if test="isBuilding != null" >
+			and a.is_building = #{isBuilding}
+		</if>
+		<if test="isMarket != null" >
+			and a.is_market = #{isMarket}
+		</if>
+		<if test="isGroup != null" >
+			and a.is_group = #{isGroup}
+		</if>
+		<if test="isFlashSale != null" >
+			and a.is_flash_sale = #{isFlashSale}
+		</if>
+		<if test="isIndexShop != null" >
+			and a.is_index_shop = #{isIndexShop}
+		</if>
+		<if test="isIndexMarket != null" >
+			and a.is_index_market = #{isIndexMarket}
+		</if>
+		<if test="isIndexBuild != null" >
+			and a.is_index_build = #{isIndexBuild}
+		</if>
+		<if test="addressId != null">
+			and com.country_id=#{addressId}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="Base_Column_List" />
+		from ql_goods
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+		delete from ql_goods
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.qlzy.model.Goods" >
+		insert into ql_goods (ID, COMPANY_ID, NAME,
+		en_name, CAR_PARTS_ID, CAR_PARTS_PRODUCER_ID,
+		DEFAULT_PIC_SRC, PRICE, yuanjia,
+		BN, PRODUCT_AREA, UNIT,
+		STORE, CREATETIME, MODIFYTIME,
+		MARKETABLE, USER_ID, IS_CAR_PRODUCTER,
+		IS_MEMBER_DISCOUNT, P_ORDER, DISABLED,
+		PRODUCT_BN, IN_CITY, IN_PROVINCE,
+		OUT_PROVINCE, QUERY_NUM, CLICK_NUMBER,
+		IS_MAIL, IS_STANDER, SEND_IP,
+		SH_CAT_ID, lessinformation, goodstype,
+		is_mailing, sku_id, yiji,
+		erji, sanji, yijinum,
+		erjinum, sanjinum, wuliu,
+		fanxian, fanxiannum, freePostageNum,
+		isConsultingPostage, is_point, point_percentage,
+		sell_country_id, is_building, is_market,
+		is_shop, is_group, is_flash_sale,
+		activity_price, praise_rate, praise_num,
+		order_end_num, click_num, zonghe,
+		is_index_shop, is_index_market, is_index_build,
+		sys_update_date, INFOMATION, UNIN_GOODS
+		)
+		values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{enName,jdbcType=VARCHAR}, #{carPartsId,jdbcType=VARCHAR}, #{carPartsProducerId,jdbcType=VARCHAR},
+		#{defaultPicSrc,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{yuanjia,jdbcType=DECIMAL},
+		#{bn,jdbcType=VARCHAR}, #{productArea,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR},
+		#{store,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP},
+		#{marketable,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{isCarProducter,jdbcType=VARCHAR},
+		#{isMemberDiscount,jdbcType=DECIMAL}, #{pOrder,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR},
+		#{productBn,jdbcType=VARCHAR}, #{inCity,jdbcType=DECIMAL}, #{inProvince,jdbcType=DECIMAL},
+		#{outProvince,jdbcType=DECIMAL}, #{queryNum,jdbcType=DECIMAL}, #{clickNumber,jdbcType=DECIMAL},
+		#{isMail,jdbcType=VARCHAR}, #{isStander,jdbcType=DECIMAL}, #{sendIp,jdbcType=VARCHAR},
+		#{shCatId,jdbcType=VARCHAR}, #{lessinformation,jdbcType=VARCHAR}, #{goodstype,jdbcType=VARCHAR},
+		#{isMailing,jdbcType=VARCHAR}, #{skuId,jdbcType=VARCHAR}, #{yiji,jdbcType=DECIMAL},
+		#{erji,jdbcType=DECIMAL}, #{sanji,jdbcType=DECIMAL}, #{yijinum,jdbcType=DECIMAL},
+		#{erjinum,jdbcType=DECIMAL}, #{sanjinum,jdbcType=DECIMAL}, #{wuliu,jdbcType=DECIMAL},
+		#{fanxian,jdbcType=DECIMAL}, #{fanxiannum,jdbcType=DECIMAL}, #{freepostagenum,jdbcType=INTEGER},
+		#{isconsultingpostage,jdbcType=CHAR}, #{isPoint,jdbcType=BIT}, #{pointPercentage,jdbcType=DECIMAL},
+		#{sellCountryId,jdbcType=VARCHAR}, #{isBuilding,jdbcType=VARCHAR}, #{isMarket,jdbcType=VARCHAR},
+		#{isShop,jdbcType=VARCHAR}, #{isGroup,jdbcType=VARCHAR}, #{isFlashSale,jdbcType=VARCHAR},
+		#{activityPrice,jdbcType=DECIMAL}, #{praiseRate,jdbcType=DECIMAL}, #{praiseNum,jdbcType=DECIMAL},
+		#{orderEndNum,jdbcType=DECIMAL}, #{clickNum,jdbcType=DECIMAL}, #{zonghe,jdbcType=DECIMAL},
+		#{isIndexShop,jdbcType=CHAR}, #{isIndexMarket,jdbcType=CHAR}, #{isIndexBuild,jdbcType=CHAR},
+		#{sysUpdateDate,jdbcType=TIMESTAMP}, #{infomation,jdbcType=LONGVARCHAR}, #{uninGoods,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.qlzy.model.Goods" >
+		insert into ql_goods
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				ID,
+			</if>
+			<if test="companyId != null" >
+				COMPANY_ID,
+			</if>
+			<if test="name != null" >
+				NAME,
+			</if>
+			<if test="enName != null" >
+				en_name,
+			</if>
+			<if test="carPartsId != null" >
+				CAR_PARTS_ID,
+			</if>
+			<if test="carPartsProducerId != null" >
+				CAR_PARTS_PRODUCER_ID,
+			</if>
+			<if test="defaultPicSrc != null" >
+				DEFAULT_PIC_SRC,
+			</if>
+			<if test="price != null" >
+				PRICE,
+			</if>
+			<if test="yuanjia != null" >
+				yuanjia,
+			</if>
+			<if test="bn != null" >
+				BN,
+			</if>
+			<if test="productArea != null" >
+				PRODUCT_AREA,
+			</if>
+			<if test="unit != null" >
+				UNIT,
+			</if>
+			<if test="store != null" >
+				STORE,
+			</if>
+			<if test="createtime != null" >
+				CREATETIME,
+			</if>
+			<if test="modifytime != null" >
+				MODIFYTIME,
+			</if>
+			<if test="marketable != null" >
+				MARKETABLE,
+			</if>
+			<if test="userId != null" >
+				USER_ID,
+			</if>
+			<if test="isCarProducter != null" >
+				IS_CAR_PRODUCTER,
+			</if>
+			<if test="isMemberDiscount != null" >
+				IS_MEMBER_DISCOUNT,
+			</if>
+			<if test="pOrder != null" >
+				P_ORDER,
+			</if>
+			<if test="disabled != null" >
+				DISABLED,
+			</if>
+			<if test="productBn != null" >
+				PRODUCT_BN,
+			</if>
+			<if test="inCity != null" >
+				IN_CITY,
+			</if>
+			<if test="inProvince != null" >
+				IN_PROVINCE,
+			</if>
+			<if test="outProvince != null" >
+				OUT_PROVINCE,
+			</if>
+			<if test="queryNum != null" >
+				QUERY_NUM,
+			</if>
+			<if test="clickNumber != null" >
+				CLICK_NUMBER,
+			</if>
+			<if test="isMail != null" >
+				IS_MAIL,
+			</if>
+			<if test="isStander != null" >
+				IS_STANDER,
+			</if>
+			<if test="sendIp != null" >
+				SEND_IP,
+			</if>
+			<if test="shCatId != null" >
+				SH_CAT_ID,
+			</if>
+			<if test="lessinformation != null" >
+				lessinformation,
+			</if>
+			<if test="goodstype != null" >
+				goodstype,
+			</if>
+			<if test="isMailing != null" >
+				is_mailing,
+			</if>
+			<if test="skuId != null" >
+				sku_id,
+			</if>
+			<if test="yiji != null" >
+				yiji,
+			</if>
+			<if test="erji != null" >
+				erji,
+			</if>
+			<if test="sanji != null" >
+				sanji,
+			</if>
+			<if test="yijinum != null" >
+				yijinum,
+			</if>
+			<if test="erjinum != null" >
+				erjinum,
+			</if>
+			<if test="sanjinum != null" >
+				sanjinum,
+			</if>
+			<if test="wuliu != null" >
+				wuliu,
+			</if>
+			<if test="fanxian != null" >
+				fanxian,
+			</if>
+			<if test="fanxiannum != null" >
+				fanxiannum,
+			</if>
+			<if test="freepostagenum != null" >
+				freePostageNum,
+			</if>
+			<if test="isconsultingpostage != null" >
+				isConsultingPostage,
+			</if>
+			<if test="isPoint != null" >
+				is_point,
+			</if>
+			<if test="pointPercentage != null" >
+				point_percentage,
+			</if>
+			<if test="sellCountryId != null" >
+				sell_country_id,
+			</if>
+			<if test="isBuilding != null" >
+				is_building,
+			</if>
+			<if test="isMarket != null" >
+				is_market,
+			</if>
+			<if test="isShop != null" >
+				is_shop,
+			</if>
+			<if test="isGroup != null" >
+				is_group,
+			</if>
+			<if test="isFlashSale != null" >
+				is_flash_sale,
+			</if>
+			<if test="activityPrice != null" >
+				activity_price,
+			</if>
+			<if test="praiseRate != null" >
+				praise_rate,
+			</if>
+			<if test="praiseNum != null" >
+				praise_num,
+			</if>
+			<if test="orderEndNum != null" >
+				order_end_num,
+			</if>
+			<if test="clickNum != null" >
+				click_num,
+			</if>
+			<if test="zonghe != null" >
+				zonghe,
+			</if>
+			<if test="isIndexShop != null" >
+				is_index_shop,
+			</if>
+			<if test="isIndexMarket != null" >
+				is_index_market,
+			</if>
+			<if test="isIndexBuild != null" >
+				is_index_build,
+			</if>
+			<if test="sysUpdateDate != null" >
+				sys_update_date,
+			</if>
+			<if test="infomation != null" >
+				INFOMATION,
+			</if>
+			<if test="uninGoods != null" >
+				UNIN_GOODS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null" >
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="enName != null" >
+				#{enName,jdbcType=VARCHAR},
+			</if>
+			<if test="carPartsId != null" >
+				#{carPartsId,jdbcType=VARCHAR},
+			</if>
+			<if test="carPartsProducerId != null" >
+				#{carPartsProducerId,jdbcType=VARCHAR},
+			</if>
+			<if test="defaultPicSrc != null" >
+				#{defaultPicSrc,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null" >
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="yuanjia != null" >
+				#{yuanjia,jdbcType=DECIMAL},
+			</if>
+			<if test="bn != null" >
+				#{bn,jdbcType=VARCHAR},
+			</if>
+			<if test="productArea != null" >
+				#{productArea,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null" >
+				#{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="store != null" >
+				#{store,jdbcType=DECIMAL},
+			</if>
+			<if test="createtime != null" >
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null" >
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="marketable != null" >
+				#{marketable,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null" >
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="isCarProducter != null" >
+				#{isCarProducter,jdbcType=VARCHAR},
+			</if>
+			<if test="isMemberDiscount != null" >
+				#{isMemberDiscount,jdbcType=DECIMAL},
+			</if>
+			<if test="pOrder != null" >
+				#{pOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null" >
+				#{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="productBn != null" >
+				#{productBn,jdbcType=VARCHAR},
+			</if>
+			<if test="inCity != null" >
+				#{inCity,jdbcType=DECIMAL},
+			</if>
+			<if test="inProvince != null" >
+				#{inProvince,jdbcType=DECIMAL},
+			</if>
+			<if test="outProvince != null" >
+				#{outProvince,jdbcType=DECIMAL},
+			</if>
+			<if test="queryNum != null" >
+				#{queryNum,jdbcType=DECIMAL},
+			</if>
+			<if test="clickNumber != null" >
+				#{clickNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="isMail != null" >
+				#{isMail,jdbcType=VARCHAR},
+			</if>
+			<if test="isStander != null" >
+				#{isStander,jdbcType=DECIMAL},
+			</if>
+			<if test="sendIp != null" >
+				#{sendIp,jdbcType=VARCHAR},
+			</if>
+			<if test="shCatId != null" >
+				#{shCatId,jdbcType=VARCHAR},
+			</if>
+			<if test="lessinformation != null" >
+				#{lessinformation,jdbcType=VARCHAR},
+			</if>
+			<if test="goodstype != null" >
+				#{goodstype,jdbcType=VARCHAR},
+			</if>
+			<if test="isMailing != null" >
+				#{isMailing,jdbcType=VARCHAR},
+			</if>
+			<if test="skuId != null" >
+				#{skuId,jdbcType=VARCHAR},
+			</if>
+			<if test="yiji != null" >
+				#{yiji,jdbcType=DECIMAL},
+			</if>
+			<if test="erji != null" >
+				#{erji,jdbcType=DECIMAL},
+			</if>
+			<if test="sanji != null" >
+				#{sanji,jdbcType=DECIMAL},
+			</if>
+			<if test="yijinum != null" >
+				#{yijinum,jdbcType=DECIMAL},
+			</if>
+			<if test="erjinum != null" >
+				#{erjinum,jdbcType=DECIMAL},
+			</if>
+			<if test="sanjinum != null" >
+				#{sanjinum,jdbcType=DECIMAL},
+			</if>
+			<if test="wuliu != null" >
+				#{wuliu,jdbcType=DECIMAL},
+			</if>
+			<if test="fanxian != null" >
+				#{fanxian,jdbcType=DECIMAL},
+			</if>
+			<if test="fanxiannum != null" >
+				#{fanxiannum,jdbcType=DECIMAL},
+			</if>
+			<if test="freepostagenum != null" >
+				#{freepostagenum,jdbcType=INTEGER},
+			</if>
+			<if test="isconsultingpostage != null" >
+				#{isconsultingpostage,jdbcType=CHAR},
+			</if>
+			<if test="isPoint != null" >
+				#{isPoint,jdbcType=BIT},
+			</if>
+			<if test="pointPercentage != null" >
+				#{pointPercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="sellCountryId != null" >
+				#{sellCountryId,jdbcType=VARCHAR},
+			</if>
+			<if test="isBuilding != null" >
+				#{isBuilding,jdbcType=VARCHAR},
+			</if>
+			<if test="isMarket != null" >
+				#{isMarket,jdbcType=VARCHAR},
+			</if>
+			<if test="isShop != null" >
+				#{isShop,jdbcType=VARCHAR},
+			</if>
+			<if test="isGroup != null" >
+				#{isGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="isFlashSale != null" >
+				#{isFlashSale,jdbcType=VARCHAR},
+			</if>
+			<if test="activityPrice != null" >
+				#{activityPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="praiseRate != null" >
+				#{praiseRate,jdbcType=DECIMAL},
+			</if>
+			<if test="praiseNum != null" >
+				#{praiseNum,jdbcType=DECIMAL},
+			</if>
+			<if test="orderEndNum != null" >
+				#{orderEndNum,jdbcType=DECIMAL},
+			</if>
+			<if test="clickNum != null" >
+				#{clickNum,jdbcType=DECIMAL},
+			</if>
+			<if test="zonghe != null" >
+				#{zonghe,jdbcType=DECIMAL},
+			</if>
+			<if test="isIndexShop != null" >
+				#{isIndexShop,jdbcType=CHAR},
+			</if>
+			<if test="isIndexMarket != null" >
+				#{isIndexMarket,jdbcType=CHAR},
+			</if>
+			<if test="isIndexBuild != null" >
+				#{isIndexBuild,jdbcType=CHAR},
+			</if>
+			<if test="sysUpdateDate != null" >
+				#{sysUpdateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="infomation != null" >
+				#{infomation,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="uninGoods != null" >
+				#{uninGoods,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Goods" >
+		update ql_goods
+		<set >
+			<if test="companyId != null" >
+				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="enName != null" >
+				en_name = #{enName,jdbcType=VARCHAR},
+			</if>
+			<if test="carPartsId != null" >
+				CAR_PARTS_ID = #{carPartsId,jdbcType=VARCHAR},
+			</if>
+			<if test="carPartsProducerId != null" >
+				CAR_PARTS_PRODUCER_ID = #{carPartsProducerId,jdbcType=VARCHAR},
+			</if>
+			<if test="defaultPicSrc != null" >
+				DEFAULT_PIC_SRC = #{defaultPicSrc,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null" >
+				PRICE = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="yuanjia != null" >
+				yuanjia = #{yuanjia,jdbcType=DECIMAL},
+			</if>
+			<if test="bn != null" >
+				BN = #{bn,jdbcType=VARCHAR},
+			</if>
+			<if test="productArea != null" >
+				PRODUCT_AREA = #{productArea,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null" >
+				UNIT = #{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="store != null" >
+				STORE = #{store,jdbcType=DECIMAL},
+			</if>
+			<if test="createtime != null" >
+				CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null" >
+				MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="marketable != null" >
+				MARKETABLE = #{marketable,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null" >
+				USER_ID = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="isCarProducter != null" >
+				IS_CAR_PRODUCTER = #{isCarProducter,jdbcType=VARCHAR},
+			</if>
+			<if test="isMemberDiscount != null" >
+				IS_MEMBER_DISCOUNT = #{isMemberDiscount,jdbcType=DECIMAL},
+			</if>
+			<if test="pOrder != null" >
+				P_ORDER = #{pOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="disabled != null" >
+				DISABLED = #{disabled,jdbcType=VARCHAR},
+			</if>
+			<if test="productBn != null" >
+				PRODUCT_BN = #{productBn,jdbcType=VARCHAR},
+			</if>
+			<if test="inCity != null" >
+				IN_CITY = #{inCity,jdbcType=DECIMAL},
+			</if>
+			<if test="inProvince != null" >
+				IN_PROVINCE = #{inProvince,jdbcType=DECIMAL},
+			</if>
+			<if test="outProvince != null" >
+				OUT_PROVINCE = #{outProvince,jdbcType=DECIMAL},
+			</if>
+			<if test="queryNum != null" >
+				QUERY_NUM = #{queryNum,jdbcType=DECIMAL},
+			</if>
+			<if test="clickNumber != null" >
+				CLICK_NUMBER = #{clickNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="isMail != null" >
+				IS_MAIL = #{isMail,jdbcType=VARCHAR},
+			</if>
+			<if test="isStander != null" >
+				IS_STANDER = #{isStander,jdbcType=DECIMAL},
+			</if>
+			<if test="sendIp != null" >
+				SEND_IP = #{sendIp,jdbcType=VARCHAR},
+			</if>
+			<if test="shCatId != null" >
+				SH_CAT_ID = #{shCatId,jdbcType=VARCHAR},
+			</if>
+			<if test="lessinformation != null" >
+				lessinformation = #{lessinformation,jdbcType=VARCHAR},
+			</if>
+			<if test="goodstype != null" >
+				goodstype = #{goodstype,jdbcType=VARCHAR},
+			</if>
+			<if test="isMailing != null" >
+				is_mailing = #{isMailing,jdbcType=VARCHAR},
+			</if>
+			<if test="skuId != null" >
+				sku_id = #{skuId,jdbcType=VARCHAR},
+			</if>
+			<if test="yiji != null" >
+				yiji = #{yiji,jdbcType=DECIMAL},
+			</if>
+			<if test="erji != null" >
+				erji = #{erji,jdbcType=DECIMAL},
+			</if>
+			<if test="sanji != null" >
+				sanji = #{sanji,jdbcType=DECIMAL},
+			</if>
+			<if test="yijinum != null" >
+				yijinum = #{yijinum,jdbcType=DECIMAL},
+			</if>
+			<if test="erjinum != null" >
+				erjinum = #{erjinum,jdbcType=DECIMAL},
+			</if>
+			<if test="sanjinum != null" >
+				sanjinum = #{sanjinum,jdbcType=DECIMAL},
+			</if>
+			<if test="wuliu != null" >
+				wuliu = #{wuliu,jdbcType=DECIMAL},
+			</if>
+			<if test="fanxian != null" >
+				fanxian = #{fanxian,jdbcType=DECIMAL},
+			</if>
+			<if test="fanxiannum != null" >
+				fanxiannum = #{fanxiannum,jdbcType=DECIMAL},
+			</if>
+			<if test="freepostagenum != null" >
+				freePostageNum = #{freepostagenum,jdbcType=INTEGER},
+			</if>
+			<if test="isconsultingpostage != null" >
+				isConsultingPostage = #{isconsultingpostage,jdbcType=CHAR},
+			</if>
+			<if test="isPoint != null" >
+				is_point = #{isPoint,jdbcType=BIT},
+			</if>
+			<if test="pointPercentage != null" >
+				point_percentage = #{pointPercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="sellCountryId != null" >
+				sell_country_id = #{sellCountryId,jdbcType=VARCHAR},
+			</if>
+			<if test="isBuilding != null" >
+				is_building = #{isBuilding,jdbcType=VARCHAR},
+			</if>
+			<if test="isMarket != null" >
+				is_market = #{isMarket,jdbcType=VARCHAR},
+			</if>
+			<if test="isShop != null" >
+				is_shop = #{isShop,jdbcType=VARCHAR},
+			</if>
+			<if test="isGroup != null" >
+				is_group = #{isGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="isFlashSale != null" >
+				is_flash_sale = #{isFlashSale,jdbcType=VARCHAR},
+			</if>
+			<if test="activityPrice != null" >
+				activity_price = #{activityPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="praiseRate != null" >
+				praise_rate = #{praiseRate,jdbcType=DECIMAL},
+			</if>
+			<if test="praiseNum != null" >
+				praise_num = #{praiseNum,jdbcType=DECIMAL},
+			</if>
+			<if test="orderEndNum != null" >
+				order_end_num = #{orderEndNum,jdbcType=DECIMAL},
+			</if>
+			<if test="clickNum != null" >
+				click_num = #{clickNum,jdbcType=DECIMAL},
+			</if>
+			<if test="zonghe != null" >
+				zonghe = #{zonghe,jdbcType=DECIMAL},
+			</if>
+			<if test="isIndexShop != null" >
+				is_index_shop = #{isIndexShop,jdbcType=CHAR},
+			</if>
+			<if test="isIndexMarket != null" >
+				is_index_market = #{isIndexMarket,jdbcType=CHAR},
+			</if>
+			<if test="isIndexBuild != null" >
+				is_index_build = #{isIndexBuild,jdbcType=CHAR},
+			</if>
+			<if test="sysUpdateDate != null" >
+				sys_update_date = #{sysUpdateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="infomation != null" >
+				INFOMATION = #{infomation,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="uninGoods != null" >
+				UNIN_GOODS = #{uninGoods,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qlzy.model.Goods" >
+		update ql_goods
+		set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		en_name = #{enName,jdbcType=VARCHAR},
+		CAR_PARTS_ID = #{carPartsId,jdbcType=VARCHAR},
+		CAR_PARTS_PRODUCER_ID = #{carPartsProducerId,jdbcType=VARCHAR},
+		DEFAULT_PIC_SRC = #{defaultPicSrc,jdbcType=VARCHAR},
+		PRICE = #{price,jdbcType=DECIMAL},
+		yuanjia = #{yuanjia,jdbcType=DECIMAL},
+		BN = #{bn,jdbcType=VARCHAR},
+		PRODUCT_AREA = #{productArea,jdbcType=VARCHAR},
+		UNIT = #{unit,jdbcType=VARCHAR},
+		STORE = #{store,jdbcType=DECIMAL},
+		CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+		MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+		MARKETABLE = #{marketable,jdbcType=VARCHAR},
+		USER_ID = #{userId,jdbcType=VARCHAR},
+		IS_CAR_PRODUCTER = #{isCarProducter,jdbcType=VARCHAR},
+		IS_MEMBER_DISCOUNT = #{isMemberDiscount,jdbcType=DECIMAL},
+		P_ORDER = #{pOrder,jdbcType=VARCHAR},
+		DISABLED = #{disabled,jdbcType=VARCHAR},
+		PRODUCT_BN = #{productBn,jdbcType=VARCHAR},
+		IN_CITY = #{inCity,jdbcType=DECIMAL},
+		IN_PROVINCE = #{inProvince,jdbcType=DECIMAL},
+		OUT_PROVINCE = #{outProvince,jdbcType=DECIMAL},
+		QUERY_NUM = #{queryNum,jdbcType=DECIMAL},
+		CLICK_NUMBER = #{clickNumber,jdbcType=DECIMAL},
+		IS_MAIL = #{isMail,jdbcType=VARCHAR},
+		IS_STANDER = #{isStander,jdbcType=DECIMAL},
+		SEND_IP = #{sendIp,jdbcType=VARCHAR},
+		SH_CAT_ID = #{shCatId,jdbcType=VARCHAR},
+		lessinformation = #{lessinformation,jdbcType=VARCHAR},
+		goodstype = #{goodstype,jdbcType=VARCHAR},
+		is_mailing = #{isMailing,jdbcType=VARCHAR},
+		sku_id = #{skuId,jdbcType=VARCHAR},
+		yiji = #{yiji,jdbcType=DECIMAL},
+		erji = #{erji,jdbcType=DECIMAL},
+		sanji = #{sanji,jdbcType=DECIMAL},
+		yijinum = #{yijinum,jdbcType=DECIMAL},
+		erjinum = #{erjinum,jdbcType=DECIMAL},
+		sanjinum = #{sanjinum,jdbcType=DECIMAL},
+		wuliu = #{wuliu,jdbcType=DECIMAL},
+		fanxian = #{fanxian,jdbcType=DECIMAL},
+		fanxiannum = #{fanxiannum,jdbcType=DECIMAL},
+		freePostageNum = #{freepostagenum,jdbcType=INTEGER},
+		isConsultingPostage = #{isconsultingpostage,jdbcType=CHAR},
+		is_point = #{isPoint,jdbcType=BIT},
+		point_percentage = #{pointPercentage,jdbcType=DECIMAL},
+		sell_country_id = #{sellCountryId,jdbcType=VARCHAR},
+		is_building = #{isBuilding,jdbcType=VARCHAR},
+		is_market = #{isMarket,jdbcType=VARCHAR},
+		is_shop = #{isShop,jdbcType=VARCHAR},
+		is_group = #{isGroup,jdbcType=VARCHAR},
+		is_flash_sale = #{isFlashSale,jdbcType=VARCHAR},
+		activity_price = #{activityPrice,jdbcType=DECIMAL},
+		praise_rate = #{praiseRate,jdbcType=DECIMAL},
+		praise_num = #{praiseNum,jdbcType=DECIMAL},
+		order_end_num = #{orderEndNum,jdbcType=DECIMAL},
+		click_num = #{clickNum,jdbcType=DECIMAL},
+		zonghe = #{zonghe,jdbcType=DECIMAL},
+		is_index_shop = #{isIndexShop,jdbcType=CHAR},
+		is_index_market = #{isIndexMarket,jdbcType=CHAR},
+		is_index_build = #{isIndexBuild,jdbcType=CHAR},
+		sys_update_date = #{sysUpdateDate,jdbcType=TIMESTAMP},
+		INFOMATION = #{infomation,jdbcType=LONGVARCHAR},
+		UNIN_GOODS = #{uninGoods,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.qlzy.model.Goods" >
+		update ql_goods
+		set COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		en_name = #{enName,jdbcType=VARCHAR},
+		CAR_PARTS_ID = #{carPartsId,jdbcType=VARCHAR},
+		CAR_PARTS_PRODUCER_ID = #{carPartsProducerId,jdbcType=VARCHAR},
+		DEFAULT_PIC_SRC = #{defaultPicSrc,jdbcType=VARCHAR},
+		PRICE = #{price,jdbcType=DECIMAL},
+		yuanjia = #{yuanjia,jdbcType=DECIMAL},
+		BN = #{bn,jdbcType=VARCHAR},
+		PRODUCT_AREA = #{productArea,jdbcType=VARCHAR},
+		UNIT = #{unit,jdbcType=VARCHAR},
+		STORE = #{store,jdbcType=DECIMAL},
+		CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+		MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+		MARKETABLE = #{marketable,jdbcType=VARCHAR},
+		USER_ID = #{userId,jdbcType=VARCHAR},
+		IS_CAR_PRODUCTER = #{isCarProducter,jdbcType=VARCHAR},
+		IS_MEMBER_DISCOUNT = #{isMemberDiscount,jdbcType=DECIMAL},
+		P_ORDER = #{pOrder,jdbcType=VARCHAR},
+		DISABLED = #{disabled,jdbcType=VARCHAR},
+		PRODUCT_BN = #{productBn,jdbcType=VARCHAR},
+		IN_CITY = #{inCity,jdbcType=DECIMAL},
+		IN_PROVINCE = #{inProvince,jdbcType=DECIMAL},
+		OUT_PROVINCE = #{outProvince,jdbcType=DECIMAL},
+		QUERY_NUM = #{queryNum,jdbcType=DECIMAL},
+		CLICK_NUMBER = #{clickNumber,jdbcType=DECIMAL},
+		IS_MAIL = #{isMail,jdbcType=VARCHAR},
+		IS_STANDER = #{isStander,jdbcType=DECIMAL},
+		SEND_IP = #{sendIp,jdbcType=VARCHAR},
+		SH_CAT_ID = #{shCatId,jdbcType=VARCHAR},
+		lessinformation = #{lessinformation,jdbcType=VARCHAR},
+		goodstype = #{goodstype,jdbcType=VARCHAR},
+		is_mailing = #{isMailing,jdbcType=VARCHAR},
+		sku_id = #{skuId,jdbcType=VARCHAR},
+		yiji = #{yiji,jdbcType=DECIMAL},
+		erji = #{erji,jdbcType=DECIMAL},
+		sanji = #{sanji,jdbcType=DECIMAL},
+		yijinum = #{yijinum,jdbcType=DECIMAL},
+		erjinum = #{erjinum,jdbcType=DECIMAL},
+		sanjinum = #{sanjinum,jdbcType=DECIMAL},
+		wuliu = #{wuliu,jdbcType=DECIMAL},
+		fanxian = #{fanxian,jdbcType=DECIMAL},
+		fanxiannum = #{fanxiannum,jdbcType=DECIMAL},
+		freePostageNum = #{freepostagenum,jdbcType=INTEGER},
+		isConsultingPostage = #{isconsultingpostage,jdbcType=CHAR},
+		is_point = #{isPoint,jdbcType=BIT},
+		point_percentage = #{pointPercentage,jdbcType=DECIMAL},
+		sell_country_id = #{sellCountryId,jdbcType=VARCHAR},
+		is_building = #{isBuilding,jdbcType=VARCHAR},
+		is_market = #{isMarket,jdbcType=VARCHAR},
+		is_shop = #{isShop,jdbcType=VARCHAR},
+		is_group = #{isGroup,jdbcType=VARCHAR},
+		is_flash_sale = #{isFlashSale,jdbcType=VARCHAR},
+		activity_price = #{activityPrice,jdbcType=DECIMAL},
+		praise_rate = #{praiseRate,jdbcType=DECIMAL},
+		praise_num = #{praiseNum,jdbcType=DECIMAL},
+		order_end_num = #{orderEndNum,jdbcType=DECIMAL},
+		click_num = #{clickNum,jdbcType=DECIMAL},
+		zonghe = #{zonghe,jdbcType=DECIMAL},
+		is_index_shop = #{isIndexShop,jdbcType=CHAR},
+		is_index_market = #{isIndexMarket,jdbcType=CHAR},
+		is_index_build = #{isIndexBuild,jdbcType=CHAR},
+		sys_update_date = #{sysUpdateDate,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="gainFindGoodsBySelect" resultMap="BaseResultMap" parameterType="com.qlzy.model.Goods">
+
+		select t.* FROM (
+		select
+		<include refid="Base_Column_List"/>
+		FROM ql_goods
+		<where>
+			<if test="name != null and name != '' ">
+				and NAME like '%${name}%' </if>
+			<if test="minMoney != null and minMoney != '' ">
+				and PRICE &gt;= #{minMoney,jdbcType=Double}
+			</if>
+			<if test="maxMoney != null and maxMoney != '' ">
+				and PRICE &lt;=#{maxMoney,jdbcType=Double}
+			</if>
+			<if test="carPartsProducerId != null and carPartsProducerId != '' ">and CAR_PARTS_PRODUCER_ID =
+			   and 	#{carPartsProducerId,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER  BY CREATETIME DESC
+		)t limit #{minPage},#{maxPage}
+	</select>
+	<select id="gainFindGoodsBySelectCount" resultType="Long" parameterType="com.qlzy.model.Goods">
+	  select count(*) FROM  ql_goods
+		<where>
+			<if test="name != null and name != '' ">
+				and NAME like '%${name}%' </if>
+			<if test="minMoney != null and minMoney != '' ">
+				and PRICE &gt;= #{minMoney,jdbcType=Double}
+			</if>
+			<if test="maxMoney != null and maxMoney != '' ">
+				and PRICE &lt;=#{maxMoney,jdbcType=Double}
+			</if>
+			<if test="carPartsProducerId != null and carPartsProducerId != '' ">and CAR_PARTS_PRODUCER_ID =
+				and 	#{carPartsProducerId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>

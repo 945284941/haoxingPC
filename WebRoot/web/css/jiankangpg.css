@@ -1,0 +1,69 @@
+@charset "utf-8";
+/*----------- 健康评估内容 start------------- */
+.jkpg_miad{width:1190px;margin:0 auto; }
+.jkpg_miad_top{width:1190px;padding:10px 0 5px 0;border-bottom:#ccc solid 1px;}
+.jkpg_miad_top img{vertical-align:middle;margin-top:-4px;}
+.xq_rit_bot{ width:1188px;float:left;line-height:35px; font-size:22px; margin-top:30px;}
+.xq_rit_botli{ width:212px; height:56px; float:left; text-align:center; margin-right:10px; background:url(../images/jiankangpg/jkpg_2.png);}
+.xq_rit_botli a{ color:#333333;width:212px; height:56px; float:left; line-height:56px;}
+.xq_rit_botli a:hover,.xq_rit_botli a.hover{ color:#FFF; background:url(../images/jiankangpg/jkpg.png);width:212px; height:56px; float:left; text-decoration:none;}
+.jkpg_nr{ display: none;border:#CECECE solid 1px; margin-bottom:50px;overflow: hidden;}
+.jkpg_nr_wenzi{ float:left;width:340px; }
+.jkpg_nr_wenzi1{ height:30px; line-height:30px; font-size:18px; padding-left:20px;margin-top:30px; margin-bottom:10px;}
+.jkpg_nr_wenzi p{ color:#333; padding-left:20px; padding-right:20px; line-height:30px; font-size:14px;}
+.jkpg_tu{ float:left; width:5px;}
+.jkpg_tu2{float:left; width:230px; margin-left:110px; padding-top:100px;}
+.jkpg_tun,.jkpg_check{float:left;padding-left:20px;}
+.jkpg_tun_form{margin-top: 40px;width:780px;border-collapse: collapse;}
+.jkpg_tun_form td{border:1px solid #E8E8E8;border-collapse: collapse;line-height: 18px;padding:6px 10px;font-size: 12px;}
+.jkpg_tun_form input{vertical-align: middle;}
+.tun-form{border:1px solid #E6E6E6;padding:2px 4px;width:120px;}
+.hasColor{text-align: center;background: #F5F5F5;width:120px;}
+.jkpg_tun .ceshiBtn{margin-left:155px;}
+.ytResult{border:1px solid #E6E6E6;margin-top:15px;width:780px;height:125px;padding:10px;color:#F19800;}
+.ytResult.yts1{background: url(../images/yt-1.png) no-repeat center center; }
+.ytResult.yts2{background: url(../images/yt-2.png) no-repeat center center; }
+.ytResult.yts3{background: url(../images/yt-3.png) no-repeat center center; }
+
+.jkpg_check{padding-top:20px;width:780px;line-height: 30px;margin-top:10px;}
+.jkpg_check_item{width:780px;clear:both;}
+.jkpg_check_item label{margin-right:10px;}
+.jkpg_check_item label input{vertical-align:middle;margin-top:-3px;margin-right:3px;}
+.jkpg_check_2{padding:20px;}
+.jkpg_check_2 h2{color: #333;font-size: 18px;text-align: center;margin:30px;}
+.jkpg_check_2 p,.jkpg_check_2  ol li{line-height: 30px;color: #656565;font-size: 14px;}
+/*----------- 健康评估右1内容 start------------- */
+.jkpg_right{ float:left; width:300px;  margin-left:40px;}
+.jkpg_shengao{ height:30px; line-height:30px; font-size:16px; margin-top:100px;}
+.jkpg_shengao_let{ float:left; width:85px;}
+.jkpg_shengao_mid{float:left; width:105px;height:30px;}
+.jkpg_shengao_mid input{ width:105px; height:30px;border:#e4e4e4 solid 1px;font-family:"微软雅黑"; padding-left:10px;}
+.jkpg_shengao_rit{float:right; width:90px;}
+.jkpg_tizhong{ height:30px; line-height:30px; font-size:16px; padding-top:10px;}
+.jkpg_tizhong_let{ float:left; width:85px;}
+.jkpg_tizhong_mid{float:left; width:105px;height:30px;}
+.jkpg_tizhong_mid input{ width:105px; height:30px;border:#e4e4e4 solid 1px;font-family:"微软雅黑"; padding-left:10px;}
+.jkpg_tizhong_rit{float:right; width:90px;}
+.jkpg_ceshi{ height:30px; margin-top:10px; text-align:center; }
+.jkpg_wzsm{height:40px; margin-top:30px; text-align:center; line-height:30px; font-size:14px; color:#656565;font-size:14px;}
+.ceshiBtn,.resetBtn{
+	display:inline-block;
+	padding:6px 20px;
+	background:#6AC335;
+	color:#FFF;
+	border-radius:4px;
+	margin: 10px 50px 10px -20px;
+	font-size:14px;
+	line-height:20px;
+	letter-spacing: 1px;
+}
+.resetBtn{background: #F39801;}
+.jkpg_link2user{color:#000;}
+/*----------- 健康评估右2内容 start------------- */
+.jkpg_rit_nr{ float:left;width:840px;}
+.jkpg_rit_nr_top{ height:30px; line-height:30px; margin-top:20px;font-size:18px;margin-left:30px;}
+.jkpg_rit_nr_top1{ height:30px; line-height:30px;   font-size:14px;margin-left:30px;}
+.jkpg_rit_nr_top1 span{ color:#FF6602;}
+.ddgl_main_04{line-height:15px; margin-top:10px; width:780px; margin-left:30px;}
+.ddgl_main_04 table{text-align:center;font-size:12px; border-left:#e4e4e4 solid 1px; border-bottom:#e4e4e4 solid 1px;}
+.ddgl_main_04 table td{border-right:#e4e4e4 solid 1px;border-top:#e4e4e4 solid 1px;padding:4px 10px;color:#6C6964;line-height:20px;}

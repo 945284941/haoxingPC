@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.floor.dao.AdverMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.Adver" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="DECIMAL" />
+    <result column="ADVER_SIZE" property="adverSize" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="STARTTIME" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="LOWEST_BID_AMOUNT" property="lowestBidAmount" jdbcType="DECIMAL" />
+    <result column="SUCCESS_BID_AMOUNT" property="successBidAmount" jdbcType="DECIMAL" />
+    <result column="BID_STATUS" property="bidStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, POSITION, ADVER_SIZE, TYPE, IMG_SRC, URL, STARTTIME, ENDTIME, LOWEST_BID_AMOUNT, 
+    SUCCESS_BID_AMOUNT, BID_STATUS
+  </sql>
+
+  <!-- 根据设置的广告位置查询其广告信息 -->
+  <select id="gainAdverByFloor" resultMap="BaseResultMap" parameterType="com.qlzy.model.Adver" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ADVER
+    where "NAME" like '${name}%'
+  </select>
+  
+</mapper>

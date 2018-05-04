@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.searchGoods.dao.GoodsDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.GoodsDetail" >
+	<id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
+    <result column="BN" property="bn" jdbcType="VARCHAR" />
+    <result column="PRODUCT_AREA" property="productArea" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="STORE" property="store" jdbcType="DECIMAL" />
+    <result column="CLICK_NUMBER" property="clickNum" jdbcType="DECIMAL" />
+    <result column="IS_CAR_PRODUCTER" property="isCarProducter" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="yuanjia" property="yuanjia" jdbcType="DECIMAL" />
+    <result column="IN_CITY" property="inCity" jdbcType="DECIMAL" />
+    <result column="IN_PROVINCE" property="inProvince" jdbcType="DECIMAL" />
+    <result column="OUT_PROVINCE" property="outProvince" jdbcType="DECIMAL" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="POINT" property="point" jdbcType="DECIMAL" />
+    <result column="ORDERNUM" property="ordernum" jdbcType="DECIMAL" />
+    <result column="CAR_PARTS_ID" property="carPartsId" jdbcType="VARCHAR" />
+    <result column="SH_CAT_ID" property="shCatId" jdbcType="VARCHAR" />
+    <result column="CAR_Brand_ID" property="carBrandId" jdbcType="VARCHAR" />
+    <result column="P_TREE" property="ptree" jdbcType="VARCHAR" />
+    <result column="GOODS_CAT_NAME" property="goodsCatName" jdbcType="VARCHAR" />
+    <result column="CAR_PARTS_PRODUCER_ID" property="carPartsProducerId" jdbcType="VARCHAR" />
+    <result column="COMPANYADRESS" property="companyAdress" jdbcType="VARCHAR" />
+    <result column="COMPANYID" property="companyId" jdbcType="VARCHAR" />
+     <result column="lessinformation" property="lessinformation" jdbcType="VARCHAR" />
+       <result column="QUERY_NUM" property="queryNum" jdbcType="DECIMAL" />
+       <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+       <result column="goodstype" property="goodstype" jdbcType="VARCHAR" />
+  </resultMap>
+    <!-- 根据条件查询商品列表 -->
+     <select id="gainGoodsListSearchGoods" resultMap="BaseResultMap" parameterType="Map">  
+     	select * from (
+			select
+          DISTINCT GM.ID,GM.NAME,GM.CAR_PARTS_ID,GM.CAR_PARTS_PRODUCER_ID,GM.DEFAULT_PIC_SRC,GM.CLICK_NUMBER,
+           GM.BN,GM.PRODUCT_AREA,GM.UNIT,GM.MODIFYTIME,GM.STORE,GM.DISABLED,GM.IS_CAR_PRODUCTER,GM.PRICE,GM.IN_CITY,
+           GM.IN_PROVINCE,GM.OUT_PROVINCE,GM.COMPANY_NAME,GM.CITY,GM.PROVINCE,GM.POINT,GM.ORDERNUM,
+           GC.P_TREE,GC.NAME as GOODS_CAT_NAME ,GM.COMPANYID,GM.COMPANYADRESS,GM.QUERY_NUM,GM.lessinformation
+           ,gm.createtime,gm.yuanjia,gm.goodstype
+					from
+					(
+					 SELECT COU.ID,COU.IS_STANDER,COU.NAME,COU.CAR_PARTS_ID,COU.CAR_PARTS_PRODUCER_ID,COU.DEFAULT_PIC_SRC,COU.BN,COU.PRODUCT_AREA,COU.UNIT,COU.MODIFYTIME,COU.STORE,COU.DISABLED,COU.CLICK_NUMBER,COU.COMPANYID as companyId,COU.COMPANYADRESS,cou.QUERY_NUM,cou.lessinformation,
+COU.IS_CAR_PRODUCTER,COU.PRICE,COU.IN_CITY,COU.IN_PROVINCE,COU.OUT_PROVINCE,COU.COMPANY_NAME,COU.CITY,COU.PROVINCE,COU.POINT,COI.ORDERNUM,cou.createtime,cou.yuanjia,cou.goodstype from 
+(SELECT g.ID,g.IS_STANDER,g.QUERY_NUM,g.lessinformation,g.NAME,g.DEFAULT_PIC_SRC,g.BN,g.PRODUCT_AREA,g.UNIT,g.MODIFYTIME,g.STORE,g.IS_CAR_PRODUCTER,g.PRICE,g.IN_CITY,g.IN_PROVINCE,g.OUT_PROVINCE, c.COMPANY_NAME ,g.CLICK_NUMBER,g.createtime,
+		c.CITY,c.PROVINCE,c.POINT,g.CAR_PARTS_ID,g.CAR_PARTS_PRODUCER_ID,g.DISABLED,c.ID as companyId,c.ADDRESS as companyadress,g.yuanjia,g.goodstype 
+	    from
+	   
+		
+	     (select sg.* from ql_goods sg where sg.id in (SELECT gi.id from ql_goods gi 
+		LEFT JOIN  ql_goods_specification_value sv on gi.id = sv.goods_id  where 1=1
+			<if test="goodsDetail.baozhuang!= null and goodsDetail.baozhuang != ''" >
+					and sv.SPECIFICATION_VALUE like  '%${goodsDetail.baozhuang}%' 
+			</if>
+			<if test="goodsDetail.zhongliang!= null and goodsDetail.zhongliang != ''" >
+					and sv.SPECIFICATION_VALUE like  '%${goodsDetail.zhongliang}%'
+			</if>
+			<if test="goodsDetail.shengfen!= null and goodsDetail.shengfen != ''" >
+					and sv.SPECIFICATION_VALUE like  '%${goodsDetail.shengfen}%' 
+					</if> 
+					
+			)) g
+	      LEFT JOIN QL_COMPANYS c on c.ID=g.COMPANY_ID ) cou LEFT JOIN 
+						(SELECT OI.GOODS_ID,COUNT(GOODS_ID) as orderNum from QL_ORDER_ITEMS oi GROUP BY OI.GOODS_ID)coi ON COI.GOODS_ID=COU.ID
+				
+				) gm 
+          LEFT JOIN QL_GOODS_CAT gc on GC.ID=GM.CAR_PARTS_ID WHERE GM.DISABLED='false' and gc.disabled='false' 
+          <if test="goodsDetail.topSearchLike != null and goodsDetail.topSearchLike != ''" >
+				   and ( GM.bn like '%${goodsDetail.topSearchLike}%' or GM.name LIKE '%${goodsDetail.topSearchLike}%' or GC.NAME like '%${goodsDetail.topSearchLike}%'  or GM.lessinformation like '%${goodsDetail.topSearchLike}%')
+
+		  </if>
+		  <if test="goodsDetail.bn != null and goodsDetail.bn != ''" >
+				     and GM.BN = #{goodsDetail.bn,jdbcType=VARCHAR}
+		  </if>
+		    <if test="goodsDetail.goodstype != null and goodsDetail.goodstype != ''" >
+				     and GM.goodstype = #{goodsDetail.goodstype,jdbcType=VARCHAR}
+		  </if>
+		  <if test="goodsDetail.city != null and goodsDetail.city != ''" >
+				     and GM.CITY = #{goodsDetail.city,jdbcType=VARCHAR}
+		  </if>
+		  <if test="goodsDetail.store != null and goodsDetail.store != ''" >
+				     and GM.STORE !='0'
+		  </if>
+		  <if test="goodsDetail.firstGoodsCatName != null and goodsDetail.firstGoodsCatName != ''" >
+	            and (GM.CAR_PARTS_ID in (select t.id from ql_goods_cat t where t.PID in 
+	                        (select t2.id from ql_goods_cat t2 where t2.NAME = #{goodsDetail.firstGoodsCatName,jdbcType=VARCHAR} ))
+                   or GM.CAR_PARTS_ID = (select t.id from ql_goods_cat t where t.NAME = #{goodsDetail.firstGoodsCatName,jdbcType=VARCHAR})
+                   )
+          </if>
+		   <if test="goodsDetail.carPartsId != null and goodsDetail.carPartsId != ''" >
+				     and (GC.P_TREE like '%${goodsDetail.carPartsId}%' or GC.ID=#{goodsDetail.carPartsId,jdbcType=VARCHAR})
+		  </if>
+		  <if test="goodsDetail.goodsCatName != null and goodsDetail.goodsCatName != ''" >
+				     and GC.Name like '%${goodsDetail.goodsCatName}%' 
+		  </if>
+		  <if test="sort != null and goodsDetail.carBrandId != ''">
+			order by ${sort}
+			</if>
+			<if test="order != null and goodsDetail.carBrandId != ''">
+			${order}
+			</if> 
+			<if test="sort == null and order == null ">
+			order by createtime desc
+			</if>
+		 ) s
+        limit #{page},#{rows}
+     </select>
+     
+     <select id="gainGoodsListSearchGoodsCount" parameterType="Map" resultType="Long">
+  	select count(ID) from ( SELECT   DISTINCT GM.ID,GM.NAME,GM.CAR_PARTS_ID,GM.CAR_PARTS_PRODUCER_ID,GM.DEFAULT_PIC_SRC,GM.CLICK_NUMBER,
+           GM.BN,GM.PRODUCT_AREA,GM.UNIT,GM.MODIFYTIME,GM.STORE,GM.DISABLED,GM.IS_CAR_PRODUCTER,GM.PRICE,GM.IN_CITY,
+           GM.IN_PROVINCE,GM.OUT_PROVINCE,GM.COMPANY_NAME,GM.CITY,GM.PROVINCE,GM.POINT,GM.ORDERNUM,
+           GC.P_TREE,GC.NAME as GOODS_CAT_NAME ,GM.COMPANYID,GM.COMPANYADRESS,GM.lessinformation
+           
+					from
+					(
+					 SELECT COU.ID,COU.IS_STANDER,COU.NAME,COU.CAR_PARTS_ID,COU.CAR_PARTS_PRODUCER_ID,COU.DEFAULT_PIC_SRC,COU.BN,COU.PRODUCT_AREA,COU.UNIT,COU.MODIFYTIME,COU.STORE,COU.DISABLED,COU.CLICK_NUMBER,COU.COMPANYID as companyId,COU.COMPANYADRESS,
+COU.IS_CAR_PRODUCTER,COU.PRICE,COU.IN_CITY,COU.IN_PROVINCE,COU.OUT_PROVINCE,COU.COMPANY_NAME,COU.CITY,COU.PROVINCE,COU.POINT,COI.ORDERNUM,cou.goodstype, cou.lessinformation from 
+(SELECT g.ID,g.IS_STANDER,g.NAME,g.DEFAULT_PIC_SRC,g.lessinformation,g.BN,g.PRODUCT_AREA,g.UNIT,g.MODIFYTIME,g.STORE,g.IS_CAR_PRODUCTER,g.PRICE,g.IN_CITY,g.IN_PROVINCE,g.OUT_PROVINCE, c.COMPANY_NAME ,g.CLICK_NUMBER,
+		c.CITY,c.PROVINCE,c.POINT,g.CAR_PARTS_ID,g.CAR_PARTS_PRODUCER_ID,g.DISABLED,c.ID as companyId,c.ADDRESS as companyadress,g.goodstype
+	    from   
+	    	(select sg.* from ql_goods sg where sg.id in (SELECT gi.id from ql_goods gi 
+					LEFT JOIN  ql_goods_specification_value sv on gi.id = sv.goods_id  where 1=1
+			<if test="goodsDetail.baozhuang!= null and goodsDetail.baozhuang != ''" >
+					and sv.SPECIFICATION_VALUE like  '%${goodsDetail.baozhuang}%'  
+			</if>
+			<if test="goodsDetail.zhongliang!= null and goodsDetail.zhongliang != ''" >
+					and sv.SPECIFICATION_VALUE like  '%${goodsDetail.zhongliang}%'  
+			</if>
+			<if test="goodsDetail.shengfen!= null and goodsDetail.shengfen != ''" >
+					and sv.SPECIFICATION_VALUE like  '%${goodsDetail.shengfen}%'  
+			</if>
+			)) g
+	      LEFT JOIN QL_COMPANYS c on c.ID=g.COMPANY_ID ) cou LEFT JOIN 
+						(SELECT OI.GOODS_ID,COUNT(GOODS_ID) as orderNum from QL_ORDER_ITEMS oi GROUP BY OI.GOODS_ID)coi ON COI.GOODS_ID=COU.ID
+					
+					
+				) gm 
+          LEFT JOIN QL_GOODS_CAT gc on GC.ID=GM.CAR_PARTS_ID WHERE GM.DISABLED='false' and gc.disabled='false' 
+          <if test="goodsDetail.topSearchLike != null and goodsDetail.topSearchLike != ''" >
+				   and ( GM.bn like '%${goodsDetail.topSearchLike}%' or GM.name LIKE '%${goodsDetail.topSearchLike}%' or GC.NAME like '%${goodsDetail.topSearchLike}%'  or GM.lessinformation like '%${goodsDetail.topSearchLike}%')
+
+		  </if>
+          <if test="goodsDetail.carPartsId != null and goodsDetail.carPartsId != ''" >
+				     and (GC.P_TREE like '%${goodsDetail.carPartsId}%' or GC.ID=#{goodsDetail.carPartsId,jdbcType=VARCHAR})
+		  </if>
+		  <if test="goodsDetail.firstGoodsCatName != null and goodsDetail.firstGoodsCatName != ''" >
+	            and (GM.CAR_PARTS_ID in (select t.id from ql_goods_cat t where t.PID in 
+	                        (select t2.id from ql_goods_cat t2 where t2.NAME = #{goodsDetail.firstGoodsCatName,jdbcType=VARCHAR} ))
+                     or GM.CAR_PARTS_ID = (select t.id from ql_goods_cat t where t.NAME = #{goodsDetail.firstGoodsCatName,jdbcType=VARCHAR})
+                   )
+          </if>
+		  <if test="goodsDetail.goodsCatName != null and goodsDetail.goodsCatName != ''" >
+				     and GC.Name like '%${goodsDetail.goodsCatName}%' 
+		  </if>
+		  <if test="goodsDetail.bn != null and goodsDetail.bn != ''" >
+				     and GM.BN = #{goodsDetail.bn,jdbcType=VARCHAR}
+		  </if>
+		  <if test="goodsDetail.goodstype != null and goodsDetail.goodstype != ''" >
+				     and GM.goodstype = #{goodsDetail.goodstype,jdbcType=VARCHAR}
+		  </if>
+		  <if test="goodsDetail.city != null and goodsDetail.city != ''" >
+				     and GM.CITY = #{goodsDetail.city,jdbcType=VARCHAR}
+		  </if>
+		  <if test="goodsDetail.store != null and goodsDetail.store != ''" >
+				     and GM.STORE !='0'
+		  </if>
+			 ) t
+  </select>
+  
+   
+   <!-- 根据条件查询商品列表 -->
+  
+  
+  
+  <select id="gainStanderGoods" resultType="com.qlzy.model.GoodsDetail"  parameterType="java.lang.String" >
+	select g.id,g.bn,g.name,g.IS_CAR_PRODUCTER as isCarProducter,g.price,g.DEFAULT_PIC_SRC as defaultPicSrc,g.UNIT ,gc.NAME as goodsCatName
+		from QL_GOODS G  
+			LEFT JOIN QL_GOODS_CAT gc ON g.CAR_PARTS_ID=gc."ID"
+		WHERE G.BN=#{bn,jdbcType=VARCHAR} AND G.IS_STANDER='0'
+  </select>
+  <select id="gainSpecificationListByGoodsId" resultType="com.qlzy.model.SpecificationInformation"  parameterType="java.lang.String" >
+	SELECT s."NAME" as name,v.SPECIFICATION_VALUE as specificationValue from QL_GOODS_SPECIFICATION_VALUE v LEFT JOIN QL_GOODS_SPECIFICATION s on v.SPECIFICATION_ID=s."ID"
+	where v.GOODS_ID= #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="gainGoodsByCompany" resultMap="BaseResultMap" parameterType="java.util.Map">
+	select * from QL_GOODS where COMPANY_ID = #{companyId, jdbcType=VARCHAR} order by ${sort} DESC LIMIT #{goodsLang1},#{goodsLang2}
+  </select>
+  
+</mapper>

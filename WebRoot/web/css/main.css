@@ -1,0 +1,208 @@
+@charset "utf-8";
+/* CSS Document */
+/* =========================================首页 start=================================================  */
+/*----------- 有机特卖 start------------- */
+.hasOpacity{opacity:0.6;}
+.noOpacity{opacity:1;}
+.innerShadow{box-shadow: 0 0 -5px #779885;}
+.outerShadow{box-shadow: 0 0 5px #779885;}
+.index_yjcf_left_top1:hover a,.index_yjcf_right1:hover a{color:#CC0001;font-weight:bold;}
+
+.index_temai {text-align:center;margin-top:8px;}
+.index_temai_sp_y{ float:left;width:230px; text-align:center;  font-size:14px; margin:0 4px 0 4px;}
+.index_temai_sp{float:left;width:230px; text-align:center; border:#CCCCCC solid 1px; font-size:14px; margin:30px 3px 0 3px;}
+.index_temai_sp:hover{box-shadow:0 0 5px #779885;border-color:#779885;}
+.index_temai_sp img{width:230px;; height:220px;}
+.index_temai_sp img.index-daojishi-product{height:185px;cursor: pointer;}
+.index_cpmc{ height:40px; line-height:40px;}
+.index_cpjg{ height:40px; line-height:40px; font-size:24px; color:#CC0000; font-weight:bold 1px;padding-bottom:10px;}
+.index_daojishi{position:relative;width:230px;height:125px;background:url(../images/index/qianggou.png) no-repeat}
+.index-daojishi-h,.index-daojishi-m,.index-daojishi-s{
+	display:inline-block;
+	position:absolute;
+	top:62px;
+	left:24px;
+	width:47px;
+	height:47px;
+	line-height:47px;
+	font-size:20px;
+	color:#FFF;
+	text-align:center;
+}
+.index-daojishi-m{left:92px;}
+.index-daojishi-s{left:158px;}
+.index_cpmc span{ font-size:24px; }
+.index_tonglan{ width:1190; height:130px; margin-bottom:20PX; margin-top:10px;}
+/*----------- 有机推荐 start------------- */
+.index_mid_top{position:relative;}
+.index_mid_top img{ float:left; width:152; }
+.index_mid_topwz{position:absolute;right:0;top:0;width:110px;height:56; font-size:14px; line-height:58px; color:#358375;}
+.index_mid_topwz a:hover{text-decoration: underline;}
+.index_tj{ height:389px; margin-top:10px;}
+.index_tj_let{ width:806px;height:390px;}
+.index_tj_lettu1,.index_tj_lettu2,.index_tj_lettu3{float:left;border:1px solid #ccc;box-sizing:border-box;}
+.index_tj_lettu1 img,.index_tj_lettu2 img,.index_tj_lettu3 img{width:100%;height:100%;}
+.index_tj_lettu1{ width:390px; height:100%;border-right:1px solid #ccc;margin-right:10px}
+.index_tj_lettu2{width:405px; height:190px;margin-bottom:10px;}
+.index_tj_lettu3{width:405px; height:190px;border-top:1px solid #ccc;}
+.index_tj_rit{ float:right; width:369px;border:1px  solid #D4D4D4;border-top:none;}
+.index_tj_rit_top{ height:50px;width:370px;line-height:50px; font-size:16px; background:url(../images/index/index_beijing2.jpg);}
+.index_click2buy{display:inline-block;line-height:18px;border-radius:4px;padding:2px 10px;color:#FFF;background-color:#168968;font-size:12px;}
+.index_click2buy:hover{background-color:#CC0001;}
+.index_tj_rit_topli{ width:123px;height:50px; float:left; text-align:center;cursor:pointer; font-weight:bold;}
+.index_tj_rit_topli:hover,.index_tj_rit_topli.hover{ color:#158b6b; border-bottom:3px solid #158b6b;width:122px; height:47px; float:left; text-decoration:none; }
+.index-tj-rit-cnt{display:none;padding-left:20px;padding-right:20px;}
+.index_tj_rit_bot1{ width:370px; height:100px; padding:5px 0;border-top:#CCC dashed 1px;}
+.index_tj_rit_bot1:first-child{border-top:none;}
+.index_tj_rit_tu{ float:left; width:81px; height:81px; padding:10px 5px 10px 20px;}
+.index_tj_rit_wenzi1{ float:left;padding:10px 20px 10px 20px; width:200px;  }
+.index_tj_rit_wenzi{ height:30px; line-height:30px; font-size:14px;}
+.index_tj_rit_wenzi span{ color:#C00; font-size:18px;}
+.index_tj_rit{ float:right; width:370px;border:1px  solid #D4D4D4;}
+.index_tj_rit_top{ height:50px;width:370px;float:left; line-height:50px; font-size:16px;}
+.index_tj_rit_topli{ width:122px; height:50px; float:left; text-align:center; font-weight:bold; background:url(../images/index/index_beijing2.jpg); }
+.index_tj_rit_top a{ color:#333333;width:122px; height:50px; float:left;}
+.index_tj_rit_topli a:hover,.index_tj_rit_top a.hover{ color:#158b6b; border-bottom:3px solid #158b6b;width:122px; height:47px; float:left; text-decoration:none; }
+.index_miad_miad_right_neirong { margin-top:30px; padding-bottom:35px;}
+.index_miad_miad_right_neirong li{ color:#666;  height:30px; line-height:18px; margin-top:17px; border-bottom:#CACACA  dashed 1px;}
+.index_miad_miad_right_neirong span{ padding-left:5px;}
+.index_miad_miad_right_neirong img{vertical-align:middle;margin-left:10px;margin-top:-3px; }
+/*----------- 有机厨房 start------------- */
+.index_yjcf{ width:1190; height:402px; border:#CCC solid 1px; margin-top:10px;}
+.index_yjcf_left{ width:570px;}
+.index_yjcf_left_top{ overflow:hidden;border-bottom:1px solid #ccc;}
+.index_yjcf_left_top1{ width:188px; float:left; border-left:#CCC solid 1px;}
+.index_yjcf_left_top1:first-child{border-left:none;}
+.index_yjcf_left_top1 img{ width:188px; height:138px;}
+.index_yjcf_mc{ height:20px; line-height:20px; text-align:center; font-size:14px;} 
+.index_yjcf_jage{ height:38px;text-align:center; font-size:24px; color:#C00; font-weight:bold 1px;}
+.index_yjcf_right{ float:right;width:618px;height:399px; }
+.index_yjcf_right1{ float:left; width:307px; height:402px; border-left:#CCC solid 1px;}
+.index_yjcf_right1 img{ width:307px; height:330px; }
+.index_yjcf_right_mc{ height:30px; line-height:30px; text-align:center; font-size:14px;}
+/*----------- 健康资讯 start------------- */
+.zx_miad{width:1190px;;margin:0 auto; }
+.zx_miad_top{ width:1190px; height:40px; padding:30px 0 5px 0;border-bottom:#ccc solid 1px;}
+/*----------- 左边内容 start------------- */
+.zx_miad_miad_left{ float:left;width:780px; margin-bottom:40px; }
+.zx_miad_miad_left_biaotou{border-bottom:#358375 solid 3px;}
+.zx_left_neirong{ border:#EBE7E8 solid 1px;border-top-width:4px;padding:0 20px;overflow:hidden;}
+.zx_miad_miad_left_neirong{overflow:hidden;padding:20px 0;border-bottom:1px dotted #B0B0B0;}
+.zx_tu{ float:left;width:200px; height:144px;}
+.zx_tu_right{ width:518px;margin-left:20px;float:left;}
+.zx_tu_right_top{ position:relative;font-size:16px;font-weight:bold;color:#313131;height:35px; line-height:35px;}
+.zx-tu-time{position:absolute;top:0;right:0;font-size:12px;font-weight:500;line-height:35px;color:#6C6C6C;}
+.zx_tu_right_bot{ height:74px; line-height:24px;overflow:hidden;color:#6C6C6C;}
+.zx_chakan{ padding-top:10px;}
+
+/*----------- 右边内容 start------------- */
+.zx_miad_miad_right{ float:right;width:390px;}
+.zx_miad_miad_right_biaotou{ margin-top:30px;border-bottom:#358375 solid 3px;}
+.zx_miad_miad_right_neirong { margin-top:10px;}
+.zx_miad_miad_right_neirong_li{
+	background:url(../images/zixun/zx_tubiao.jpg)  no-repeat left center;
+	padding-left:10px;
+	color:#666;  height:30px; line-height:32px;}
+.zx_miad_miad_right_neirong span{ padding-left:10px;}
+/*----------- 健康资讯结束------------- */
+
+/*----------- 膳食搭配内容 start------------- */
+.ssdp_banner{ border-top:#999 solid 1 px; padding-bottom:3px; border-bottom:#999 solid 1 px;}
+.ssdp_miad_top_biaotou{margin-top:30px;border-bottom:#358375 solid 3px;}
+.ssdp_miad_neirong1{ float:left; width:296; padding:0 86px 60px 0px;position:relative;}
+.ssdp_miad_wenzi1{ padding-top:20px;}
+.ssdp_miad_wenzi{ height:30px; width:211px; line-height:30px; text-align:center; font-family:"微软雅黑"; font-size:18px; color:#358375; padding-top:30px;}
+.ssdp_miad_banner{ width:211px; height:211px;}
+.ssdp_miad_wenti { height:28px; line-height:28px;}
+.ssdp_miad_img{padding-top:10px;}
+.ssdp_miad_btn{
+	display:inline-block;
+	line-height:30px;
+	padding:0 15px;
+	border:1px solid #35846E;
+	color:#35846E;
+	font-weight:600;
+	font-size:14px;
+	word-spacing: 2px;
+}
+.ssdp_miad_btn:hover{
+	background-color:#35846E;
+	color:#FFF;
+}
+.ssdp_miad_top_biaotou_let{ border-bottom:#358375 solid 3px; width:750px; height:49px;}
+.ssdp_miad_bot_2{ float:right;width:60px; font-size:14px; line-height:49px; color:#358375;}
+.ssdp_miad_bot_2 a:hover{ color:#666666;}
+.ssdp_miad_bot_1{ float:right; font-size:14px; line-height:50px;}
+.ssdp_miad_bot_1 .sptj_type{ background-color:#fff;font-weight:bold;margin-right:10px;padding:4px 10px;}
+.ssdp_miad_bot_1 .sptj_type:hover,.ssdp_miad_bot_1 .sptj_type.active{color:#FFF; background-color:#358375;}
+.sptj_cnt{display:none}
+.sptj_cnt.active{display:block;}
+.ssdp_miad_bot_tupian{ float:left;}
+.ssdp_miad_top_biaotou_right{  border-bottom:#358375 solid 3px;width:400px;}
+.ssdp_miad_top_biaotou_right span{ float:right;}
+.ssdp_miad_top_biaotou_tupian{ width:750px; height:210px;}
+.ssdp_miad_top_biaotou_tupian li{ float:left;width:156px; height:138px; padding:15px; }
+.ssdp_miad_bot_img_wz{ height:30px; text-align:center; line-height:30px;}
+.ssdp_miad_bot_img_wz span{display:block;width:156px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.ssdp_miad_bot_img{ border:#CCC solid 1px; width:153px; height:131px; text-align:center; padding-top:4px; margin-top:15px;}
+.ssdp_miad_bot_let{ width:750px; height:260px;border:1px solid #E9E7E8;}
+.ssdp_diad_bot{ margin-top:30px; margin-bottom:60px;}
+.ssdp_miad_top_biaotou_right{ float:right;}
+.ssdp_miad_bot_rit{ float:right; width:400px;}
+/*----------- 膳食搭配内容结束------------- */
+ 
+ /*--------------------古粮今典主页------------------------------*/
+ .gljd-index{
+ 	width:1190px;
+ 	margin:0 auto 20px;
+ }
+  .gljd-index .gljd-index-pic{
+  	width:1190px;
+  	margin:0 auto;
+  }
+  
+  /*----------------膳食搭配详情页-------------------------------------*/
+  .innerPageCnt{width:960px;margin:0 auto;position:relative;}
+  .bdsharebuttonbox{position:absolute;right:0;top:0;}
+  .innerPageAd{float:left;width:220px;}
+  .innerPageAd-item{width:220px;border:1px solid #CCC;margin-bottom:20px;}
+ .newszd h1{
+ 	text-align:center;
+ 	font-size:30px;
+ 	font-family:''宋体;
+ 	line-height:60px;
+ }
+ 
+ .newszd  .wzly{position:relative;text-align:center;}
+ .newszd  .newssc1{
+ 	display:inline-block;
+ 	padding:6px 15px;
+ 	background-color:#993300;
+ 	color:#FFF;
+ 	margin-left:10px;
+ 	cursor:pointer;
+ }
+ .newswznr{
+ 	margin:20px 0;
+ 	padding:10px;
+ 	border:1px solid #CECECE;
+ }
+ .xwzxz{
+    display:inline-block;
+ 	border-left:10px solid #358375;
+ 	line-height:28px;
+ 	padding-left:10px;
+ }
+
+/*首页轮播图*/
+#flash {width: 999px;border:none;box-shadow:none;margin:0;margin-left:192px;border-radius:0;height: 454px;position: relative;overflow:hidden;}
+
+#flash img{width:999px;height:454px;}
+
+#flash .flex-control-nav{z-index:99;bottom:10px;}
+
+
+
+
+
+

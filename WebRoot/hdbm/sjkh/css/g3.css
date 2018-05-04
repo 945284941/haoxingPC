@@ -1,0 +1,94 @@
+@charset "gb2312";
+/* CSS Document */
+
+body {
+    color: #313131;
+    font: 1em/1.2 Î¢ÈíÑÅºÚ;
+    margin: 0 auto;
+    padding: 0; font-weight:100;
+}
+div, form, img, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6 {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+ul, ol, li {
+    list-style: none outside none;
+}
+a {
+    color: #313131;
+    text-decoration: none;
+}
+a:link, a:active, a:visited {
+    color: #313131;
+}
+a:hover {
+    color: #C11843; 
+}
+.blank10 {
+	height:10px;
+	line-height:1px;
+	font-size: 1px;
+	clear: both;
+}
+.cRed, .cRed:visited, .cRed a, .cRed a:visited,.cRed a:link{
+	color: #C11843;
+}
+.cRed a:hover, a.cRed:hover {
+	color: #FF9600;
+}
+
+.little{
+	background:url(img/ds.png) no-repeat -12px bottom; height:26px; line-height:26px; padding-left:122px; margin-bottom:10px;
+}
+.little a {
+    font-size:1.1em; color:#C11843; font-weight: 900;
+}
+.indexlist14 li {
+	background: transparent url( 'img/doc.png' ) no-repeat scroll 2px center;
+	font-size: 1em;
+	height: 2.1em;
+	line-height: 2.1em;
+	overflow: hidden;
+	padding: 0 0 0 15px;
+	text-align: left;
+    border-bottom:1px #CCCCCC dotted;
+}
+.indexlist14 li.posss{
+   font-size: 1em;	height:2.1em;	line-height:2.1em;font-weight:bold;
+}
+.indexlist14 li span.time {
+	color: #999999;
+	float: right; font-family:Calibri; padding-top:1px; font-weight:normal; font-size:12px;
+}
+.main{
+	padding:10px 15px;
+}
+.main p{
+	font-size: 1em;
+	line-height: 1.6em;
+}
+
+
+.foot{
+	padding:15px 15px; background-color: #EAEAEA;	font-size:0.75em; color:#999999;
+}
+
+.logo{
+   padding-left:10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

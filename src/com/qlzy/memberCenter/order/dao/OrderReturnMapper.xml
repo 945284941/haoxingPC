@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.order.dao.OrderReturnMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.OrderReturn" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="RETURN_MONEY" property="returnMoney" jdbcType="DECIMAL" />
+    <result column="LOGISTICS_NUM" property="logisticsNum" jdbcType="VARCHAR" />
+    <result column="LOGISTICS_NAME" property="logisticsName" jdbcType="VARCHAR" />
+    <result column="LOGISTICS_TEL" property="logisticsTel" jdbcType="VARCHAR" />
+    <result column="CAUSE" property="cause" jdbcType="VARCHAR" />
+    <result column="ISDELIVERY" property="isdelivery" jdbcType="VARCHAR" />
+    <result column="RETURN_TYPE" property="returnType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, RETURN_MONEY, LOGISTICS_NUM, LOGISTICS_NAME, LOGISTICS_TEL, CAUSE, 
+    ISDELIVERY, RETURN_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ORDER_RETURN
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="gainByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_ORDER_RETURN
+    where ORDER_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_ORDER_RETURN
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.qlzy.model.OrderReturn" >
+    insert into QL_ORDER_RETURN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="returnMoney != null" >
+        RETURN_MONEY,
+      </if>
+      <if test="logisticsNum != null" >
+        LOGISTICS_NUM,
+      </if>
+      <if test="logisticsName != null" >
+        LOGISTICS_NAME,
+      </if>
+      <if test="logisticsTel != null" >
+        LOGISTICS_TEL,
+      </if>
+      <if test="cause != null" >
+        CAUSE,
+      </if>
+      <if test="isdelivery != null" >
+        ISDELIVERY,
+      </if>
+      <if test="returnType != null" >
+        RETURN_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnMoney != null" >
+        #{returnMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsNum != null" >
+        #{logisticsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsName != null" >
+        #{logisticsName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsTel != null" >
+        #{logisticsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null" >
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelivery != null" >
+        #{isdelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="returnType != null" >
+        #{returnType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.OrderReturn" >
+    update QL_ORDER_RETURN
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnMoney != null" >
+        RETURN_MONEY = #{returnMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsNum != null" >
+        LOGISTICS_NUM = #{logisticsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsName != null" >
+        LOGISTICS_NAME = #{logisticsName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsTel != null" >
+        LOGISTICS_TEL = #{logisticsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null" >
+        CAUSE = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelivery != null" >
+        ISDELIVERY = #{isdelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="returnType != null" >
+        RETURN_TYPE = #{returnType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updatePayStatus" parameterType="com.qlzy.model.OrderReturn" >
+  	update QL_ORDER_RETURN set RETURN_TYPE = #{returnType,jdbcType=VARCHAR} where RETURN_TYPE ='1' and  ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

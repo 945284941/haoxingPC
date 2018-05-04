@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.memberCenter.person.active.dao.DataDownloadMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.DataDownload" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NEW_ID" property="newId" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="DISABLED" property="disabled" jdbcType="VARCHAR" />
+    <result column="NEW_URL" property="newUrl" jdbcType="VARCHAR" />
+    <result column="LOAD_TYPE" property="loadType" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NEW_ID, CREATEDATE, USER_ID, DISABLED, NEW_URL, LOAD_TYPE,USER_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QL_DATA_DOWNLOAD
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QL_DATA_DOWNLOAD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qlzy.model.DataDownload" >
+    insert into QL_DATA_DOWNLOAD (ID, NEW_ID, CREATEDATE, 
+      USER_ID, DISABLED, NEW_URL, USER_NAME
+      LOAD_TYPE)
+    values (#{id,jdbcType=VARCHAR}, #{newId,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=VARCHAR}, #{disabled,jdbcType=VARCHAR}, #{newUrl,jdbcType=VARCHAR},  #{userName,jdbcType=VARCHAR}, 
+      #{loadType,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qlzy.model.DataDownload" >
+    insert into QL_DATA_DOWNLOAD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="newId != null" >
+        NEW_ID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="disabled != null" >
+        DISABLED,
+      </if>
+      <if test="newUrl != null" >
+        NEW_URL,
+      </if>
+      <if test="loadType != null" >
+        LOAD_TYPE,
+      </if>
+      <if test="userName != null" >
+        NEW_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="newId != null" >
+        #{newId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="newUrl != null" >
+        #{newUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="loadType != null" >
+        #{loadType,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null" >
+       #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.DataDownload" >
+    update QL_DATA_DOWNLOAD
+    <set >
+      <if test="newId != null" >
+        NEW_ID = #{newId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        DISABLED = #{disabled,jdbcType=VARCHAR},
+      </if>
+      <if test="newUrl != null" >
+        NEW_URL = #{newUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="loadType != null" >
+        LOAD_TYPE = #{loadType,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qlzy.model.DataDownload" >
+    update QL_DATA_DOWNLOAD
+    set NEW_ID = #{newId,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      DISABLED = #{disabled,jdbcType=VARCHAR},
+      NEW_URL = #{newUrl,jdbcType=VARCHAR},
+      LOAD_TYPE = #{loadType,jdbcType=DECIMAL},
+      USER_NAME = #{userName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+ <!-- 下载列表 -->
+  <select id="gainDataloadList" resultType="com.qlzy.model.DataDownload" parameterType="Map" >
+     select * from (select * from (
+		select ROWNUM AS RN,t.* from (
+	select 
+	    d."ID" as id,d."NEW_ID" as newId,d.CREATEDATE as createdate,NCOU."NAME" as nameCat,NCOU.FIRST_TITLE as firstTitle
+    	from QL_DATA_DOWNLOAD d 
+			LEFT JOIN (SELECT n.FIRST_TITLE,NC."NAME",n."ID" from QL_NEWS n LEFT JOIN QL_NEWS_CAT nc on n.NEWS_CAT_ID = NC."ID")ncou
+    	on d.NEW_ID=NCOU."ID"
+    where d.USER_ID = #{userId,jdbcType=VARCHAR} and d.DISABLED='false'
+    <if test="timeRange != null and timeRange != ''">
+			and (d.CREATEDATE between (select
+			trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual) and
+			(select sysdate value from dual))
+		</if>
+    ) t
+		) where <![CDATA[RN <= #{page}*#{rows}]]>)
+		where RN>(#{page}-1)*#{rows}
+  </select>
+  
+  <!-- 下载列表数目 -->
+  <select id="gainDataloadListCount" resultType="Long" parameterType="Map" >
+  	 select count("ID")
+    from QL_DATA_DOWNLOAD
+    where USER_ID = #{userId,jdbcType=VARCHAR} and　DISABLED='false'
+     <if test="timeRange != null and timeRange != ''">
+			and (CREATEDATE between (select
+			trunc(sysdate)-#{timeRange,jdbcType=DECIMAL} value from dual) and
+			(select sysdate value from dual))
+		</if>
+  </select>
+  <!-- 批量删除 -->
+  <update id="deleteDataDownloadByIds" parameterType="java.util.List">
+		update QL_DATA_DOWNLOAD set disabled='true' where ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+  <!-- 活动统计-下载资料统计(根据时段查询,例如昨日、今日、近三天、近一周、本月、本年) -->
+  <select id="gainDownloadStatisticsByTime" resultType="Long" parameterType="java.util.Map" >
+	select COUNT(DA."ID") AS DOWNLOADCOUNT from QL_DATA_DOWNLOAD DA where DA.DISABLED = 'false' and DA.USER_ID = #{userId}
+	<if test="time==1">
+		and to_char(DA.CREATEDATE,'YYYY-MM-DD')=to_char(SYSDATE,'YYYY-MM-DD')
+	</if>
+	<if test="time==2">
+		and to_char(DA.CREATEDATE,'YYYY-MM-DD')= to_char(SYSDATE-1,'YYYY-MM-DD')
+	</if>
+	<if test="time==3">
+		and to_char(DA.CREATEDATE,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-3,'YYYY-MM-DD') 
+	</if>
+	<if test="time==4">
+		and to_char(DA.CREATEDATE,'YYYY-MM-DD')<![CDATA[ >= ]]>to_char(SYSDATE-7,'YYYY-MM-DD') 
+	</if>		
+	<if test="time==5">
+		and to_char(DA.CREATEDATE,'YYYY-MM')=to_char(SYSDATE,'YYYY-MM')
+	</if>
+	<if test="time==6">
+		and to_char(DA.CREATEDATE,'YYYY')=to_char(SYSDATE,'YYYY')
+	</if>	
+  </select>	
+</mapper>

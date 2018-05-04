@@ -1,0 +1,186 @@
+#selectImg {
+	width: 200px;
+	height: 18px;
+	float: left;
+	border: 1px solid #bbbbbb;
+	width: 200px;
+	padding-top: 1px;
+	background-image: url(dropDown1.jpg);
+	background-repeat: no-repeat;
+	background-position: right;
+}
+
+#selectBox {
+	overflow: visible;
+	font-size: 13px;
+}
+
+#selectMenu {
+	display: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid #bbbbbb;
+	width: 200px;
+	clear: left;
+	float: left;
+}
+
+#selectText {
+	width: 169px;
+	border: 0px;
+	float: left;
+	padding-left: 4px;
+}
+
+#selectControl {
+	float: left;
+	border: 1px;
+	overflow: scroll;
+}
+
+.tab {
+	margin-top: 10px;
+}
+
+.tabContainer {
+	width: 100%;
+	background:
+		url(https://secure.newegg.com.cn/WebUI/WebResources/2009/Default/Nest/bg/tab.gif)
+		repeat-x bottom;
+	overflow: hidden;
+}
+
+.tabContainer li {
+	float: left;
+	margin-right: 2px;
+	background:
+		url(https://secure.newegg.com.cn/WebUI/WebResources/2009/Default/Nest/bg/tabOff_right.gif)
+		no-repeat right top;
+}
+
+.tabContainer li a {
+	display: block !important;
+	display: inline-block;
+	padding: 0 15px;
+	height: 27px;
+	line-height: 27px;
+	background:
+		url(https://secure.newegg.com.cn/WebUI/WebResources/2009/Default/Nest/bg/tabOff_left.gif)
+		no-repeat left top;
+}
+
+#body .tabContainer li a {
+	color: #696969;
+	font-size: 14px;
+	font-weight: bolder;
+}
+
+.tabContainer li.currentBtn {
+	background:
+		url(https://secure.newegg.com.cn/WebUI/WebResources/2009/Default/Nest/bg/tabOn_right.gif)
+		no-repeat right top;
+}
+
+#body .tabContainer li.currentBtn a {
+	height: 28px;
+	background:
+		url(https://secure.newegg.com.cn/WebUI/WebResources/2009/Default/Nest/bg/tabOn_left.gif)
+		no-repeat left top;
+	color: #434142;
+}
+
+#body .tabContainer li a:hover {
+	text-decoration: none;
+	color: #f60;
+}
+
+#body .tabContainer li.currentBtn a:hover {
+	color: #434142;
+}
+
+
+
+.tab .tabCot {
+	padding: 20px 15px 10px 15px;
+	border-left: 1px solid #d6d6d6;
+	border-right: 1px solid #d6d6d6;
+}
+
+.tab .tabCotB {
+	border-left: 1px solid #d6d6d6;
+	border-right: 1px solid #d6d6d6;
+}
+
+.tabCot ul {
+	line-height: 20px;
+}
+
+.tabCot em {
+	font-style: normal;
+}
+
+.tabCot .alignCenter {
+	text-align: center;
+}
+
+.tabCot .alignRight {
+	text-align: right;
+}
+
+.tabCot table {
+	border: 1px solid #d6d6d6;
+	width: 99%;
+}
+
+.tabCot th,.tabCot td {
+	padding-left: 15px;
+	padding-right: 7px;
+	border: 1px solid #dbdbdb;
+	line-height: 27px;
+}
+
+.tabCot th {
+	width: 13%;
+	text-align: left;
+	color: #7c4600;
+	background: #FFFEE3;
+	border-bottom: 1px solid #ddd;
+	font-size: 14px;
+}
+
+.tabCot td[scope] {
+	color: #484848;
+	font-weight: bolder;
+}
+
+.tabCot .headline {
+	padding-right: 5px;
+	width: 18%;
+}
+
+.tabCot .detailIntro {
+	width: 82%;
+}
+
+.tabCot .statement {
+	color: #f00;
+}
+
+.tabCot .clause {
+	color: #5ea420;
+}
+HTML {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+H2 {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 1em 0em .25em 0em;
+}
+
+P {
+	margin: 1em 0em;
+}
