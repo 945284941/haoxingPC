@@ -1,6 +1,7 @@
 package com.qlzy.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.qlzy.pojo.Base;
@@ -40,7 +41,44 @@ public class AdvanceLogs extends Base implements Serializable {
     
     private String yanzhengMobile;//扩展字段 手机验证码
 
-    
+    private Long num;
+    private BigDecimal totalMoney;
+    private BigDecimal ticheng;
+
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Long getNum() {
+        return num;
+    }
+
+    public void setNum(Long num) {
+        this.num = num;
+    }
+
+    public BigDecimal getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(BigDecimal totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public BigDecimal getTicheng() {
+        return ticheng;
+    }
+
+    public void setTicheng(BigDecimal ticheng) {
+        this.ticheng= ticheng;
+    }
+
     public String getId() {
         return id;
     }

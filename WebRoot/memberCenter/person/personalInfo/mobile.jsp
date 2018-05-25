@@ -67,7 +67,7 @@
             <div class="w-buyers">
                 <div class="l-fr">
                     <div class="w-title">
-                        <h3>设置>个人信息</h3>
+                        <h3><s:text name="index_0303"/>><s:text name="index_0304"/></h3>
                     </div>
                 </div>
                 <div class="l-fr1 tgar">
@@ -75,19 +75,19 @@
                         <div class="hd">
                             <ul>
                                 <li>
-                                    <a href="/person/toShowBasicInfo.html">基本信息</a>
+                                    <a href="/person/toShowBasicInfo.html"><s:text name="index_0036"/></a>
                                 </li>
                                 <li>
-                                    <a href="/person/toShowUsername.html">用户名</a>
+                                    <a href="/person/toShowFirstname.html"><s:text name="index_0211"/></a>
                                 </li>
                                 <li>
-                                    <a href="/person/toShowImg.html">更换头像</a>
+                                    <a href="/person/toShowImg.html"><s:text name="index_0305"/></a>
                                 </li>
                                 <li class="on">
-                                    <a href="/person/toShowMobile.html">登录手机号</a>
+                                    <a href="/person/toShowMobile.html"><s:text name="index_0306"/></a>
                                 </li>
                                 <li>
-                                    <a href="/person/toShowPassword.html">登录密码</a>
+                                    <a href="/person/toShowPassword.html"><s:text name="index_0166"/></a>
                                 </li>
                             </ul>
                         </div>
@@ -97,30 +97,30 @@
                                     <form id="addForm" action="toUpdateBasicInfo.html" enctype="multipart/form-data" method="post">
                                         <input type="hidden" value="${member.id}" name="member.id" />
                                         <dl>
-                                            <dt>原手机号：</dt>
+                                            <dt><s:text name="index_0307"/>：</dt>
                                             <dd>${member.username}</dd>
                                         </dl>
                                         <dl>
-                                            <dt>登录密码：</dt>
+                                            <dt><s:text name="index_0166"/>：</dt>
                                             <dd><input class="login_bk" type="password" size="40" id="password" name="password"/></dd>
                                         </dl>
                                         <dl>
-                                            <dt>新手机号：</dt>
+                                            <dt><s:text name="index_0167"/>：</dt>
                                             <dd><input type="text" size="40" class="login_bk" id="username" name="username"/></dd>
                                         </dl>
                                         <dl>
-                                            <dt>验证码：</dt>
+                                            <dt><s:text name="index_0106"/>：</dt>
                                             <dd>
-                                                <input  type="text" placeholder="验证码" class="login_yzm" style="height:40px;" id="randNum" name="randNum" style="width: 200px;"/>
-                                                <div class="login_yzm_dx on" id="J_resetCode" style="display: none;">重新发送</div>
+                                                <input  type="text" placeholder="<s:text name="index_0106"/>" class="login_yzm" style="height:40px;" id="randNum" name="randNum" style="width: 200px;"/>
+                                                <div class="login_yzm_dx on" id="J_resetCode" style="display: none;"><s:text name="index_0281"/></div>
                                                 <div class="login_yzm_dx on" id="J_second" style="display: none;">60</div>
-                                                <div class="login_yzm_dx" onclick="getCode(this)" id="J_getCode">获取验证码</div>
+                                                <div class="login_yzm_dx" onclick="getCode(this)" id="J_getCode"><s:text name="index_0308"/></div>
                                             </dd>
                                         </dl>
 
                                         <dl>
                                             <dt></dt>
-                                            <dd><button type="button" onclick="subQg()" class="btn btn-danger">　　确认　　</button></dd>
+                                            <dd><button type="button" onclick="subQg()" class="btn btn-danger">　　<s:text name="index_0309"/>　　</button></dd>
                                         </dl>
 
                                     </form>
@@ -159,7 +159,7 @@
                     var msg = $.parseJSON(data);
                     if (msg == '001') {
                         $('#username').focus();
-                        alert('<s:text name="index_0282"/>');
+                        alert('<s:text name="index_0282"/>！');
                         return false;
                     }
                 }
@@ -207,11 +207,11 @@
                 success : function(data) {
                     var msg = $.parseJSON(data);
                     if (msg == 'success') {
-                        alert("修改成功！");
+                        alert("<s:text name="index_0315"/>！");
                         window.location.href="/person/toShowMobile.html";
                         return true;
                     }else{
-                        alert("修改失败！");
+                        alert("<s:text name="index_0316"/>！");
                         return false;
                     }
                 }
@@ -232,7 +232,7 @@
                 $('#J_second').html(second);
             }else{
                 clearInterval(timer);
-                $('#J_getCode').html("重新发送");
+                $('#J_getCode').html("<s:text name="index_0282"/>");
                 $('#J_getCode').show();
                 $('#J_second').hide();
             }

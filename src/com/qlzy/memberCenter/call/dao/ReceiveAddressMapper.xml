@@ -20,11 +20,15 @@
     <result column="PNAME" property="pname" jdbcType="VARCHAR" />
     <result column="CNAME" property="cname" jdbcType="VARCHAR" />
     <result column="ANAME" property="aname" jdbcType="VARCHAR" />
-    
+
   </resultMap>
   <sql id="Base_Column_List" >
     ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
     AREA, TELEPHONE,RECEIVE_NAME,EMAIL,country_id
+  </sql>
+  <sql id="Base_Join_Column_List" >
+    t.ID as id, t.USER_ID as userId, t.RECEIVE_ADDRESS as receiveAddress, t.IS_DEFAULT as isDefault, t.DISABLED as disabled, t.MOBILE as mobile, t.ZIP as zip,
+   t.TELEPHONE as telephone ,t.RECEIVE_NAME as receiveName,t.EMAIL as email,t.country_id as countryId,com.name AS countryName,com.name_eng countryEnName
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
       SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
@@ -180,7 +184,6 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-
   <!--  查询用户的默认收货地址 -->
   <select id="selectReceiveAddressDefault" resultMap="BaseResultMap" parameterType="java.lang.String">
   	SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
@@ -192,14 +195,18 @@
   </select>
   
   <!--  查询用户的收货地址 -->
-  <select id="gainReceiveAddresses" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 
-    	AREA, TELEPHONE,EMAIL,RECEIVE_NAME,
-    	(select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
-	(select R.NAME from QL_REGIONS R where R.id = CITY and R.DISABLED = 'false') as CNAME,
-	(select R.NAME from QL_REGIONS R where R.id = AREA and R.DISABLED = 'false') as ANAME from QL_RECEIVE_ADDRESS t where t.DISABLED = 'false' and t.USER_ID = #{userId,jdbcType=VARCHAR} 
+  <select id="gainReceiveAddressesList" resultType="com.qlzy.model.ReceiveAddress" parameterType="java.lang.String">
+  	SELECT <include refid="Base_Join_Column_List"/> from QL_RECEIVE_ADDRESS t left join n_country com on t.country_id = com.id
+    	 where t.DISABLED = 'false' and t.USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
-  
+  <!--  查询用户的收货地址 -->
+  <select id="gainReceiveAddresses" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY,
+    AREA, TELEPHONE,EMAIL,RECEIVE_NAME,
+    (select R1.NAME from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,
+    (select R.NAME from QL_REGIONS R where R.id = CITY and R.DISABLED = 'false') as CNAME,
+    (select R.NAME from QL_REGIONS R where R.id = AREA and R.DISABLED = 'false') as ANAME from QL_RECEIVE_ADDRESS t where t.DISABLED = 'false' and t.USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
   <!-- 根据用户的ID查询该用户的所有收货地址 -->
   <select id="selectReceiveAddressAll" resultMap="BaseResultMap" parameterType="java.lang.String">
   	SELECT ID, USER_ID, RECEIVE_ADDRESS, IS_DEFAULT, DISABLED, MOBILE, ZIP, PROVINCE, CITY, 

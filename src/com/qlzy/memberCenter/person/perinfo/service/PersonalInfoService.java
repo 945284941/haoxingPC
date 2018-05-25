@@ -11,17 +11,69 @@ package com.qlzy.memberCenter.person.perinfo.service;
 import java.util.List;
 import java.util.Map;
 
-import com.qlzy.model.EmailSendLog;
-import com.qlzy.model.LiucunbiDetail;
-import com.qlzy.model.Member;
-import com.qlzy.model.MemberJob;
-import com.qlzy.model.MobileMessage;
-import com.qlzy.model.XianjinbiCashApply;
-import com.qlzy.model.XianjinbiDetail;
+import com.qlzy.model.*;
 import com.qlzy.pojo.SessionInfo;
 
 public interface PersonalInfoService {
+	/**
+	 * 查询二级下线提成
+	 * @param UserId
+	 * @return
+	 */
+	Double gainSecondByUserId(String UserId);
+	/**
+	 * 查询一级下线提成
+	 * @param UserId
+	 * @return
+	 */
+	Double gainFirstByUserId(String UserId);
+	/**
+	 * 查询下线定单提成信息
+	 * @param map
+	 * @return
+	 */
+	List<AdvanceLogs> gainByUserIdGetList(Map<String,Object> map);
 
+	/**
+	 * 根据userId查询提成信息
+	 * @param map
+	 * @return
+	 */
+	AdvanceLogs gainByUserId(Map<String,Object> map);
+
+	/**
+	 * 查询下线会员数量
+	 * @param map
+	 * @return
+	 */
+	Long gainCountByMap(Map map);
+	/**
+	 * 查询下线会员信息
+	 * @param map
+	 * @return
+	 */
+	List<Member> gainListByMap(Map map);
+
+	/**
+	 * 分销商统计
+	 * @param map
+	 * @return
+	 */
+	long gainMemberCountByMap(Map map);
+
+	/**
+	 * 根据id获取会员等级信息
+	 * @param id
+	 * @return
+	 */
+	MemberLv gainMemberLvById(String id);
+
+	/**
+	 * 根据上级id查询用户列表
+	 * @param map
+	 * @return
+	 */
+	List<Member> gainMembersByMap(Map map);
 	/**
 	 * @Title: gainMemberById
 	 * @Description: TODO(获取个人信息)
@@ -46,6 +98,8 @@ public interface PersonalInfoService {
 	 * @return
 	 */
 	public List<Member> selectMemberByName(String username);
+
+	public List<Member> selectByMemberUsername(String username);
 	/**
 	 * @Title: gainMemberJobList
 	 * @Description: TODO(查询从事领域列表)
@@ -168,11 +222,7 @@ public interface PersonalInfoService {
 
 	public Long xianjinbiCount(Map<String, Object> map);
 	
-	/**
-	 *  金米兑米申请列表
-	 * @param map
-	 * @return
-	 */
+
 	public List<XianjinbiCashApply> xianjinbiCashList(Map<String, Object> map);
 
 	/**

@@ -3,6 +3,7 @@ package com.qlzy.mainPage.want.action;
 
 
 import com.qlzy.common.tools.ResourceUtil;
+import com.qlzy.common.util.PcOrWap;
 import com.qlzy.mainPage.want.service.WantBuyService;
 import com.qlzy.model.WantBuy;
 import com.qlzy.pojo.SessionInfo;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 @Namespace("/")
 @Action(value = "Release", results = {
-
+        @Result(name="QiugoulistWap",location="/wap/person/wodefabulist.jsp"),
         @Result(name="Qiugoulist",location="/admin/want/wodefabulist.jsp")
 })
 public class ReleaseAction extends BaseAction {
@@ -38,18 +39,19 @@ public class ReleaseAction extends BaseAction {
             parmMap.put("buyType",wantBuyType);
             wantBuyList=wantBuyService.gainWantBuyPage(parmMap);
             request.setAttribute("wan", wantBuyList);
+            request.setAttribute("wantBuyType",wantBuyType);
             if ("2".equals(wantBuyType)){
-                return "Qiugoulist";
+                return  PcOrWap.isPc(request,"Qiugoulist");
             }else if ("3".equals(wantBuyType)){
-                return "Qiugoulist";
+                return  PcOrWap.isPc(request,"Qiugoulist");
             }else if ("4".equals(wantBuyType)){
-                return "Qiugoulist";
+                return  PcOrWap.isPc(request,"Qiugoulist");
             }
         }else{
             return "";
         }
 
-        return "Qiugoulist";
+        return  PcOrWap.isPc(request,"Qiugoulist");
 
     }
 

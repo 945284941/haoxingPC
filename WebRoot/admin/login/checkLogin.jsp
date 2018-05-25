@@ -30,7 +30,7 @@
         <form id="loginFrom" action="login.html" method="post">
         <div class="login_cont_ny_r_m">
             <input name="loginName" type="text" placeholder="<s:text name="index_0113"/>"  class="login_bk" id="loginName" />
-            <input name="loginPwd" type="text" placeholder="<s:text name="index_0107"/>" class="login_bk2" id="loginPwd"/>
+            <input name="loginPwd" type="password" placeholder="<s:text name="index_0107"/>" class="login_bk2" id="loginPwd"/>
             <div class="login_cont_ny_r_wz">
                 <div class="login_cont_ny_r_wz_input"><input name="remember" id="remember" type="checkbox"/>记住密码</div>
                 <a href="toMemberCheckMsg.html" style="text-decoration: underline;">忘记密码？</a>

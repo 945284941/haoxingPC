@@ -84,4 +84,14 @@ public interface CompanyService {
 
 	public Long gainCHCompanyListCount(Map<String, Object> map);
 
+	List<Company> gainCompanyListSearchPage(Map<String, Object> parmMap);
+
+	Long gainCompanyListSearchPageCount(Map<String, Object> parmMap);
+
+	/**
+	 * @Title updateByPrimaryKeyWithBLOBs
+	 * @Description TODO(修改company)
+	 * @param company
+	 */
+	public void updateByPrimaryKeyWithBLOBs(Company company);
 }

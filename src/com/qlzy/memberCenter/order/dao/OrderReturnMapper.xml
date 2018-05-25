@@ -11,10 +11,14 @@
     <result column="CAUSE" property="cause" jdbcType="VARCHAR" />
     <result column="ISDELIVERY" property="isdelivery" jdbcType="VARCHAR" />
     <result column="RETURN_TYPE" property="returnType" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CHECK_BY" property="checkBy" jdbcType="VARCHAR" />
+    <result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, ORDER_ID, RETURN_MONEY, LOGISTICS_NUM, LOGISTICS_NAME, LOGISTICS_TEL, CAUSE, 
-    ISDELIVERY, RETURN_TYPE
+    ISDELIVERY, RETURN_TYPE,CREATE_BY,CREATE_TIME,CHECK_BY,CHECK_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -63,6 +67,18 @@
       <if test="returnType != null" >
         RETURN_TYPE,
       </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="checkBy != null" >
+        CHECK_BY,
+      </if>
+      <if test="checkTime != null" >
+        CHECK_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -92,6 +108,18 @@
       <if test="returnType != null" >
         #{returnType,jdbcType=VARCHAR},
       </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkBy != null" >
+        #{checkBy,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.OrderReturn" >
@@ -120,6 +148,18 @@
       </if>
       <if test="returnType != null" >
         RETURN_TYPE = #{returnType,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkBy != null" >
+        CHECK_BY = #{checkBy,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+       CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

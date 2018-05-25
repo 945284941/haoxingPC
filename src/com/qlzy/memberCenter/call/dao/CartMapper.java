@@ -115,5 +115,10 @@ public interface CartMapper {
 	 * @version V1.0
 	 */
 	public void deleteByUserId(String userId);
-	
+
+	List<Cart> selectCartsByUserIdAndAd(Map<String, Object> parm);
+
+	Integer gainCartNumByParm(Map<String, Object> parmMap);
+
+	List<Cart> gainCartsByItemIds(Map<String, Object> parmMap);
 }

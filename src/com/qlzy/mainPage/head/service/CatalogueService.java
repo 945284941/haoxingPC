@@ -54,4 +54,6 @@ public interface CatalogueService {
 	List<HomeSys> gainLunbotuByMarket(String type);
 
 	List<GoodsCat> gainCatalogueByPidAndSort(Map<String, String> shopMap);
+
+	List<GoodsCat> queryFullCategoryByPid(String gwsc, String catId);
 }

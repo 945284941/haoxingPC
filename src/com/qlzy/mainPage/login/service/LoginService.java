@@ -81,6 +81,7 @@ public interface LoginService {
 	 */
 	public List<Member> getMemberListByName(String username);
 	public List<Member> getMemberListByFirstName(String firstname);
+	public List<Member> getMemberListByUsername(String username);
 	/***
 	 * 增加company及carbrand
 	 * @param companysCarbrand

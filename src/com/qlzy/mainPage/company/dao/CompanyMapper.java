@@ -3,6 +3,9 @@ package com.qlzy.mainPage.company.dao;
 
 import com.qlzy.model.Company;
 
+import java.util.List;
+import java.util.Map;
+
 public interface CompanyMapper {
     int deleteByPrimaryKey(String id);
 
@@ -19,4 +22,7 @@ public interface CompanyMapper {
     int updateByPrimaryKey(Company record);
 
 
+    Long gainCompanyListSearchPageCount(Map<String, Object> parmMap);
+
+    List<Company> gainCompanyListSearchPage(Map<String, Object> parmMap);
 }

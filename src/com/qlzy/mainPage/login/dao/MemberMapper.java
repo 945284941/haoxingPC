@@ -1,11 +1,53 @@
 package com.qlzy.mainPage.login.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import com.qlzy.model.Member;
 
 public interface MemberMapper {
+
+
+	int insertShengjiLog(Member member);
+
+	List<Map<String,Object>> gainMemberLv(Map<String,Object> map);
+
+
+	BigDecimal gainXiaofeiTotal(Map<String,Object> map);
+	/**
+	 * 查询下线会员数量
+	 * @param map
+	 * @return
+	 */
+	Long getCountByMap(Map map);
+	/**
+	 * 查询下线会员信息
+	 * @param map
+	 * @return
+	 */
+	List<Member> getListByMap(Map map);
+
+	/**
+	 * 分销商统计
+	 * @param map
+	 * @return
+	 */
+	long getMemberCountByMap(Map map);
+
+	/**
+	 * 通过map查询用户信息
+	 * @param map
+	 * @return
+	 */
+	List<Member> getMemberListByMap(Map map);
+
+	Double gainShouyi();
+
+	Double gainYujiTicheng(Map<String,Object> map);
+
+
+
     int deleteByPrimaryKey(String id);
     /***
      * 插入member信息
@@ -45,8 +87,7 @@ public interface MemberMapper {
      */
     List<Member> selectByMemberName(String username);
     List<Member> selectByMemberFirstName(String firstname);
-
-    
+	List<Member> selectByMemberUsername(String username);
     /**
      * @Title: gainMemberById
      * @Description: TODO(根据会员id查询会员详细信息)
@@ -157,7 +198,7 @@ public interface MemberMapper {
      * @return Member 返回类型 
      * @author wangmei
      */
-    Member gainMemberByUsername(String userName);
+    Member gainMemberByUsername(String username);
     
     /**
      * @Title: gainInviteFriendsByMemberId
@@ -182,7 +223,7 @@ public interface MemberMapper {
 	Long myErjiCountvip(Map<String, Object> map);
 	Long mySanjiCountvip(Map<String, Object> map);
 	Member getMemberListByShangjiIdOne(String shangjiId);
-	
+	void updatePasswordByUsername(Member member);
 	/**
 	 * onlyId序列
 	 * @return

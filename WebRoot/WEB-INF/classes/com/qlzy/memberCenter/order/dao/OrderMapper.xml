@@ -25,7 +25,11 @@
 		<result column="SHIP_EMAIL" jdbcType="VARCHAR" property="shipEmail" />
 		<result column="SHIP_TIME" jdbcType="TIMESTAMP" property="shipTime" />
 		<result column="TOTAL_COST" jdbcType="DECIMAL" property="totalCost" />
+		<result column="total_doc_price" jdbcType="DECIMAL" property="totalDocPrice" />
+		<result column="total_dlm_price" jdbcType="DECIMAL" property="totalDlmPrice" />
 		<result column="CARRIAGE" jdbcType="DECIMAL" property="carriage" />
+		<result column="cost_doc_price" jdbcType="DECIMAL" property="costDocPrice" />
+		<result column="cost_dlm_price" jdbcType="DECIMAL" property="costDlmPrice" />
 		<result column="COST_PROTECT" jdbcType="DECIMAL" property="costProtect" />
 		<result column="ADVANCE" jdbcType="DECIMAL" property="advance" />
 		<result column="EBANK_MON" jdbcType="DECIMAL" property="ebankMon" />
@@ -47,7 +51,13 @@
 		<result column="HK_TIME" jdbcType="TIMESTAMP" property="hkTime" />
 		<result column="HK_TYPE" jdbcType="VARCHAR" property="hkType" />
 		<result column="SJHK_TIME" jdbcType="TIMESTAMP" property="sjhkTIME" />
-
+		<result column="ORDER_MSG" jdbcType="VARCHAR" property="orderMsg" />
+		<result column="yijiabi" jdbcType="DECIMAL" property="yijiabi" />
+		<result column="dlm_bili" jdbcType="DECIMAL" property="dlmBili" />
+		<result column="doc_bili" jdbcType="DECIMAL" property="docBili" />
+		<result column="xindong_dlm_price" jdbcType="DECIMAL" property="xindongDlmPrice" />
+		<result column="xindong_doc_price" jdbcType="DECIMAL" property="xindongDocPrice" />
+		<result column="country_id" jdbcType="VARCHAR" property="country_id" />
 		<!-- 扩展字段 -->
 		<result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
 		<result column="memberName" jdbcType="VARCHAR" property="memberName" />
@@ -69,14 +79,54 @@
 		LOGISTICS_TEL, PAY_MENT,
 		PAY_TIME,
 		SHIP_NAME, AREA, SHIP_ZIP, SHIP_TEL, SHIP_EMAIL, SHIP_TIME,
-		TOTAL_COST,
+		total_doc_price,
+    	total_dlm_price, TOTAL_COST, CARRIAGE, cost_doc_price, cost_dlm_price,
 		CARRIAGE, COST_PROTECT, ADVANCE, EBANK_MON, REMARK,
 		MODIFYTIME, ORDER_POINTS,
 		PROVINCE,
-		CITY,
+		CITY,ORDER_MSG,
 		ADDRESS,MEMBER_TYPE,BILL_TYPE,BILL_HEAD,BILL_CONTENT,DISABLED,COMPANY_ID,ORDER_NUM,DEAL_ID,DEAL_TYPE,
-		ORDER_TYPE,HK_TYPE,HK_TIME,ZONE_TYPE,COMPLETE_TIME
+		ORDER_TYPE,HK_TYPE,HK_TIME,ZONE_TYPE,COMPLETE_TIME,order_msg, yijiabi, dlm_bili, doc_bili, xindong_dlm_price, xindong_doc_price
 	</sql>
+
+
+
+	<select id="gainYujitichengList" parameterType="java.util.Map" resultType="com.qlzy.model.Order">
+		select o.*
+		from ql_order o
+		left join ql_members m
+		on m.id = o.member_id
+		where 1=1 and o.status in (2,3)
+		<if test="onlyId != null and onlyType == 1 ">
+			and m.shangji_id = #{onlyId,jdbcType=VARCHAR}
+		</if>
+		<if test="onlyId != null and onlyType == 2 ">
+			and m.shangji_id in (select only_id from ql_members where shangji_id = #{onlyId,jdbcType=VARCHAR})
+		</if>
+		limit #{page},#{rows}
+	</select>
+
+
+
+
+
+
+
+	<!-- 下线提成  -->
+	<select id="getPercentageById" resultType="com.qlzy.model.Order" parameterType="java.util.Map" >
+		SELECT count(o.ID) as num,sum(o.TOTAL_COST) as totalMoney
+		from  QL_ORDER o
+		WHERE o.member_id= #{id,jdbcType=VARCHAR}
+		and o.ship_status='2'
+		<if test="time==1">
+		and date_format(o.CREATETIME,'%Y-%m')=date_format(now(),'%Y-%m')
+		</if>
+		<if test="time==2">
+		and DATE_FORMAT(o.CREATETIME,'%Y-%m') =DATE_FORMAT(DATE_SUB(now(),INTERVAL '1' MONTH),'%Y-%m')
+		</if>
+	</select>
+
+
 	<!-- 根据商家ID查询商家的出售订单总数 -->
 	<select id="gainOrdersByCompanyIdGetLong" parameterType="java.util.Map"
 		resultType="java.lang.Long">
@@ -555,8 +605,8 @@
 
 		select * from (
 		SELECT
-		o.ID,o.ORDER_NUM,o.LOGISTICS_NUM,o.LOGISTICS_NAME,o.LOGISTICS_TEL,o.SALE_TYPE,o.PAY_STATUS,o.SHIP_STATUS,
-		o.CREATETIME,o.TOTAL_COST,o.COMPANY_ID,o.DEAL_ID,c.COMPANY_NAME,o.HK_TIME,o.HK_TYPE,o.pay_ment
+		o.ID,o.ORDER_NUM,o.LOGISTICS_NUM,o.LOGISTICS_NAME,o.LOGISTICS_TEL,o.SALE_TYPE,o.STATUS,o.PAY_STATUS,o.SHIP_STATUS,
+		o.CREATETIME,o.TOTAL_COST,o.COMPANY_ID,o.SHIP_NAME,o.DEAL_ID,c.COMPANY_NAME,c.SHOPER_NAME AS shopName,o.HK_TIME,o.HK_TYPE,o.pay_ment,o.DISABLED
 		from QL_ORDER o left join QL_COMPANYS c on o.COMPANY_ID = c.id where
 		o.DISABLED='false' and o.MEMBER_ID= #{userId}
 		<!-- 
@@ -573,7 +623,12 @@
 		<if test="null != payStatus and payStatus != ''">
 			and o.PAY_STATUS = #{payStatus}
 		</if>
-
+		<if test="null != status and status != ''">
+			and o.STATUS = #{status}
+		</if>
+		<if test="null != disabled and disabled != ''">
+			and o.DISABLED = #{disabled}
+		</if>
 		<if test="null != shipStatus and shipStatus != ''">
 			and o.SHIP_STATUS = #{shipStatus}
 		</if>
@@ -586,16 +641,26 @@
 		<if test="null != orderNum and orderNum != ''">
 			and o.ORDER_NUM like '%${orderNum}%'
 		</if>
+		<if test="null != shipName and shipName != ''">
+			and o.SHIP_NAME = #{shipName}
+		</if>
+		<if test="qixian == 0 ">
+			and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(o.CREATETIME)
+		</if>
+		<if test="qixian == 1 ">
+			and DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[ <= ]]> date(o.CREATETIME)
+		</if>
+		<if test="qixian == 2 ">
+			and DATE_SUB(CURDATE(), INTERVAL 90 DAY) <![CDATA[ <= ]]> date(o.CREATETIME)
+		</if>
+		<if test="time==1">
+		and DATE_FORMAT(o.CREATETIME,'%Y-%m')=date_format(now(),'%Y-%m')
+		</if>
+		<if test="time==2">
+		and DATE_FORMAT(o.CREATETIME,'%Y-%m')=DATE_FORMAT(DATE_SUB(now(),INTERVAL '1' MONTH),'%Y-%m')
+		</if>
 		) t order by t.CREATETIME DESC limit #{page},#{rows}
-		  
-
 	</select>
-
-
-
-
-
-
 	<!-- 根据ID查询 -->
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -646,7 +711,7 @@
 
 	<!-- 插入数据信息 -->
 	<insert id="insertSelective" parameterType="com.qlzy.model.Order">
-		insert into QL_ORDER
+		insert into ql_order
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -687,9 +752,6 @@
 			<if test="logisticsName != null">
 				LOGISTICS_NAME,
 			</if>
-			<if test="logisticsTel != null">
-				LOGISTICS_TEL,
-			</if>
 			<if test="payMent != null">
 				PAY_MENT,
 			</if>
@@ -714,11 +776,23 @@
 			<if test="shipTime != null">
 				SHIP_TIME,
 			</if>
+			<if test="totalDocPrice != null">
+				total_doc_price,
+			</if>
+			<if test="totalDlmPrice != null">
+				total_dlm_price,
+			</if>
 			<if test="totalCost != null">
 				TOTAL_COST,
 			</if>
 			<if test="carriage != null">
 				CARRIAGE,
+			</if>
+			<if test="costDocPrice != null">
+				cost_doc_price,
+			</if>
+			<if test="costDlmPrice != null">
+				cost_dlm_price,
 			</if>
 			<if test="costProtect != null">
 				COST_PROTECT,
@@ -768,6 +842,9 @@
 			<if test="orderNum != null">
 				ORDER_NUM,
 			</if>
+			<if test="logisticsTel != null">
+				LOGISTICS_TEL,
+			</if>
 			<if test="dealId != null">
 				DEAL_ID,
 			</if>
@@ -777,10 +854,45 @@
 			<if test="orderType != null">
 				ORDER_TYPE,
 			</if>
-			<if test="zoneType != null">
-				ZONE_TYPE,
+			<if test="hkTime != null">
+				HK_TIME,
 			</if>
-
+			<if test="hkType != null">
+				HK_TYPE,
+			</if>
+			<if test="sjhkTime != null">
+				SJHK_TIME,
+			</if>
+			<if test="courtesyCardId != null">
+				courtesy_card_id,
+			</if>
+			<if test="zoneType != null">
+				zone_type,
+			</if>
+			<if test="completeTime != null">
+				complete_time,
+			</if>
+			<if test="orderMsg != null">
+				order_msg,
+			</if>
+			<if test="yijiabi != null">
+				yijiabi,
+			</if>
+			<if test="dlmBili != null">
+				dlm_bili,
+			</if>
+			<if test="docBili != null">
+				doc_bili,
+			</if>
+			<if test="xindongDlmPrice != null">
+				xindong_dlm_price,
+			</if>
+			<if test="xindongDocPrice != null">
+				xindong_doc_price,
+			</if>
+			<if test="countryId != null">
+				country_id,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -822,9 +934,6 @@
 			<if test="logisticsName != null">
 				#{logisticsName,jdbcType=VARCHAR},
 			</if>
-			<if test="logisticsTel != null">
-				#{logisticsTel,jdbcType=VARCHAR},
-			</if>
 			<if test="payMent != null">
 				#{payMent,jdbcType=VARCHAR},
 			</if>
@@ -849,11 +958,23 @@
 			<if test="shipTime != null">
 				#{shipTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="totalDocPrice != null">
+				#{totalDocPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalDlmPrice != null">
+				#{totalDlmPrice,jdbcType=DECIMAL},
+			</if>
 			<if test="totalCost != null">
 				#{totalCost,jdbcType=DECIMAL},
 			</if>
 			<if test="carriage != null">
 				#{carriage,jdbcType=DECIMAL},
+			</if>
+			<if test="costDocPrice != null">
+				#{costDocPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="costDlmPrice != null">
+				#{costDlmPrice,jdbcType=DECIMAL},
 			</if>
 			<if test="costProtect != null">
 				#{costProtect,jdbcType=DECIMAL},
@@ -903,6 +1024,9 @@
 			<if test="orderNum != null">
 				#{orderNum,jdbcType=VARCHAR},
 			</if>
+			<if test="logisticsTel != null">
+				#{logisticsTel,jdbcType=VARCHAR},
+			</if>
 			<if test="dealId != null">
 				#{dealId,jdbcType=VARCHAR},
 			</if>
@@ -912,9 +1036,46 @@
 			<if test="orderType != null">
 				#{orderType,jdbcType=VARCHAR},
 			</if>
+			<if test="hkTime != null">
+				#{hkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="hkType != null">
+				#{hkType,jdbcType=VARCHAR},
+			</if>
+			<if test="sjhkTime != null">
+				#{sjhkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="courtesyCardId != null">
+				#{courtesyCardId,jdbcType=VARCHAR},
+			</if>
 			<if test="zoneType != null">
 				#{zoneType,jdbcType=VARCHAR},
 			</if>
+			<if test="completeTime != null">
+				#{completeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderMsg != null">
+				#{orderMsg,jdbcType=VARCHAR},
+			</if>
+			<if test="yijiabi != null">
+				#{yijiabi,jdbcType=DECIMAL},
+			</if>
+			<if test="dlmBili != null">
+				#{dlmBili,jdbcType=DECIMAL},
+			</if>
+			<if test="docBili != null">
+				#{docBili,jdbcType=DECIMAL},
+			</if>
+			<if test="xindongDlmPrice != null">
+				#{xindongDlmPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="xindongDocPrice != null">
+				#{xindongDocPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="countryId != null">
+				#{countryId,jdbcType=VARCHAR},
+			</if>
+
 		</trim>
 	</insert>
 
@@ -1200,7 +1361,7 @@
 	</insert>
 	<!-- 根据ID更新数据 -->
 	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Order">
-		update QL_ORDER
+		update ql_order
 		<set>
 			<if test="memberId != null">
 				MEMBER_ID = #{memberId,jdbcType=VARCHAR},
@@ -1238,9 +1399,6 @@
 			<if test="logisticsName != null">
 				LOGISTICS_NAME = #{logisticsName,jdbcType=VARCHAR},
 			</if>
-			<if test="logisticsTel != null">
-				LOGISTICS_TEL = #{logisticsTel,jdbcType=VARCHAR},
-			</if>
 			<if test="payMent != null">
 				PAY_MENT = #{payMent,jdbcType=VARCHAR},
 			</if>
@@ -1265,11 +1423,23 @@
 			<if test="shipTime != null">
 				SHIP_TIME = #{shipTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="totalDocPrice != null">
+				total_doc_price = #{totalDocPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalDlmPrice != null">
+				total_dlm_price = #{totalDlmPrice,jdbcType=DECIMAL},
+			</if>
 			<if test="totalCost != null">
 				TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
 			</if>
 			<if test="carriage != null">
 				CARRIAGE = #{carriage,jdbcType=DECIMAL},
+			</if>
+			<if test="costDocPrice != null">
+				cost_doc_price = #{costDocPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="costDlmPrice != null">
+				cost_dlm_price = #{costDlmPrice,jdbcType=DECIMAL},
 			</if>
 			<if test="costProtect != null">
 				COST_PROTECT = #{costProtect,jdbcType=DECIMAL},
@@ -1319,28 +1489,117 @@
 			<if test="orderNum != null">
 				ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
 			</if>
+			<if test="logisticsTel != null">
+				LOGISTICS_TEL = #{logisticsTel,jdbcType=VARCHAR},
+			</if>
 			<if test="dealId != null">
 				DEAL_ID = #{dealId,jdbcType=VARCHAR},
 			</if>
 			<if test="dealType != null">
 				DEAL_TYPE = #{dealType,jdbcType=VARCHAR},
 			</if>
-			<if test="hkType != null">
-				HK_TYPE = #{hkType,jdbcType=VARCHAR},
+			<if test="orderType != null">
+				ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
 			</if>
 			<if test="hkTime != null">
 				HK_TIME = #{hkTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="hkType != null">
+				HK_TYPE = #{hkType,jdbcType=VARCHAR},
+			</if>
 			<if test="sjhkTime != null">
 				SJHK_TIME = #{sjhkTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="courtesyCardId != null">
+				courtesy_card_id = #{courtesyCardId,jdbcType=VARCHAR},
+			</if>
 			<if test="zoneType != null">
-				ZONE_TYPE = #{zoneType,jdbcType=VARCHAR},
+				zone_type = #{zoneType,jdbcType=VARCHAR},
 			</if>
 			<if test="completeTime != null">
-				COMPLETE_TIME = #{completeTime, jdbcType=TIMESTAMP}
+				complete_time = #{completeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderMsg != null">
+				order_msg = #{orderMsg,jdbcType=VARCHAR},
+			</if>
+			<if test="yijiabi != null">
+				yijiabi = #{yijiabi,jdbcType=DECIMAL},
+			</if>
+			<if test="dlmBili != null">
+				dlm_bili = #{dlmBili,jdbcType=DECIMAL},
+			</if>
+			<if test="docBili != null">
+				doc_bili = #{docBili,jdbcType=DECIMAL},
+			</if>
+			<if test="xindongDlmPrice != null">
+				xindong_dlm_price = #{xindongDlmPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="xindongDocPrice != null">
+				xindong_doc_price = #{xindongDocPrice,jdbcType=DECIMAL},
 			</if>
 		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.qlzy.model.Order">
+		update ql_order
+		set MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+		CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+		SOURCE_TYPE = #{sourceType,jdbcType=VARCHAR},
+		SALE_TYPE = #{saleType,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=VARCHAR},
+		PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+		SHIP_STATUS = #{shipStatus,jdbcType=VARCHAR},
+		KESH_STATUS = #{keshStatus,jdbcType=VARCHAR},
+		IS_DELIVERY = #{isDelivery,jdbcType=VARCHAR},
+		LOGISTICS_ID = #{logisticsId,jdbcType=VARCHAR},
+		LOGISTICS_NUM = #{logisticsNum,jdbcType=VARCHAR},
+		LOGISTICS_NAME = #{logisticsName,jdbcType=VARCHAR},
+		PAY_MENT = #{payMent,jdbcType=VARCHAR},
+		PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+		SHIP_NAME = #{shipName,jdbcType=VARCHAR},
+		AREA = #{area,jdbcType=VARCHAR},
+		SHIP_ZIP = #{shipZip,jdbcType=VARCHAR},
+		SHIP_TEL = #{shipTel,jdbcType=VARCHAR},
+		SHIP_EMAIL = #{shipEmail,jdbcType=VARCHAR},
+		SHIP_TIME = #{shipTime,jdbcType=TIMESTAMP},
+		total_doc_price = #{totalDocPrice,jdbcType=DECIMAL},
+		total_dlm_price = #{totalDlmPrice,jdbcType=DECIMAL},
+		TOTAL_COST = #{totalCost,jdbcType=DECIMAL},
+		CARRIAGE = #{carriage,jdbcType=DECIMAL},
+		cost_doc_price = #{costDocPrice,jdbcType=DECIMAL},
+		cost_dlm_price = #{costDlmPrice,jdbcType=DECIMAL},
+		COST_PROTECT = #{costProtect,jdbcType=DECIMAL},
+		ADVANCE = #{advance,jdbcType=DECIMAL},
+		EBANK_MON = #{ebankMon,jdbcType=DECIMAL},
+		REMARK = #{remark,jdbcType=VARCHAR},
+		MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+		ORDER_POINTS = #{orderPoints,jdbcType=DECIMAL},
+		PROVINCE = #{province,jdbcType=VARCHAR},
+		CITY = #{city,jdbcType=VARCHAR},
+		ADDRESS = #{address,jdbcType=VARCHAR},
+		MEMBER_TYPE = #{memberType,jdbcType=VARCHAR},
+		BILL_TYPE = #{billType,jdbcType=VARCHAR},
+		BILL_HEAD = #{billHead,jdbcType=VARCHAR},
+		BILL_CONTENT = #{billContent,jdbcType=VARCHAR},
+		DISABLED = #{disabled,jdbcType=VARCHAR},
+		COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+		ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
+		LOGISTICS_TEL = #{logisticsTel,jdbcType=VARCHAR},
+		DEAL_ID = #{dealId,jdbcType=VARCHAR},
+		DEAL_TYPE = #{dealType,jdbcType=VARCHAR},
+		ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+		HK_TIME = #{hkTime,jdbcType=TIMESTAMP},
+		HK_TYPE = #{hkType,jdbcType=VARCHAR},
+		SJHK_TIME = #{sjhkTime,jdbcType=TIMESTAMP},
+		courtesy_card_id = #{courtesyCardId,jdbcType=VARCHAR},
+		zone_type = #{zoneType,jdbcType=VARCHAR},
+		complete_time = #{completeTime,jdbcType=TIMESTAMP},
+		order_msg = #{orderMsg,jdbcType=VARCHAR},
+		yijiabi = #{yijiabi,jdbcType=DECIMAL},
+		dlm_bili = #{dlmBili,jdbcType=DECIMAL},
+		doc_bili = #{docBili,jdbcType=DECIMAL},
+		xindong_dlm_price = #{xindongDlmPrice,jdbcType=DECIMAL},
+		xindong_doc_price = #{xindongDocPrice,jdbcType=DECIMAL}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 

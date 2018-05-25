@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					alert('很抱歉，切换失败！');
 					return false;
 				}else{
-					location.reload();
+					window.location.href="/";
 					return true;
 				}
 			}
@@ -32,35 +32,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="top_page">
 		<div class="pageright" id="site-nav">
 			<ul class="quick-menu">
-				<li class="mytaobao menu-item menupx">
-					<div class="menu">
-						<span><s:text name="index_0272"/></span>
-					</div>
-				</li>
 				<s:if test="#attr.sessionInfo.loginName!=null">
 					<li class="mytaobao menu-item menupx">
 						<div class="menu">
-							<a class="menu-hd" rel="nofollow" style="padding-left: 8px; padding-right: 8px;">欢迎 ${fn:substring(sessionInfo.loginName, 0, 8)}</a>
+							<span><s:text name="index_0272"/></span>
 						</div>
 					</li>
 					<li class="mytaobao menu-item menupx">
 						<div class="menu">
-							<a class="menu-hd" href="#" rel="nofollow" style="width: 100px;padding-left: 0;padding-right: 0;text-align: center;"><s:text name="index_0088"/></a>
-							<div class="menu-bd">
+							<a class="menu-hd" rel="nofollow" style="padding-left: 8px; padding-right: 8px;"><s:text name="index_0392"/> ${fn:substring(sessionInfo.loginName, 0, 8)}</a>
+						</div>
+					</li>
+					<li class="mytaobao menu-item menupx">
+						<div class="menu">
+							<a class="menu-hd" href="person/order/myOrders.html" rel="nofollow" style="width: 100px;padding-left: 0;padding-right: 0;text-align: center;"><s:text name="index_0088"/></a>
+							<%--<div class="menu-bd">
 								<div class="menu-bd-panel">
 									<div>
 										<a href="#" rel="nofollow"><s:text name="index_0170"/></a>
-										<a href="#" rel="nofollow"><s:text name="index_0124"/></a>
-										<a href="#" rel="nofollow"><s:text name="index_0123"/></a>
+										<a href="person/order/myOrders/3.html" rel="nofollow"><s:text name="index_0124"/></a>
+										<a href="person/order/myOrders/2.html" rel="nofollow"><s:text name="index_0123"/></a>
 									</div>
 								</div>
-							</div>
+							</div>--%>
 						</div>
 					</li>
 					<li class="mytaobao menu-item menupx">
 						<div class="menu">
 							<a class="menu-hd"  onclick="loginOrNot('person/order/huiyuanzhongxin.html');" rel="nofollow" style="width: 100px;padding-left: 0;padding-right: 0;text-align: center;"><s:text name="index_0118"/></a>
-							<div class="menu-bd">
+							<%--<div class="menu-bd">
 								<div class="menu-bd-panel">
 									<div>
 										<a href="#" rel="nofollow"><s:text name="index_0249"/></a>
@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<a href="#" rel="nofollow"><s:text name="index_0251"/></a>
 									</div>
 								</div>
-							</div>
+							</div>--%>
 						</div>
 					</li>
 				</s:if>
@@ -90,7 +90,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span><a class="menu-hd" href="toBrands.html" rel="nofollow" style="text-decoration: underline;padding-left: 8px; padding-right: 8px;"><s:text name="index_0283"/></a></span>
 					</div>
 				</li>
-
+				<li class="mytaobao menu-item menupx">
+					<div class="menu">
+						<span><a class="menu-hd" href="http://47.75.70.56:8081/" rel="nofollow" style="text-decoration: underline;padding-left: 8px; padding-right: 8px;"><s:text name="index_0289"/></a></span>
+					</div>
+				</li>
 				<li class="mytaobao menu-item menupx">
 					<div class="menu">
 						<a class="menu-hd" href="" rel="nofollow" style="width: 100px;padding-left: 0;padding-right: 0;text-align: center;"><s:text name="index_0252"/></a>
@@ -132,7 +136,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</div>
 		<div class="pageleft">
-			<span><i class="icon iconfont">&#xe611;</i><s:text name="index_0271"/></span>
+			<a class="menu-hd" href="#" rel="nofollow" style="padding-top: 0px;">
+				<span style="cursor: hand"><i class="icon iconfont">&#xe650;</i><s:text name="index_0271"/></span>
+
+			</a>
+
 		</div>
 		<div class="pageleft"  style="margin-left: 15px;">
 			<ul class="quick-menu">

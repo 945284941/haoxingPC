@@ -135,6 +135,10 @@ public class LoginServiceImpl implements LoginService{
 		return memberMapper.selectByMemberName(username);
 	}
 	@Override
+	public List<Member> getMemberListByUsername(String username){
+		return memberMapper.selectByMemberUsername(username);
+	}
+	@Override
 	public List<Member> gainMemberByLoginName(String username) {
 		// TODO Auto-generated method stub
 		return memberMapper.gainMemberByLoginName(username);

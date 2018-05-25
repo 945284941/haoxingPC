@@ -29,21 +29,7 @@ $(function() {
 	});
 
 });
-function search_form() {
-	alert("aaaaaaa");
-	var keyword = arguments[0];
-	var type = arguments[1];
-	alert(keyword);
-	alert(type);
-	if(keyword != "" && keyword != undefined) {
-		$("#keyword").val(keyword);
-	}
-	if(type != "" && type != undefined) {
-		$("#type").val(type);
-	}
-	$("#searchForm").submit();
-	$("#keyword").val("");
-}
+
 
 $(function() {
 	$("#navul li").each(function() {

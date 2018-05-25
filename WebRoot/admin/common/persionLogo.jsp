@@ -21,7 +21,7 @@
 			</div>
 			<div class="searchform1">
 				<form id="searchform" action="searchGoodsListMoreP.html" method="post" target="_blank"><input name="type" id="type" type="hidden" value="goods">
-					<div class="toph_bigsearch">
+					<div class="toph_bigsearch" style="padding-left: 0px">
 						<div class="toph_sear">
 							<ul class="toph_bgsear">
 								<li class="this" type="goods">

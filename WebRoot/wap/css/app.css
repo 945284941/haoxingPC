@@ -474,3 +474,6 @@ a.vip_but {width: 100%; margin: 10px 0 30px; height: 44px; line-height: 44px; bo
 .mui-backdrop {z-index: 2;}
 .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {background: #000000;}
 
+/*2018.05.24修改*/
+.product li .shopcar_del {position: absolute; right: 10px !important; top:30px !important; width: 44px; height: 44px; text-align: right;}
+.yinhk {background: none; font-size: inherit; color: #666666; margin-top: -20px;}

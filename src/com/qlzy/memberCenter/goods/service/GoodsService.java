@@ -249,7 +249,6 @@ public interface GoodsService {
 
 
 	Goods gainGoodsByPrm(Map<String, Object> parmMap);
-
 	/**
 	 * @Title findGoodsListByCompanyId
 	 * @Description TODO(店铺详情的左下角的商品列表)
@@ -268,10 +267,8 @@ public interface GoodsService {
 	public List<Goods> gainFindGoodsBySelect(Goods goods);
 
 	/**
-	 * @Title gainFindGoodsBySelect
-	 * @Description TODO(查询所有的条数)
+	 *
 	 * @param goods
-	 * @Author Jason
 	 * @return
 	 */
 	public Long gainFindGoodsBySelectCount(Goods goods);

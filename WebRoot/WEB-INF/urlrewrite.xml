@@ -19,6 +19,10 @@
 		<to type="forward">indexFloor/indexFloorAction!toMarket.action</to>
 	</rule>
 	<rule>
+		<from>toMarketPage/(.*).html</from>
+		<to type="forward">indexFloor/indexFloorAction!showIndexMarketOrBuildFloor.action?showType=$1</to>
+	</rule>
+	<rule>
 		<from>toBuild.html</from>
 		<to type="forward">indexFloor/indexFloorAction!toBuild.action</to>
 	</rule>
@@ -64,6 +68,10 @@
 		<to type="forward">login!toRegister.action</to>
 	</rule>
 	<rule>
+		<from>toMemberCheckPwdMsgByPhone.html</from>
+		<to type="forward">login!toMemberCheckPwdMsgByPhone.action</to>
+	</rule>
+	<rule>
 		<from>toLogin.html</from>
 		<to type="forward">login!toLogin.action</to>
 	</rule>
@@ -81,16 +89,96 @@
 		<from>person/order/myOrders.html</from>
 		<to type="forward">orderAction!gainOrders.action</to>
 	</rule>
+	<!-- 个人会员中心 》 订单管理 》 我的订单 跳转 -->
+	<rule>
+		<from>person/order/myOrders/(.*).html</from>
+		<to type="forward">orderAction!gainOrders.action?status=$1</to>
+	</rule>
+
+	<!-- 个人会员中心 》 订单管理 》 我的订单 查看订单 -->
+	<rule>
+		<from>person/order/toOrderDetail/(.*).html</from>
+		<to type="forward">orderAction!gainOrderDetail.action?id=$1</to>
+	</rule>
+
+	<!-- wap个人会员中心 》 商品评价状态-->
+	<rule>
+		<from>person/order/pingJiaStatus/(.*).html</from>
+		<to type="forward">orderAction!pingJiaStatus.action?appraise=$1</to>
+	</rule>
+	<!-- 个人会员中心 》 订单管理 》 我的订单 查看订单 评论-->
+	<rule>
+		<from>person/order/toComment/(.*).html</from>
+		<to type="forward">orderAction!gainComment.action?orderItemId=$1</to>
+	</rule>
 	<!-- 个人会员中心 》 分销中心 -->
 	<rule>
 		<from>personalInfo/fenxiaoCenter.html</from>
 		<to type="forward">/person/personalInfo!toFenxiaoCenter.action</to>
 	</rule>
+	<!-- 个人会员中心 》 分销中心 》 粉丝团-->
+	<rule>
+		<from>personalInfo/fensituan.html</from>
+		<to type="forward">/person/personalInfo!toFensituan.action</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 分销商-->
+	<rule>
+		<from>personalInfo/fenxiaoshang/(.*).html</from>
+		<to type="forward">/person/personalInfo!toFenxiaoshang.action?dengji=$1</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 提现记录 -->
+	<rule>
+		<from>personalInfo/tixianjilu.html</from>
+		<to type="forward">/person/personalInfo!toTixianjilu.action</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 预计提成 -->
+	<rule>
+		<from>personalInfo/yujiticheng/(.*).html</from>
+		<to type="forward">/person/personalInfo!toYujiticheng.action?dengji=$1</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 下线提成-->
+	<rule>
+		<from>personalInfo/xiaxianticheng/(.*).html</from>
+		<to type="forward">/person/personalInfo!toXiaxianticheng.action?dengji=$1</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 销售提成 -->
+	<rule>
+		<from>personalInfo/xiaoshouticheng.html</from>
+		<to type="forward">/person/personalInfo!toXiaoshouticheng.action</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 下线提成统计 -->
+	<!--<rule>
+		<from>personalInfo/xiaxiantichengTongji/(.*).html</from>
+		<to type="forward">/person/personalInfo!toXiaxiantichengTongji.action?memberId=$1</to>
+	</rule>-->
+	<rule>
+		<from>personalInfo/xiaxiantichengTongji/(.*)/(.*).html</from>
+		<to type="forward">/person/personalInfo!toXiaxiantichengTongji.action?memberId=$1&amp;time=$2</to>
+	</rule>
+	<!-- 个人会员中心 》 分销中心 》 销售提成统计 -->
+	<rule>
+		<from>personalInfo/xiaoshoutichengTongji.html</from>
+		<to type="forward">/person/personalInfo!toXiaoshoutichengTongji.action</to>
+	</rule>
 
+	<!-- wap帐户管理 -->
+	<rule>
+		<from>/person/toZhanghuguanli.html</from>
+		<to type="forward">/person/personalInfo!toZhanghuguanli.action</to>
+	</rule>
+	<!-- wap 编辑个人信息 -->
+	<rule>
+		<from>/person/toBianji.html</from>
+		<to type="forward">/person/personalInfo!toBianji.action</to>
+	</rule>
 	<!-- 个人信息 -->
 	<rule>
 		<from>/person/toShowBasicInfo.html</from>
 		<to type="forward">/person/personalInfo!toShowBasicInfo.action</to>
+	</rule>
+	<rule>
+		<from>/person/toShowFirstname.html</from>
+		<to type="forward">/person/personalInfo!toShowFirstname.action</to>
 	</rule>
 	<rule>
 		<from>/person/toShowUsername.html</from>
@@ -108,17 +196,26 @@
 		<from>/person/toShowPassword.html</from>
 		<to type="forward">/person/personalInfo!toShowPassword.action</to>
 	</rule>
-	<!-- 收货地址 --><!--
+	<!-- 收货地址 -->
 	<rule>
-		<from>toPersonShippingAddr.html</from>
-		<to type="forward">memberCallAction!toPersonShippingAddr.action</to>
-	</rule>-->
+		<from>showEditAddr/(.*).html</from>
+		<to type="forward">memberCallAction!showEditAddr.action?id=$1</to>
+	</rule>
+	<rule>
+		<from>showAddAddr.html</from>
+		<to type="forward">memberCallAction!showAddAddr.action</to>
+	</rule>
 	<rule>
 		<from>loadReceiveAddr.html</from>
 		<to type="forward">memberCallAction!loadReceiveAddr.action</to>
 	</rule>
 
 	<!-- 收藏 -->
+	<rule>
+		<from>showMyCollect/(.*).html</from>
+		<to type="forward">memberCallAction!showMyCollect.action?type=$1</to>
+	</rule>
+
 	<rule>
 		<from>showShopCollect.html</from>
 		<to type="forward">memberCallAction!showShopCollect.action</to>
@@ -130,6 +227,14 @@
 
 
 	<!-- 银行卡 -->
+	<rule>
+		<from>showAddBankcard.html</from>
+		<to type="forward">memberCallAction!showAddBankcard.action</to>
+	</rule>
+	<rule>
+		<from>showEditBankcard/(.*).html</from>
+		<to type="forward">memberCallAction!showEditBankcard.action?id=$1</to>
+	</rule>
 	<rule>
 		<from>showBankcard.html</from>
 		<to type="forward">memberCallAction!showBankcard.action</to>
@@ -162,7 +267,15 @@
 		<from>goods/(.*).html</from>
 		<to type="forward">indexGoodsAction!gainGoods.action?goodsId=$1</to>
 	</rule>
-
+	<!-- 多条件检索 -->
+	<rule>
+		<from>searchGoodsListMoreP.html</from>
+		<to type="forward">searchGoodsAction!toGoodsList.action</to>
+	</rule>
+	<rule>
+		<from>searchGoodsListCat/(.*)/(.*).html</from>
+		<to type="forward">searchGoodsAction!toGoodsList.action?bankuaiType=$1&amp;catId=$2</to>
+	</rule>
 	<!-- 意见反馈 -->
 	<rule>
 		<from>yijian.html</from>
@@ -171,7 +284,7 @@
 	<!-- 加入购物车 -->
 	<rule>
 		<from>call/joinCart/(.*).html</from>
-		<to type="forward">memberCallAction!memberAddCart.action?goodsId=$1</to>
+		<to type="forward">memberCallAction!memberAddCart.action?cartMsg=$1</to>
 	</rule>
 	<!-- 查看购物车商品的数量 -->
 	<rule>
@@ -211,14 +324,44 @@
 	</rule>
     <!-- 店铺详情 -->
 	<rule>
-		<from>shopDetail/(.*).html</from>
-		<to type="forward">memberCallAction!shopDetail.action?id=$1</to>
+		<from>shopDetail/(.*)/(.*).html</from>
+		<to type="forward">memberCallAction!shopDetail.action?id=$1&amp;node=$2</to>
 	</rule>
 	<!-- 店铺的商品 包括条件查询 -->
 	<rule>
 		<!--<from>showGoods/(.*)/(.*)/(.*).html</from>-->
 		<from>showGoodsByCompanyId.html</from>
 		<to type="forward">memberCallAction!companyGoodsList.action</to>
+	</rule>
+
+	<rule>
+		<from>wantDiscussList.html</from>
+		<to type="forward">wantDiscussAction!findList.action</to>
+	</rule>
+	<rule>
+		<from>newsDetail/(.*).html</from>
+		<to type="forward">news/news!noticeDetail.action?id=$1</to>
+	</rule>
+	<rule>
+		<from>newList.html</from>
+		<to type="forward">news/news!noticeList.action</to>
+	</rule>
+
+	<!-- 提交订单 -->
+	<rule>
+		<from>call/submitOrder.html</from>
+		<to type="forward">memberCallAction!subOrder.action</to>
+	</rule>
+
+	<rule>
+		<from>follow.html</from>
+		<to type="forward">memberCollectAction!updateMemberCollect.action</to>
+	</rule>
+
+	<!-- 进入支付 -->
+	<rule>
+		<from>payment/toPayment.html</from>
+		<to type="forward">payment!toPaymentType.action</to>
 	</rule>
 
 

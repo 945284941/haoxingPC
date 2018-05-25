@@ -7,6 +7,8 @@
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
     <result column="TRUENAME" property="truename" jdbcType="VARCHAR" />
     <result column="FIRSTNAME" property="firstname" jdbcType="VARCHAR" />
+    <result column="CARD_FRONT" property="cardsFront" jdbcType="VARCHAR" />
+    <result column="CARD_REVERSE" property="cardReverse" jdbcType="VARCHAR" />
     <result column="LASTNAME" property="lastname" jdbcType="VARCHAR" />
     <result column="AREA" property="area" jdbcType="VARCHAR" />
     <result column="CITY" property="city" jdbcType="VARCHAR" />
@@ -81,6 +83,72 @@
     LOOKANDFEEL, TISHI, ISTOP, SAVEPATH, ISSHOW,shangji_id,only_id,xianjinbi,liucunbi,is_quxian,is_xiaofei,QQ,WEIXIN,
     qr_code
   </sql>
+
+  <insert id="insertShengjiLog" parameterType="com.qlzy.model.Member" >
+    insert into ql_member_shengji_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="memberType != null" >
+        member_type,
+      </if>
+      <if test="lastLoginTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!-- 获得消费金额 -->
+  <select id="gainXiaofeiTotal" resultType="DECIMAL" parameterType="java.util.Map" >
+    SELECT  round(sum(o.TOTAL_COST),2)
+    from QL_MEMBERS t
+    left join ql_order o on o.member_id = t.id
+    where t.DISABLED='false' and o.status in (4,5)
+    <if test="memberId != null and  memberId != ''">
+      and t.id = #{memberId,jdbcType=VARCHAR}
+    </if>
+    <if test="onlyId != null and  onlyId != '' ">
+      and t.shangji_id in (select only_id from ql_member where shangji_id = #{onlyId,jdbcType=VARCHAR})
+    </if>
+    <if test="shangjiId != null and  shangjiId != '' ">
+      and t.shangji_id =  #{shangjiId,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+
+  <!-- 获得消费升星金额 -->
+  <select id="gainMemberLv" resultType="java.util.Map" parameterType="java.util.Map" >
+    SELECT  id,MIN_POINT as minPoint,MAX_POINT as maxPoint
+    from  ql_member_lv
+
+    where MAX_POINT > ((
+      select lv.MAX_POINT
+      from QL_MEMBERS t  left join ql_member_lv lv on lv.id = t.type
+      where t.id = #{memberId,jdbcType=VARCHAR}
+    ))
+    order by MAX_POINT desc
+  </select>
+
+
   <select id="selectMemberById" resultMap="BaseResultMap" parameterType="java.lang.String" >
   	SELECT t.PAY_PASSWORD from QL_MEMBERS t where t.DISABLED='false' and t.id= #{id,jdbcType=VARCHAR}
   </select>
@@ -157,6 +225,14 @@
       from  QL_MEMBERS m LEFT JOIN ql_member_lv lv on m.TYPE = lv.ID  
     where m.USERNAME = #{username,jdbcType=VARCHAR} or m.MOBILE = #{username,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByMemberUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from  QL_MEMBERS
+    where USERNAME = #{username,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByMemberFirstName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -167,7 +243,7 @@
 
   <!-- 根据会员id查询会员详细信息 -->
   <select id="gainMemberById" resultType="com.qlzy.model.Member" parameterType="java.lang.String" >
-select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNAME,MS.LASTNAME,MS.ADDRESS,MS.MOBILE,MS.TELPHONE,MS.EMAIL,MS.point,MS.REG_TIME AS REGTIME,MS.CARD,ms.only_id as onlyId,ms.shangji_id as shangjiId,ms.is_quxian as isQuxian,
+select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNAME,MS.CARD_FRONT as cardFront,MS.CARD_REVERSE as cardReverse,MS.LASTNAME,MS.ADDRESS,MS.MOBILE,MS.TELPHONE,MS.EMAIL,MS.point,MS.REG_TIME AS REGTIME,MS.CARD,ms.only_id as onlyId,ms.shangji_id as shangjiId,ms.is_quxian as isQuxian,
 	MS.JOB_ROLE AS JOBROLE,MS.ENGAGEINDUSTRY,MS.LAST_LOGIN_IP,MS.BIRTHDAY,MS.QQ,MS.WEIXIN,MS.IMG,liucunbi,xianjinbi,isonline,lv.max_point as maxPoint,lv.min_point as minPoint,interest,
 	(select R1.name from QL_REGIONS R1,QL_REGIONS R2 where R1.id = R2.PID and R2.id = MS.CITY and R1.DISABLED = 'false' and R2.DISABLED = 'false') as PNAME,MS.PROVINCE,
 	(select R.name from QL_REGIONS R where R.id = MS.CITY and R.DISABLED = 'false') as CNAME,MS.CITY,
@@ -402,7 +478,10 @@ select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNA
       </if>       
       <if test="onlyId != null" >
         only_id,
-      </if>                       
+      </if>
+      <if test="qrCode != null" >
+        qr_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -581,7 +660,10 @@ select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNA
       </if>
        <if test="onlyId != null" >
         #{onlyId,jdbcType=VARCHAR},
-      </if>                     
+      </if>
+      <if test="qrCode != null" >
+        #{qrCode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.Member" >
@@ -598,6 +680,12 @@ select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNA
       </if>
       <if test="firstname != null" >
         FIRSTNAME = #{firstname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardFront != null and cardFront != ''" >
+        CARD_FRONT = #{cardFront,jdbcType=VARCHAR},
+      </if>
+      <if test="cardReverse != null and cardReverse != ''" >
+        CARD_REVERSE = #{cardReverse,jdbcType=VARCHAR},
       </if>
       <if test="lastname != null" >
         LASTNAME = #{lastname,jdbcType=VARCHAR},
@@ -770,9 +858,79 @@ select MS.id,MS.USERNAME,MS.PASSWORD,MS.qr_code as qrCode,MS.TRUENAME,MS.FIRSTNA
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
+  <!-- 根据上级id查询用户 -->
+  <select id="getMemberListByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT <include refid="Base_Column_List" />  from QL_MEMBERS t
+    where t.DISABLED='false'
+    <if test="dengji== null || dengji == ''">
+      and t.shangji_id= #{onlyId,jdbcType=VARCHAR}
+    </if>
+    <if test="dengji==1">
+      and t.shangji_id= #{onlyId,jdbcType=VARCHAR}
+    </if>
+    <if test="dengji==2">
+      and t.shangji_id in (select only_id from QL_MEMBERS t where t.DISABLED='false' and t.shangji_id =#{onlyId,jdbcType=VARCHAR})
+    </if>
+    <if test="value != null and value != ''">
+      AND	( t.TRUENAME LIKE "%${value}%" or t.MOBILE  LIKE "%${value}%")
+    </if>
+
+    order by REG_TIME DESC
+  </select>
+<!-- 分销商统计 今日 昨日 本周 本月 全部 -->
+  <select id="getMemberCountByMap" resultType="Long" parameterType="java.util.Map" >
+    SELECT count(t.id)  from QL_MEMBERS t
+    where t.DISABLED='false'
+    <if test="dengji==1">
+      and t.shangji_id= #{onlyId,jdbcType=VARCHAR}
+    </if>
+    <if test="dengji==2">
+      and t.shangji_id in (select only_id from QL_MEMBERS t where t.DISABLED='false' and t.shangji_id =#{onlyId,jdbcType=VARCHAR})
+    </if>
+    <if test="time==1">
+      and DATEDIFF(t.REG_TIME,NOW())=0
+    </if>
+    <if test="time==2">
+      and DATE_FORMAT(t.REG_TIME,'%Y-%m-%d') =DATE_FORMAT(DATE_SUB(now(),INTERVAL '1' day),'%Y-%m-%d')
+    </if>
+    <if test="time==3">
+      and YEARWEEK(date_format(t.REG_TIME,'%Y-%m-%d')) = YEARWEEK(now())
+    </if>
+    <if test="time==4">
+      and date_format(t.REG_TIME,'%Y-%m')=date_format(now(),'%Y-%m')
+    </if>
+    <if test="time==5">
+      and t.type != '0'
+    </if>
+  </select>
+  <!-- 一级、二级下线  -->
+  <select id="getListByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT t.ID,t.USERNAME,t.TRUENAME,CONCAT_WS('****',SUBSTRING(t.USERNAME,1,3),SUBSTRING(t.username,-4)) as memberName
+    from QL_MEMBERS t
+    WHERE 1=1
+    <if test="dengji==1">
+      and t.shangji_id= #{onlyId,jdbcType=VARCHAR}
+    </if>
+    <if test="dengji==2">
+      and t.shangji_id in (select only_id from QL_MEMBERS t where t.DISABLED='false' and t.shangji_id =#{onlyId,jdbcType=VARCHAR})
+    </if>
+    ORDER  BY  t.REG_TIME DESC  limit #{page},#{rows}
+  </select>
+  <!-- 一级、二级下线  -->
+  <select id="getCountByMap" resultType="java.lang.Long" parameterType="java.util.Map" >
+    SELECT count(t.ID)
+    from QL_MEMBERS t
+    WHERE 1=1
+    <if test="dengji==1">
+      and t.shangji_id= #{onlyId,jdbcType=VARCHAR}
+    </if>
+    <if test="dengji==2">
+      and t.shangji_id in (select only_id from QL_MEMBERS t where t.DISABLED='false' and t.shangji_id =#{onlyId,jdbcType=VARCHAR})
+    </if>
+  </select>
+
    <select id="getMemberListByShangjiId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-  	SELECT t.only_id,t.id,t.shangji_id  from QL_MEMBERS t where t.DISABLED='false' and t.only_id= #{onlyId,jdbcType=VARCHAR} 
+  	SELECT t.only_id,t.id,t.shangji_id  from QL_MEMBERS t where t.DISABLED='false' and t.only_id= #{onlyId,jdbcType=VARCHAR}
   </select>
   <select id="getMemberListByOnlyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
   	SELECT <include refid="Base_Column_List" /> from QL_MEMBERS t where t.DISABLED='false' and t.only_id= #{onlyId,jdbcType=VARCHAR}
@@ -841,7 +999,8 @@ select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in ( select  only
 	</select>
   	<select id="myErjiCount" resultType="Long"
 		parameterType="java.util.Map">
-	   select count(qal.id)  from QL_MEMBERS qal where  shangji_id  in ( select  only_id  from QL_MEMBERS m where  shangji_id = #{onlyId,jdbcType=VARCHAR})
+	   select count(qal.id)  from QL_MEMBERS qal where  shangji_id  in
+	   ( select  only_id  from QL_MEMBERS m where  shangji_id = #{onlyId,jdbcType=VARCHAR})
 	</select>
   
   <select id="mySanjiCount" resultType="Long"
@@ -854,14 +1013,14 @@ select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in ( select  only
 		select
 		count(id)
 		from QL_MEMBERS
-		where shangji_id = #{onlyId,jdbcType=VARCHAR} and type='82ee892375df4c1e98a3d8c9fd6e7612'
+		where shangji_id = #{onlyId,jdbcType=VARCHAR} and type != '0'
 	</select>
   	<select id="myErjiCountvip" resultType="Long"
 		parameterType="java.util.Map">
 	   select count(qal.id)
 	   from QL_MEMBERS qal where  shangji_id  in
 	   ( select  only_id  from QL_MEMBERS m where  shangji_id = #{onlyId,jdbcType=VARCHAR})
-	   and type='82ee892375df4c1e98a3d8c9fd6e7612'
+
 	</select>
   
   <select id="mySanjiCountvip" resultType="Long"
@@ -899,7 +1058,14 @@ select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in ( select  only
                 where USERNAME = #{item.mobile} or MOBILE = #{item.mobile}
          </foreach>  
             
-    </update>  
+    </update>
+    <update id="updatePasswordByUsername" parameterType="com.qlzy.model.Member" >
+              update ql_members
+              <set>
+                password = #{password,jdbcType=VARCHAR}
+              </set>
+      where   USERNAME = #{username,jdbcType=VARCHAR}
+    </update>
 	<update id="batchUpdateEnableMobile"  parameterType="java.util.List">       
           <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
                 update ql_members   
@@ -915,6 +1081,38 @@ select  m2.only_id  from  ql_members m2  where  m2.shangji_id  in ( select  only
 	    from QL_MEMBERS
 	    where (USERNAME = #{username,jdbcType=VARCHAR} or MOBILE = #{username,jdbcType=VARCHAR}) and DISABLED = 'false'
     </select>
+
+    <!-- 我的收益 -->
+    <select id="gainShouyi" resultType="Double" >
+      select
+      sum(g.do_money)
+      from QL_MEMBERS m
+      left join ql_advance_logs g on g.user_id = m.id
+      where g.do_type = '3'
+      and m.DISABLED = 'false'
+    </select>
+
+
+    <!-- 预计提成（已经有订单） -->
+    <select id="gainYujiTicheng" resultType="Double" parameterType="Map" >
+        select
+        round(sum(g.fanxian),2)
+        from ql_order o
+        left join ql_order_items i on i.ORDER_ID = o.id
+        left join ql_goods g on g.id = i.GOODS_ID
+        left join ql_members m on m.id = o.member_id
+        where o.STATUS in ('2','3')
+        <if test="onlyId != null and onlyType == 0 ">
+          and m.shangji_id = #{onlyId,jdbcType=VARCHAR}
+        </if>
+        <if test="memberId != null and memberId != '' ">
+          and m.id = #{memberId,jdbcType=VARCHAR}
+        </if>
+        <if test="onlyId != null and onlyType == 1 ">
+          and m.shangji_id in ( select  mm.only_id  from QL_MEMBERS mm where mm.shangji_id = #{onlyId,jdbcType=VARCHAR} )
+        </if>
+        and m.DISABLED = 'false'
+      </select>
 
 
 </mapper>

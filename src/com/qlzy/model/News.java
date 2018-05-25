@@ -35,6 +35,10 @@ public class News extends Pagination implements Serializable {
 
     private String author;
 
+
+
+	private String justDate;
+
     private String newsattr;
 
     private String content;
@@ -44,9 +48,12 @@ public class News extends Pagination implements Serializable {
     private Integer isCallcenter;
     
     private Integer viewnum;
-    
 
-    private String kz1;
+    private Long minRows;
+
+    private Long maxRows;
+
+	private String kz1;
 
     private String kz2;
 
@@ -358,5 +365,29 @@ public class News extends Pagination implements Serializable {
 
 	public void setKz14(String kz14) {
 		this.kz14 = kz14;
+	}
+
+	public String getJustDate() {
+		return justDate;
+	}
+
+	public void setJustDate(String justDate) {
+		this.justDate = justDate;
+	}
+
+	public Long getMinRows() {
+		return minRows;
+	}
+
+	public void setMinRows(Long minRows) {
+		this.minRows = minRows;
+	}
+
+	public Long getMaxRows() {
+		return maxRows;
+	}
+
+	public void setMaxRows(Long maxRows) {
+		this.maxRows = maxRows;
 	}
 }

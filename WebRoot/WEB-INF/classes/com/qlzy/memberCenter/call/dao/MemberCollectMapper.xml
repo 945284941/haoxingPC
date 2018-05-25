@@ -33,7 +33,10 @@
     <update id="updateCollect" parameterType="com.qlzy.model.MemberCollect">
   	update QL_MEMBER_COLLECT set COLLECT_TIME = #{collectTime,jdbcType=TIMESTAMP} where USER_ID = #{userId,jdbcType=VARCHAR} and COLLECT_ID = #{collectId,jdbcType=VARCHAR} and TYPE= #{type,jdbcType=VARCHAR}
   </update>
-
+    <select id="followNum" parameterType="java.lang.String" resultType="Long">
+        select count(*) from QL_MEMBER_COLLECT
+        WHERE COLLECT_ID = #{id,jdbcType=VARCHAR} and  TYPE = 'shop'
+    </select>
     <!-- 根据用户ID、用户类型、收藏的类型以及收藏时间查询收藏店铺信息 -->
     <select id="gainMemberCollectShopList" parameterType="java.util.Map" resultType="com.qlzy.model.Company">
 

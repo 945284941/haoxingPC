@@ -149,7 +149,7 @@ public class IndexGoodsServiceImpl implements IndexGoodsService {
 			goods.setChapingCount(BigDecimal.ZERO);
 			goods.setTupianCount(BigDecimal.ZERO);
 		}
-		goods.setClickNumber(goods.getClickNumber().add(new BigDecimal(1))); //点击量加1
+		goods.setClickNum(goods.getClickNum().add(new BigDecimal(1)));//点击量加1
 		//设置商品规格start
 		GoodsAndSku gas = new GoodsAndSku();
 		gas.setGoodsId(goods.getId());
@@ -205,7 +205,10 @@ public class IndexGoodsServiceImpl implements IndexGoodsService {
 		}
 
 		//设置商品规格end
-		goodsMapper.updateByPrimaryKeySelective(goods);
+		Goods goods1 = new Goods();
+		goods1.setId(goods.getId());
+		goods1.setClickNum(goods.getClickNum());//点击量加1
+		goodsMapper.updateByPrimaryKeySelective(goods1);
 		return goods;
 	}
 

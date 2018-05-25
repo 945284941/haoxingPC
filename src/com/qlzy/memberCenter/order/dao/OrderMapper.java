@@ -6,6 +6,18 @@ import java.util.Map;
 import com.qlzy.model.Order;
 
 public interface OrderMapper {
+
+
+
+
+	List<Order> gainYujitichengList(Map<String,Object> map);
+
+	/**
+	 * 查询下线会员销售额
+	 * @param map
+	 * @return
+	 */
+	Order getPercentageById(Map map);
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey

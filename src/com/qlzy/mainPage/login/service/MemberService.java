@@ -12,5 +12,6 @@ public interface MemberService {
     public Member selectKey(String id);
 
     public int updateomember(Member member);
+    public void updatePasswordByUsername(Member member);
 }
 

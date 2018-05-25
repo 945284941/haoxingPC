@@ -6,7 +6,7 @@
 /**
  * 加入购物车
  */
-preAddCart=function(idName,memberId){
+preAddCart=function(idName,memberId,goodsId){
 	var itemId=$('#'+idName).val();
 	if(itemId.indexOf(';')>0 || itemId.length<=10){
 		alert("规格没有选对,请选择正确在提交");
@@ -20,20 +20,13 @@ preAddCart=function(idName,memberId){
 		alert("加入数大于库存！");
 		return;
 	}
-	
-	if (memberId != null && memberId != '') {// 登录状态下加入购物车
-		mark(itemId,2,memberId);
-		alert('加入购物车成功!');
-	}else{
-		var collectUrl = "call/joinCart/" + itemId + ","+1+".html";
-		showLogin('mask', 'pop_500', collectUrl, '2', '成功加入购物车');
-	} 
+	qlMemberCart(itemId,gouNum,goodsId);
 }
 
 /**
  * 立即购买
  */
-preAddCartto=function(idName,memberId){
+preAddCartto=function(idName,memberId,goodsId,isOneBuy){
 	var itemId=$('#'+idName).val();
 	var gNum = $("#admin_goods_goods_byGoodsNum").val();
 	
@@ -46,17 +39,15 @@ preAddCartto=function(idName,memberId){
 	}
 	
 	if(itemId.indexOf(';')>0 || itemId.length<=10){
-		alert("规格没有选对,请选择正确在提交");
+		alert("规格没有选对,请选择正确再提交");
 		return;
 	}
-	if (memberId != null && memberId != '' && memberId != 'null') {// 登录状态下加入购物车
-		$.ajax({
-			url : "call/joinCart/" + itemId + ","+gNum+".html",
-			success : function() {
-				selectHeadCartNum();// 执行购物车查询
-				window.location.href = "call/goToCart.html";
-			}
-		});
+	if (memberId != null && memberId != '' && memberId != 'null') {// 登录状态下立即购买
+		$("#goodsItemIds").val(itemId);
+		$("#nowBuyNum").val(gNum);
+		$("#isNowBuy").val("1");
+		$("#isOneBuy").val(isOneBuy);
+		$("#goBuy").submit();
 	} else {
 		showLogin('mask','pop_500', '', '2', '', true);
 	}
@@ -100,12 +91,13 @@ function qlMemberCollect(id, type) {
 };
 
 // 加入购物车
-function qlMemberCart(id,gNum) {
+function qlMemberCart(itemId,gNum,goodsId) {
+	var url = "call/joinCart/" + itemId + ","+gNum+","+goodsId+".html";
 	$.ajax({
-		url : "call/joinCart/" + id + ","+gNum+".html",
+		url : url ,
 		success : function() {
 			selectHeadCartNum();// 执行购物车查询
-			//alert('加入购物车成功!');
+			alert('加入购物车成功!');
 		}
 	});
 }

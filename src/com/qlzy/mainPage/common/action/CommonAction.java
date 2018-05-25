@@ -52,6 +52,7 @@ public class CommonAction extends BaseAction{
 	@Autowired
 	private NCountryService nCountryService;
 	private List<QlDict> indexKeywordsList;
+	private List<QlDict> indexCompanyKeywordsList;
 	private List<NCountry> changeCountryList;
 	private int count = 0;
 
@@ -64,6 +65,8 @@ public class CommonAction extends BaseAction{
 	}
 	public String toLogo(){
 		indexKeywordsList = dictionaryService.selectByType("index_keywords");
+		indexCompanyKeywordsList = dictionaryService.selectByType("popushop");
+
 		return PcOrWap.isPc(request,"toLogo");
 	}
 	public String toPersionLogo(){
@@ -72,7 +75,6 @@ public class CommonAction extends BaseAction{
 	}
 
 	public void changeAddress(){
-		System.out.println(addressId);
 		String result = "001";
 		try {
 			nCountryService.changeAddressByIp(addressId,request,session);
@@ -227,5 +229,13 @@ public class CommonAction extends BaseAction{
 
 	public void setChangeCountryList(List<NCountry> changeCountryList) {
 		this.changeCountryList = changeCountryList;
+	}
+
+	public List<QlDict> getIndexCompanyKeywordsList() {
+		return indexCompanyKeywordsList;
+	}
+
+	public void setIndexCompanyKeywordsList(List<QlDict> indexCompanyKeywordsList) {
+		this.indexCompanyKeywordsList = indexCompanyKeywordsList;
 	}
 }

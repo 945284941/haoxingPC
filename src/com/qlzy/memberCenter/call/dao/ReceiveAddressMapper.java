@@ -96,4 +96,6 @@ public interface ReceiveAddressMapper {
 	* @author 周张豹
 	 */
 	public void cancelDefaultAddrkByUserId(ReceiveAddress receiveAddress);
+
+	List<ReceiveAddress> gainReceiveAddressesList(String userId);
 }

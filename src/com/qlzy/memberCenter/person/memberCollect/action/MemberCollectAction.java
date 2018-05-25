@@ -221,28 +221,35 @@ public class MemberCollectAction extends BaseAction implements ModelDriven<Membe
 		Json j=new Json();
         String action=request.getParameter("action");
 		sessionInfo = (SessionInfo) session.get(ResourceUtil.getSessionInfoName());
-		try{
 
-           if(action.equals("add")) {
-			   memberCollect.setCollectTime(new Date());
-			   memberCollect.setUserId(sessionInfo.getUserId());
-			   memberCollect.setCollectIp(sessionInfo.getIp());
-			   memberCollect.setId(ToolsUtil.getUUID());
-               memberCollectService.insertSelective(memberCollect);
-               j.setSuccess(true);
-               j.setMsg("收藏成功");
-		   }else{
-           	//删除
-			   memberCollect.setUserId(sessionInfo.getUserId());
-			   memberCollectService.deleteMemberCollect(memberCollect);
-			   j.setSuccess(true);
-			   j.setMsg("取消收藏成功");
-		   }
-		 }catch (Exception e){
-         	e.printStackTrace();
-           j.setMsg("收藏失败");
-           j.setSuccess(false);
-		 }
+		if(sessionInfo.getUserId() == null || sessionInfo.getUserId().equals("")){
+			j.setMsg("noLogin");
+			j.setSuccess(false);
+		}else {
+			try {
+				if (action.equals("add")) {
+					memberCollect.setCollectTime(new Date());
+					memberCollect.setUserId(sessionInfo.getUserId());
+					memberCollect.setCollectIp(sessionInfo.getIp());
+					memberCollect.setId(ToolsUtil.getUUID());
+					memberCollectService.insertSelective(memberCollect);
+					j.setSuccess(true);
+					j.setMsg("收藏成功");
+					j.setObj(memberCollectService.followNum(memberCollect.getCollectId()));
+				} else {
+					//删除
+					memberCollect.setUserId(sessionInfo.getUserId());
+					memberCollectService.deleteMemberCollect(memberCollect);
+					j.setSuccess(true);
+					j.setMsg("取消收藏成功");
+					j.setObj(memberCollectService.followNum(memberCollect.getCollectId()));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				j.setMsg("收藏失败");
+				j.setSuccess(false);
+			}
+		}
 		 writeJson(j);
 	}
 	/**

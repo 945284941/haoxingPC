@@ -63,7 +63,7 @@ public class PaymentServiceImpl implements IPaymentService {
 		if(!order.getMemberId().equals(memberId)) {
 			throw new RuntimeException("订单【" + order.getOrderNum() + "】不属于您!");
 		}
-		BigDecimal totalCost = new BigDecimal(order.getTotalCost()).setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal totalCost = order.getTotalCost().setScale(2, BigDecimal.ROUND_HALF_UP);
 		BigDecimal amount = huibaoAmount.add(beansAmount).add(pointAmount).setScale(2, BigDecimal.ROUND_HALF_UP);
 		
 		String payment = null;
@@ -133,7 +133,7 @@ public class PaymentServiceImpl implements IPaymentService {
 		if(!"0".equals(order.getPayStatus())) {
 			throw new RuntimeException("订单已支付,请勿重新支付!");
 		}
-		double totalCost = order.getTotalCost() - this.payByPoint(orderId, memberId);
+		double totalCost = order.getTotalCost().doubleValue() - this.payByPoint(orderId, memberId);
 		boolean flag = false;
 		if("1".equals(type)){
 				//金米

@@ -22,7 +22,14 @@ public interface MemberCollectMapper {
 	 * @return
 	 */
 	List<MemberCollect> gainShopCollect(MemberCollect memberCollect);
-
+	/**
+	 * @Title followNum
+	 * @Description TODO(查看店铺的收藏量)
+	 * @param id
+	 * @return
+	 * @auther Jason
+	 */
+	Long followNum(String id);
 	/**
 	 * 取消收藏
 	 * @param id

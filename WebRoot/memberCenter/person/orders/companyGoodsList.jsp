@@ -2,286 +2,85 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib uri="/WEB-INF/page-pagination.tld" prefix="page"%>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
 <div class="lh_sjdp_qbsp_right">
     <div class="l_paixun" style="width: 960px;">
         <div class="pl_px">
             <a id="l_pl_h" href="#"></a>
-            <a href="" style="background: none;">推荐
+            <a  style="background: none;" id="pOrder" onclick="orderSiv()"><s:text name="index_0089"/>
                 <font></font>
             </a>
-            <a href="">销量
+            <a  id="volume" onclick="volumeSiv()"><s:text name="index_0024"/>
                 <font></font>
             </a>
-            <a href="" style="background: none;">新品
+            <a id="createTime" style="background: none;" onclick="createTimeSiv()"><s:text name="index_0090"/>
                 <font></font>
             </a>
-            <a href="" style="background: none;">价格
+            <a id="priceRise" onclick="priceRiseSiv()"><s:text name="index_0025"/>
                 <font></font>
             </a>
         </div>
     </div>
+
+    <input type="hidden" id="treeId" value="${treeid}">
     <div class="lh_sjdp_qbsp_right_nr">
         <div class="index_sptj_nr index_sptj_nr2">
-            <ul>
+            <ul id="goodsList">
+
+               <c:forEach items="${goodPageList}" var="goods">
                 <li class="item ">
-                    <div class="goods-content" id="taotian">
+                    <div class="goods-content" >
                         <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
+                            <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">
+                                <img src="${goods.defaultPicSrc}" style="width:300px;height: 300px;"/>
                             </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
+                            <div class="index_sptj_nr_qg"><s:text name="index_0269" /></div>
+                            <div class="index_sptj_nr_sl"><s:text name="index_0028" />${goods.store}<s:text name="index_0029" /></div>
                         </div>
                         <div class="goods-info">
                             <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
+                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">${goods.name}</a>
                             </div>
                             <div class="goods-price">
                                 <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
+                                    <em class="sale-price">¥${goods.price}</em><br>
+                                    <span class="yuanjia">¥${goods.yuanjia}</span>
                                 </div>
                                 <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
+                                    <span class="goods_buy">$${goods.USAMoney}</span><br>
+                                    <span class="goods_buy">AED${goods.ADMMoney}</span>
                                 </div>
                             </div>
                             <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
+
+                                <p class="fl"><s:text name="index_0024"/> ${goods.queryNum}</p>
+                                <p class="fr"><s:text name="index_0027"/> ${goods.praiseRate}%</p>
                             </div>
                         </div>
                     </div>
                 </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="item ">
-                    <div class="goods-content" id="taotian">
-                        <div class="goods-pic">
-                            <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
-                                <img src="images/lh_img_01.png">
-                            </a>
-                            <div class="index_sptj_nr_qg">抢购</div>
-                            <div class="index_sptj_nr_sl">仅剩3件</div>
-                        </div>
-                        <div class="goods-info">
-                            <div class="goods-name">
-                                <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">打底衫气质百搭潮短款上衣</a>
-                            </div>
-                            <div class="goods-price">
-                                <div class="goods-price_div">
-                                    <em class="sale-price">¥78.0</em><br>
-                                    <span class="yuanjia">￥100</span>
-                                </div>
-                                <div class="goods-price_div01">
-                                    <span class="goods_buy">$30.00</span><br>
-                                    <span class="goods_buy">AED3000.00</span>
-                                </div>
-                            </div>
-                            <div class="goods-sales">
-                                <p class="fl">销量 1212</p>
-                                <p class="fr">好评 98%</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                </c:forEach>
 
             </ul>
 
         </div>
-        <div class="clear"></div>
-        <div class="w-page">
-            <a href="">
-                <</a>
-            <a href="" class="on">1</a>
-            <a href="">2</a>
-            <a href="">3</a>
-            <a href="">></a>
+        <div class="w-page" style="float: left;">
+            <page:pagination path="memberCallAction!companyGoodsList.action"
+                             formName="pagerForm"/>
         </div>
-
     </div>
+
+
 </div>
+
+<script type="text/javascript">
+
+
+</script>

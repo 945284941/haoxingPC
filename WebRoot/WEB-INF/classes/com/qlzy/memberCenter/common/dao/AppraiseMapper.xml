@@ -29,6 +29,13 @@
         a.ID, a.GOODS_ID, a.COMPANY_ID, a.MEMBER_ID, a.ORDER_ID, a.QUALITY, a.CREDIT, a.SERVE, a.LOGISTICS,
     a.SINCERITY, a.CONTENT, a.CREATETIME,a.is_pic,a.reply_content,a.reply_date
     </sql>
+    <select id="goodEvaluate" parameterType="java.lang.String" resultType="Long">
+        select count(*) from  QL_APPRAISE where COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+        and SINCERITY   <![CDATA[ >  ]]>  3
+    </select>
+    <select id="Evaluate" parameterType="java.lang.String" resultType="Long">
+        select count(*) from  QL_APPRAISE where COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+    </select>
     <!-- 查询产品的评论数量 -->
     <select id="selectAppraiseCount" parameterType="java.lang.String" resultType="com.qlzy.model.Goods">
         SELECT
@@ -94,6 +101,16 @@
     from QL_APPRAISE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+
+    <select id="selectByOrderIdAndGoodsId" resultMap="BaseResultMap" parameterType="com.qlzy.model.Appraise" >
+        select
+        <include refid="Base_Column_List" />
+        from QL_APPRAISE
+        where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+        and ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from QL_APPRAISE
     where ID = #{id,jdbcType=VARCHAR}

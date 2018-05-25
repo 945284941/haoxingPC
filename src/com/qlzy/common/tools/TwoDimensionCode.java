@@ -4,18 +4,21 @@ package com.qlzy.common.tools;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
+import com.qlzy.memberCenter.shop.action.UploadAction;
 import jp.sourceforge.qrcode.QRCodeDecoder;
 import jp.sourceforge.qrcode.data.QRCodeImage;
 import jp.sourceforge.qrcode.exception.DecodingFailedException;
 
 import com.swetake.util.Qrcode;
+import org.apache.struts2.ServletActionContext;
+
+import static com.qlzy.common.tools.ToolsUtil.getResourcePath;
+
 public class TwoDimensionCode {
 	
 	/**
@@ -24,7 +27,8 @@ public class TwoDimensionCode {
 	 * @param imgPath 图片路径
 	 */
 	public static void encoderQRCode(String content, String imgPath) {
-		encoderQRCode(content, imgPath, "png", 7);
+
+	    encoderQRCode(content, imgPath, "png", 7);
 	}
 	
 	/**
@@ -63,16 +67,20 @@ public class TwoDimensionCode {
 	 * @param imgType 图片类型
 	 * @param size 二维码尺寸
 	 */
-	public static void encoderQRCode(String content, String imgPath, String imgType, int size) {
+	public static String encoderQRCode(String content, String imgPath, String imgType, int size) {
+        String nnnn="";
 		try {
 			BufferedImage bufImg = qRCodeCommon(content, imgType, size);
 			
 			File imgFile = new File(imgPath);
 			// 生成二维码QRCode图片
 			ImageIO.write(bufImg, imgType, imgFile);
+            nnnn = UploadAction.uploadImg(imgFile);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+        return nnnn;
 	}
 
 	/**
@@ -87,6 +95,7 @@ public class TwoDimensionCode {
 			BufferedImage bufImg = qRCodeCommon(content, imgType, size);
 			// 生成二维码QRCode图片
 			ImageIO.write(bufImg, imgType, output);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,6 +146,24 @@ public class TwoDimensionCode {
 			}
 			gs.dispose();
 			bufImg.flush();
+			//ImageIO.write(bufImg, "png", new File("E:/qrcode.png"));
+			/*File f = new File("jpeg");
+
+			String suffix = f.getName().substring(f.getName().indexOf(".")+1, f.getName().length());
+
+			System.out.println("二维码输出成功！！");
+
+			try {
+
+				ImageIO.write(bufImg, suffix, f);
+
+			} catch (IOException ioe) {
+
+				System.out.println("二维码生成失败" + ioe.getMessage());
+
+				//return false;
+
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -214,18 +241,26 @@ public class TwoDimensionCode {
 
 	}
 	public static void main(String[] args) {
-		String imgPath = "E:\\test.jpg";
-//		try {
-//			OutputStream output = new FileOutputStream(imgPath);
-//			handler.encoderQRCode(content, output);
-//		} catch (Exception e) {
-//			e.printStackTrace( );
-//		}
-		System.out.println("========encoder success");
-		String decoderContent = decoderQRCode(imgPath);
-		System.out.println("解析结果如下：");
-		System.out.println(decoderContent);
-		System.out.println("========decoder success!!!");
+	    try{
+            //encoderQRCode("http://www.baidu.com", new FileOutputStream(new File("E:\\lh_13.jpeg")),"png", 7);
+            //先获取本项目的路径
+            String savePath = ServletActionContext.getServletContext().getRealPath(
+                    "")
+                    + "/"; // 获取项目根路径
+            savePath = savePath + ResourceUtil.getCompany_Img_Directory();
+            //companyImgPath = ResourceUtil.getCompany_Img_Directory();
+            File up = new File(savePath);
+            if (!up.exists()) {
+                up.mkdirs();
+            }
+            HttpServletResponse response = ServletActionContext.getResponse();
+            response.setCharacterEncoding("UTF-8"); // 务必，防止返回文件名是乱码
+            encoderQRCode("http://www.baidu.com", savePath);
+        }catch (Exception e){
+	        e.printStackTrace();
+        }
+
+		//BufferedImage nnn = qRCodeCommon("figfdkg", "jpg", 7);
 		//encoderQRCode("中阿萨德发生大发是打发斯蒂芬阿萨的发生地方", "E:\\test.jpg");
 	}
 }

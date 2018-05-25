@@ -14,19 +14,19 @@
                     <div class="top_mid_nav">
                         <div class="top_mid_nav_phone this"><s:text name="index_0007"/></div>
                         <div class="top_mid_nav_phone" style="float: right;">
-                            <a href="#"><s:text name="index_0010"/></a>
+                            <a href="newList.html"><s:text name="index_0010"/></a>
                         </div>
                     </div>
                     <div class="top_mr_news">
                         <ul class="top_mr_box" style="display: block;" u_id="1">
 
                             <c:forEach items="${gonggaoList}" var="gongao" varStatus="status">
-                                <li><b><a href="#" target="_blank"><fmt:formatDate value="${gongao.createtime}" pattern="yyyy-MM-dd" /></a></b>
+                                <li style="cursor:pointer " onclick="newsDetail('${gongao.id}')"><b><a href="javascript:void(0);" target="_blank"><fmt:formatDate value="${gongao.createtime}" pattern="yyyy-MM-dd" /></a></b>
                                     <c:if test="${'zh' eq sessionInfo.language}">
-                                        <a href="#" target="_blank" title="${gongao.firstTitle}">${fn:substring(gongao.firstTitle,0, 11)}</a>
+                                        <a  target="_blank" title="${gongao.firstTitle}">${fn:substring(gongao.firstTitle,0, 11)}</a>
                                     </c:if>
                                     <c:if test="${'zh' ne sessionInfo.language}">
-                                        <a href="#" target="_blank" title="${gongao.secondTitle}">${fn:substring(gongao.secondTitle,0, 11)}</a>
+                                        <a  target="_blank" title="${gongao.secondTitle}">${fn:substring(gongao.secondTitle,0, 11)}</a>
                                     </c:if>
                                 </li>
                             </c:forEach>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="top_mr_hytd">
                         <p>￥1=$${huilv.now_rate_doc}</p>
-                        <p>￥1=AED${huilv.now_rate_aed}</p>
+                        <p>￥1=AED${huilv.now_rate_dlm}</p>
                     </div>
                 </div>
                 <!-- 右上角会员天地结束 -->
@@ -57,7 +57,7 @@
                 <ul>
                     <li class="this" goods_random="1"><s:text name="index_0009"/></li>
                     <li class="fr">
-                        <a href="#" class="index_sptj_hyp"><s:text name="index_0010"/></a>
+                        <a href="toFlashSale.html" class="index_sptj_hyp"><s:text name="index_0010"/></a>
                     </li>
                 </ul>
             </div>
@@ -70,22 +70,17 @@
                                 <div class="goods-content">
                                     <div class="goods-pic">
                                         <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">
-                                            <img src="${goods.defaultPicSrc}">
+                                            <img style="height:230px" src="${goods.defaultPicSrc}">
                                         </a>
-                                        <!--<div class="index_sptj_nr_zk">9.8折</div>-->
+
                                     </div>
                                     <div class="goods-info">
                                         <div class="goods-name">
-                                            <c:if test="${'zh' eq sessionInfo.language}">
                                                 <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">${goods.name}</a>
-                                            </c:if>
-                                            <c:if test="${'zh' ne sessionInfo.language}">
-                                                <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">${goods.enName}</a>
-                                            </c:if>
                                         </div>
                                         <div class="goods-price">
                                             <div class="goods-price_div">
-                                                <em class="sale-price">￥${goods.activityPrice}</em><br>
+                                                <em class="sale-price">￥<fmt:formatNumber type="number" value="${goods.activityPrice * goods.price * goods.saleRate }" pattern="0.00" maxFractionDigits="2"/></em><br>
                                                 <span class="yuanjia">￥${goods.yuanjia}</span>
                                             </div>
                                             <div class="goods-price_div01">
@@ -105,18 +100,18 @@
         <!-- 限时抢购结束 -->
 
         <!-- 首页中间内容 -->
-        <div class="index_tj">
-            <div class="index_tj_01">
-                <a class="index_tj_01_top"><img src="${adMap["商城首页广告位1(PC)"].imageUrl}" /></a>
+        <div class="index_tj" >
+            <div class="index_tj_01" >
+                <a class="index_tj_01_top" target="_blank" onclick="adHref('${adMap["商城首页广告位1(PC)"].href}')" ><img  src="${adMap["商城首页广告位1(PC)"].imageUrl}" style="cursor:pointer;" /></a>
                 <div class="index_tj_01_bottom">
-                    <a class="index_tj_01_bottom_left"><img src="${adMap["商城首页广告位2(PC)"].imageUrl}" alt="" /></a>
-                    <a class="index_tj_01_bottom_right"><img src="${adMap["商城首页广告位3(PC)"].imageUrl}" /></a>
+                    <a class="index_tj_01_bottom_left" target="_blank" onclick="adHref('${adMap["商城首页广告位2(PC)"].href}')" ><img src="${adMap["商城首页广告位2(PC)"].imageUrl}" style="cursor:pointer;" /></a>
+                    <a class="index_tj_01_bottom_right" target="_blank" onclick="adHref('${adMap["商城首页广告位3(PC)"].href}')" ><img src="${adMap["商城首页广告位3(PC)"].imageUrl}" style="cursor:pointer;" /></a>
                 </div>
             </div>
-            <a class="index_tj_02"><img src="${adMap["商城首页广告位4(PC)"].imageUrl}" /></a>
+            <a class="index_tj_02" target="_blank" onclick="adHref('${adMap["商城首页广告位4(PC)"].href}')" ><img src="${adMap["商城首页广告位4(PC)"].imageUrl}" style="cursor:pointer;" /></a>
             <div class="index_tj_03">
-                <a class="index_tj_03_left"><img src="${adMap["商城首页广告位5(PC)"].imageUrl}" alt="" /></a>
-                <a class="index_tj_03_right"><img src="${adMap["商城首页广告位6(PC)"].imageUrl}" alt="" /></a>
+                <a class="index_tj_03_left" target="_blank" onclick="adHref('${adMap["商城首页广告位5(PC)"].href}')" ><img src="${adMap["商城首页广告位5(PC)"].imageUrl}" style="cursor:pointer;" /></a>
+                <a class="index_tj_03_right" target="_blank"  onclick="adHref('${adMap["商城首页广告位6(PC)"].href}')" ><img src="${adMap["商城首页广告位6(PC)"].imageUrl}" style="cursor:pointer;" /></a>
             </div>
         </div>
         <!-- 首页中间内容结束 -->
@@ -127,7 +122,7 @@
                 <ul>
                     <li class="this" id="goodscase2" goods_random="1"><s:text name="index_0011"/></li>
                     <li class="fr">
-                        <a href="#" class="index_sptj_hyp"><s:text name="index_0010"/></a>
+                        <a href="searchGoodsListMoreP.html?isIndexShop=1" class="index_sptj_hyp"><s:text name="index_0010"/></a>
                     </li>
                 </ul>
             </div>
@@ -138,29 +133,42 @@
                         <li class="item ">
                             <div class="goods-content" >
                                 <div class="goods-pic">
-                                    <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">
+                                    <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">
                                         <img src="${goods.defaultPicSrc}">
                                     </a>
-                                    <%--<div class="index_sptj_nr_qg"><s:text name="index_0269"/></div>--%>
+                                    <div class="index_sptj_nr_qg">
+                                        <c:choose>
+                                            <c:when test="${goods.cornerMark eq '1'}">
+                                                <s:text name="index_0413"/>
+                                            </c:when>
+                                            <c:when test="${goods.cornerMark eq '2'}">
+                                                <s:text name="index_0412"/>
+                                            </c:when>
+                                            <c:when test="${goods.cornerMark eq '3'}">
+                                                <s:text name="index_0411"/>
+                                            </c:when>
+                                            <c:when test="${goods.cornerMark eq '4'}">
+                                                <s:text name="index_0005"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <s:text name="index_0414"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
                                     <div class="index_sptj_nr_sl"><s:text name="index_0028"/>${goods.store} <s:text name="index_0029"/></div>
                                 </div>
                                 <div class="goods-info">
                                     <div class="goods-name">
-                                        <c:if test="${'zh' eq sessionInfo.language}">
                                             <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">${goods.name}</a>
-                                        </c:if>
-                                        <c:if test="${'zh' ne sessionInfo.language}">
-                                            <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">${goods.enName}</a>
-                                        </c:if>
                                     </div>
                                     <div class="goods-price">
                                         <div class="goods-price_div">
-                                            <em class="sale-price">￥${goods.price}</em><br>
-                                            <span class="yuanjia">￥${goods.yuanjia}</span>
+                                            <em class="sale-price">￥<fmt:formatNumber type="number" value="${goods.price * goods.saleRate}" pattern="0.00" maxFractionDigits="2"/></em><br>
+                                            <span class="yuanjia">￥<fmt:formatNumber type="number" value="${goods.yuanjia}" pattern="0.00" maxFractionDigits="2"/></span>
                                         </div>
                                         <div class="goods-price_div01">
-                                            <span class="goods_buy">$ ${goods.docPrice}</span><br>
-                                            <span class="goods_buy">AED$ ${goods.dlmPrice} </span>
+                                            <span class="goods_buy">$ <fmt:formatNumber type="number" value="${goods.docPrice}" pattern="0.00" maxFractionDigits="2"/></span><br>
+                                            <span class="goods_buy">AED$ <fmt:formatNumber type="number" value="${goods.dlmPrice}" pattern="0.00" maxFractionDigits="2"/> </span>
                                         </div>
                                     </div>
                                     <div class="goods-sales">
@@ -180,3 +188,12 @@
         <!-- 商品推荐结束 -->
     </div>
 </div>
+<script type="text/javascript">
+    function newsDetail(id){
+        window.location.href="news/news!noticeDetail.action?id="+id;
+    }
+    function adHref(hrefUrl){
+        window.location.href=hrefUrl;
+    }
+
+</script>

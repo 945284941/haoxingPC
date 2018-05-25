@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.qlzy.common.tools.*;
+import com.qlzy.common.util.UtilsJson;
 import com.qlzy.mainPage.indexGoods.dao.QlDictMapper;
 import com.qlzy.memberCenter.call.dao.*;
 import com.qlzy.model.*;
@@ -110,7 +111,10 @@ public class MemberCallServiceImpl implements MemberCallService {
 		return memberCollectMapper.gainShopCollect(memberCollect);
 	}
 
-
+	@Override
+	public int updateByPrimaryKey(Bankcard record){
+		return bankcardMapper.updateByPrimaryKeySelective(record);
+	}
 	@Override
 	public Bankcard gainBankcardByPrimaryKey(String id){
 
@@ -275,6 +279,7 @@ public class MemberCallServiceImpl implements MemberCallService {
 	 * com.qlzy.memberCenter.call.service.MemberCallService#gainCartByCookie(
 	 * javax.servlet.http.HttpServletRequest, com.qlzy.pojo.SessionInfo)
 	 */
+
 	@Override
 	public Map<String,Company> gainCartByCookie(HttpServletRequest request,Map<String,Object> parmMap,Map<String,Company> comMap) {
 		/*
@@ -283,7 +288,7 @@ public class MemberCallServiceImpl implements MemberCallService {
 		List<Cart> list = CookieUtils.getCookieCart(request, null);
 		for (Cart cart : list) {
 			GoodsItem goodsItem = goodsItemMapper.selectByPrimaryKey(cart.getItemId());
-			cart.setId(ToolsUtil.getUUID());
+			cart.setId(cart.getItemId());
 			parmMap.put("goodsId",goodsItem.getProductId());
 			Goods g = goodsMapper.gainGoodsByPrm(parmMap) ;
 			cart.setGoods(g);
@@ -305,7 +310,20 @@ public class MemberCallServiceImpl implements MemberCallService {
 		}
 		return comMap;
 	}
-
+	@Override
+	public Integer gainCartNumByCookieParmMap(HttpServletRequest request, Map<String, Object> parmMap) {
+		List<Cart> list = CookieUtils.getCookieCart(request, null);
+		int c = 0;
+		for (Cart cart : list) {
+			parmMap.put("goodsId", cart.getGoodsId());
+			Goods g = goodsMapper.gainGoodsByPrm(parmMap);
+			if(null != g){
+				c = c + cart.getGoodsNum();
+			}
+		}
+		return c;
+	}
+		/*
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -339,159 +357,157 @@ public class MemberCallServiceImpl implements MemberCallService {
 		}
 		return receiveAddress;
 	}
+	@Override
+	public TradePayDeail addOrder(String receiveAddrId, String goodsItemIds,
+										  SessionInfo sessionInfo, String countryId,String orderMsg,
+								  String isNowBuy, String isOneBuy,Integer nowBuyNum){
+		BigDecimal payPrice = BigDecimal.ZERO;//应该支付的金额 人民币
+		BigDecimal payDlmPrice = BigDecimal.ZERO;
+		BigDecimal payDocPrice = BigDecimal.ZERO;
+		BigDecimal orderPoint = BigDecimal.ZERO;
+		Order order = new Order();
+		order.setId(ToolsUtil.getUUID());
+		order.setCountryId(countryId);
+		order.setMemberId(sessionInfo.getUserId());
+		order.setOrderNum(OrderUtil.getOrderId());
+		order.setOrderMsg(orderMsg);
+		order.setCreatetime(new Date());
+		List<OrderItem> orderItemList = new ArrayList<>();
+		Map<String,Goods> goodsMap = new HashMap<>();
+		List<String> cartsIds = new ArrayList<>();//用来删除购物车信息
 
-//	public TradePayDeail addOrder(ReceiveAddress receiveAddress, String[] goodsIds, SessionInfo sessionInfo,
-//			String logistics, String payment, String billType, String billHead, String billContent, String remark,
-//			Double mailing, String[] payCartsIds) {
-//		Double proTotalCost = 0.00;
-//		Double wuliuTotalCost = 0.00;
-//		Double totalCost = 0.00;
-//		TradePayDeail payDeail = new TradePayDeail();
-//		String zoneType="";
-//		/*
-//		 * 根据收货表Id查询收货人的信息
-//		 */
-//		receiveAddress = receiveAddressMapper.selectByPrimaryKey(receiveAddress.getId());
-//		/*
-//		 * 商品ID，查询商品信息
-//		 */
-//		if (goodsIds != null && goodsIds.length > 0) {
-//			// 查询购物车中的单品?
-//			List<Cart> carts = cartMapper.gainCartsByIds(Arrays.asList(goodsIds));
-//
-//			String companyId = "";
-//			String dealName = "";
-//			for (Cart cart : carts) {
-//				String goodsId = cart.getGoodsId();
-//				String goodsItemId = cart.getItemId();
-//				Goods goods = goodsMapper.gainGoodsById(goodsId);
-//				if("".equals(zoneType)){
-//					zoneType=goods.getGoodstype();
-//				}
-//
-//				//先根据是否需要买家咨询判断，再根据免邮个数判断运费
-//				if(null != goods.getIsConsultingPostage() && goods.getIsConsultingPostage().equals("1")){
-//					wuliuTotalCost = Arith.add(wuliuTotalCost, (double) 0);
-//				}else{
-//					if (goods.getFreePostageNum() != null && goods.getFreePostageNum()!= 0
-//							&& cart.getGoodsNum().intValue() >= goods.getFreePostageNum().intValue()) {
-//						wuliuTotalCost = Arith.add(wuliuTotalCost, (double) 0);
-////						goods.setPostage((double) 0);
-//					}else {
-//						wuliuTotalCost = Arith.add(wuliuTotalCost, Double.valueOf(goods.getWuliu()));
-//					}
-//				}
-//
-//				GoodsItem gi = goodsItemMapper.selectByPrimaryKey(goodsItemId);
-//				proTotalCost = Arith.add(proTotalCost, cart.getGoodsNum() * (gi.getPrice() * 10000) / 10000);
-//				dealName = goods.getName() + "," + dealName;
-//				companyId= goods.getCompanyId();
-//
-//				// 根据业务需要，商品销量应在支付完成时增加
-////				goods.setQueryNum(goods.getQueryNum()+cart.getGoodsNum());
-////				goodsMapper.updateByPrimaryKeySelective(goods);
-//
-//				//判断每个商品所使用的经验值
-//				if(null != payCartsIds && 0 < payCartsIds.length){
-//					double amount = 0.0;
-//					for(int i = 0; i < payCartsIds.length; i++){
-//						if(cart.getId().equals(payCartsIds[i])){
-//							Cart payCart = cartMapper.gainCartById(payCartsIds[i]);
-//							Goods good = goodsMapper.gainGoodsById(payCart.getGoodsId());
-//							GoodsItem goodItem = goodsItemMapper.selectByPrimaryKey(payCart.getItemId());
-//							if(1 == good.getIsPoint() && "1".equals(good.getGoodstype())){
-//								amount = goodItem.getPrice() * payCart.getGoodsNum() * (good.getPointPercentage()/100);
-//							}
-//						}
-//
-//					}
-//					cart.setPoint(amount);
-//				}
-//
-//			}
-//			String orderId = ToolsUtil.getUUID();
-//
-//			totalCost = Arith.add(wuliuTotalCost, proTotalCost);
-//			Order order = createOrder(sessionInfo,wuliuTotalCost, proTotalCost,totalCost, receiveAddress, orderId, logistics, payment, billType,
-//										billHead, billContent, companyId, remark, mailing,zoneType);// 创建订单
-//
-//
-//			List<OrderItem> orderItems = createOrderItems(orderId, carts);// 创建订单详情
-//
-//			payDeail.setId(ToolsUtil.getUUID());
-//			payDeail.setOrderId(order.getId());
-//			payDeail.setOrderMsg(remark);
-//			payDeail.setOrderNum(order.getOrderNum());
-//			String orderName = "颐佳商城";
-//			payDeail.setOrderName(orderName);
-//			// payDeail.setProductUrl("");
-//
-//			payDeail.setTotalPrice(totalCost);
-//			payDeail.setPaydate(new Date());
-//			tradePayDeailMapper.insertSelective(payDeail);
-//
-//			/*
-//			 * 将订单、订单详情存入数据库中
-//			 */
-//			orderMapper.insertSelective(order);
-//			orderItemMapper.insertBeach(orderItems);
-//
-//			/*
-//			 * 若用户选择使用经验值，sgh_order_payment新增
-//			 */
-//			if(null != payCartsIds && 0 < payCartsIds.length){
-//				double amount = 0.0;
-//				for(int i = 0; i < payCartsIds.length; i++){
-//					Cart payCart = cartMapper.gainCartById(payCartsIds[i]);
-//					Goods good = goodsMapper.gainGoodsById(payCart.getGoodsId());
-//					GoodsItem goodItem = goodsItemMapper.selectByPrimaryKey(payCart.getItemId());
-//					if(1 == good.getIsPoint() && "1".equals(good.getGoodstype())){
-//						amount = amount + goodItem.getPrice() * payCart.getGoodsNum() * (good.getPointPercentage()/100);
-//					}
-//
-//				}
-//				OrderPayment orderPayment = new OrderPayment();
-//				orderPayment.setPaymentId(ToolsUtil.getUUID());
-//				orderPayment.setOrderId(orderId);
-//				orderPayment.setPaymentType("2");
-//				orderPayment.setAmount(new BigDecimal(amount));
-//				orderPayment.setStatus("0");
-//				orderPayment.setCreateTime(new Date());
-//				orderPaymentMapper.insert(orderPayment);
-//			}
-//
-//			/*
-//			 * 提交完订单应清除对应购物车里面的商品
-//			 */
-//			Map<String, Object> map = new HashMap<String, Object>();
-//			map.put("item", Arrays.asList(goodsIds));
-//			map.put("userId", sessionInfo.getUserId());
-//			cartMapper.deleteByGoodeIds(map);
-//
-//			// 下订单即时更新销量
-//			orderService.updateSaleQuantity(order.getId());
-//		}
-//		return payDeail;
-//	}
+		TradePayDeail payDeail = new TradePayDeail();
+		/*
+		 * 根据收货表Id查询收货人的信息
+		 */
+		ReceiveAddress	receiveAddress = receiveAddressMapper.selectByPrimaryKey(receiveAddrId);
+		order.setShipName(receiveAddress.getReceiveName());
+		order.setShipTel(receiveAddress.getMobile());
+		order.setAddress(receiveAddress.getReceiveAddress());
+		order.setShipZip(receiveAddress.getZip());
+		/*
+		 * 商品ID，查询商品信息
+		 */
+		Map<String, Object> parmMap = new HashMap<>();
+		String goodsItemIds1[] = goodsItemIds.split(",");
+		parmMap.put("userId", sessionInfo.getUserId());
+		parmMap.put("addressId", countryId);
+		parmMap.put("itemList", Arrays.asList(goodsItemIds1));
+		if("1".equals(isNowBuy)) {//立即购买
+			OrderItem orderItem = hanldeOrderItem(goodsItemIds,parmMap, isOneBuy,goodsMap,order.getId(),nowBuyNum, countryId);
+			orderItemList.add(orderItem);
+			payPrice = orderItem.getAmount();
+			payDlmPrice = orderItem.getDlmPrice();
+			payDocPrice = orderItem.getDocPrice();
+			orderPoint = orderItem.getPoint();
+			order.setDocBili(orderItem.getDocBili());
+			order.setDlmBili(orderItem.getDlmBili());
+		}else {//加入购物车购买
+			List<Cart> carts = cartMapper.selectCartsByUserIdAndAd(parmMap);
+			if (!carts.isEmpty()) {
+				for (Cart e : carts) {
+					OrderItem orderItem = hanldeOrderItem(e.getItemId(),parmMap, "1",goodsMap,order.getId(),e.getGoodsNum(), countryId);
+					payPrice = payPrice.add(orderItem.getAmount());
+					payDlmPrice = payDlmPrice.add(orderItem.getDlmPrice());
+					payDocPrice = payDocPrice.add(orderItem.getDocPrice());
+					orderPoint = orderPoint.add(orderItem.getPoint());
+					order.setDocBili(orderItem.getDocBili());
+					order.setDlmBili(orderItem.getDlmBili());
+					orderItemList.add(orderItem);
+					cartsIds.add(e.getId());
+				}
+			}
+		}
+		order.setTotalCost(payPrice);
+		order.setTotalDlmPrice(payDlmPrice);
+		order.setTotalDocPrice(payDocPrice);
+		order.setOrderPoints(orderPoint);
+		payDeail.setId(ToolsUtil.getUUID());
+		payDeail.setOrderId(order.getId());
+		payDeail.setOrderMsg(orderMsg);
+		payDeail.setOrderNum(order.getOrderNum());
+		String orderName = "颐佳商城";
+		payDeail.setOrderName(orderName);
+		payDeail.setTotalPrice(order.getTotalCost().doubleValue());
+		payDeail.setPaydate(new Date());
+		tradePayDeailMapper.insertSelective(payDeail);
 
-	//计算订单所需经验值
-//	public double getPoint(String[] payCartsIds){
-//		double amount = 0.0;
-//		if(null != payCartsIds && 0 < payCartsIds.length){
-//			for(int i = 0; i < payCartsIds.length; i++){
-//				Cart payCart = cartMapper.gainCartById(payCartsIds[i]);
-//				Goods good = goodsMapper.gainGoodsById(payCart.getGoodsId());
-//				GoodsItem goodItem = goodsItemMapper.selectByPrimaryKey(payCart.getItemId());
-//				if(1 == good.getIsPoint() && "1".equals(good.getGoodstype())){
-//					amount = amount + goodItem.getPrice() * payCart.getGoodsNum() * (good.getPointPercentage()/100);
-//				}
-//
-//			}
-//		}
-//
-//		return amount;
-//	}
+		/*
+		 * 将订单、订单详情存入数据库中
+		 */
+		orderMapper.insertSelective(order);
+		orderItemMapper.batchInsert(orderItemList);
+		//提交完订单应清除对应购物车里面的商品
+		if(null != cartsIds && cartsIds.size() > 0){
+			Map<String, Object> map = new HashMap<>();
+			map.put("item", cartsIds);
+			map.put("userId", sessionInfo.getUserId());
+			cartMapper.deleteByGoodeIds(map);
+		}
+		return payDeail;
+	}
 
+	public OrderItem hanldeOrderItem(String goodsItemId,Map<String,Object> parmMap,String isOneBuy,
+						   Map<String,Goods> goodsMap,String orderId,
+							   Integer nowBuyNum,String countryId){
+		String isActivity = "0";
+		BigDecimal payItemPrice = BigDecimal.ZERO;//应该支付的金额 人民币
+		BigDecimal payItemDlmPrice = BigDecimal.ZERO;
+		BigDecimal payItemDocPrice = BigDecimal.ZERO;
+		BigDecimal dealItemPrice = BigDecimal.ZERO;//单个商品价格
+		Goods g = null;
+		GoodsItem goodsItem = goodsItemMapper.selectByPrimaryKey(goodsItemId);
+		if(null != goodsMap && goodsMap.size() > 0){
+			if(goodsMap.containsKey(goodsItem.getProductId())){
+				g = goodsMap.get(goodsItem.getProductId());
+			}else{
+				parmMap.put("goodsId", goodsItem.getProductId());
+				g = goodsMapper.gainGoodsByPrm(parmMap);
+			}
+		}else{
+			parmMap.put("goodsId", goodsItem.getProductId());
+			g = goodsMapper.gainGoodsByPrm(parmMap);
+		}
+
+		if (null == isOneBuy || "".equals(isOneBuy) || "1".equals(isOneBuy)) {//单独购买
+			payItemPrice = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+		} else {
+			if ("1".equals(g.getIsGroup()) || "1".equals(g.getIsFlashSale())) {
+				isActivity = "1";
+				payItemPrice = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).multiply(g.getActivityPrice()).setScale(2,BigDecimal.ROUND_HALF_UP);
+			} else {
+				payItemPrice = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+		dealItemPrice = payItemPrice;
+		payItemPrice = payItemPrice.multiply(new BigDecimal(nowBuyNum)).setScale(2,BigDecimal.ROUND_HALF_UP);
+		payItemDlmPrice = payItemPrice.multiply(g.getDlmRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+		payItemDocPrice = payItemPrice.multiply(g.getDocRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+		OrderItem orderItem = new OrderItem();
+		orderItem.setId(ToolsUtil.getUUID());
+		orderItem.setOrderId(orderId);
+		orderItem.setGoodsId(g.getId());
+		orderItem.setGoodsItemId(goodsItem.getId());
+		orderItem.setGoodsName(g.getName());
+		orderItem.setGoodsEnName(g.getEnName());
+		orderItem.setMarketbalePrice(new BigDecimal(goodsItem.getPrice()));
+		orderItem.setNums(nowBuyNum);
+		orderItem.setDealPrice(dealItemPrice);
+		orderItem.setCountryId(countryId);
+		orderItem.setCountryBili(g.getSaleRate());
+		orderItem.setAmount(payItemPrice);
+		orderItem.setDlmBili(g.getDlmRate());
+		orderItem.setDocBili(g.getDocRate());
+		orderItem.setDlmPrice(payItemDlmPrice);
+		orderItem.setDocPrice(payItemDocPrice);
+		orderItem.setCompanyId(g.getCompanyId());// 该商品所属商家的ID
+		orderItem.setItemSku(goodsItem.getSkuJsonHz());
+		orderItem.setPoint(payItemPrice.multiply(g.getFanxian()).setScale(2,BigDecimal.ROUND_HALF_UP));//该商品所获得的心动值
+		orderItem.setPointBili(g.getFanxian());
+		orderItem.setSaleActiveId(isActivity);
+		orderItem.setSaleActiveReduceMoney(g.getActivityPrice());
+		return orderItem;
+	}
 	@Override
 	public Order addOrderCh(ReceiveAddress receiveAddress, String[] goodsIds, SessionInfo sessionInfo, String logistics,
 							String payment, String billType, String billHead, String billContent, String remark) {
@@ -534,7 +550,7 @@ public class MemberCallServiceImpl implements MemberCallService {
 		 * 将订单、订单详情存入数据库中
 		 */
 		orderMapper.insertSelectiveCh(order);
-		orderItemMapper.insertBeach(orderItems);
+		orderItemMapper.batchInsert(orderItems);
 //		companyMapper.updateByPrimaryKeySelective(company);
 
 		/*
@@ -569,8 +585,8 @@ public class MemberCallServiceImpl implements MemberCallService {
 		order.setKeshStatus("0");// 0-未客审，1-已客审
 		order.setIsDelivery(logistics);// N-不需要自提，Y-需要自提
 		order.setPayMent(payment);// 0-网上支付，1- 预存款支付
-		order.setTotalCost(totalCost);// 商品总价格
-		order.setOrderPoints(totalCost);// 该单获取商城经验值
+		order.setTotalCost(new BigDecimal(totalCost));// 商品总价格
+		order.setOrderPoints(new BigDecimal(totalCost));// 该单获取商城经验值
 		order.setCompanyId(companyId);// 商家的ID
 		order.setOrderNum(OrderUtil.getOrderId());// 根据日期生成订单编号
 		// 下面关于收货信息
@@ -631,9 +647,9 @@ public class MemberCallServiceImpl implements MemberCallService {
 		order.setIsDelivery(logistics);// N-不需要自提，Y-需要自提
 		order.setZoneType(zoneType);//哪个专区的订单
 		order.setPayMent(payment);// 0-网上支付，1- 预存款支付
-		order.setCostProtect(proTotalCost);//商品总价格
-		order.setCarriage(wuliuTotalCost);//总物流费用
-		order.setTotalCost(totalCost);// 订单总价格
+		order.setCostProtect(new BigDecimal(proTotalCost));//商品总价格
+		order.setCarriage(new BigDecimal(wuliuTotalCost));//总物流费用
+		order.setTotalCost(new BigDecimal(totalCost));// 订单总价格
 		//order.setOrderPoints(totalCost);// 不送经验值了该单获取商城经验值
 		order.setCompanyId(companyId);// 商家的ID
 		order.setOrderNum(OrderUtil.getOrderId());// 根据日期生成订单编号
@@ -683,13 +699,13 @@ public class MemberCallServiceImpl implements MemberCallService {
 			orderItem.setGoodsId(e.getGoodsId());
 			orderItem.setGoodsItemId(e.getItemId());
 			orderItem.setGoodsName(goods.getName());
-			orderItem.setMarketbalePrice(gi.getPrice());
+			orderItem.setMarketbalePrice(new BigDecimal(gi.getPrice()));
 			orderItem.setNums(e.getGoodsNum());
-			orderItem.setDealPrice(gi.getPrice());
-			orderItem.setAmount(gi.getPrice() * e.getGoodsNum());
+			orderItem.setDealPrice(new BigDecimal(gi.getPrice()));
+			orderItem.setAmount(new BigDecimal(gi.getPrice() * e.getGoodsNum()));
 			orderItem.setCompanyId(goods.getCompanyId());// 该商品所属商家的ID
 			orderItem.setItemSku(gi.getSkuJsonHz());
-			orderItem.setPoint(e.getPoint());	//该商品所使用的的经验值
+			orderItem.setPoint(new BigDecimal(e.getPoint()));	//该商品所使用的的经验值
 			orderItems.add(orderItem);
 		}
 		return orderItems;
@@ -716,6 +732,10 @@ public class MemberCallServiceImpl implements MemberCallService {
 	@Override
 	public List<ReceiveAddress> gainReceiveAddresses(String userId) {
 		return receiveAddressMapper.gainReceiveAddresses(userId);
+	}
+	@Override
+	public List<ReceiveAddress> gainReceiveAddressesList(String userId) {
+		return receiveAddressMapper.gainReceiveAddressesList(userId);
 	}
 
 	/*
@@ -781,7 +801,15 @@ public class MemberCallServiceImpl implements MemberCallService {
 			return num;
 		}
 	}
-
+	@Override
+	public Integer gainCartNumByParm(Map<String,Object> parmMap) {
+		Integer num = cartMapper.gainCartNumByParm(parmMap);
+		if (num == null) {
+			return 0;
+		} else {
+			return num;
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1206,6 +1234,13 @@ public class MemberCallServiceImpl implements MemberCallService {
 		List<Cart> list = cartMapper.selectCartsByUserId(userId);
 		return list;
 	}
+	@Override
+	public List<Cart> selectCartsByUserIdAndAd(Map<String,Object> parm) {
+		// TODO Auto-generated method stub
+		List<Cart> list = cartMapper.selectCartsByUserIdAndAd(parm);
+		return list;
+	}
+
 
 	@Override
 	public List<Cart> gainCartsByIds(List<String> asList, SessionInfo sessionInfo) {

@@ -215,4 +215,29 @@ public interface NewsService{
 	*/
 	public Long searchAllNewsCount(Map<String, Object> map1);
 	public List<News> gainNewShGongGaoList();
+
+	/**
+	 * @Title newListByPage
+	 * @Description TODO(分页获取公告列表)
+	 * @param news
+	 * @return
+	 */
+    public List<News> newListByPage(News news);
+
+	/**
+	 * @Title newCount
+	 * @Description TODO(分页获取公告的总条数)
+	 * @param news
+	 * @return
+	 */
+	public Long newCount(News news);
+
+	/**
+	 * @Title newDetail
+	 * @Desciption TODO(获取公告详情)
+	 * @param news
+	 * @return
+	 */
+	public News newDetail(News news);
+
 }

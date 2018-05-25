@@ -66,6 +66,10 @@
 					</div>
 					<div class="lh_dpsc">
 						<ul>
+							<c:if test="${empty memberCollectList}">
+								<div style="text-align: center;"><img src="images/wujilu.jpg"/></div>
+							</c:if>
+							<c:if test="${not empty memberCollectList}">
 							<c:forEach items="${memberCollectList}" var="memberCollect">
 								<li onclick="shopDetail('${memberCollect.cid}')">
 									<div class="logoimg">
@@ -79,9 +83,10 @@
 										<%--</a>--%>
 									</div>
 									<div class="title01">${memberCollect.shoperContent}</div>
-										<%--<a class="qxsc" onclick="delCollect(${memberCollect.id})">取消收藏</a>--%>
+										<a class="qxsc" onclick="delCollect('${memberCollect.id}')">取消收藏</a>
 								</li>
 							</c:forEach>
+							</c:if>
 						</ul>
 					</div>
 				</div>
@@ -115,7 +120,7 @@
     }
     //跳转到店铺详情
     function shopDetail(id){
-		window.location.href="shopDetail/"+id+".html"
+		window.location.href="shopDetail/"+id+"/1.html"
 	}
 
 

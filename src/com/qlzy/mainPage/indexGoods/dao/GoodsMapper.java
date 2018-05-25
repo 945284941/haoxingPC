@@ -338,4 +338,5 @@ public interface GoodsMapper {
 	 * @return
 	 */
 	Long gainFindGoodsBySelectCount(Goods goods);
+
 }

@@ -3,6 +3,7 @@ package com.qlzy.model;
 import java.math.BigDecimal;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class OrderReturn implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,42 @@ public class OrderReturn implements Serializable {
     private String isdelivery;
 
     private String returnType;
+    private String createBy;
+    private Date createTime;
+    private String checkBy;
+    private Date checkTime;
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCheckBy() {
+        return checkBy;
+    }
+
+    public void setCheckBy(String checkBy) {
+        this.checkBy = checkBy;
+    }
+
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(Date checkTime) {
+        this.checkTime = checkTime;
+    }
 
     public String getId() {
         return id;

@@ -102,7 +102,7 @@
 <div id="light" class="fn_sign w-box1 w-box2" style="display:none;">
 
 	<div class="w-box-tit">
-		<h3>添加/修改银行卡</h3>
+		<h3><s:text name="index_0303"/>><s:text name="index_0159"/></h3>
 		<a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'" class="w-close"></a>
 	</div>
 	<form action="" id="addForm" enctype="multipart/form-data" method="post">
@@ -110,11 +110,11 @@
 			<div class="h_revise1">
 				<input type="hidden" class="h_datum_input11" id="id" name="id"/>
 				<dl>
-					<dt>持卡人:</dt>
+					<dt><s:text name="index_0160"/>:</dt>
 					<dd><input type="text" class="h_datum_input11" id="name" name="name"/></dd>
 				</dl>
 				<dl>
-					<dt>银行:</dt>
+					<dt><s:text name="index_0318"/>:</dt>
 					<dd>
 						<input type="text" class="h_datum_input11" id="bank" name="bank"/>
 						<%--<select name="" id="" class="h_revise_select1">
@@ -125,22 +125,22 @@
 					</dd>
 				</dl>
 				<dl>
-					<dt>卡号:</dt>
+					<dt><s:text name="index_0161"/>:</dt>
 					<dd><input type="text" class="h_datum_input11" id="cardNumber" name="cardNumber"/>
 						<p>注意：输入卡号与持卡人姓名不匹配的卡，将无法正常收到提现</p>
 					</dd>
 				</dl>
 				<dl>
-					<dt>开户行:</dt>
+					<dt><s:text name="index_0163"/>:</dt>
 					<dd><input type="text" class="h_datum_input11" id="openBank" name="openBank"/></dd>
 				</dl>
 			</div>
 		</div>
 	</form>
 	<div class="w-pro-icon">
-		<input type="submit" onclick="subQg()" value="确定" class="w-cofirm"
+		<input type="submit" onclick="subQg()" value="<s:text name='index_0309'/>" class="w-cofirm"
 			   onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"/>
-		<input type="submit" value="取消" class="w-cofirm1"
+		<input type="submit" value="<s:text name='index_0319'/>" class="w-cofirm1"
 			   onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';cancel()"/>
 	</div>
 </div>
@@ -159,7 +159,7 @@
 
     //删除银行卡
     function delBankcard(id){
-        if(confirm("确认要删除吗?")){
+        if(confirm("<s:text name='index_0326'/>?")){
             $.ajax({
                 url : "memberCallAction!delBankcard.action",
                 type : "POST",
@@ -211,19 +211,19 @@
         var cardNumber = $('#cardNumber').val();
         var openBank = $('#openBank').val();
         if (name == '' || name == null){
-            alert('请输入持卡人！');
+            alert('<s:text name="index_0320"/>！');
             return false;
         }
         if (bank == '' || bank == null) {
-            alert('请输入银行！');
+            alert('<s:text name="index_0322"/>！');
             return false;
         }
         if (cardNumber == '' || cardNumber == null) {
-            alert('请输入卡号！');
+            alert('<s:text name="index_0321"/>！');
             return false;
         }
         if (openBank == '' || openBank == null) {
-            alert('请输入开户行！');
+            alert('<s:text name="index_0323"/>！');
             return false;
         }
         $.ajax({
@@ -233,11 +233,11 @@
             success : function(data) {
                 var msg = $.parseJSON(data);
                 if (msg == 'success') {
-                    alert("操作成功！");
+                    alert("<s:text name="index_0315"/>！");
                     window.location.href="showBankcard.html";
                     return true;
                 }else{
-                    alert("操作失败！");
+                    alert("<s:text name="index_0316"/>！");
                     return false;
                 }
             }

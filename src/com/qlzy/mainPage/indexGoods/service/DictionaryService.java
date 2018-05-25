@@ -12,4 +12,6 @@ public interface DictionaryService {
     Map<String,Double> selectByHvType(String hv_type);
 
     List<QlDict> selectByType(String type);
+
+    QlDict gainByType(String type);
 }

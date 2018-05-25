@@ -48,6 +48,30 @@ public class CatalogueServiceImpl implements CatalogueService{
 		return list;
 	}
 
+
+	@Override
+	public List<GoodsCat> queryFullCategoryByPid(String type,String catId) {
+		List<GoodsCat> list  = null;
+		if("".equals(catId)){
+			if("gwsc".equals(type.trim())){
+				catId = ResourceUtil.getShoppingId();
+			}
+			if("xsqg".equals(type.trim()) || "tdd".equals(type.trim()) || "qg".equals(type.trim())){
+				catId = ResourceUtil.getShoppingId();
+			}
+			if("cs".equals(type.trim())){
+				catId = ResourceUtil.getShoppingId();
+			}
+			if("jcsb".equals(type.trim())){
+				catId = ResourceUtil.getBuildingId();
+			}
+		}
+		Map<String,String> parmMap = new HashMap<>();
+		parmMap.put("catType",type);
+		parmMap.put("pid",catId);
+		list = goodsCatMapper.gainCatalogueByPidAndSort(parmMap);
+		return list;
+	}
 	/***
 	 * 根据分类查询相关分类
 	 * @return
@@ -89,11 +113,12 @@ public class CatalogueServiceImpl implements CatalogueService{
 	}
 
 
+
 	@Override
 	public List<News> gainNewGongGaoList() {
 		// TODO Auto-generated method stub
 		Map<String, Object> map =new HashMap<String, Object>();
-		map.put("newsCatId", "0");
+		map.put("newsCatId", "41302a038a5449c985f429a4b1e397a5");
 		map.put("pageNum", 5);
 		return newsMapper.gaingainNewGongGaoByNameList(map);
 	}

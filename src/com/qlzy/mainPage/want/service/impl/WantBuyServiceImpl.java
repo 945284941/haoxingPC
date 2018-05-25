@@ -60,21 +60,22 @@ public class WantBuyServiceImpl implements WantBuyService{
     @Override
     public List<WantBuy> selectByParm(Map<String, Object> parmMap) {
         List<WantBuy> wantBuyList = null;
+        parmMap.put("limitNum",10);
         if(null != parmMap && ("3".equals(parmMap.get("buyType").toString()))){
             wantBuyList =  wantBuyMapper.selectLclByParm(parmMap);
         }else{
             wantBuyList =  wantBuyMapper.selectByParm(parmMap);
         }
-        List<WantBuy> wantBuys = null;
-        if(null != wantBuyList && wantBuyList.size() > 0){
-            wantBuys = new ArrayList<>();
-            for(WantBuy wantBuy:wantBuyList){
-                List<String> picList = wantBuyPicMapper.selectByBuyId(wantBuy.getId());
-                wantBuy.setPicList(picList);
-                wantBuys.add(wantBuy);
-            }
-        }
-        return wantBuys;
+//        List<WantBuy> wantBuys = null;
+//        if(null != wantBuyList && wantBuyList.size() > 0){
+//            wantBuys = new ArrayList<>();
+//            for(WantBuy wantBuy:wantBuyList){
+//                List<String> picList = wantBuyPicMapper.selectByBuyId(wantBuy.getId());
+//                wantBuy.setPicList(picList);
+//                wantBuys.add(wantBuy);
+//            }
+//        }
+        return wantBuyList;
     }
 
     @Override

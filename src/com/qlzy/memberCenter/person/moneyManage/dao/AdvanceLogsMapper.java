@@ -6,6 +6,9 @@ import java.util.Map;
 import com.qlzy.model.AdvanceLogs;
 
 public interface AdvanceLogsMapper {
+
+
+
     int deleteByPrimaryKey(String id);
 
     int insert(AdvanceLogs record);
@@ -13,6 +16,14 @@ public interface AdvanceLogsMapper {
     int insertSelective(AdvanceLogs record);
 
     AdvanceLogs selectByPrimaryKey(String id);
+
+	AdvanceLogs selectByUserId(Map<String,Object> map);
+
+	Double selectFirstByUserId(String UserId);
+
+	Double selectSecondByUserId(String UserId);
+
+	List<AdvanceLogs> selectByUserIdGetList(Map<String,Object> map);
 
     int updateByPrimaryKeySelective(AdvanceLogs record);
 

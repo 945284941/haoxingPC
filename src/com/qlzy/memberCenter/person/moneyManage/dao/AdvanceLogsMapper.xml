@@ -22,6 +22,47 @@
     ID, USER_ID, MESSAGE, DO_TIME, PAYMENT_ID, DO_TYPE, ORDER_ID, DO_WHAT, DO_MONEY, 
     DISABLED, USER_TYPE, BALANCE,BANK,BANK_ACCOUNT,TRADING		
   </sql>
+  <!-- 查询一级下线提成 -->
+  <select id="selectFirstByUserId" resultType="java.lang.Double" parameterType="java.lang.String">
+    SELECT SUM(a.DO_MONEY)
+    FROM ql_advance_logs a
+    where a.USER_ID IN (SELECT m.id FROM ql_members m WHERE m.shangji_id =#{onlyId,jdbcType=VARCHAR})
+  </select>
+  <!--查询二级下线提成-->
+  <select id="selectSecondByUserId" resultType="java.lang.Double" parameterType="java.lang.String">
+    SELECT SUM(a.DO_MONEY)
+    FROM ql_advance_logs a
+    where a.USER_ID IN
+    (SELECT id FROM ql_members WHERE shangji_id IN (SELECT m.only_id FROM ql_members m WHERE m.shangji_id =#{onlyId,jdbcType=VARCHAR}))
+  </select>
+
+  <select id="selectByUserIdGetList" resultMap="BaseResultMap" parameterType="Map" >
+    select
+    <include refid="Base_Column_List" />
+    from QL_ADVANCE_LOGS
+    where USER_ID = #{id,jdbcType=VARCHAR}
+    <if test="time==1">
+      and DATE_FORMAT(DO_TIME,'%Y-%m')=date_format(now(),'%Y-%m')
+    </if>
+    <if test="time==2">
+      and DATE_FORMAT(DO_TIME,'%Y-%m')=DATE_FORMAT(DATE_SUB(now(),INTERVAL '1' MONTH),'%Y-%m')
+    </if>
+    ORDER BY DO_TIME DESC  limit #{page},#{rows}
+  </select>
+
+  <select id="selectByUserId" resultType="com.qlzy.model.AdvanceLogs" parameterType="Map" >
+    select
+    COUNT(a.ID) as num,SUM(a.PAYMENT_ID) as totalMoney,SUM(a.DO_MONEY) as ticheng
+    from QL_ADVANCE_LOGS a
+    where a.USER_ID = #{id,jdbcType=VARCHAR}
+    <if test="time==1">
+      and date_format(a.DO_TIME,'%Y-%m')=date_format(now(),'%Y-%m')
+    </if>
+    <if test="time==2">
+      and DATE_FORMAT(a.DO_TIME,'%Y-%m') =DATE_FORMAT(DATE_SUB(now(),INTERVAL '1' MONTH),'%Y-%m')
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

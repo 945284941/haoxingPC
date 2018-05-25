@@ -17,6 +17,13 @@ import java.util.Map;
 public class DictionaryServiceImpl implements DictionaryService {
     @Resource
     QlDictMapper qlDictMapper;
+
+
+    @Override
+    public QlDict gainByType(String type){
+        return qlDictMapper.getByType(type);
+    }
+
     @Override
     public Map<String, Double> selectByHvType(String hv_type) {
         Map<String,Double> resultMap = new HashMap<>();

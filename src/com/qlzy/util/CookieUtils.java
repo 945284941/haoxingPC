@@ -128,7 +128,7 @@ public class CookieUtils {
     * @return void    返回类型
     * @author 周张豹
      */
-    public static void addCartInCookie(HttpServletResponse response, HttpServletRequest request,String goodsId,Integer goodsNum){
+    public static void addCartInCookie(HttpServletResponse response, HttpServletRequest request,String goodsId,Integer goodsNum,String goodId){
     	/*
 		 * 首先要判断该商品在cookie是否已经存在 <br>
 		 * 如果商品在cookie存在则数量加1<br>
@@ -142,26 +142,71 @@ public class CookieUtils {
     			String[] cartPOJO = goodsIds[i].split("-");
     			String id = cartPOJO[0];
     			String num = cartPOJO[1];
+				String gId = cartPOJO[2];
     			if (goodsId.equals(id)) {
     				//商品已经存在
     				Integer goodsNum1 = Integer.valueOf(num);
-    				cookie = cookie.replace(id+"-"+num, id+"-"+(goodsNum1+goodsNum));
+    				cookie = cookie.replace(id+"-"+num+"-"+gId, id+"-"+(goodsNum1+goodsNum)+"-"+gId);
     				addCookie(response, ResourceUtil.getCookieCart(), "/", cookie, maxAge);
     				j++;
     			}
     		}
         	if (j == 0) {
-        		cookie = cookie +"!"+goodsId+"-"+goodsNum;
+        		cookie = cookie +"!"+goodsId+"-"+goodsNum+"-"+goodId;
 				addCookie(response, ResourceUtil.getCookieCart(), "/", cookie, maxAge);
 				
 			}
 		}else {	
-			addCookie(response, ResourceUtil.getCookieCart(), "/", goodsId+"-"+goodsNum, maxAge);
+			addCookie(response, ResourceUtil.getCookieCart(), "/", goodsId+"-"+goodsNum+"-"+goodId, maxAge);
 			//addCookie(response, ResourceUtil.getCookieCart(), "/", goodsId+"-1", maxAge);
 		}
     	
     }
-    
+
+	/**
+	 * 将商品的ID放入Cookie 中
+	 * @Title: addCartInCookie
+	 * @Description: TODO(将商品的ID放入Cookie 中)
+	 * @param @param response
+	 * @param @param request
+	 * @param @param goodsId    设定文件
+	 * @return void    返回类型
+	 * @author
+	 */
+	public static void modifyCartInCookie(HttpServletResponse response, HttpServletRequest request,String goodsId,Integer goodsNum,String goodId){
+    	/*
+		 * 首先要判断该商品在cookie是否已经存在 <br>
+		 * 如果商品在cookie存在则数量加1<br>
+		 * 如果不存在则直接放入cookie中
+		 */
+		String cookie = getCookieByName(request, ResourceUtil.getCookieCart());
+		if (cookie != null && !"".equals(cookie)) {
+			int j = 0;
+			String goodsIds[] = cookie==null?null:cookie.split("!");
+			for (int i = 0; i < goodsIds.length; i++) {
+				String[] cartPOJO = goodsIds[i].split("-");
+				String id = cartPOJO[0];
+				String num = cartPOJO[1];
+				String gId = cartPOJO[2];
+				if (goodsId.equals(id)) {
+					//商品已经存在
+					cookie = cookie.replace(id+"-"+num+"-"+gId, id+"-"+(goodsNum)+"-"+gId);
+					addCookie(response, ResourceUtil.getCookieCart(), "/", cookie, maxAge);
+					j++;
+				}
+			}
+			if (j == 0) {
+				cookie = cookie +"!"+goodsId+"-"+goodsNum+"-"+goodId;
+				addCookie(response, ResourceUtil.getCookieCart(), "/", cookie, maxAge);
+
+			}
+		}else {
+			addCookie(response, ResourceUtil.getCookieCart(), "/", goodsId+"-"+goodsNum+"-"+goodId, maxAge);
+			//addCookie(response, ResourceUtil.getCookieCart(), "/", goodsId+"-1", maxAge);
+		}
+
+	}
+
     /**
      *  根据商品ID删除cookie中的商品信息
     * @Title: deleteCookieCartByGoodsId
@@ -178,14 +223,15 @@ public class CookieUtils {
     			String[] cartPOJO = goodsIds[i].split("-");
     			String id = cartPOJO[0];
     			String num = cartPOJO[1];
+				String goodId = cartPOJO[2];
     			if (goodsId.equals(id)) {
     				System.out.println(goodsIds.length+">>>>"+i);
     				if (goodsIds.length >1 && i != goodsIds.length-1) {
-    					cookie = cookie.replace(id+"-"+num+"!", "");
+    					cookie = cookie.replace(id+"-"+num+"-"+goodId+"!", "");
 					}else if(goodsIds.length == 1){
-						cookie = cookie.replace(id+"-"+num, "");
+						cookie = cookie.replace(id+"-"+num+"-"+goodId, "");
 					}else {
-						cookie = cookie.replace("!"+id+"-"+num, "");
+						cookie = cookie.replace("!"+id+"-"+num+"-"+goodId, "");
 					}
     				
     				addCookie(response, ResourceUtil.getCookieCart(), "/", cookie, maxAge);
@@ -251,8 +297,8 @@ public class CookieUtils {
         		String[] str = carts[i].split("-");
     			cart = new Cart();
 				cart.setItemId(str[0]);
-//    			cart.setGoodsId(str[0]);
     			cart.setGoodsNum(Integer.valueOf(str[1]));
+				cart.setGoodsId(str[2]);
     			cart.setCreateIp(sessionInfo==null?null:sessionInfo.getIp());
     			cart.setCreateTime(new Date());
     			cart.setUserId(sessionInfo==null?null:sessionInfo.getUserId());

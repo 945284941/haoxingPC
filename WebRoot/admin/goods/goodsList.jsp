@@ -14,198 +14,328 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <base href="<%=basePath%>"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="x-ua-compatible" content="ie=7" />
-<title>特惠商品区—颐佳官方商城</title>
-<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
-<script type=text/javascript src="js/regions.js"></script>
-<script type=text/javascript src="js/smap.js"></script>
-<script language="JavaScript" type="text/JavaScript">
-function showElement(elementId)
-{
-  document.getElementById(elementId).style.display="block";
-}
-function hideElement(elementId)
-{
-  document.getElementById(elementId).style.display="none";
-}
-</script>
-<style type="text/css">
-			.img-typeIcon{
-				position: relative;
-			}
-			.img-typeIcon-img{
-				position: absolute;
-				top:0;
-				left:0;
-			}
-</style>
-
-<link href="web/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="web/css/sghsc-main.css" rel="stylesheet" type="text/css" />
-<link href="web/css/sghsc-goods.css" rel="stylesheet" type="text/css" />	
-<link href="css/page.css"  rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="web/js/searchGoods.js" ></script>
-
-<script language="JavaScript" type="text/JavaScript">
-$(function(){
-	$("#fullCategoryone span").each(function(){
-		$(this).css("color","rgb(102, 102, 102)");
-		$(this).click(function(){
-			$("#fullCategoryone span").each(function(){
-				$(this).css("color","rgb(102, 102, 102)");
-			});
-		  $(this).css("color","red");
-		});
-	});
-});
-</script>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta content="IE=11.0000" http-equiv="X-UA-Compatible">
+	<title>颐佳超市</title>
+	<meta name="keywords" content="颐佳超市">
+	<meta name="description" content="颐佳超市">
+	<meta name="GENERATOR" content="颐佳超市">
+	<meta name="author" content="颐佳超市">
+	<meta name="copyright" content="颐佳超市">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="3c0d2bedd819ab1c" property="wb:webmaster">
+	<jsp:include page="../common/keyWords.jsp" flush="true"/>
 </head>
 <body>
-<div id="goodsType" style="display:none;">${goodstype}</div>
 <s:action name="common!toHead" executeResult="true" namespace="/"></s:action>
-<!--======================logo开始============================-->
- <s:action name="common!toLogo" executeResult="true" namespace="/"></s:action>
-<!--======================导航开始============================-->
- <jsp:include page="/admin/common/navigation.jsp" />
-<!--======================middle部分开始============================-->
-
-<div class="sghsc-goods-select">
-	<div class="sghsc-goods-sxuan"><span class="sghsc-goods-sxuanbt">商品筛选</span>
-  		<span class="sghsc-goods-sxuanlb">(共<span>${pagination. totalCount}</span>个商品)</span>
-    </div>
-    <div class="sghsc-goods-sxuan" id="search-selected">
-       <b class="left">已选条件</b>
-    </div>
-    <div class="clear"></div>
-    
-	<%-- <div class="sghsc-goods-sxuan"><b>所有分类</b>
-		<img src="web/images/sghsc-goods-sy.png"></img>
-	    <span id="toggle" class="sghsc-goods-sxuan-fl">收起分类</span>
+<s:action name="common!toLogo" executeResult="true" namespace="/"></s:action>
+<s:action name="catalogueAction!queryFullCategory" executeResult="true" namespace="/" >
+	<s:param name="catType">cs</s:param>
+</s:action>
+<div class="main">
+	<div class="h_seat">
+		<a href="/">首页</a>>
+		<a>商品列表</a>
 	</div>
+	<div class="bd_cx_nav">
+		<div class="cx_nav">
+			<dl>
+				<dt>板&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;块：</dt>
+				<dd>
+					<p>
+						<a href="javascript:changeBanku(0);" class="bankuai">不限</a>
+						<a href="javascript:changeBanku(1);" class="bankuai">平台</a>
+						<a href="javascript:changeBanku(2);" class="bankuai">超市</a>
+						<a href="javascript:changeBanku(3);" class="bankuai">建材设备</a>
+					</p>
+				</dd>
+			</dl>
 
-	<div id="fullCategory">
-		<!-- 一级分类 -->
-		<div class="sghsc-goods-sxuan" id="fullCategoryone" style="overflow:hidden;">	
-		<c:forEach items="${fullCategoryList}" var="cat" varStatus="status">
-		  	<span id="firstCategory" class="sghsc-goods-sxuan-flbt1" >${cat.name}</span>
-		</c:forEach>	
+				<dl id="first_1" style="display: none">
+				<dt>分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：</dt>
+				<dd>
+					<div id="fenlei_1">
+						<a  id="first_1_1" class="on">不限</a>
+					</div>
+					<div id="fenlei_2" style="display: none">
+
+					</div>
+					<div id="fenlei_3" style="display: none">
+
+					</div>
+				</dd>
+			</dl>
+			<form id="searchGoodsForm" action="searchGoodsAction!searchGoods.action" method="post">
+				<input type="hidden" name="catId" id="catId" value="${catId}">
+				<input type="hidden" name="bankuaiType" id="bankuaiType" value="${bankuaiType}"/>
+				<input type="hidden" name="isZiying" id="isZiying" value="${isZiying}">
+				<input type="hidden" name="priceType" id="priceType" value="${priceType}"/>
+				<input type="hidden" name="searchType" id="searchType" value="1"/>
+				<input type="hidden" name="orderBySort" id="orderBySort" value="0"/>
+				<input type="hidden" name="isIndexShop" id="isIndexShop" value="${isIndexShop}"/>
+				<input type="hidden" name="isIndexMarket" id="isIndexMarket" value="${isIndexMarket}"/>
+				<input type="hidden" name="isIndexBuild" id="isIndexBuild" value="${isIndexBuild}"/>
+			<dl>
+				<dt>所在区域</dt>
+				<dd>
+					<div class="query">
+							<div class="query_date">
+								<input id="address" name="address" type="text" placeholder="请输入地址">
+							</div>
+					</div>
+				</dd>
+			</dl>
+			<dl>
+				<dt>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</dt>
+				<dd>
+					<div class="query">
+						<form>
+							<div class="query_date">
+								<input id="minPrice" name="minPrice" type="text" placeholder="最低价格">
+							</div>
+							<div class="query_date_zj bort"></div>
+							<div class="query_date">
+								<input id="maxPrice" name="maxPrice" type="text" placeholder="最高价格">
+							</div>
+							<div class="query_date_bom">
+								<a href="javascript:searchGoods();">查询</a>
+							</div>
+						</form>
+					</div>
+					<div class="clear"></div>
+					<div class="bizhong_xz">
+						<div onclick="changePrice(0,'1');" class="jiage on">￥</div><div class="jiage" onclick="changePrice(1,'3');">$</div><div class="jiage" onclick="changePrice(2,'2');">AED</div>
+					</div>
+				</dd>
+			</dl>
+			</form>
 		</div>
-		
-		<!--  二级分类 -->
-		<div class="sghsc-goods-sxuan" id="fullCategorysub" style="height:100%;">	
-		<c:forEach items="${fullCategoryList}" var="cat" varStatus="status"> 
-			<div class="subcat2" style="display:none;">			 	
-			 <c:forEach items="${cat.subCatList}" var="subCat" >		
-			  <a href="javascript:void(0)" class="sghsc-goods-sxuan-fllist-x" data-module="goodsCatName" data-item="${subCat.name }" onclick="chaxun('goodsCatName','${subCat.name }');">${subCat.name }</a>
-		 </c:forEach>
-			</div>
-		</c:forEach>	
+	</div>
+
+	<div class="l_paixun">
+		<div class="pl_px">
+			<a id="l_pl_h" class="active" >排序</a>
+			<a class="paixu active" href="javascript:checkSort(0);">默认排序
+				<font></font>
+			</a>
+			<a class="paixu" href="javascript:checkSort(1);">销量
+				<font></font>
+			</a>
+			<a class="paixu" href="javascript:checkSort(2);">价格
+				<font></font>
+			</a>
+			<div class="pl_px_zkjd">
+				<input id="ziying" name="ziying" type="checkbox"  onclick="checkZiying();" />仅看自营</div>
 		</div>
-	</div> --%>
-	
-     <div class="sghsc-goods-sxuan" id="fullCategoryone"><b>所有分类</b>
-	 <!-- 一级分类 -->
-	  <c:forEach items="${fullCategoryList}" var="cat" varStatus="status">
-		<a href="javascript:void(0)" class="sghsc-goods-sxuan-fllist-x" data-module="firstGoodsCatName" data-item="${cat.name }" onclick="chaxun('firstGoodsCatName','${cat.name }');">${cat.name }</a>
-	  </c:forEach>	
-   </div>
-    
-	<div class="sghsc-goods-sxuan" id="lb_sx_lx"><b>包装方式</b>
-     <s:iterator value="baozhuangList" var="n">
-        <a href="javascript:void(0)" data-module="baozhuang" data-item="${n.name }"  class="sghsc-goods-sxuan-fs" onclick="chaxun('baozhuang','${n.name }');">${n.name }</a>
-     </s:iterator>
 	</div>
+	<div id="pageReload">
 
-	<div class="sghsc-goods-sxuan" id="lb_sx_lx"><b>重&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</b>
-     <s:iterator value="zhongliangList" var="n">
-		<a href="javascript:void(0)" data-module="zhongliang" data-item="${n.name }" class="sghsc-goods-sxuan-fs" onclick="chaxun('zhongliang','${n.name }');">${n.name }</a>
-     </s:iterator>
-	</div>
-
-	<div class="sghsc-goods-sxuan sghsc-goods-noborder" id="lb_sx_lx"><b>省&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份</b>
-	<s:iterator value="shengfenList" var="n">
-		<a href="javascript:void(0)" data-module="shengfen" data-item="${n.name }" class="sghsc-goods-sxuan-fs" onclick="chaxun('shengfen','${n.name }');">${n.name }</a>
-    </s:iterator>
-	</div>
-	
-	<div class="sghsc-goods-select sghsc-goods-noborder">
-         <a class="sghsc-goods-select2-fl" href="javascript:void(0)" onclick="sortOrder('(CLICK_NUMBER*0.3+query_num*0.7)','desc');">综合排序</a>
-         <a class="sghsc-goods-select2-fl" onclick="sortOrder('query_num','desc');">销量</a>
-         <a class="sghsc-goods-select2-fl" id="searchByPrice">价格</a>
-         <a class="sghsc-goods-select2-fl" onclick="sortOrder('createtime','desc');">上架时间</a>
-         <a class="sghsc-goods-select2-fl" onclick="sortOrder('click_number','desc');">收藏</a>
-        <!--  <div class="sghsc-goods-select2-rit"><a href="#"><img src="web/images/sghsc-goods-r.png" width="21" height="20"></img></a></div>
-         <div class="sghsc-goods-select2-rit"><a href="#"><img src="web/images/sghsc-goods-l.png" width="21" height="20"></img></a></div> -->
 	</div>
 </div>
-<div class=" clear"></div>
-
-<div class="sghsc-goods-select3">
-     
-      <s:iterator value="goodsDetailList" var="goodsDetail" >
-        <div class="sghsc-goods-list-box">
-            <s:if test="goodstype == 1"><img class="img-typeIcon-img" src="images/tehui.png"/></s:if>
-            <s:if test="goodstype == 3"><img class="img-typeIcon-img" src="images/huichou.png"/></s:if>    
-        	<a href="goods/${id}.html" target="_blank" class="img-typeIcon">
-            <img class="lazy" data-original='${defaultPicSrc}' src="images/picbg.png" width="218" height="182" /></a>
-			<div class="sghsc-goods-list-y">
-            	￥<fmt:formatNumber type="number" value="${price }" pattern="0.00" maxFractionDigits="2"/>
-            </div>
-           	<div class="sghsc-goods-list-tittle">
-           		<s:if test="name.length()>32">
-					<s:property value="name.substring(0, 32)" />...</s:if>
-				<s:else>
-					<s:property value="name" />
-				</s:else>             
-           	</div>
-            <div class="sghsc-goods-list-xl">总销量：<span>${queryNum}</span></div>
-        </div>
-    </s:iterator>
-</div>        
-<div class=" clear"></div>
-
-<form id="pagerForm" name="pagerForm" action="searchGoodsListMoreP.html" method="post">
-	<input type="hidden" id="pageNum" name="pageNum" value="1" /> 
-	<input type="hidden" id="firstGoodsCatId" name="firstGoodsCatId"  value="<s:property value='#request.firstGoodsCatId'/>" />
-	<input type="hidden" id="secondGoodsCatId" name="secondGoodsCatId"  value="<s:property value='#request.secondGoodsCatId'/>" />
-	<input type="hidden" id="thirdGoodsCatId" name="thirdGoodsCatId"  value="<s:property value='#request.thirdGoodsCatId'/>" />
-	<input type="hidden" id="firstGoodsCatName" name="firstGoodsCatName" value="<s:property value='#request.firstGoodsCatName'/>" />
-	<input type="hidden" id="goodsCatName" name="goodsCatName" value="<s:property value='#request.goodsCatName'/>" />
-	<input type="hidden" id="bn"name="bn"  value="<s:property value='#request.bn'/>" />
-	<input type="hidden" id="cityId" name="cityId"  value="<s:property value='#request.cityId'/>" />
-	<input type="hidden" id="cityName" name="cityName"  value="<s:property value='#request.cityName'/>" />
-	<input type="hidden" id="provinceId" name="provinceId"  value="<s:property value='#request.provinceId'/>" />
-	<input type="hidden" id="sort" name="sort"  value="<s:property value='#request.sort'/>" />
-	<input type="hidden" id="order" name="order"  value="<s:property value='#request.order'/>" />
-	<input type="hidden" id="topName" name="topName"  value="<s:property value='#request.topName'/>" />
-	<input type="hidden" id="weight"  name="weight"  value="<s:property value='#request.weight'/>" />
-	<input type="hidden" id="length"  name="length"  value="<s:property value='#request.length'/>" />
-	<input type="hidden" id="width"  name="width"  value="<s:property value='#request.width'/>" />
-	<input type="hidden" id="height"  name="height"  value="<s:property value='#request.height'/>" />
-	<input type="hidden" id="color"  name="color" value="<s:property value='#request.color'/>" />
-	
-	<input type="hidden" id="leixing" name="leixing" value="<s:property value='#request.leixing'/>" />
-	<input type="hidden" id="baozhuang" name="baozhuang" value="<s:property value='#request.baozhuang'/>" />
-	<input type="hidden" id="zhongliang" name="zhongliang" value="<s:property value='#request.zhongliang'/>" />
-	<input type="hidden" id="shengfen" name="shengfen" value="<s:property value='#request.shengfen'/>" />
-	<input type="hidden" id="goodstype" name="goodstype" value="<s:property value='#request.goodstype'/>" />
-	
-	<input type="hidden" id="createtime" name="color" value="<s:property value='#request.createtime'/>" />
-	<input type="hidden" id="topSearchLike" name="topSearchLike" value="<s:property value='#request.topSearchLike'/>" />
-</form>
-
-<form id="reset" action="searchGoodsListMoreP.html" method="post">
-	<input id="zhankai" name="zhankai"  type="hidden"/>
-</form>
-
-<div id="showpages">
-    <page:pagination path="searchGoodsListMoreP.html" formName="pagerForm"/>
-</div>
-<div class=" clear"></div>
-
 <!--======================bottom开始============================-->
-<jsp:include page="/admin/common/indexFooter.jsp" />
+<s:action name="indexFloorAction!showFoot" namespace="/indexFloor" executeResult="true"></s:action>
+<script type="text/javascript">
+	var yuyan = '${sessionInfo.language}';
+	var cat1Arr = [];
+	var cat2Arr = [];
+	var cat3Arr = [];
+	var catSecond = {};
+	var catThree = {};
+	var bankuaiArr = document.getElementsByClassName("bankuai");
+	var t = $("#bankuaiType").val();
+	var ziying = $("#isZiying").val();
+	if("" == t){
+		t = "0";
+		$("#bankuaiType").val(t);
+	}
+	$(function () {
+		for(var i = 0; i < bankuaiArr.length; i++) {
+			if(i == parseInt(t)){
+				bankuaiArr[i].classList.add("on");
+			}else{
+				bankuaiArr[i].classList.remove("on");
+			}
+		}
+		if(ziying == "0"){
+			$("#ziying").attr("checked", true);
+		}
+		$.ajax({
+			type:'POST',
+			url:'catalogueAction!gailAllGoodsCat.action',
+			data :{"pid":'0'},
+			dataType:'json',
+			success:function(obj){
+				cat1Arr = obj[1];
+				cat2Arr = obj[2];
+				cat3Arr = obj[3];
+			},
+			error : function() {
+				alert('请求失败!');
+				return false;
+			}
+		});
+		searchGoods();
+	});
+	function checkOn(e){
+		var cArr = document.getElementsByClassName(e);
+		for(var i = 0; i < cArr.length; i++) {
+			cArr[i].classList.remove("on");
+		}
+	}
+
+	function changeBanku(a) {
+		$("#bankuaiType").val(a);
+		$("#catId").val("");
+		var fcatArray = [];
+		for(var i = 0; i < bankuaiArr.length; i++) {
+			if(i == parseInt(a)){
+				//重新装载
+				$("#fenlei_1").empty();
+				$("#fenlei_1").append("<a id= 'first_1_1' href=\"javascript:checkFenlei('');\" class='first_1_1 on'>不限</a>");
+				if(i == 1){
+					fcatArray = cat1Arr;
+				}
+				if(i == 2){
+					fcatArray = cat2Arr;
+				}
+				if(i == 3){
+					fcatArray = cat3Arr;
+				}
+				if(yuyan == 'zh'){
+					$.each(fcatArray, function(i, item) {
+						$("#fenlei_1").append("<a class='first_1_1' href=\"javascript:checkFenlei('"+item.id+"');\" id=\""+item.id+"\">"+item.name+"</a>");
+						console.log(item.subCatList);
+						catSecond[item.id]=item.subCatList;
+					});
+				}else{
+					$.each(fcatArray, function(i, item) {
+						$("#fenlei_1").append("<a class='first_1_1' href=\"javascript:checkFenlei('"+item.id+"');\" id=\""+item.id+"\">"+item.enName+"</a>");
+						catSecond[item.id]=item.subCatList;
+					});
+				}
+
+				bankuaiArr[i].classList.add("on");
+			}else{
+				bankuaiArr[i].classList.remove("on");
+			}
+		}
+		$("#fenlei_3").empty();
+		$("#fenlei_2").empty();
+		$("#fenlei_3").hide();
+		$("#fenlei_2").hide();
+		$("#first_1").show();
+
+	}
+
+	function checkFenlei(e) {
+		$("#catId").val(e);
+		$("#fenlei_2").empty();
+		if(e != ''){
+			$("#fenlei_2").append("<a id= 'first_2_1' href=\"javascript:checkFenlei2('');\" class='first_2_1 on'>不限</a>");
+			if(yuyan == 'zh'){
+				$.each(catSecond[e], function(i, item) {
+					$("#fenlei_2").append("<a class='first_2_1' href=\"javascript:checkFenlei2('"+item.id+"');\" id=\""+item.id+"\">"+item.name+"</a>");
+					console.log(item.subCatList);
+					catThree[item.id]=item.threeCatList;
+				});
+			}else{
+				$.each(catSecond[e], function(i, item) {
+					$("#fenlei_2").append("<a class='first_2_1' href=\"javascript:checkFenlei2('"+item.id+"');\" id=\""+item.id+"\">"+item.enName+"</a>");
+					catThree[item.id]=item.threeCatList;
+				});
+			}
+			checkOn("first_1_1");
+			$("#"+e).addClass("on");
+			$("#fenlei_2").show();
+			$("#fenlei_3").hide();
+		}else{
+			checkOn("first_1_1");
+			$("#first_1_1").addClass("on");
+			$("#fenlei_2").hide();
+			$("#fenlei_3").hide();
+		}
+
+
+	}
+	function checkFenlei2(e) {
+		$("#catId").val(e);
+		$("#fenlei_3").empty();
+		if(e != '') {
+			$("#fenlei_3").append("<a id= 'first_3_1' href=\"javascript:checkFenlei3('');\" class='first_3_1 on'>不限</a>");
+			if (yuyan == 'zh') {
+				$.each(catThree[e], function (i, item) {
+					$("#fenlei_3").append("<a class='first_3_1' href=\"javascript:checkFenlei3('" + item.id + "');\" id=\"" + item.id + "\">" + item.name + "</a>");
+					console.log(item.subCatList);
+				});
+			} else {
+				$.each(catThree[e], function (i, item) {
+					$("#fenlei_3").append("<a class='first_3_1' href=\"javascript:checkFenlei3('" + item.id + "');\" id=\"" + item.id + "\">" + item.enName + "</a>");
+				});
+			}
+			checkOn("first_2_1");
+			$("#" + e).addClass("on");
+			$("#fenlei_3").show();
+		}else{
+			checkOn("first_2_1");
+			$("#first_2_1").addClass("on");
+			$("#fenlei_3").hide();
+		}
+	}
+	function checkFenlei3(e) {
+		$("#catId").val(e);
+		if(e != '') {
+			checkOn("first_3_1");
+			$("#"+e).addClass("on");
+		}else{
+			checkOn("first_3_1");
+			$("#first_3_1").addClass("on");
+		}
+
+	}
+	function checkSort(e) {
+		changeClass(e,'paixu','active');
+		$("#orderBySort").val(e);
+		searchGoods();
+	}
+	function changeClass(e,type,classType) {
+		var cArr = document.getElementsByClassName(type);
+		for(var i = 0; i < cArr.length; i++) {
+			if(i == parseInt(e)){
+				cArr[i].classList.add(classType);
+			}else{
+				cArr[i].classList.remove(classType);
+			}
+		}
+	}
+	function changePrice(e,type) {
+		changeClass(e,'jiage','on');
+		$("#priceType").val(type);
+	}
+	function checkZiying() {
+		if ($("#ziying").attr("checked") == "checked") {
+			$("#isZiying").val("1");
+		}else{
+			$("#isZiying").val("0");
+		}
+	}
+	function searchGoods() {
+		var url="searchGoodsAction!searchGoods.action";
+		$.ajax({
+			type:"POST",
+			url:url,
+			cache:true,
+			async:true,
+			data : $('#searchGoodsForm').serialize(),
+			success:function (html) {
+				$("#pageReload").html(html);
+			}
+		});
+	}
+
+	function toCatId(e) {
+		$("#catId").val(e);
+	}
+
+</script>
 </body>
 </html>

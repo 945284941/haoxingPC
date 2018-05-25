@@ -86,7 +86,7 @@
 .gzgzbk dl{ width:200px; float:left; margin-top:20px; display:inline; border-right:1px dashed #E1E1E1;}
 .gzgzbk dt{ width:160px; float:left; background:url(../images/newsli.gif) no-repeat; padding-left:20px; font-weight:bold; margin-left:20px; display:inline;}
 .gzgzbk dl dd{width:125px; float:left; text-align:center;}
-.foot{ width:1190px; float:left; text-align:center; padding-top:20px;}
+.foot{ width:100%; float:left; text-align:center; padding-top:20px;}
 /*----------页脚 end------*/
 
 .searchwb{ width:603px; float:left; background:url(../images/searchkbj.gif) repeat-x; border:1px solid #DDDDDD;}

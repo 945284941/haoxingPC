@@ -19,4 +19,5 @@ public interface GoodsItemMapper {
 	public List<GoodsItem> selectGoodsItemListByGoodsId(GoodsItem ppItem);
 
 	List<GoodsItem> gainCartsByUserId(String userId);
+
 }

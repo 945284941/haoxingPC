@@ -181,4 +181,9 @@ public class MemberCollectServiceImpl implements MemberCollectService{
 		return memberCollectMapper.findListByMemberCollect(memberCollect);
 	}
 
+	@Override
+	public Long followNum(String id) {
+		return memberCollectMapper.followNum(id);
+	}
+
 }

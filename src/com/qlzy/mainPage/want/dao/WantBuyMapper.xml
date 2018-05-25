@@ -83,6 +83,10 @@
     <if test="fromCountryId != null ">
       and t.from_country_id = #{fromCountryId}
     </if>
+    order by t.update_date desc
+    <if test="limitNum != null" >
+      limit 0, #{limitNum,jdbcType=INTEGER}
+    </if>
   </select>
   <select id="selectLclByParm" resultType="com.qlzy.model.WantBuy" parameterType="java.util.Map">
     select t.id as id ,t.buy_type as buyType,t.title as title ,t.pic_url as picUrl,
@@ -106,6 +110,10 @@
     </if>
     <if test="toCountryId != null ">
       and t.to_country_id = #{toCountryId}
+    </if>
+    order by t.send_date desc
+    <if test="limitNum != null" >
+      limit 0, #{limitNum,jdbcType=INTEGER}
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

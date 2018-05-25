@@ -8,12 +8,19 @@
 */
 package com.qlzy.searchGoods.action;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.qlzy.common.tools.ResourceUtil;
+import com.qlzy.common.util.PcOrWap;
+import com.qlzy.mainPage.company.service.CompanyService;
+import com.qlzy.mainPage.country.service.NCountryService;
+import com.qlzy.model.*;
+import com.qlzy.pojo.SessionInfo;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -24,14 +31,6 @@ import com.qlzy.mainPage.head.service.CatalogueService;
 import com.qlzy.mainPage.indexGoods.service.IndexGoodsService;
 import com.qlzy.mainPage.regions.service.RegionsService;
 import com.qlzy.memberCenter.goods.service.GoodsService;
-import com.qlzy.model.CarBrand;
-import com.qlzy.model.Goods;
-import com.qlzy.model.GoodsCat;
-import com.qlzy.model.GoodsDetail;
-import com.qlzy.model.GoodsSpecification;
-import com.qlzy.model.HomeSys;
-import com.qlzy.model.News;
-import com.qlzy.model.Regions;
 import com.qlzy.searchGoods.service.SearchGoodsService;
 import com.qlzy.util.BaseAction;
 import com.qlzy.util.Pagination;
@@ -41,7 +40,10 @@ import com.qlzy.util.Pagination;
 //命名空间
 @Action(value = "searchGoodsAction", results = {
 		@Result(name="toMarket",location="/market.jsp"),
-		@Result(name="toList",location="/admin/goods/goodsList.jsp"),
+		@Result(name="toGoodsList",location="/admin/goods/goodsList.jsp"),
+		@Result(name="toGoodsPage",location="/admin/goods/goodsPage.jsp"),
+		@Result(name="toCompanyList",location="/admin/company/companyList.jsp"),
+		@Result(name="toCompanyPage",location="/admin/company/companyPage.jsp"),
 		@Result(name="toHcList",location="/admin/goods/goodsHcList.jsp"),
 		@Result(name="toTemaiList",location="/admin/cuxiao/cuxiao.jsp"),
 		@Result(name="toShList",location="/shanghui/goods/searchGoods.jsp"),
@@ -61,6 +63,8 @@ public class SearchGoodsAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private GoodsService goodsService;
+	@Autowired
+	private NCountryService nCountryService;
 	/***
 	* @Title: searchGoods
 	* @Description: TODO(根据查询条件得到列表)
@@ -93,9 +97,8 @@ public class SearchGoodsAction extends BaseAction{
 	private List<Goods> hotJpGoodsList;
 	private GoodsDetail standerGoods;
 	
-	private String topSearchLike;//表头查询关键字
-	
-	private String searchType;//搜索  商品  店铺  咨询
+	private String topSearchLike;//表头查询 关键字查询
+	private String searchType;//搜索  1商品  2店铺  咨询
 	
 	//商城公告列表
 		private List<News> gonggaoList;
@@ -122,8 +125,8 @@ public class SearchGoodsAction extends BaseAction{
     
     private String zhankai;//更多时需传递
 	
-	//目录列表
-    private List<GoodsCat> fullCategoryList; 
+//	//目录列表
+    private List<GoodsCat> fullCategoryList;
 	private List<GoodsCat> firstGoodsCatList;
 	private List<GoodsCat> secondGoodsCatList;
 	private List<GoodsCat> thirdGoodsCats;
@@ -148,6 +151,8 @@ public class SearchGoodsAction extends BaseAction{
 	private SearchGoodsService searchGoodsService;
 	@Resource
 	private IndexGoodsService indexGoodsService;
+	@Resource
+	private CompanyService companyService;
 	
 	
 	private String shCatIdName;
@@ -166,14 +171,143 @@ public class SearchGoodsAction extends BaseAction{
 		private List<HomeSys> temaiList;
 
 	private String catType;
+	private List<Goods> searchGoodsList;
+	private List<Company> searchCompanyList;
+	private SessionInfo sessionInfo;
+	private String bankuaiType;
+	private String catId;//分类id
+	private String priceType;
+	private String minPrice;
+	private String maxPrice;
+	private String address;
+	private String catGrade;
+	private String isZiying;
+	private String orderBySort;
+	private String isIndexShop;
+	private String isIndexMarket;
+	private String isIndexBuild;
 
-
-	public String searchGoods(){
-		fullCategoryList = catalogueService.queryFullCategory(catType);
-		return "toMarket";
+	public String toGoodsList(){
+		return "toGoodsList";
 	}
+	public String toCompanyList(){
+		return "toCompanyList";
+	}
+	public String searchGoods(){
+		sessionInfo = (SessionInfo) session.get(ResourceUtil.getSessionInfoName());
+		Pagination pagination = definationPagination(request);
+		pagination.setRows(8L);//设置每页显示几条数据
+		Map<String,Object> parmMap = new HashMap<>();
+		if(null!=topSearchLike  && !"".equals(topSearchLike)){
+			parmMap.put("topSearchLike",topSearchLike.trim());
+		}
+		if("".equals(bankuaiType) || "0".equals(bankuaiType)){
+			bankuaiType = "0";
+		}
+		if("1".equals(bankuaiType)){
+			parmMap.put("isShop","1");
+		}else if("2".equals(bankuaiType)){
+			parmMap.put("isMarket","1");
+		}else if("3".equals(bankuaiType)){
+			parmMap.put("isBuilding","1");
+		}
+		if("1".equals(isZiying)){
+			parmMap.put("companyId",ResourceUtil.getZiyingCompanyId());
+		}
+		if("1".equals(isIndexShop)){
+			parmMap.put("isIndexShop",isIndexShop);
+		}
+		if("1".equals(isIndexMarket)){
+			parmMap.put("isIndexMarket",isIndexMarket);
+		}
+		if("1".equals(isIndexBuild)){
+			parmMap.put("isIndexBuild",isIndexBuild);
+		}
 
+		if(null != catId && !"".equals(catId)){
+			parmMap.put("catId",catId);
+		}
+		if(null != priceType && !"".equals(priceType)){
+			parmMap.put("priceType",new BigDecimal(priceType));
+			//1人民币 2dlm 3doc
+				if(!"".equals(minPrice)){
+					parmMap.put("minPrice",new BigDecimal(minPrice));
+				}
+				if(!"".equals(maxPrice)){
+					parmMap.put("maxPrice",new BigDecimal(maxPrice));
+				}
+		}
+		if(null != address && !"".equals(address)){
+			parmMap.put("address",address);
+		}
+		if(null != orderBySort && !"".equals(orderBySort)){
+			parmMap.put("orderBySort",orderBySort);
+		}
+		nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
+		parmMap.put("rows", pagination.getRows());
+		parmMap.put("page", (pagination.getPage()-1)*pagination.getRows());
+		if(null == searchType || "".equals(searchType) || "1".equals(searchType)){ //searchType=1 商品 searchType=2商家
+			pagination.setTotalCount(goodsService.selectGoodsByTypeAndPageCount(parmMap));
+			searchGoodsList = goodsService.selectGoodsByTypeAndPage(parmMap);
+			request.setAttribute("pagination", pagination);
+			return PcOrWap.isPc(request,"toGoodsPage");
+		}else{
+			pagination.setTotalCount(companyService.gainCompanyListSearchPageCount(parmMap));
+			searchCompanyList = companyService.gainCompanyListSearchPage(parmMap);
+			if(null != searchCompanyList){
+				parmMap = new HashMap<>();
+				parmMap.put("isSort","3");
+				parmMap.put("limitNum",4);
+				for(Company c:searchCompanyList){
+					parmMap.put("companyId",c.getId());
 
+					List<Goods> goodsList = null;
+					try {
+						goodsList = goodsService.selectGoodsByType(parmMap);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if(null != goodsList && goodsList.size() > 0){
+						c.setGoodsList(goodsList);
+					}
+
+				}
+			}
+			request.setAttribute("pagination", pagination);
+			return PcOrWap.isPc(request,"toCompanyPage");
+		}
+
+	}
+	/***
+	 * @Title: gainFirstCatalogue
+	 * @Description: TODO(得到一级目录)
+	 * @return void    返回类型
+	 */
+	public void gainFirstCatalogue(){
+		//一级目录参数
+		if("1".equals(bankuaiType)){
+			fullCategoryList=catalogueService.queryFullCategory("gwsc");
+		}
+		if("2".equals(bankuaiType)){
+			fullCategoryList=catalogueService.queryFullCategory("cs");
+		}
+		if("3".equals(bankuaiType)){
+			fullCategoryList=catalogueService.queryFullCategory("jcsb");
+		}
+		writeJson(fullCategoryList);
+	}
+//	public void handleGoodsCat(String type){
+//		if(null != catId && !"".equals(catId)){
+//			if("1".equals(catGrade)){
+//				secondGoodsCatList = catalogueService.queryFullCategoryByPid(type,catId);
+//			}
+//			if("2".equals(catGrade)){
+//				thirdGoodsCats = catalogueService.queryFullCategoryByPid(type,catId);
+//			}
+//		}else{
+//			firstGoodsCatList = catalogueService.queryFullCategoryByPid(type,"");
+//		}
+//	}
 	/**
 	 * 根据条件检索商品
 	 * 
@@ -445,13 +579,7 @@ public class SearchGoodsAction extends BaseAction{
 	public void setOrder(String order) {
 		this.order = order;
 	}
-	
-	public List<GoodsCat> getFullCategoryList() {
-		return fullCategoryList;
-	}
-	public void setFullCategoryList(List<GoodsCat> fullCategoryList) {
-		this.fullCategoryList = fullCategoryList;
-	}
+
 	
 	public List<GoodsCat> getFirstGoodsCatList() {
 		return firstGoodsCatList;
@@ -790,5 +918,125 @@ public class SearchGoodsAction extends BaseAction{
 
 	public void setCatType(String catType) {
 		this.catType = catType;
+	}
+
+	public List<Goods> getSearchGoodsList() {
+		return searchGoodsList;
+	}
+
+	public void setSearchGoodsList(List<Goods> searchGoodsList) {
+		this.searchGoodsList = searchGoodsList;
+	}
+
+	public List<Company> getSearchCompanyList() {
+		return searchCompanyList;
+	}
+
+	public void setSearchCompanyList(List<Company> searchCompanyList) {
+		this.searchCompanyList = searchCompanyList;
+	}
+
+	public String getBankuaiType() {
+		return bankuaiType;
+	}
+
+	public void setBankuaiType(String bankuaiType) {
+		this.bankuaiType = bankuaiType;
+	}
+
+	public String getCatId() {
+		return catId;
+	}
+
+	public void setCatId(String catId) {
+		this.catId = catId;
+	}
+
+	public String getPriceType() {
+		return priceType;
+	}
+
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
+	}
+
+	public String getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(String minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public String getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(String maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCatGrade() {
+		return catGrade;
+	}
+
+	public void setCatGrade(String catGrade) {
+		this.catGrade = catGrade;
+	}
+
+	public List<GoodsCat> getFullCategoryList() {
+		return fullCategoryList;
+	}
+
+	public void setFullCategoryList(List<GoodsCat> fullCategoryList) {
+		this.fullCategoryList = fullCategoryList;
+	}
+
+	public String getIsZiying() {
+		return isZiying;
+	}
+
+	public void setIsZiying(String isZiying) {
+		this.isZiying = isZiying;
+	}
+
+	public String getOrderBySort() {
+		return orderBySort;
+	}
+
+	public void setOrderBySort(String orderBySort) {
+		this.orderBySort = orderBySort;
+	}
+
+	public String getIsIndexShop() {
+		return isIndexShop;
+	}
+
+	public void setIsIndexShop(String isIndexShop) {
+		this.isIndexShop = isIndexShop;
+	}
+
+	public String getIsIndexBuild() {
+		return isIndexBuild;
+	}
+
+	public void setIsIndexBuild(String isIndexBuild) {
+		this.isIndexBuild = isIndexBuild;
+	}
+
+	public String getIsIndexMarket() {
+		return isIndexMarket;
+	}
+
+	public void setIsIndexMarket(String isIndexMarket) {
+		this.isIndexMarket = isIndexMarket;
 	}
 }

@@ -30,7 +30,9 @@
 <s:action name="catalogueAction!queryFullCategory" executeResult="true" namespace="/" >
     <s:param name="catType">tdd</s:param>
 </s:action>
+<div id="pageReload">
 <s:action name="indexFloorAction!showIndexGroupFloor" namespace="/indexFloor" executeResult="true"></s:action>
+</div>
 <%--<jsp:include page="/admin/common/indexFooter.jsp" />--%>
 <s:action name="indexFloorAction!showFoot" namespace="/indexFloor" executeResult="true"></s:action>
 </body>

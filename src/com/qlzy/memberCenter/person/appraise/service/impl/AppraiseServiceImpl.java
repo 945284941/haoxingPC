@@ -41,8 +41,10 @@ public class AppraiseServiceImpl implements AppraiseService{
 	@Autowired
 	private OrderItemMapper orderItemMapper;
 
-
-
+	@Override
+	public int insertAppraise(Appraise appraise){
+		return appraiseMapper.insertSelective(appraise);
+	}
 
 	@Override
 	public List<Appraise> gainAppraiseList(Map<String, Object> map) {
@@ -59,6 +61,11 @@ public class AppraiseServiceImpl implements AppraiseService{
 	/* (non-Javadoc)
 	 * @see com.qlzy.memberCenter.person.appraise.service.AppraiseService#memberAppraise(com.qlzy.model.Appraise)
 	 */
+	@Override
+	public Appraise gainByOrderIdAndGoodsId(Appraise appraise){
+		return appraiseMapper.selectByOrderIdAndGoodsId(appraise);
+	}
+
 	@Override
 	public void memberAppraise(Appraise appraise) {
 		appraiseMapper.insertSelective(appraise);
@@ -111,6 +118,16 @@ public class AppraiseServiceImpl implements AppraiseService{
 	@Override
 	public Long selectAppariseByTypeAndPageCount(Map<String, Object> parmMap) {
 		return appraiseMapper.selectAppariseByTypeAndPageCount(parmMap);
+	}
+
+	@Override
+	public Long goodEvaluate(String companyId) {
+		return appraiseMapper.goodEvaluate(companyId);
+	}
+
+	@Override
+	public Long Evaluate(String companyId) {
+		return appraiseMapper.Evaluate(companyId);
 	}
 
 

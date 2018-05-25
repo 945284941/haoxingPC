@@ -10,7 +10,7 @@
         <a href="/"><s:text name="index_0013"/></a> >
         <a href="">${sessionInfo.curentMenu}</a>
     </div>
-    <form id="pagerForm" name="pagerForm" action="${sessionInfo.toUrl}" method="post">
+    <form id="pagerForm" name="pagerForm" action="indexFloor/indexFloorAction!showIndexWantBuyFloor.action" method="post">
         <input type="hidden" name="wantBuy.buyType" id="buyType" value="${wantBuy.buyType}"/>
         <input type="hidden" name="wantBuy.catId" id="catId" value="${wantBuy.catId}"/>
         <input type="hidden" name="wantBuy.toCountryId" id="toCountryId"  value="${wantBuy.toCountryId}"/>
@@ -137,7 +137,7 @@
         <ul>
             <c:forEach items="${wantBuyList}" var="wantBuy" varStatus="status">
             <li class="fl">
-                <div class="tupian"><img src="${wantBuy.picUrl}"/></div>
+                <div class="tupian"><a href="toWantBuyView/${wantBuy.id}/${wantBuy.buyType}.html"><img src="${wantBuy.picUrl}"/></a></div>
                 <div class="title"><a href="toWantBuyView/${wantBuy.id}/${wantBuy.buyType}.html">${wantBuy.title}</a></div>
                 <div class="jg01">
                     <div class="jg_zc01">${wantBuy.mobile}</div>
@@ -148,72 +148,10 @@
         </ul>
         <div class="clear"></div>
         <div class="w-page">
-            <page:pagination path="toWantBuy.html" formName="pagerForm"/>
+            <page:pagination path="indexFloor/indexFloorAction!showIndexWantBuyFloor.action" formName="pagerForm"/>
         </div>
     </div>
 
     <!-- 限时抢购结束 -->
 </div>
-<script type="text/javascript">
-    var arr = document.getElementsByClassName("tab_item");
-    var countryArr = document.getElementsByClassName("country_item");
-    var fenleiArr = document.getElementsByClassName("fenlei_item");
-    var t = $("#buyType").val();
-    $(function () {
-        for(var i = 0; i < arr.length; i++) {
-            if(i == parseInt(t)-1){
-                arr[i].classList.add("on");
-            }else{
-                arr[i].classList.remove("on");
-            }
-        }
-    });
-    function changeFenlei(t,f,v) {
-        if(v == '1'){
-            for(var i = 0; i < fenleiArr.length; i++) {
-                if(i == t){
-                    fenleiArr[i].classList.add("on");
-                    if(t != 0){
-                        $("#catId").val(f);
-                        subFo();
-                    }else{
-                        $("#catId").val('');
-                        subFo();
-                    }
-                }else{
-                    fenleiArr[i].classList.remove("on");
-                }
-            }
-        }else{
-            for(var i = 0; i < countryArr.length; i++) {
-                if(i == t){
-                    countryArr[i].classList.add("on");
-                    if(t != 0){
-                        $("#toCountryId").val(f);
-                        subFo();
-                    }else{
-                        $("#toCountryId").val('');
-                        subFo();
-                    }
-                }else{
-                    countryArr[i].classList.remove("on");
-                }
-            }
-        }
-
-    }
-    function changeBank(t) {
-        for(var i = 0; i < arr.length; i++) {
-            if(i == parseInt(t)-1){
-                arr[i].classList.add("on");
-                $("#buyType").val((i+1).toString());
-                subFo();
-            }else{
-                arr[i].classList.remove("on");
-            }
-        }
-    }
-    function subFo(){
-        $("#pagerForm").submit();
-    }
-</script>
+<script type="text/javascript" src="../../js/wantBy.js"></script>

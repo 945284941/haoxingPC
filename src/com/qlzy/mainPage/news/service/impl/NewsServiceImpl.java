@@ -349,4 +349,23 @@ public class NewsServiceImpl implements NewsService{
 		map.put("pageNum", 4);
 		return newsMapper.gaingainNewGongGaoByNameList(map);
 	}
+
+	@Override
+	public List<News> newListByPage(News news) {
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("newsCatId", "41302a038a5449c985f429a4b1e397a5");
+		map.put("pageNum", 5);
+		return newsMapper.gaingainNewGongGaoByNameList(map);
+		//return newsMapper.newListByPage(news);
+	}
+
+	@Override
+	public Long newCount(News news) {
+		return newsMapper.newCount(news);
+	}
+
+	@Override
+	public News newDetail(News news) {
+		return newsMapper.newDetail(news);
+	}
 }

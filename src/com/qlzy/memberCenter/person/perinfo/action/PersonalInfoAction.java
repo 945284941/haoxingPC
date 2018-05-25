@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.qlzy.common.tools.*;
+import com.qlzy.common.util.PcOrWap;
+import com.qlzy.mainPage.indexGoods.service.DictionaryService;
+import com.qlzy.model.*;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -33,19 +36,6 @@ import com.qlzy.memberCenter.common.service.QuestionService;
 import com.qlzy.memberCenter.company.cominfo.service.CompanyInfoService;
 import com.qlzy.memberCenter.order.service.OrderService;
 import com.qlzy.memberCenter.person.perinfo.service.PersonalInfoService;
-import com.qlzy.model.Company;
-import com.qlzy.model.EmailSendLog;
-import com.qlzy.model.Goods;
-import com.qlzy.model.LiucunbiDetail;
-import com.qlzy.model.Member;
-import com.qlzy.model.MemberJob;
-import com.qlzy.model.MobileMessage;
-import com.qlzy.model.Order;
-import com.qlzy.model.OrderItem;
-import com.qlzy.model.Question;
-import com.qlzy.model.Regions;
-import com.qlzy.model.XianjinbiCashApply;
-import com.qlzy.model.XianjinbiDetail;
 import com.qlzy.pojo.Json;
 import com.qlzy.pojo.SessionInfo;
 import com.qlzy.util.BaseAction;
@@ -55,10 +45,17 @@ import com.qlzy.util.Pagination;
 @Namespace("/person")
 @Action(value = "personalInfo", results = {
 		@Result(name = "toShowBasicInfo", location = "/memberCenter/person/personalInfo/basicInfo.jsp"),
-		@Result(name = "toShowUsername", location = "/memberCenter/person/personalInfo/username.jsp"),
+		@Result(name = "toShowBasicInfoWap", location = "/wap/person/basicInfo.jsp"),
+		@Result(name = "toBianjiWap", location = "/wap/person/bianjiziliao.jsp"),
+		@Result(name = "toZhanghuguanliWap", location = "/wap/person/zhanghuguanli.jsp"),
+		@Result(name = "toShowFirstnameWap", location = "/wap/person/firstname.jsp"),
+		@Result(name = "toShowFirstname", location = "/memberCenter/person/personalInfo/firstname.jsp"),
 		@Result(name = "toShowMobile", location = "/memberCenter/person/personalInfo/mobile.jsp"),
-		@Result(name = "toShowImg", location = "/memberCenter/person/personalInfo/img.jsp"),
+		@Result(name = "toShowMobileWap", location = "/wap/person/mobile.jsp"),
+		@Result(name = "toShowImg", location = "/memberCenter/person/personalInfo/image.jsp"),
+		@Result(name = "toShowImgWap", location = "/wap/person/image.jsp"),
 		@Result(name = "toShowPassword", location = "/memberCenter/person/personalInfo/password.jsp"),
+		@Result(name = "toShowPasswordWap", location = "/wap/person/changePassword.jsp"),
 		@Result(name = "myYiji", location = "/memberCenter/person/personalInfo/myYiji.jsp"),
 		@Result(name = "myErji", location = "/memberCenter/person/personalInfo/myErji.jsp"),
 		@Result(name = "mySanji", location = "/memberCenter/person/personalInfo/mySanji.jsp"),
@@ -67,7 +64,22 @@ import com.qlzy.util.Pagination;
 		@Result(name = "liucunbi", location = "/memberCenter/person/personalInfo/liucunbi.jsp"),
 		@Result(name = "toShowAccountSecurity", location = "/memberCenter/person/personalInfo/accountSecurity.jsp"),
 		@Result(name = "purchaseHistory", location = "/memberCenter/person/personalInfo/purchaseHistory.jsp"),
-		@Result(name = "toFenxiaoCenter", location = "/memberCenter/person/personalInfo/fenxiaoCenter.jsp")
+		@Result(name = "toFenxiaoCenter", location = "/memberCenter/person/personalInfo/fenxiaoCenter.jsp"),
+		@Result(name = "toFenxiaoCenterWap", location = "/wap/person/fenxiaoCenter.jsp"),
+		@Result(name = "toFenxiaoshang", location = "/memberCenter/person/personalInfo/fenxiaoshang.jsp"),
+		@Result(name = "toFenxiaoshangWap", location = "/wap/person/fenxiaoshang.jsp"),
+		@Result(name = "toFensituan", location = "/memberCenter/person/personalInfo/fensituan.jsp"),
+		@Result(name = "toFensituanWap", location = "/wap/person/fensituan.jsp"),
+		@Result(name = "toTixianjilu", location = "/memberCenter/person/personalInfo/tixianjilu.jsp"),
+		@Result(name = "toTixianjiluWap", location = "/wap/person/tixianjilu.jsp"),
+		@Result(name = "toYujiticheng", location = "/memberCenter/person/personalInfo/yujiticheng.jsp"),
+		@Result(name = "toYujitichengWap", location = "/wap/person/yujiticheng.jsp"),
+		@Result(name = "toXiaxianticheng", location = "/memberCenter/person/personalInfo/xiaxianticheng.jsp"),
+		@Result(name = "toXiaxiantichengWap", location = "/wap/person/xiaxianticheng.jsp"),
+		@Result(name = "toXiaoshouticheng", location = "/memberCenter/person/personalInfo/xiaoshouticheng.jsp"),
+		@Result(name = "toXiaxiantichengTongji", location = "/memberCenter/person/personalInfo/xiaxiantichengTongji.jsp"),
+		@Result(name = "toXiaxiantichengTongjiWap", location = "/wap/person/xiaxiantichengTongji.jsp"),
+		@Result(name = "toXiaoshoutichengTongji", location = "/memberCenter/person/personalInfo/xiaoshoutichengTongji.jsp")
 })
 public class PersonalInfoAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
@@ -81,7 +93,8 @@ public class PersonalInfoAction extends BaseAction {
 	private QuestionService questionService;// 安全保护问题接口类
 	@Resource
 	private CompanyInfoService companyInfoService;
-
+	@Resource
+	private DictionaryService dictionaryService;
 	@Resource
 	private OrderService orderService;
 
@@ -100,7 +113,7 @@ public class PersonalInfoAction extends BaseAction {
 	private List<Question> questions;// 安全保护问题列表
 
 	private List<Order> orderList = new ArrayList<Order>();
-
+	private List<AdvanceLogs> advanceLogsList = new ArrayList<AdvanceLogs>();
 	private String telCode;// 手机验证码
 	private String telNum;//手机号码
 
@@ -141,15 +154,38 @@ public class PersonalInfoAction extends BaseAction {
 		}
 		// 会员信息
 		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
-		if(null != member){
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("member",member);
-		}
-
-		return "toShowBasicInfo";
+//		if(null != member){
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			map.put("member",member);
+//		}
+		request.setAttribute("member",member);
+		return  PcOrWap.isPc(request,"toShowBasicInfo");
 	}
 
+	/**
+	 * wap编辑个人资料页面
+	 */
+	public String toBianji(){
+		toShowBasicInfo();
+		return PcOrWap.isPc(request,"toBianji");
+	}
+	/**
+	 * wap账户管理
+	 * @return
+	 */
+	public String toZhanghuguanli(){
+		toShowBasicInfo();
+		return  PcOrWap.isPc(request,"toZhanghuguanli");
+	}
 
+	/**
+	 * 显示修改昵称页面
+	 * @return
+	 */
+	public String toShowFirstname(){
+		toShowBasicInfo();
+		return  PcOrWap.isPc(request,"toShowFirstname");
+	}
 	/**
 	 * 显示修改用户名页面
 	 * @return
@@ -158,7 +194,6 @@ public class PersonalInfoAction extends BaseAction {
 		toShowBasicInfo();
 		return "toShowUsername";
 	}
-
 
 	/* 跳转分销中心页面 */
 	public String toFenxiaoCenter(){
@@ -169,14 +204,217 @@ public class PersonalInfoAction extends BaseAction {
 		}
 		// 会员信息
 		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+		member.setYijiticheng(personalInfoService.gainFirstByUserId(member.getOnlyId()));
+		member.setErjiticheng(personalInfoService.gainSecondByUserId(member.getOnlyId()));
+
 		request.setAttribute("member",member);
-		// 下级数量
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", sessionInfo.getUserId());
-		//memberList = personalInfoService.myYiji(map);
-		//request.setAttribute("",personalInfoService.myYijiCount(map));
-		return "toFenxiaoCenter";
+		return  PcOrWap.isPc(request,"toFenxiaoCenter");
 	}
+
+	/* 跳转分销中心--分销商页面 */
+	public String toFenxiaoshang(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+		// 会员信息
+		String dengji = request.getParameter("dengji");
+		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+		request.setAttribute("member",member);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("onlyId",member.getOnlyId());
+		map.put("dengji",dengji);
+		String value = request.getParameter("value");
+		map.put("value",value);
+		memberList = personalInfoService.gainMembersByMap(map);
+		List<Member> memberListNew = new ArrayList<Member>();
+		for(Member m : memberList){
+			if(!("0").equals(m.getType())){
+				MemberLv memberLv = personalInfoService.gainMemberLvById(m.getType());
+				m.setMemberLvName(memberLv.getName());
+				memberListNew.add(m);
+			}
+		}
+		map.put("time",1);
+		long today = personalInfoService.gainMemberCountByMap(map);
+		map.put("time",2);
+		long yesToday = personalInfoService.gainMemberCountByMap(map);
+		map.put("time",3);
+		long week = personalInfoService.gainMemberCountByMap(map);
+		map.put("time",4);
+		long month = personalInfoService.gainMemberCountByMap(map);
+		map.put("time",5);
+		long total = personalInfoService.gainMemberCountByMap(map);
+		request.setAttribute("dengji",dengji);
+		request.setAttribute("today",today);
+		request.setAttribute("yesToday",yesToday);
+		request.setAttribute("week",week);
+		request.setAttribute("month",month);
+		request.setAttribute("total",total);
+		request.setAttribute("memberListNew",memberListNew);
+		return  PcOrWap.isPc(request,"toFenxiaoshang");
+	}
+
+
+
+
+	/* 跳转分销中心--粉丝团页面 */
+	public String toFensituan(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+		// 会员信息
+		String dengji = "";
+		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+		request.setAttribute("member",member);
+		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+		request.setAttribute("member",member);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("onlyId",member.getOnlyId());
+		map.put("dengji",dengji);
+		memberList = personalInfoService.gainMembersByMap(map);
+		List<Member> memberListNew = new ArrayList<Member>();
+		for(Member m : memberList){
+			if(("0").equals(m.getType())){
+				memberListNew.add(m);
+			}
+		}
+		request.setAttribute("memberListNew",memberListNew);
+		return  PcOrWap.isPc(request,"toFensituan");
+	}
+
+	/* 跳转分销中心--提现记录页面 */
+	public String toTixianjilu(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+
+		// 会员信息
+		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+		request.setAttribute("member",member);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId",member.getId());
+		Pagination pagination = definationPagination(request);
+		// 设置每页显示几条数据
+		pagination.setRows(8L);
+		map.put("page", (pagination.getPage()-1)* pagination.getRows());
+		map.put("rows", pagination.getRows());
+		List<XianjinbiCashApply> xianjinList = personalInfoService.xianjinbiCashList(map);
+		QlDict qlDict = dictionaryService.gainByType("tixian_fee");
+		String fee = qlDict.getValue();
+		request.setAttribute("fee",fee);
+		request.setAttribute("xianjinList",xianjinList);
+		return  PcOrWap.isPc(request,"toTixianjilu");
+	}
+
+	/* 跳转分销中心--预计提成页面 */
+	public String toYujiticheng(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		//sessionInfo.setToUrl("personalInfo/yujiticheng/(.*).html");
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+		// 会员信息
+		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+
+		String dengji = request.getParameter("dengji");
+		Map<String,Object> paraMap = new HashMap<String,Object>();
+		paraMap.put("onlyId",member.getOnlyId());
+		paraMap.put("onlyType",dengji);
+
+		Pagination pagination = definationPagination(request);
+		// 设置每页显示几条数据
+		pagination.setRows(6L);
+		paraMap.put("page", (pagination.getPage()-1)* pagination.getRows());
+		paraMap.put("rows", pagination.getRows());
+
+		List<Order> orderList = orderService.gainYujitichengList(paraMap);
+		pagination.setTotalCount(100L);
+		request.setAttribute("dengji",dengji);
+		request.setAttribute("orderList",orderList);
+		request.setAttribute("member",member);
+		request.setAttribute("pagination",pagination);
+		return  PcOrWap.isPc(request,"toYujiticheng");
+	}
+
+	/* 跳转分销中心--下线提成页面 */
+	public String toXiaxianticheng(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+		request.setAttribute("sessionInfo",sessionInfo);
+		// 会员信息
+		String dengji = request.getParameter("dengji");
+		member = personalInfoService.gainMemberById(sessionInfo.getUserId());
+		request.setAttribute("member",member);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("onlyId",member.getOnlyId());
+		map.put("dengji",dengji);
+		Pagination pagination = definationPagination(request);
+		pagination.setTotalCount(personalInfoService.gainCountByMap(map));
+		// 设置每页显示几条数据
+		pagination.setRows(8L);
+		map.put("page", (pagination.getPage()-1)* pagination.getRows());
+		map.put("rows", pagination.getRows());
+		List<Member> memberList = personalInfoService.gainListByMap(map);
+		for(Member m : memberList){
+			map.put("id",m.getId());
+			AdvanceLogs advanceLogs = personalInfoService.gainByUserId(map);
+			m.setTotal(advanceLogs.getTotalMoney());
+			m.setCount(advanceLogs.getNum());
+			m.setTicheng(advanceLogs.getTicheng());
+		}
+		request.setAttribute("pagination",pagination);
+		request.setAttribute("memberList",memberList);
+		request.setAttribute("dengji",dengji);
+		return  PcOrWap.isPc(request,"toXiaxianticheng");
+	}
+
+
+
+	/* 跳转分销中心--下线提成--本月统计页面 */
+	public String toXiaxiantichengTongji(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+		request.setAttribute("sessionInfo",sessionInfo);
+		String memberId = request.getParameter("memberId");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId",memberId);
+		String time = request.getParameter("time");
+		member = personalInfoService.gainMemberById(memberId);
+		map.put("id",member.getId());
+		map.put("time",time);
+		AdvanceLogs advanceLogs = personalInfoService.gainByUserId(map);
+		member.setTotal(advanceLogs.getTotalMoney());
+		member.setCount(advanceLogs.getNum());
+		member.setTicheng(advanceLogs.getTicheng());
+		Pagination pagination = definationPagination(request);
+		// 设置每页显示几条数据
+		pagination.setRows(8L);
+		map.put("page", (pagination.getPage()-1)* pagination.getRows());
+		map.put("rows", pagination.getRows());
+		pagination.setTotalCount(advanceLogs.getNum());
+		request.setAttribute("pagination",pagination);
+		advanceLogsList = personalInfoService.gainByUserIdGetList(map);
+		request.setAttribute("time",time);
+		request.setAttribute("member",member);
+		request.setAttribute("advanceLogsList",advanceLogsList);
+		return  PcOrWap.isPc(request,"toXiaxiantichengTongji");
+	}
+
+
+
 
 	public String myYiji(){
 		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
@@ -244,7 +482,36 @@ public class PersonalInfoAction extends BaseAction {
 	 */
 	public String toShowImg() {
 		toShowBasicInfo();
-		return "toShowImg";
+		return  PcOrWap.isPc(request,"toShowImg");
+	}
+
+//	*
+//	 * 修改昵称
+//
+//	public void updateFirstname(){
+//		String result = "";
+//		member = new Member();
+//		member.setFirstname(request.getParameter("firstname"));
+//		int num = personalInfoService.updatePersonInfo(member);
+//		if (num > 0) {
+//			result = "success";
+//		}
+//		super.writeJson(result);
+//	}
+
+	/**
+	 * 修改头像
+	 */
+	public void updateImg(){
+		String result = "";
+		member = new Member();
+		member.setId(request.getParameter("id"));
+		member.setImg(request.getParameter("img"));
+		int num = personalInfoService.updatePersonInfo(member);
+		if (num > 0) {
+			result = "success";
+		}
+		super.writeJson(result);
 	}
 
 	/**
@@ -253,7 +520,7 @@ public class PersonalInfoAction extends BaseAction {
 	 */
 	public String toShowMobile() {
 		toShowBasicInfo();
-		return "toShowMobile";
+		return  PcOrWap.isPc(request,"toShowMobile");
 	}
 
 	/**
@@ -262,7 +529,7 @@ public class PersonalInfoAction extends BaseAction {
 	 */
 	public String toShowPassword() {
 		toShowBasicInfo();
-		return "toShowPassword";
+		return  PcOrWap.isPc(request,"toShowPassword");
 	}
 
 
@@ -431,7 +698,7 @@ public class PersonalInfoAction extends BaseAction {
 		if (pwd.equals(password)) {
 			String username = request.getParameter("username");
 			String code = request.getParameter("randNum");
-			List<Member> listMember = personalInfoService.selectMemberByMobile(mobile);
+			List<Member> listMember = personalInfoService.selectByMemberUsername(username);
 			List<MobileMessage> mobileMessages = personalInfoService
 					.gainMobileMessagesByMap(username, code);
 			if (listMember.size() == 0) {
@@ -475,7 +742,8 @@ public class PersonalInfoAction extends BaseAction {
 			}
 			if (a != mobileMessages.size()) {
 				String password = request.getParameter("newPassword");
-				member.setMobile(password);
+				String pwd = MD5.encrypt(password);
+				member.setPassword(pwd);
 				personalInfoService.updatePersonInfo(member);
 				result = "success";
 			}
@@ -493,13 +761,14 @@ public class PersonalInfoAction extends BaseAction {
 	public void updateBasicInfo(){
 		String result = "";
 		member.setId(request.getParameter("member.id"));
-		member.setUsername(request.getParameter("member.turename"));
+		member.setTruename(request.getParameter("member.truename"));
 		member.setFirstname(request.getParameter("member.firstname"));
 		member.setCard(request.getParameter("member.card"));
+		member.setCardFront(request.getParameter("member.cardFront"));
+		member.setCardReverse(request.getParameter("member.cardReverse"));
 		member.setGender(request.getParameter("member.gender"));
 		member.setAge(String.valueOf(request.getParameter("member.age")));
 		member.setBirthday(request.getParameter("member.birthday"));
-		member.setMobile(request.getParameter("member.mobile"));
 		member.setQq(request.getParameter("member.qq"));
 		member.setEmail(request.getParameter("member.email"));
 		member.setWeiXin(request.getParameter("member.weiXin"));
@@ -541,7 +810,7 @@ public class PersonalInfoAction extends BaseAction {
 //			e.printStackTrace();
 //		}
 //		writeJson(map);
-	}
+ 	}
 
 	public void getPoint(){
 		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil

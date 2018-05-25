@@ -14,17 +14,20 @@
         <property name="maxWaitMillis" value="${redis_maxWait}" /><!-- 最大等待时间 -->
         <property name="testOnBorrow" value="${redis_testOnBorrow}" /> <!-- 当调用borrow Object方法时，是否进行有效性检查 -->
     </bean>
+    <!--<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
+          <!--p:hostName="${redis_addr}" p:port="${redis_port}" p:password="${redis_pwd}"-->
+          <!--p:poolConfig-ref="jedisPoolConfig" p:database="${redis_db_index}" p:timeout="${redis_timeout}">-->
     <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:hostName="${redis_addr}" p:port="${redis_port}" p:password="${redis_pwd}"
-          p:poolConfig-ref="jedisPoolConfig" p:database="${redis_db_index}" p:timeout="${redis_timeout}">
-    </bean>
-    <bean id="stringRedisSerializer"  class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-    <bean id="jdkRedisSerializer"  class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory"   ref="connectionFactory" />
-        <property name="keySerializer" ref="stringRedisSerializer" />
-        <property name="hashKeySerializer" ref="stringRedisSerializer" />
-        <property name="valueSerializer" ref="jdkRedisSerializer"/>
-        <property name="enableTransactionSupport" value="true"/><!-- 配置true可以使用transactional控制事务，spring已经提供支持 -->
+    p:hostName="${redis_addr}" p:port="${redis_port}"
+    p:poolConfig-ref="jedisPoolConfig" p:database="${redis_db_index}" p:timeout="${redis_timeout}">
+</bean>
+<bean id="stringRedisSerializer"  class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+<bean id="jdkRedisSerializer"  class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+  <property name="connectionFactory"   ref="connectionFactory" />
+  <property name="keySerializer" ref="stringRedisSerializer" />
+  <property name="hashKeySerializer" ref="stringRedisSerializer" />
+  <property name="valueSerializer" ref="jdkRedisSerializer"/>
+  <property name="enableTransactionSupport" value="true"/><!-- 配置true可以使用transactional控制事务，spring已经提供支持 -->
     </bean>
 </beans>

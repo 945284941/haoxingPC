@@ -18,10 +18,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <jsp:include page="../common/keyWords.jsp"></jsp:include>
     <script type="text/javascript" src="../../js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="../../js/webuploader-0.1.5/webuploader.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../js/webuploader-0.1.5/webuploader.css">
-    <link rel="stylesheet" type="text/css" href="../../js/webuploader-0.1.5/style.css">
-
 </head>
 
 <body>

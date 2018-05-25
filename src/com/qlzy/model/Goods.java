@@ -29,7 +29,7 @@ public class Goods extends Pagination implements Serializable {
 
 	private String defaultPicSrc;
 
-	private BigDecimal price;
+	private Double price;
 
 	private BigDecimal yuanjia;
 
@@ -48,31 +48,15 @@ public class Goods extends Pagination implements Serializable {
 	private String marketable;
 
 	private String userId;
-
 	private Double USAMoney;
-
 	private Double ADMMoney;
-
-	private Integer minPage;
-
-	private Integer maxPage;
-
-	public Double getUSAMoney() {
-		return USAMoney;
-	}
-
-	public void setUSAMoney(double USAMoney) {
-		this.USAMoney = USAMoney;
-	}
-
-	public Double getADMMoney() {
-		return ADMMoney;
-	}
-
-	public void setADMMoney(Double ADMMoney) {
-		this.ADMMoney = ADMMoney;
-	}
-
+	private Long minPage;
+    private String siv;
+	private String orderSiv;
+	private String volumeSiv;
+	private	String createTimeSiv;
+	private	String priceRiseSiv;
+	private Long maxPage;
 	private String isCarProducter;
 
 	private BigDecimal isMemberDiscount;
@@ -183,19 +167,27 @@ public class Goods extends Pagination implements Serializable {
 	private Integer collectNum;//商品在被收藏的数量
 
 	//规格
-    @Transient
-    private List<GoodsAndSku> gasList;
-    //商品规格
-    @Transient
-    private String skuKeys;
-  //单品集合
-    @Transient
-    private String data;
-    //sku选项按钮封装
-    @Transient
-    private Map<String,Collection<Object>> skuCode;
-    
-    private String showSku;
+	@Transient
+	private List<GoodsAndSku> gasList;
+	//商品规格
+	@Transient
+	private String skuKeys;
+	//单品集合
+	@Transient
+	private String data;
+	//sku选项按钮封装
+	@Transient
+	private Map<String,Collection<Object>> skuCode;
+
+	private String showSku;
+
+	//商品规格
+
+
+
+
+
+
 
 
 	private String isIndexShop;
@@ -208,6 +200,86 @@ public class Goods extends Pagination implements Serializable {
 
 	//图片信息
 	private List<String> goodsPics;
+	private BigDecimal saleRate;//不同国家的售卖比例
+	private BigDecimal docRate;
+	private BigDecimal dlmRate;
+	private String comAddress;
+	private String companyPurpose;//商家服务宗旨和理念
+	private String isSysSelf;//是否是自营 0否 1是
+	private String cornerMark;// 1抢购 2拼团 3超市 4商城 5建材
+	private Integer activityPeopleNum;//拼团人数
+
+
+
+	public Double getUSAMoney() {
+		return USAMoney;
+	}
+	public String getSiv() {
+		return siv;
+	}
+
+	public void setSiv(String siv) {
+		this.siv = siv;
+	}
+	public Long getMinPage() {
+		return minPage;
+	}
+
+	public void setMinPage(Long minPage) {
+		this.minPage = minPage;
+	}
+
+	public Long getMaxPage() {
+		return maxPage;
+	}
+
+	public void setMaxPage(Long maxPage) {
+		this.maxPage = maxPage;
+	}
+
+	public void setUSAMoney(double USAMoney) {
+		this.USAMoney = USAMoney;
+	}
+
+	public Double getADMMoney() {
+		return ADMMoney;
+	}
+
+	public void setADMMoney(Double ADMMoney) {
+		this.ADMMoney = ADMMoney;
+	}
+
+	public String getOrderSiv() {
+		return orderSiv;
+	}
+
+	public void setOrderSiv(String orderSiv) {
+		this.orderSiv = orderSiv;
+	}
+
+	public String getVolumeSiv() {
+		return volumeSiv;
+	}
+
+	public void setVolumeSiv(String volumeSiv) {
+		this.volumeSiv = volumeSiv;
+	}
+
+	public String getCreateTimeSiv() {
+		return createTimeSiv;
+	}
+
+	public void setCreateTimeSiv(String createTimeSiv) {
+		this.createTimeSiv = createTimeSiv;
+	}
+
+	public String getPriceRiseSiv() {
+		return priceRiseSiv;
+	}
+
+	public void setPriceRiseSiv(String priceRiseSiv) {
+		this.priceRiseSiv = priceRiseSiv;
+	}
 
 	public String getId() {
 		return id;
@@ -265,11 +337,11 @@ public class Goods extends Pagination implements Serializable {
 		this.defaultPicSrc = defaultPicSrc;
 	}
 
-	public BigDecimal getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
@@ -899,19 +971,69 @@ public class Goods extends Pagination implements Serializable {
 		this.collectNum = collectNum;
 	}
 
-	public Integer getMinPage() {
-		return minPage;
+	public BigDecimal getSaleRate() {
+		return saleRate;
 	}
 
-	public void setMinPage(Integer minPage) {
-		this.minPage = minPage;
+	public void setSaleRate(BigDecimal saleRate) {
+		this.saleRate = saleRate;
 	}
 
-	public Integer getMaxPage() {
-		return maxPage;
+	public BigDecimal getDocRate() {
+		return docRate;
 	}
 
-	public void setMaxPage(Integer maxPage) {
-		this.maxPage = maxPage;
+	public void setDocRate(BigDecimal docRate) {
+		this.docRate = docRate;
+	}
+
+	public BigDecimal getDlmRate() {
+		return dlmRate;
+	}
+
+	public void setDlmRate(BigDecimal dlmRate) {
+		this.dlmRate = dlmRate;
+	}
+
+	public String getComAddress() {
+		return comAddress;
+	}
+
+	public void setComAddress(String comAddress) {
+		this.comAddress = comAddress;
+	}
+
+	public String getCompanyPurpose() {
+		return companyPurpose;
+	}
+
+	public void setCompanyPurpose(String companyPurpose) {
+		this.companyPurpose = companyPurpose;
+	}
+
+	public String getCornerMark() {
+		return cornerMark;
+	}
+
+	public void setCornerMark(String cornerMark) {
+		this.cornerMark = cornerMark;
+	}
+
+	public String getIsSysSelf() {
+		return isSysSelf;
+	}
+
+	public void setIsSysSelf(String isSysSelf) {
+		this.isSysSelf = isSysSelf;
+	}
+
+	public Integer getActivityPeopleNum() {
+		return activityPeopleNum;
+	}
+
+	public void setActivityPeopleNum(Integer activityPeopleNum) {
+		this.activityPeopleNum = activityPeopleNum;
 	}
 }
+
+

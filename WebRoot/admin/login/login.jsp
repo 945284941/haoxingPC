@@ -104,11 +104,13 @@
                         $.cookie("remember", "true", { expires: 7 });
                         $.cookie("userName", userName, { expires: 7 });
                         $.cookie("passWord", passWord, { expires: 7 });
+
                     }
                     else {
                         $.cookie("remember", "false", { expires: -1 });        // 删除 cookie
                         $.cookie("userName", '', { expires: -1 });
                         $.cookie("passWord", '', { expires: -1 });
+
                     }
                     //登录成功 跳转至 index.jsp
                     if(loginByUrl != null && loginByUrl != ''){

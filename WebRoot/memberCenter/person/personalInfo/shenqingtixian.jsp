@@ -60,17 +60,15 @@
 </head>
 <script>
 
-  function  baby() {
-
-
-
+  function  baby(id) {
         var jm=$('#money').val();
-        var hl;var symbol;
-      if(jm<100){
-          alert("大于100元才能提现");
-          return;
-      };
-        if(jm>money){
+        var hl;
+        var symbol;
+        if(jm<100){
+           alert("大于100元才能提现");
+           return;
+        };
+        if(jm>${me.advance}){
             alert("提现金额不足，请重新输入！");
             return;
         };
@@ -82,55 +80,61 @@
                     hl = 1;
                     symbol = "元";
                 }
-
                 if (moneyType == 'USD') {
-                    hl = USAfree;
+                    hl = ${huilv.now_rate_doc};
                     symbol = "美元";
                 }
                 if (moneyType == 'AED') {
-                    hl = DLMfree;
+                    hl = ${huilv.now_rate_dlm};
                     symbol = "迪拉姆";
                 }
             }
         });
         var barkCard=$('#bankCard').val();
-        var huilv=jm*hl;
-        var handMoney=jm*hl*0.05
-        huilv=huilv-handMoney
+        var tixian=(jm*hl).toFixed(2);
+        var handMoney=jm*hl*${fee};
+        tixian=tixian-handMoney;
 
-        confirm('手续费为'+handMoney+symbol+'将要到账金额为'+jm*hl+symbol+'',function (r) {
-            if(r){
+        if(window.confirm('手续费为'+handMoney+symbol+'将要到账金额为'+tixian+symbol+'')){
                 $.ajax({
                     url:'shenqing!insertSelective.action',
                     data:{
+                        id:id,
                         amount:jm,
-                        realAmount:huilv,
+                        realAmount:tixian,
                         barndCard:barkCard,
                         liucunAmount:handMoney
                     },
                     method:'post',
                     dataType:'json',
-                    success:function (_d) {
-
-                        if(_d.success){
-                            $.messager.show({
-                                title : '提示',
-                                msg : "申请成功"
-                            });
-                            $('#save_money_add')[0].reset();
-                            start()
-                        }else {
-
-                            $.messager.show({
-                                title : '提示',
-                                msg : "申请失败"
-                            });
+                    success:function (data) {
+                        var msg = $.parseJSON(data);
+                        if(msg == 'success'){
+                            alert("申请成功");
+                            window.location.href="tixian.html";
+                        }else{
+                            alert("申请失败");
                         }
+//                        if(_d.success){
+//                            $.messager.show({
+//                                title : '提示',
+//                                msg : "申请成功"
+//                            });
+//                           /* $('#save_money_add')[0].reset();
+//                            start()*/
+//                           window.location.href="tixian.html";
+//                        }else {
+//
+//                            $.messager.show({
+//                                title : '提示',
+//                                msg : "申请失败"
+//                            });
+//                        }
                     }
-                })
-            }
-        })
-    }
+                });
+
+        };
+  }
 </script>
 <body>
 
@@ -186,6 +190,7 @@
                                             <option value="${b.id}">${b.bank}</option>
                                             </c:forEach>
                                         </select>
+                                    <button type="button" class="btn-danger03"><a href="showBankcard.html">添加银行卡</a></button>
                                     </dd>
                                 </dl>
                                 <dl>
@@ -213,7 +218,7 @@
                                 <dl>
                                     <dt></dt>
                                     <dd>
-                                        <button   id="submission"  onclick="baby()">提交申请</button>
+                                        <button   id="submission"  onclick="baby('${me.id}')">提交申请</button>
                                     </dd>
                                 </dl>
                             </div>
@@ -230,9 +235,7 @@
 
 <!-- 页脚结束  -->
 <!-- footer begin -->
-<div class="gzgz">
-    <jsp:include page="/admin/common/footer.jsp" />
-</div>
+<jsp:include page="/admin/common/indexFooter.jsp" />
 <!-- footer end -->
 <script type="text/javascript">
     function selectban(){

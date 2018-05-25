@@ -19,6 +19,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.qlzy.mainPage.login.dao.MemberLvMapper;
+import com.qlzy.memberCenter.person.moneyManage.dao.AdvanceLogsMapper;
+import com.qlzy.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +35,7 @@ import com.qlzy.mainPage.login.dao.MemberMapper;
 import com.qlzy.memberCenter.common.dao.EmailSendLogMapper;
 import com.qlzy.memberCenter.common.dao.MobileMessageMapper;
 import com.qlzy.memberCenter.common.dao.PointDetailMapper;
-import com.qlzy.memberCenter.person.moneyManage.dao.AdvanceLogsMapper;
+
 import com.qlzy.memberCenter.person.perinfo.dao.JiesuanItemMapper;
 import com.qlzy.memberCenter.person.perinfo.dao.LiucunbiDetailMapper;
 import com.qlzy.memberCenter.person.perinfo.dao.MemeberDeailMapper;
@@ -41,19 +44,6 @@ import com.qlzy.memberCenter.person.perinfo.dao.XianjinbiDetailMapper;
 import com.qlzy.memberCenter.person.perinfo.dao.ZhuanpanLogMapper;
 import com.qlzy.memberCenter.person.perinfo.dao.ZhuanpanMapper;
 import com.qlzy.memberCenter.person.perinfo.service.PersonalInfoService;
-import com.qlzy.model.AdvanceLogs;
-import com.qlzy.model.Company;
-import com.qlzy.model.EmailSendLog;
-import com.qlzy.model.LiucunbiDetail;
-import com.qlzy.model.Member;
-import com.qlzy.model.MemberJob;
-import com.qlzy.model.MemeberDeail;
-import com.qlzy.model.MobileMessage;
-import com.qlzy.model.PointDetail;
-import com.qlzy.model.XianjinbiCashApply;
-import com.qlzy.model.XianjinbiDetail;
-import com.qlzy.model.Zhuanpan;
-import com.qlzy.model.ZhuanpanLog;
 import com.qlzy.pojo.SessionInfo;
 import com.qlzy.task.model.CashBackTask;
 import com.qlzy.task.service.ITaskService;
@@ -65,6 +55,8 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 
 	@Resource
 	private MemberMapper memberMapper;
+	@Resource
+	private MemberLvMapper memberLvMapper;
 	@Resource
 	private MemberJobMapper memberJobMapper;
 	@Resource
@@ -95,6 +87,51 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 	private ZhuanpanLogMapper zhuanpanLogMapper;
 	@Resource
 	private ITaskService taskService;
+
+
+	@Override
+	public Double gainSecondByUserId(String UserId){
+		return advanceLogsMapper.selectSecondByUserId(UserId);
+	}
+	@Override
+	public Double gainFirstByUserId(String UserId){
+		return advanceLogsMapper.selectFirstByUserId(UserId);
+	}
+
+	@Override
+	public List<AdvanceLogs> gainByUserIdGetList(Map<String,Object> map){
+		return advanceLogsMapper.selectByUserIdGetList(map);
+	}
+	@Override
+	public AdvanceLogs gainByUserId(Map<String,Object> map){
+
+		AdvanceLogs mm = advanceLogsMapper.selectByUserId(map);
+		return mm;
+	}
+	@Override
+	public Long gainCountByMap(Map map){
+		return memberMapper.getCountByMap(map);
+	}
+	@Override
+	public List<Member> gainListByMap(Map map){
+		return memberMapper.getListByMap(map);
+	}
+
+
+	@Override
+	public long gainMemberCountByMap(Map map){
+		return memberMapper.getMemberCountByMap(map);
+	}
+	@Override
+	public MemberLv gainMemberLvById(String id){
+		return memberLvMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<Member> gainMembersByMap(Map map){
+		return memberMapper.getMemberListByMap(map);
+	}
+
 	/**
 	 * (非 Javadoc)
 	 * 
@@ -111,25 +148,53 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 		map.put("onlyId",member.getOnlyId());
 		Long yiji = memberMapper.myYijiCount(map);
 		Long erji =  memberMapper.myErjiCount(map);
-		Long sanji =  memberMapper.mySanjiCount(map);
+		//Long sanji =  memberMapper.mySanjiCount(map);
 		Long yijivip = memberMapper.myYijiCountvip(map);
 		Long erjivip =  memberMapper.myErjiCountvip(map);
-		Long sanjivip =  memberMapper.mySanjiCountvip(map);
-		
+		//Long sanjivip =  memberMapper.mySanjiCountvip(map);
+		Long yijifensi = yiji - yijivip;
+
+		//我的收益
+		Double shouyi = memberMapper.gainShouyi();
+		//预计提成 查看下线的付款订单金额
+		Map<String,Object> paraMap = new HashMap<String,Object>();
+		paraMap.put("memberId",id);
+		Double yujiticheng = memberMapper.gainYujiTicheng(paraMap);
+		//一级提成
+		paraMap.put("memberId","");
+		paraMap.put("onlyId",member.getOnlyId());
+		paraMap.put("onlyType","0");
+		Double yijiticheng = memberMapper.gainYujiTicheng(paraMap);
+		//二级提成
+		paraMap.put("onlyType","1");
+		Double erjiticheng = memberMapper.gainYujiTicheng(paraMap);
+		//已发提成 = 我的收益
+
+
 		member.setYiji(yiji);
 		member.setErji(erji);
-		member.setSanji(sanji);
+		//member.setSanji(sanji);
 		member.setYijivip(yijivip);
 		member.setErjivip(erjivip);
-		member.setSanjivip(sanjivip);
+		//member.setSanjivip(sanjivip);
+		member.setYijifensi(yijifensi);
+
+		member.setShouyi(shouyi);
+		member.setYujiticheng(yujiticheng);
+		member.setYijiticheng(yijiticheng);
+		member.setErjiticheng(erjiticheng);
 		
 		return member;
 	}
-
+	@Override
 	public List<Member> selectMemberByName(String username){
 		return memberMapper.selectByMemberName(username);
 	}
-
+	@Override
+	public List<Member> selectByMemberUsername(String username){
+		return memberMapper.selectByMemberUsername(username);
+	}
+	@Override
 	public List<Member> selectMemberByMobile(String mobile){
 		return memberMapper.selectMemberByMobile(mobile);
 	}

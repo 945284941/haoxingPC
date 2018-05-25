@@ -8,6 +8,7 @@
  */
 package com.qlzy.memberCenter.call.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,12 @@ import com.qlzy.pojo.SessionInfo;
  */
 public interface MemberCallService {
 
+	/**
+	 * 根据id修改银行卡信息
+	 * @param record
+	 * @return
+	 */
+	int updateByPrimaryKey(Bankcard record);
 	/**
 	 * 根据id查询银行卡信息
 	 * @param id
@@ -254,6 +261,7 @@ public interface MemberCallService {
 	 * @author 周张豹
 	 */
 	public Integer gainCartNumByUserId(String userId);
+	public Integer gainCartNumByParm(Map<String,Object> parmMap);
 
 	/**
 	 * Cookie中购物车商品的数量
@@ -479,4 +487,13 @@ public interface MemberCallService {
 	Member gainMemberListByMap(Map<String, String> parmMap);
 
 	Map<String,Company> gainCartByCookie(HttpServletRequest request,Map<String,Object> parmMap,Map<String,Company> comMap);
+
+	List<Cart> selectCartsByUserIdAndAd(Map<String, Object> parmMap);
+
+	Integer gainCartNumByCookieParmMap(HttpServletRequest request, Map<String, Object> parmMap);
+
+	List<ReceiveAddress> gainReceiveAddressesList(String userId);
+
+	TradePayDeail addOrder(String receiveAddrId, String goodsItemIds,
+						   SessionInfo sessionInfo, String countryId,String orderMsg,String isNowBuy, String isOneBuy,Integer nowBuyNum);
 }

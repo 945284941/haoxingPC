@@ -181,10 +181,11 @@ public class PaymentAction extends BaseAction {
 		// 选择汇筹：页面Ajax跨域调用
 		sessionInfo = (SessionInfo) session.get(ResourceUtil
 				.getSessionInfoName());
-		order = orderService.gainOrderById(orderId);
-		pointPayment = paymentService.queryPointPayment(orderId);
-		member =  memberCallService.gainMember(order.getMemberId());
-		hcpayGateway = ResourceUtil.getHcpayGateway();
+		System.out.println(orderId);
+//		order = orderService.gainOrderById(orderId);
+//		pointPayment = paymentService.queryPointPayment(orderId);
+//		member =  memberCallService.gainMember(order.getMemberId());
+//		hcpayGateway = ResourceUtil.getHcpayGateway();
 		
 		return "selectPaymentType";
 	}

@@ -146,6 +146,30 @@ public class ResourceUtil {
 		return bundle.getString("companyLogoAndlicense");
 	}
 	/***
+	 * 二维码存放地址
+	 * @return
+	 */
+	public static final String getQrCode_Img_Directory(){
+		return bundle.getString("qrCode");
+	}
+
+    /***
+     * 头部商家登录地址
+     * @return
+     */
+    public static final String getShangjia_url(){
+        return bundle.getString("shangjia_url");
+    }
+
+	/***
+	 * 二维码存放内容
+	 * @return
+	 */
+	public static final String getQrCode_remark(){
+		return bundle.getString("qrCode_remark");
+	}
+
+	/***
 	 * 企业表头广告存放地址
 	 * @return
 	 */
@@ -379,5 +403,9 @@ public class ResourceUtil {
 
 	public static Integer getMarketIndexNum() {
 		return Integer.parseInt(bundle.getString("marketIndexNum"));
+	}
+
+	public static String getZiyingCompanyId(){
+		return bundle.getString("ziying_company_id");
 	}
 }

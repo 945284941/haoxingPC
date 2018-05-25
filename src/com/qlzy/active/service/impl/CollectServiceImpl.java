@@ -32,7 +32,6 @@ import com.qlzy.model.GoodsCat;
  */
 @Transactional(rollbackFor=Exception.class)
 @Service("collectService")
-@SuppressWarnings("unchecked")
 public class CollectServiceImpl implements CollectService{
 	Logger log = Logger.getLogger(this.getClass());
 	@Autowired

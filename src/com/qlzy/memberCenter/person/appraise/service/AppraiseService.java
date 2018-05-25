@@ -22,6 +22,19 @@ import com.qlzy.pojo.StatisticsInfo;
  *
  */
 public interface AppraiseService {
+	/**
+	 *
+	 * @param appraise
+	 * @return
+	 */
+	int insertAppraise(Appraise appraise);
+
+	/**
+	 * 通过订单id和商品id查询评论信息
+	 * @param appraise
+	 * @return
+	 */
+	Appraise gainByOrderIdAndGoodsId(Appraise appraise);
 
 	/**
 	* @Title: gainAppraiseList
@@ -96,4 +109,21 @@ public interface AppraiseService {
 	List<Appraise> selectAppariseByTypeAndPage(Map<String, Object> parmMap);
 
 	Long selectAppariseByTypeAndPageCount(Map<String, Object> parmMap);
+
+	/**
+	 * @Title goodEvaluate
+	 * @Description TODO(好评的数量)
+	 * @param companyId
+	 * @return
+	 * @author Jason
+	 */
+	Long goodEvaluate(String companyId);
+	/**
+	 * @Title goodEvaluate
+	 * @Description TODO(总评价数)
+	 * @param companyId
+	 * @return
+	 * @author Jason
+	 */
+	Long Evaluate(String companyId);
 }

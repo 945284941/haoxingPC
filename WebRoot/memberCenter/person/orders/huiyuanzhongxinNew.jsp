@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -98,11 +99,24 @@
 		showsplbtitle('tanchu', 'pjnr');
 	}
 
-
-
-
+	function changeStatus(orderId,status,disabled) {
+		$.ajax({
+            url : 'orderAction!changeOrderStatus.action',
+            type : 'POST',
+            data : {orderId:orderId,status:status,disabled:disabled},
+            success : function(data) {
+                var r = $.parseJSON(data);
+                if (r == 'ok') {
+                    alert('<s:text name="index_0315"/>！');
+                    window.location.href = "person/order/huiyuanzhongxin.html";
+                } else {
+                    alert('<s:text name="index_0316"/>！');
+                    return false;
+                }
+            }
+		});
+    }
 </script>
-
 </head>
 <body>
 	<div id="tanchu"></div>
@@ -133,9 +147,9 @@
 			<div class="w-buyers">
 				<div class="w-buyers2">
 					<div class="w-buy-name">
-						<div class="img"><img src="images/lh_13.jpg" /></div>
+						<div class="img"><img src="${member.img}" /></div>
 						<div class="txt">
-							<h3>静水流深</h3>
+							<h3>${member.firstname}</h3>
 							<span>
 						    			<i class="icon iconfont on"></i>
 						    			<i class="icon iconfont on"></i>
@@ -147,159 +161,164 @@
 						<div class="txt">
 							<ul>
 								<li class="txt-03">
-									<a href="#">待付款</a>
+									<a href="person/order/myOrders/1.html" ><s:text name="index_0122"/></a>
 								</li>
 								<li class="txt-03">
-									<a href="#">待发货</a>
+									<a href="person/order/myOrders/2.html"><s:text name="index_0123"/></a>
 								</li>
 								<li class="txt-03">
-									<a href="#">待收货</a>
+									<a href="person/order/myOrders/3.html"><s:text name="index_0124"/></a>
 								</li>
 								<li class="txt-03">
-									<a href="#">待评价</a>
+									<a href="person/order/myOrders/5.html"><s:text name="index_0173"/></a>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<div class="right01">
 						<div class="wsfxs01">
-							<a href="#">我是分销商</a>
+							<a href="personalInfo/fenxiaoCenter.html"><s:text name="index_0120"/></a>
 						</div>
 						<div class="wsfxs02">
-							<a href="#">分销规则</a>
+							<a href="#"><s:text name="index_0339"/></a>
 						</div>
 					</div>
 				</div>
 				<div class="l-fr tgar" style="padding-bottom: 20px;">
 					<div class="w-title">
-						<h3 class="fl">我的订单</h3>
-						<a href="" style="text-align: right; padding: 0 15px; float: right;">查看全部订单</a>
+						<h3 class="fl"><s:text name="index_0088"/></h3>
+						<a href="person/order/myOrders.html" style="text-align: right; padding: 0 15px; float: right;"><s:text name="index_0340"/></a>
 					</div>
+				<c:if test="${empty orderList}">
+					<div style="text-align: center;"><img style="height: 260px" src="images/wujilu.jpg"/></div>
+				</c:if>
+				<c:if test="${not empty orderList}">
+					<ul>
+						<div class="w-bond" style="padding: 20px 0 0;">
+							<div class="w-bond-title">
+								<p class="w-title-name" style="width: 200px"><s:text name="index_0341"/></p>
+								<p class="w-title-time" style="width: 100px"><s:text name="index_0151"/></p>
+								<p class="w-title-time" style="width: 140px"><s:text name="index_0342"/></p>
+								<p class="w-title-time"><s:text name="index_0343"/></p>
+								<p class="w-title-mony"><s:text name="index_0344"/></p>
+								<p class="w-title-mony"><s:text name="index_0300"/></p>
+							</div>
+						</div>
+					</ul>
+					<c:forEach items="${orderList}" var="order" varStatus="n">
+					<c:if test="${n.index<3}">
 					<div class="w-bond-list3">
 						<div class="w-bond-tit3">
-							<div class="w-bond-num fl">[订单编号：0120123456789]</div>
+							<div class="w-bond-num fl">[<s:text name="index_0176"/>：${order.orderNum}]</div>
 							<div class="clear"></div>
 						</div>
 						<div class="w-bond-info3">
 							<div class="w-bond-013 borb2" >
 								<div class="w-bond-img3 fl">
 									<a href="">
-										<img src="images/lh_02.jpg">
-										<img src="images/lh_02.jpg">
-										<img src="images/lh_02.jpg">
+										<c:forEach items="${order.items}" var="item">
+										<img src="${item.defaultPicSrc}">
+										</c:forEach>
 										<span>...</span>
 									</a>
 								</div>
 								<div class="w-bond-name3 fl">
-									<a href="">小小</a></div>
+									<a href="">${order.shipName}</a></div>
 								<div class="clear"></div>
 							</div>
 							<div class="w-bond-023">
-								<p>￥80000.00</p>
-								<p>$12.00</p>
-								<p>AED10</p>
+								<p>￥${order.totalCost}</p>
+								<p>$<fmt:formatNumber type="number" value="${huilv.now_rate_doc * order.totalCost}" pattern="0.00" maxFractionDigits="2"/></p>
+								<p>AED<fmt:formatNumber type="number" value="${huilv.now_rate_dlm * order.totalCost}" pattern="0.00" maxFractionDigits="2"/></p>
 							</div>
 							<div class="w-bond-033">
-								<a href="">2017-05-02<br>12:00:20</a>
+								<a href=""><fmt:formatDate value="${order.createtime}" pattern="yyyy-MM-dd"/>
+									<br><fmt:formatDate value="${order.createtime}" pattern="HH:mm:ss" /></a>
 							</div>
-							<div class="w-bond-043">等待付款</div>
+							<c:if test="${order.status=='1'&&order.payStatus=='0'&&order.shipStatus=='0'}">
+							<div class="w-bond-043"><s:text name="index_0357"/></div>
 							<div class="w-bond-053">
-								<button type="button" class="btn-danger03">查看订单</button>
+								<a href="person/order/toOrderDetail/${order.id}.html"><s:text name="index_0345"/></a>
+								<a href="javascript:void(0)" onclick="changeStatus('${order.id}','6','${order.disabled}')"><s:text name="index_0181"/></a>
 							</div>
-							<div class="clear"></div>
-						</div>
-					</div>
-					<div class="w-bond-list3">
-						<div class="w-bond-tit3">
-							<div class="w-bond-num fl">[订单编号：0120123456789]</div>
-							<div class="clear"></div>
-						</div>
-						<div class="w-bond-info3">
-							<div class="w-bond-013 borb2" >
-								<div class="w-bond-img3 fl">
-									<a href="">
-										<img src="images/lh_02.jpg">
-										<img src="images/lh_02.jpg">
-										<img src="images/lh_02.jpg">
-										<span>...</span>
-									</a>
+							</c:if>
+							<c:if test="${order.status=='6'&&order.payStatus=='0'&&order.shipStatus=='0'}">
+								<div class="w-bond-043"><s:text name="index_0171"/></div>
+								<div class="w-bond-053">
+									<a href="person/order/toOrderDetail/${order.id}.html"><s:text name="index_0345"/></a>
+									<a href="javascript:void(0)" onclick="changeStatus('${order.id}','${order.status}','true')"><s:text name="index_0147"/></a>
 								</div>
-								<div class="w-bond-name3 fl">
-									<a href="">小小</a></div>
-								<div class="clear"></div>
-							</div>
-							<div class="w-bond-023">
-								<p>￥80000.00</p>
-								<p>$12.00</p>
-								<p>AED10</p>
-							</div>
-							<div class="w-bond-033">
-								<a href="">2017-05-02<br>12:00:20</a>
-							</div>
-							<div class="w-bond-043">等待付款</div>
-							<div class="w-bond-053">
-								<button type="button" class="btn-danger03">查看订单</button>
-							</div>
-							<div class="clear"></div>
-						</div>
-					</div>
-					<div class="w-bond-list3">
-						<div class="w-bond-tit3">
-							<div class="w-bond-num fl">[订单编号：0120123456789]</div>
-							<div class="clear"></div>
-						</div>
-						<div class="w-bond-info3">
-							<div class="w-bond-013 borb2" >
-								<div class="w-bond-img3 fl">
-									<a href="">
-										<img src="images/lh_02.jpg">
-										<img src="images/lh_02.jpg">
-										<img src="images/lh_02.jpg">
-										<span>...</span>
-									</a>
+							</c:if>
+							<c:if test="${order.status=='2'&&order.payStatus=='1'&&order.shipStatus=='0'}">
+								<div class="w-bond-043"><s:text name="index_0336"/></div>
+								<div class="w-bond-053">
+									<a href="person/order/toOrderDetail/${order.id}.html"><s:text name="index_0345"/></a>
+									<a href="javascript:void(0)" onclick="changeStatus('${order.id}','7','${order.disabled}')"><s:text name="index_0187"/></a>
 								</div>
-								<div class="w-bond-name3 fl">
-									<a href="">小小</a></div>
-								<div class="clear"></div>
-							</div>
-							<div class="w-bond-023">
-								<p>￥80000.00</p>
-								<p>$12.00</p>
-								<p>AED10</p>
-							</div>
-							<div class="w-bond-033">
-								<a href="">2017-05-02<br>12:00:20</a>
-							</div>
-							<div class="w-bond-043">等待付款</div>
-							<div class="w-bond-053">
-								<button type="button" class="btn-danger03">查看订单</button>
-							</div>
+							</c:if>
+							<c:if test="${order.status=='7'}">
+								<div class="w-bond-043"><s:text name="index_0346"/></div>
+								<div class="w-bond-053">
+									<a href="person/order/toOrderDetai/l${order.id}.html"><s:text name="index_0345"/></a>
+								</div>
+							</c:if>
+							<c:if test="${order.status=='3'&&order.payStatus=='1'&&order.shipStatus=='1'}">
+								<div class="w-bond-043"><s:text name="index_0124"/><br/>
+									<a><s:text name="index_0347"/></a>
+								</div>
+								<div class="w-bond-053">
+									<a href="person/order/toOrderDetail/${order.id}.html"><s:text name="index_0345"/></a>
+									<a href="javascript:void(0)" onclick="changeStatus('${order.id}','4','${order.disabled}')"><s:text name="index_0070"/></a>
+									<a href="javascript:void(0)" onclick="changeStatus('${order.id}','7','${order.disabled}')"><s:text name="index_0348"/></a>
+								</div>
+							</c:if>
+							<c:if test="${order.status=='5'&&order.payStatus=='1'&&order.shipStatus=='2'}">
+								<div class="w-bond-043"><s:text name="index_0173"/></div>
+								<div class="w-bond-053">
+									<a href="person/order/toOrderDetail/${order.id}.html"><s:text name="index_0345"/></a>
+									<a href="javascript:void(0)" onclick="changeStatus('${order.id}','4','${order.disabled}')"><s:text name="index_0070"/></a>
+									<%--<button type="button" class="btn-danger03">评价</button>--%>
+								</div>
+							</c:if>
+							<c:if test="${order.status=='4'&&order.payStatus=='1'&&order.shipStatus=='2'}">
+								<div class="w-bond-043"><s:text name="index_0174"/></div>
+								<div class="w-bond-053">
+									<a href="person/order/toOrderDetail/${order.id}.html"><s:text name="index_0345"/></a>
+									<a href="javascript:void(0)" onclick="changeStatus('${order.id}','4','${order.disabled}')"><s:text name="index_0070"/></a>
+								</div>
+							</c:if>
 							<div class="clear"></div>
 						</div>
 					</div>
-
-
+					</c:if>
+					</c:forEach>
+				</c:if>
 				</div>
 				<div class="l-fr">
 					<div class="w-title">
-						<h3 class="fl">我收藏的商品</h3>
-						<a href="" style="text-align: right; padding: 0 15px; float: right; ">查看全部订单</a>
+						<h3 class="fl"><s:text name="index_0349"/></h3>
+						<a href="showGoodsCollect.html" style="text-align: right; padding: 0 15px; float: right; "><s:text name="index_0350"/></a>
 					</div>
 					<div class="lh_dpyytg01">
+						<c:if test="${empty memberCollectList}">
+							<div style="text-align: center;"><img style="height: 240px" src="images/wujilu.jpg"/></div>
+						</c:if>
+						<c:if test="${not empty memberCollectList}">
 						<ul>
-							<li><a href="#"><img src="images/lh_12.png"/></a></li>
-							<li><a href="#"><img src="images/lh_12.png"/></a></li>
-							<li><a href="#"><img src="images/lh_12.png"/></a></li>
-							<li><a href="#"><img src="images/lh_12.png"/></a></li>
+						<c:forEach items="${memberCollectList}" var="memberCollect" varStatus="n">
+						<c:if test="${n.index<4}">
+							<li><a href="goods/${memberCollect.goodsId}.html"><img src="${memberCollect.defaultPicSrc}"/></a></li>
+						</c:if>
+						</c:forEach>
 						</ul>
+						</c:if>
 					</div>
 				</div>
 			</div>
+		</div>
 		<!-- 右侧功能结束 -->
-
-
-
-
-
+	</div>
+</div>
+	<jsp:include page="/admin/common/indexFooter.jsp" />
 </body>
 </html>

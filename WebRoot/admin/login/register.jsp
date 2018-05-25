@@ -49,7 +49,6 @@
                 <input  type="text" placeholder="手机号" class="login_bk" style="height:40px;" id="loginName" name="loginName"/>
                 <input  type="text" placeholder="验证码" class="login_yzm" style="height:40px;" id="loginCode" name="loginCode" style="width: 200px;"/>
                 <div class="login_yzm_dx on" id="J_resetCode" style="display: none;">重新发送</div>
-
                 <div class="login_yzm_dx on" id="J_second" style="display: none;">60</div>
                 <div class="login_yzm_dx" onclick="getCode(this)" id="J_getCode">获取验证码</div>
                 <input name="member.password" id="password" type="password" placeholder="设置密码" class="login_bk2" style="height:40px;" />

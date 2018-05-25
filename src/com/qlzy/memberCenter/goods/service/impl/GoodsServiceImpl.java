@@ -63,7 +63,8 @@ public class GoodsServiceImpl implements GoodsService {
 	@Autowired
 	private GoodsAndLabelMapper goodsAndLabelMapper;
 	@Resource
-    private QlDictMapper qlDictMapper;
+	private QlDictMapper qlDictMapper;
+
 	@Override
 	public void addGoods(Goods goods, Map<String, Object> map)
 			throws UnsupportedEncodingException {
@@ -579,7 +580,26 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public List<Goods> gainFindGoodsBySelect(Goods goods) {
-		return goodsMapper.gainFindGoodsBySelect(goods);
+		List<Goods> goodsList =goodsMapper.gainFindGoodsBySelect(goods);
+		Double USARate=0.00;
+		Double ADMRate=0.00;
+		List<QlDict> dictList=qlDictMapper.selectByType("hv_type");
+		for(int i=0;i<dictList.size();i++){
+			if(dictList.get(i).getLabel().equals("now_rate_dlm")){
+				ADMRate=Double.parseDouble(dictList.get(i).getValue());
+			}
+			if(dictList.get(i).getLabel().equals("now_rate_doc")){
+				USARate=Double.parseDouble(dictList.get(i).getValue());
+			}
+		}
+		DecimalFormat df = new DecimalFormat("#.00");
+
+		for (int j=0;j<goodsList.size();j++){
+			goodsList.get(j).setADMMoney(Double.valueOf(String.format("%.2f",goodsList.get(j).getPrice()*ADMRate)));
+			goodsList.get(j).setUSAMoney(Double.valueOf(String.format("%.2f",goodsList.get(j).getPrice()*USARate)));
+		}
+
+		return goodsList;
 	}
 
 	@Override

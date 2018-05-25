@@ -212,7 +212,7 @@ left:-50%; }
 
 .left_menu_str_b a{color:#666; }
 .left_menu_str_b a:hover{color:#ff0000; text-decoration:underline; }
-.left_menu_dt{ height:35px; width:180px; z-index:1; cursor:pointer; position:relative; float:left;transition: all 0.5s ease 0s; }
+.left_menu_dt{ height:35px; width:200px; z-index:1; cursor:pointer; position:relative; float:left;transition: all 0.5s ease 0s; }
 .left_menu_str a{ color:#fff; font-size: 13px;}
 .left_menu_str a:hover{ color:#fff;} 
 .left_menu_this{ z-index:4; height:35px; line-height:35px; width:176px; background:#a61f1f; cursor:pointer; position:absolute; border-right:0px;  }

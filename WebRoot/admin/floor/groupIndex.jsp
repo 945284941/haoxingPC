@@ -9,40 +9,36 @@
         <a href="/"><s:text name="index_0013"/></a> >
         <a href="">${sessionInfo.curentMenu}</a>
     </div>
-    <form id="pagerForm" name="pagerForm" action="${sessionInfo.toUrl}" method="post">
-        </form>
+    <form id="pagerForm" name="pagerForm" action="indexFloor/indexFloorAction!showIndexGroupFloor.action" method="post">
+    </form>
     <!-- 团多多 -->
     <div class="lh_xsqg_nr">
         <ul>
             <c:forEach items="${marketGoodsList}" var="goods" varStatus="status">
             <li class="fl">
-                <div class="tupian"><img src="${goods.defaultPicSrc}"/></div>
+                <div class="tupian">
+                    <a href="goods/${goods.id}.html"> <img src="${goods.defaultPicSrc}"/> </a> </div>
                 <div class="title">
-                    <c:if test="${'zh' eq sessionInfo.language}">
-                        <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">${goods.name}</a>
-                    </c:if>
-                    <c:if test="${'zh' ne sessionInfo.language}">
-                        <a isconvert="1" data-itemid="544015300167" href="#" target="_blank">${goods.enName}</a>
-                    </c:if>
+                        <a isconvert="1" data-itemid="544015300167" href="goods/${goods.id}.html" target="_blank">${goods.name}</a>
                 </div>
                 <div class="jg">
                     <div class="jg_zc">
-                        <em>￥${goods.activityPrice}</em>
+                        <em>￥<fmt:formatNumber type="number" value="${goods.price * goods.activityPrice * goods.saleRate}" pattern="0.00" maxFractionDigits="2"/></em>
                         <span>￥${goods.yuanjia}</span>
                     </div>
                     <div class="jg_yj">
-                        <span class="goods_buy">$ ${goods.docPrice}</span><br>
-                        <span class="goods_buy">AED$ ${goods.dlmPrice}</span>
+                        <span class="goods_buy">$ <fmt:formatNumber type="number" value="${goods.docPrice}" pattern="0.00" maxFractionDigits="2"/></span><br>
+                        <span class="goods_buy">AED$ <fmt:formatNumber type="number" value="${goods.dlmPrice}" pattern="0.00" maxFractionDigits="2"/></span>
                     </div>
                 </div>
-                <div class="bottom"><a href="#">立即抢购</a></div>
-                <div class="tuan">2人团</div>
+                <div class="bottom"><a href="goods/${goods.id}.html">立即抢购</a></div>
+                <div class="tuan">${goods.activityPeopleNum}人团</div>
             </li>
                 </c:forEach>
         </ul>
         <div class="clear"></div>
         <div class="w-page">
-            <page:pagination path="toFlashSale.html" formName="pagerForm"/>
+            <page:pagination path="indexFloor/indexFloorAction!showIndexGroupFloor.action" formName="pagerForm"/>
         </div>
     </div>
 

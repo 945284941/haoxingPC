@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.qlzy.mainPage.country.service.NCountryService;
 import com.qlzy.memberCenter.person.appraise.service.AppraiseService;
 import com.qlzy.memberCenter.shop.service.CompanysGoodsCatService;
 import com.qlzy.model.*;
@@ -41,7 +42,7 @@ import com.qlzy.util.BaseAction;
 @Action(value = "indexGoodsAction", results = {
 		@Result(name = "hotGoods", location = "/admin/goods/hotGoods.jsp"),
 		@Result(name = "goods", location = "/admin/goods/goods.jsp"),
-		@Result(name = "goodsSh", location = "/shanghui/goods/goods.jsp"),
+		@Result(name = "goodsAppraise", location = "/admin/goods/goodsAppraise.jsp"),
 		@Result(name = "goodsHot", location = "/admin/goodsHot/goodsHot.jsp"),
 		@Result(name = "toIndexGoodsHot", location = "/admin/goodsHot/indexGoodsHot.jsp") })
 /**
@@ -65,6 +66,8 @@ public class IndexGoodsAction extends BaseAction {
 	private CompanysGoodsCatService companysGoodsCatService ;
 	@Resource
 	private AppraiseService appraiseService;
+	@Resource
+	private NCountryService nCountryService;
 	/**
 	 * @ClassName: com.qlzy.mainPage.actionIndexGoodsAction.java
 	 * @Description: TODO(这里用一句话描述这个类的作用)
@@ -147,21 +150,8 @@ public class IndexGoodsAction extends BaseAction {
 		sessionInfo = (SessionInfo) session.get(ResourceUtil.getSessionInfoName());
 		Map<String,Object> parmMap = new HashMap<>();
 		parmMap.put("goodsId",goodsId);
-		parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+		nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 		goods = indexGoodsService.gainGoodsByParm(parmMap);
-
-		Pagination pagination = definationPagination(request);
-		pagination.setRows(2L);//设置每页显示几条数据
-		//查询该商品的评论信息分页
-		parmMap = new HashMap<>();
-		parmMap.put("appraiseType",appraiseType);
-		parmMap.put("goodsId",goodsId);
-		Long count = appraiseService.selectAppariseByTypeAndPageCount(parmMap);
-		pagination.setTotalCount(count);
-		parmMap.put("rows", pagination.getRows());
-		parmMap.put("page", (pagination.getPage()-1)*pagination.getRows());
-		appraiseList = appraiseService.selectAppariseByTypeAndPage(parmMap);
-		request.setAttribute("pagination", pagination);
 		if (sessionInfo != null && sessionInfo.getUserId() != null && !"".equals(sessionInfo.getUserId())) {
 			// 插入浏览记录
 			Views views = new Views();
@@ -179,7 +169,7 @@ public class IndexGoodsAction extends BaseAction {
 		//宝贝推荐列表 左侧推荐栏
 		parmMap = new HashMap<>();
 		parmMap.put("limitNum",5);
-		parmMap.put("addressId",addressId);
+		nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 		parmMap.put("companyId",goods.getCompanyId());
 		parmMap.put("isSort","1");
 		hotGoodsList = indexGoodsService.selectGoodsByType(parmMap);
@@ -187,6 +177,23 @@ public class IndexGoodsAction extends BaseAction {
 		//商家分类
 		companyGoodsCatList = companysGoodsCatService.gainAllCompanyCat(company.getId());
 		return "goods";
+	}
+	public String gainGoodsAppraise(){
+		Map<String,Object> parmMap = new HashMap<>();
+		parmMap.put("goodsId",goodsId);
+		Pagination pagination = definationPagination(request);
+		pagination.setRows(10L);//设置每页显示几条数据
+		//查询该商品的评论信息分页
+		parmMap = new HashMap<>();
+		parmMap.put("appraiseType",appraiseType);
+		parmMap.put("goodsId",goodsId);
+		Long count = appraiseService.selectAppariseByTypeAndPageCount(parmMap);
+		pagination.setTotalCount(count);
+		parmMap.put("rows", pagination.getRows());
+		parmMap.put("page", (pagination.getPage()-1)*pagination.getRows());
+		appraiseList = appraiseService.selectAppariseByTypeAndPage(parmMap);
+		request.setAttribute("pagination", pagination);
+		return "goodsAppraise";
 	}
 
 	public String toIndexGoodsHot() {

@@ -126,5 +126,12 @@ public interface MemberCollectService {
 	 */
 	public List<MemberCollect> findListByMemberCollect(MemberCollect memberCollect);
 
-
+	/**
+	 * @Title followNum
+	 * @Description TODO(查看店铺的收藏量)
+	 * @param id
+	 * @return
+	 * @auther Jason
+	 */
+	public Long followNum(String id);
 }

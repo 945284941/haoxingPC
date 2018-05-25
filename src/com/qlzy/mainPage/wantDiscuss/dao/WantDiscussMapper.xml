@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlzy.mainPage.wantDiscuss.dao.WantDiscussMapper" >
+  <resultMap id="BaseResultMap" type="com.qlzy.model.WantDiscuss" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="want_id" property="wantId" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, want_id, member_id, create_time,content
+  </sql>
+  <select id="wantDiscussList" resultMap="BaseResultMap" parameterType="com.qlzy.model.WantDiscuss">
+
+    select t.* from (
+    select wd.*,m.username
+    from want_discuss wd  left join ql_members m on wd.member_id = m.id
+    <where>
+      <if test="wantId !=null and wantId !=''">
+        and wd.want_id = #{wantId,jdbcType=VARCHAR}
+      </if>
+      <if test="memberId !=null and memberId !=''">
+        and wd.member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="content !=null and content !=''">
+        and wd.content like '%${wantId,jdbcType=VARCHAR}%'
+      </if>
+    </where> order BY wd.create_time DESC
+    ) t limit #{minRow},#{maxRow}
+  </select>
+  <select id="wantDiscussListCount" resultType="Long" parameterType="com.qlzy.model.WantDiscuss">
+    select count(*)
+    from want_discuss wd  left join ql_members m on wd.member_id = m.id
+    <where>
+      <if test="wantId !=null and wantId !=''">
+        and wd.want_id = #{wantId,jdbcType=VARCHAR}
+      </if>
+      <if test="memberId !=null and memberId !=''">
+        and wd.member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="content !=null and content !=''">
+        and wd.content like '%${wantId,jdbcType=VARCHAR}%'
+      </if>
+    </where>
+  </select>
+  <insert id="insertSelective" parameterType="com.qlzy.model.WantDiscuss" >
+    insert into want_discuss
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="wantId != null" >
+        want_id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="wantId != null" >
+        #{wantId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

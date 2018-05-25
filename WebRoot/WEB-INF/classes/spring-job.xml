@@ -4,67 +4,67 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
 		<!-- task list -->
-		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
-			<property name="triggers">
-				<list>
-					<ref bean="cashBackJob"/>
-					<ref bean="receiveTimeoutJob"/>
-					<ref bean="notpayTimeoutJob"/>
-				</list>
-			</property>
-		</bean>
+		<!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">-->
+			<!--<property name="triggers">-->
+				<!--<list>-->
+					<!--<ref bean="cashBackJob"/>-->
+					<!--<ref bean="receiveTimeoutJob"/>-->
+					<!--<ref bean="notpayTimeoutJob"/>-->
+				<!--</list>-->
+			<!--</property>-->
+		<!--</bean>-->
 		
-		<!-- 返现任务 -->
-		<bean id="cashBackJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-			<property name="targetObject">
-				<ref bean="taskService"/>
-			</property>
-			<property name="targetMethod">
-				<value>execCashBackTask</value>
-			</property>
-		</bean>
-		<bean id="cashBackJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
-			<property name="jobDetail">
-				<ref bean="cashBackJobDetail"/>
-			</property>
-			<property name="cronExpression">
-			<value>0 0 1 * * ?</value>
-			</property>
-		</bean>
-		
-		<!-- 自动收货任务 -->
-		<bean id="receiveTimeoutJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-			<property name="targetObject">
-				<ref bean="orderService"/>
-			</property>
-			<property name="targetMethod">
-				<value>receiveTimeout</value>
-			</property>
-		</bean>
-		<bean id="receiveTimeoutJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
-			<property name="jobDetail">
-				<ref bean="receiveTimeoutJobDetail"/>
-			</property>
-			<property name="cronExpression">
-			<value>0 20 1 * * ?</value>
-			</property>
-		</bean>
-		
-		<!-- 未支付订单撤销 -->
-		<bean id="notpayTimeoutJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-			<property name="targetObject">
-				<ref bean="orderService"/>
-			</property>
-			<property name="targetMethod">
-				<value>notpayTimeout</value>
-			</property>
-		</bean>
-		<bean id="notpayTimeoutJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
-			<property name="jobDetail">
-				<ref bean="notpayTimeoutJobDetail"/>
-			</property>
-			<property name="cronExpression">
-			<value>0 */10 * * * ?</value>
-			</property>
-		</bean>
+		<!--&lt;!&ndash; 返现任务 &ndash;&gt;-->
+		<!--<bean id="cashBackJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+			<!--<property name="targetObject">-->
+				<!--<ref bean="taskService"/>-->
+			<!--</property>-->
+			<!--<property name="targetMethod">-->
+				<!--<value>execCashBackTask</value>-->
+			<!--</property>-->
+		<!--</bean>-->
+		<!--<bean id="cashBackJob" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+			<!--<property name="jobDetail">-->
+				<!--<ref bean="cashBackJobDetail"/>-->
+			<!--</property>-->
+			<!--<property name="cronExpression">-->
+			<!--<value>0 0 1 * * ?</value>-->
+			<!--</property>-->
+		<!--</bean>-->
+		<!---->
+		<!--&lt;!&ndash; 自动收货任务 &ndash;&gt;-->
+		<!--<bean id="receiveTimeoutJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+			<!--<property name="targetObject">-->
+				<!--<ref bean="orderService"/>-->
+			<!--</property>-->
+			<!--<property name="targetMethod">-->
+				<!--<value>receiveTimeout</value>-->
+			<!--</property>-->
+		<!--</bean>-->
+		<!--<bean id="receiveTimeoutJob" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+			<!--<property name="jobDetail">-->
+				<!--<ref bean="receiveTimeoutJobDetail"/>-->
+			<!--</property>-->
+			<!--<property name="cronExpression">-->
+			<!--<value>0 20 1 * * ?</value>-->
+			<!--</property>-->
+		<!--</bean>-->
+		<!---->
+		<!--&lt;!&ndash; 未支付订单撤销 &ndash;&gt;-->
+		<!--<bean id="notpayTimeoutJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+			<!--<property name="targetObject">-->
+				<!--<ref bean="orderService"/>-->
+			<!--</property>-->
+			<!--<property name="targetMethod">-->
+				<!--<value>notpayTimeout</value>-->
+			<!--</property>-->
+		<!--</bean>-->
+		<!--<bean id="notpayTimeoutJob" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+			<!--<property name="jobDetail">-->
+				<!--<ref bean="notpayTimeoutJobDetail"/>-->
+			<!--</property>-->
+			<!--<property name="cronExpression">-->
+			<!--<value>0 */10 * * * ?</value>-->
+			<!--</property>-->
+		<!--</bean>-->
 </beans>

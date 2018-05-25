@@ -33,9 +33,11 @@
 <s:action name="catalogueAction!toLunbo" executeResult="true" namespace="/">
     <s:param name="lunboType">building_lunbo_pc</s:param>
 </s:action>
-<s:action name="indexFloorAction!showIndexMarketOrBuildFloor" namespace="/indexFloor" executeResult="true">
-    <s:param name="showType">isIndexBuild</s:param>
-</s:action>
+    <div id="pageReload">
+        <s:action name="indexFloorAction!showIndexMarketOrBuildFloor" namespace="/indexFloor" executeResult="true">
+            <s:param name="showType">isIndexBuild</s:param>
+        </s:action>
+    </div>
 <%--<jsp:include page="/admin/common/indexFooter.jsp" />--%>
 <s:action name="indexFloorAction!showFoot" namespace="/indexFloor" executeResult="true"></s:action>
 </body>

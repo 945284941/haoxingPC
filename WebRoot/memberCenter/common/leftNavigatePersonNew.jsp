@@ -35,68 +35,68 @@ String path = request.getContextPath();
 <div style="background: #f6f6f6;">
 	<%--<div class="main">--%>
 		<div class="h_seat">
-			<a href="">首页</a>>
-			<a href="">买家中心</a>
+			<a href=""><s:text name="index_0013"/></a>>
+			<a href="person/order/huiyuanzhongxin.html"><s:text name="index_0387"/></a>
 		</div>
 		<!--我是买家-->
 		<%--<div class="h_content">--%>
 			<div class="l-fl">
-				<h3>我是买家</h3>
+				<h3><s:text name="index_0121"/></h3>
 				<dl>
-					<dt>订单中心</dt>
+					<dt><s:text name="index_0388"/></dt>
 					<dd>
-						<a href="person/order/myOrders.html">我的订单</a>
+						<a href="person/order/myOrders.html"><s:text name="index_0088"/></a>
 					</dd>
 				</dl>
 				<dl>
-					<dt>我的收藏</dt>
+					<dt><s:text name="index_0128"/></dt>
 					<dd>
-						<a href="showShopCollect.html">店铺收藏</a>
+						<a href="showShopCollect.html"><s:text name="index_0195"/></a>
 					</dd>
 					<dd>
-						<a href="showGoodsCollect.html">商品收藏</a>
+						<a href="showGoodsCollect.html"><s:text name="index_0194"/></a>
 					</dd>
 				</dl>
 				<dl>
-					<dt>我的发布</dt>
+					<dt><s:text name="index_0130"/></dt>
 					<dd>
-						<a href="qiugou/1.html">求购</a>
+						<a href="qiugou/1.html"><s:text name="index_0389"/></a>
 					</dd>
 					<dd>
-						<a href="qiugou/2.html">二手商品</a>
+						<a href="qiugou/2.html"><s:text name="index_0101"/></a>
 					</dd>
 					<dd>
-						<a href="qiugou/3.html">拼箱</a>
+						<a href="qiugou/3.html"><s:text name="index_0390"/></a>
 					</dd>
 					<dd>
-						<a href="qiugou/4.html">生活圈</a>
+						<a href="qiugou/4.html"><s:text name="index_0102"/></a>
 					</dd>
 				</dl>
 				<dl>
 					<dt>设置</dt>
 					<dd>
-						<a href="/person/toShowBasicInfo.html">个人信息</a>
+						<a href="/person/toShowBasicInfo.html"><s:text name="index_0304"/></a>
 					</dd>
 					<dd>
-						<a href="loadReceiveAddr.html">收货地址</a>
+						<a href="loadReceiveAddr.html"><s:text name="index_0134"/></a>
 					</dd>
 					<dd>
-						<a href="showBankcard.html">银行卡</a>
+						<a href="showBankcard.html"><s:text name="index_0135"/></a>
 					</dd>
 					<dd>
-						<a href="">昵称</a>
+						<a href=""><s:text name="index_0133"/></a>
 					</dd>
 					<dd>
-						<a href="">手机绑定</a>
+						<a href=""><s:text name="index_0391"/></a>
 					</dd>
 					<dd>
-						<a href="">修改密码</a>
+						<a href="/person/toShowPassword.html"><s:text name="index_0136"/></a>
 					</dd>
 				</dl>
 				<dl>
-					<dt>客服服务</dt>
+					<dt><s:text name="index_0030"/></dt>
 					<dd>
-						<a href="yijian.html">意见反馈</a>
+						<a href="yijian.html"><s:text name="index_0131"/></a>
 					</dd>
 				</dl>
 			</div>

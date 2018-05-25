@@ -1,6 +1,7 @@
 package com.qlzy.model;
 
 import com.qlzy.pojo.Base;
+import com.qlzy.util.Pagination;
 
 import javax.persistence.Transient;
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class Company extends Base implements Serializable {
+public class Company extends Pagination implements Serializable {
     private String id;
 
     private String username;
@@ -38,6 +39,8 @@ public class Company extends Base implements Serializable {
     private Date regTime;
 
     private BigDecimal state;
+
+    private Integer clickNum;
 
     private String pwdAnswer;
 
@@ -191,6 +194,10 @@ public class Company extends Base implements Serializable {
 
     private List<String> imgList;
 
+    @Transient
+    private List<Cart> cartList;
+    @Transient
+    private List<Goods> goodsList;
     public List<String> getImgList() {
         return imgList;
     }
@@ -199,8 +206,6 @@ public class Company extends Base implements Serializable {
         this.imgList = imgList;
     }
 
-    @Transient
-    private List<Cart> cartList;
 
     public String getId() {
         return id;
@@ -865,6 +870,13 @@ public class Company extends Base implements Serializable {
     public void setProductIntroduction(String productIntroduction) {
         this.productIntroduction = productIntroduction == null ? null : productIntroduction.trim();
     }
+    public Integer getClickNum() {
+        return clickNum;
+    }
+
+    public void setClickNum(Integer clickNum) {
+        this.clickNum = clickNum;
+    }
 
     public String getOperatorId() {
         return operatorId;
@@ -928,5 +940,13 @@ public class Company extends Base implements Serializable {
 
     public void setCartList(List<Cart> cartList) {
         this.cartList = cartList;
+    }
+
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 }

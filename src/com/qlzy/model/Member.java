@@ -20,6 +20,10 @@ public class Member extends Base implements Serializable {
 
     private String firstname;
 
+    private String cardFront;
+
+    private String cardReverse;
+
     private String lastname;
 
     private String area;
@@ -139,13 +143,19 @@ public class Member extends Base implements Serializable {
     private Integer accountSecurityScore;// 账号安全评分
     private String question;// 安全保护问题
     private String randNum;// 验证码
-    
+
     private Long yiji;
     private Long yijivip;
     private Long erji;
     private Long erjivip;
     private Long sanji;
     private Long sanjivip;
+    private Long yijifensi;
+
+    private Double shouyi;
+    private Double yujiticheng;
+    private Double yijiticheng;
+    private Double erjiticheng;
     
     private Double liucunbi;
     private Double xianjinbi;
@@ -158,6 +168,61 @@ public class Member extends Base implements Serializable {
 
     private String qq;
     private String weiXin;
+    private String memberLvName;
+    private Long count;
+    private BigDecimal total;
+    private BigDecimal ticheng;
+    private String memberName;
+
+    private String dengji;
+
+    public String getDengji() {
+        return dengji;
+    }
+
+    public void setDengji(String dengji) {
+        this.dengji = dengji;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public BigDecimal getTicheng() {
+        return ticheng;
+    }
+
+    public void setTicheng(BigDecimal ticheng) {
+        this.ticheng = ticheng;
+    }
+
+    public String getMemberLvName() {
+        return memberLvName;
+    }
+
+    public void setMemberLvName(String memberLvName) {
+        this.memberLvName = memberLvName;
+    }
 
     public String getQq() {
         return qq;
@@ -215,6 +280,22 @@ public class Member extends Base implements Serializable {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname == null ? null : firstname.trim();
+    }
+
+    public String getCardFront() {
+        return cardFront;
+    }
+
+    public void setCardFront(String cardFront) {
+        this.cardFront = cardFront;
+    }
+
+    public String getCardReverse() {
+        return cardReverse;
+    }
+
+    public void setCardReverse(String cardReverse) {
+        this.cardReverse = cardReverse;
     }
 
     public String getLastname() {
@@ -846,5 +927,45 @@ public class Member extends Base implements Serializable {
 
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
+    }
+
+    public Long getYijifensi() {
+        return yijifensi;
+    }
+
+    public void setYijifensi(Long yijifensi) {
+        this.yijifensi = yijifensi;
+    }
+
+    public Double getShouyi() {
+        return shouyi;
+    }
+
+    public void setShouyi(Double shouyi) {
+        this.shouyi = shouyi;
+    }
+
+    public Double getYujiticheng() {
+        return yujiticheng;
+    }
+
+    public void setYujiticheng(Double yujiticheng) {
+        this.yujiticheng = yujiticheng;
+    }
+
+    public Double getYijiticheng() {
+        return yijiticheng;
+    }
+
+    public void setYijiticheng(Double yijiticheng) {
+        this.yijiticheng = yijiticheng;
+    }
+
+    public Double getErjiticheng() {
+        return erjiticheng;
+    }
+
+    public void setErjiticheng(Double erjiticheng) {
+        this.erjiticheng = erjiticheng;
     }
 }

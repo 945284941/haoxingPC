@@ -8,6 +8,7 @@
 */
 package com.qlzy.memberCenter.call.action;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
@@ -97,7 +98,7 @@ public class LhPayAction extends BaseAction{
 			//数字签名通过
 			Order order = orderService.gainOrderByOrderNum(dealOrder);
 			PayDeal payDeal = memberCallService.gainPayDealByDealId(dealId, "LH");
-			Double u = order.getTotalCost() - dealFee;
+			Double u =order.getTotalCost().subtract(new BigDecimal(dealFee)).doubleValue();
 			if (u == 0.0) {//比较订单价格是否相同
 				if (payDeal == null && "WAIT_BUYER_PAY".equals(dealState) ) {//对方创建订单通知
 					payDeal = new PayDeal();
@@ -163,7 +164,7 @@ public class LhPayAction extends BaseAction{
 			//数字签名通过
 			Order order = orderService.gainOrderByOrderNum(dealOrder);
 			PayDeal payDeal = memberCallService.gainPayDealByDealId(dealId, "LH");
-			Double u = order.getTotalCost() - dealFee;
+			Double u = order.getTotalCost().subtract(new BigDecimal(dealFee)).doubleValue();
 			if (u == 0.0) {//比较订单价格是否相同
 				if (payDeal == null && "WAIT_BUYER_PAY".equals(dealState) ) {//对方创建订单通知
 					payDeal = new PayDeal();

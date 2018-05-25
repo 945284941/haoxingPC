@@ -36,13 +36,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- <link rel="stylesheet" href="web/bootstrap/bootstrap.min.css" type="text/css" /> -->
-    <link rel="stylesheet" href="web/css/sghsc-main.css" type="text/css" />
-    <link rel="stylesheet" href="web/css/sghsc-order.css" type="text/css" />
-    <link rel="stylesheet" href="web/css/datePicker.css" />
 
+    <link rel="stylesheet" href="web/css/datePicker.css" />
     <link rel="stylesheet" href="css/common.css" type="text/css" />
-    <link rel="stylesheet" href="css/hyzxgr.css" type="text/css" />
     <link rel="stylesheet" href="css/page.css" type="text/css" />
+
+    <link href="css/public.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/user.css" />
 
     <script type=text/javascript src="js/jquery-1.8.0.min.js"></script>
     <script type=text/javascript src="js/layer/layer.min.js"></script>
@@ -54,9 +55,6 @@
     <!-- 日历控件 -->
     <script type="text/javascript" src="web/js/jquery.date_input.pack.js"></script>
 
-    <script type="text/javascript">
-
-    </script>
 </head>
 
 <body>
@@ -92,36 +90,85 @@
                     <div class="slideTxtBox">
                         <div class="hd">
                             <ul>
-                                <li class="on">
-                                    <a href="">求购</a>
-                                </li>
-                                <li>
-                                    <a href="">二手商品</a>
-                                </li>
-                                <li>
-                                    <a href="">拼箱</a>
-                                </li>
-                                <li>
-                                    <a href="">生活圈</a>
-                                </li>
+                                <c:if test="${wantBuyType eq '1'}">
+                                    <li class="on">
+                                        <a href="qiugou/1.html">求购</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/2.html">二手商品</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/3.html">拼箱</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/4.html">生活圈</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${wantBuyType eq '2'}">
+                                    <li>
+                                        <a href="qiugou/1.html">求购</a>
+                                    </li>
+                                    <li class="on">
+                                        <a href="qiugou/2.html">二手商品</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/3.html">拼箱</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/4.html">生活圈</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${wantBuyType eq '3'}">
+                                    <li>
+                                        <a href="qiugou/1.html">求购</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/2.html">二手商品</a>
+                                    </li>
+                                    <li  class="on">
+                                        <a href="qiugou/3.html">拼箱</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/4.html">生活圈</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${wantBuyType eq '4'}">
+                                    <li>
+                                        <a href="qiugou/1.html">求购</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/2.html">二手商品</a>
+                                    </li>
+                                    <li>
+                                        <a href="qiugou/3.html">拼箱</a>
+                                    </li>
+                                    <li class="on">
+                                        <a href="qiugou/4.html">生活圈</a>
+                                    </li>
+                                </c:if>
+
                             </ul>
                         </div>
                         <div class="fabu">
-                            <dl>
-                                <c:forEach items="${wan}" var="wan">
+                            <c:forEach items="${wan}" var="wan">
+                                <dl>
                                     <dt><img src="${wan.picUrl}" width="115"></dt>
                                     <dd>
                                         <h3>${wan.title}</h3>
                                         <p>
-                                            <span class="fl">${wan.mobile}</span>
+                                            <span class="fl">
+                                                <c:if test="${wantBuyType eq '1'}">求购</c:if>
+                                                <c:if test="${wantBuyType eq '2'}">二手商品</c:if>
+                                                <c:if test="${wantBuyType eq '3'}">拼箱</c:if>
+                                                <c:if test="${wantBuyType eq '4'}">生活圈</c:if>
+                                            </span>
                                             <span class="fr"> <fmt:formatDate value="${wan.createDate}" pattern="yyyy-MM-dd HH:mm" /></span>
                                         </p>
-                                        <a class="r120" onclick="delAddr('${wan.id}')">删除</a>
+                                        <a class="r120" onclick="delAddr('${wan.id}','${wantBuyType}')">删除</a>
                                         <a  href="<%=basePath%>toWantBuyView/${wan.id}/${wan.buyType}.html">查看</a>
-
                                     </dd>
-                                </c:forEach>
-                            </dl>
+                                </dl>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -130,16 +177,17 @@
     </div>
 </div>
 <!--我是买家-->
-
-</div>
-</div>
 <!--footer开始-->
-<div class="gzgz">
-    <jsp:include page="/admin/common/footer.jsp" />
-</div>
+<jsp:include page="/admin/common/indexFooter.jsp" />
 <!--footer结束-->
 <script src="js/jquery1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
+    var arr = document.getElementsByTagName("li");
+    for (var m = 0; m < arr.length; m++) {
+
+    }
+
+
     $(function() {
         $(".acc_sure").on("click", function() {
             alerths("请等待审核！")
@@ -228,16 +276,17 @@
 
     }
 
-    function delAddr(id){
+    function delAddr(id,buyType){
 
         if(confirm("确认要删除吗?")){
             $.ajax({
                 url : "Release!DelectWant.action",
                 type : "POST",
-                data : "id="+id,
+                data : {id:id,buyType:buyType},
                 dataType : "JSON",
                 success : function(){
-                    window.location.href="delectwan.html";
+                        window.location.href="qiugou/"+buyType+".html";
+
                 }
             });
         }

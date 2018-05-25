@@ -488,4 +488,133 @@
 		  	and n.FIRST_TITLE like '%${topSearchLike}%' 
 		  </if>
 	</select>
+	<select id="newListByPage" parameterType="com.qlzy.model.News" resultMap="BaseResultMap">
+		SELECT t.* FROM (
+		SELECT<include refid="Base_Column_List"/>
+		FROM QL_NEWS
+		<where>
+				<if test="newsCatId != null">
+					AND	NEWS_CAT_ID = #{newsCatId,jdbcType=VARCHAR}
+				</if>
+				<if test="firstTitle != null">
+				    AND FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR}
+				</if>
+				<if test="newsCatId != null">AND FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR}
+					AND
+					NEWS_CAT_ID = #{ newsCatId,jdbcType=VARCHAR}
+				</if>
+				<if test="createtime != null">
+					AND
+					CREATETIME = #{ createtime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="modifytime != null">
+					AND MODIFYTIME = #{ modifytime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="secondTitle != null">
+					AND SECOND_TITLE = #{secondTitle,jdbcType=VARCHAR}
+				</if>
+				<if test="disabled != null">
+					AND DISABLED = #{disabled,jdbcType=VARCHAR}
+				</if>
+				<if test="userId != null">
+					AND USER_ID =
+					#{userId,jdbcType=VARCHAR}
+				</if>
+				<if test="status != null">
+					AND STATUS = #{status,jdbcType=VARCHAR}
+				</if>
+				<if test="resources != null">
+					AND
+					RESOURCES = #{resources,jdbcType=VARCHAR}
+				</if>
+				<if test="keywords != null">
+					AND KEYWORDS = #{keywords,jdbcType=VARCHAR}
+				</if>
+				<if test="description != null">
+					AND
+					DESCRIPTION = #{ description,jdbcType=VARCHAR}
+				</if>
+				<if test="author != null">
+					AND AUTHOR = #{ author,jdbcType=VARCHAR}
+				</if>
+				<if test="content != null">
+					AND CONTENT =
+					#{content,jdbcType=CLOB}
+				</if>
+				<if test="newsattr != null">
+					AND NEWSATTR = #{newsattr,jdbcType=VARCHAR}
+				</if>
+				<if test="newsPic != null">
+					AND	NEWS_PIC = #{newsPic,jdbcType=VARCHAR}
+				</if>
+				<if test="viewnum != null">
+					AND	VIEWNUM = #{viewnum,jdbcType=VARCHAR}
+				</if>
+			</where>
+		ORDER BY CREATETIME DESC
+		)t limit #{minRows},#{maxRows}
+	</select>
+	<select id="newCount" parameterType="com.qlzy.model.News" resultType="Long" >
+         SELECT  COUNT(*) FROM  QL_NEWS
+		<where>
+			<if test="firstTitle != null">
+				AND FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="newsCatId != null">AND FIRST_TITLE = #{firstTitle,jdbcType=VARCHAR}
+				AND
+				NEWS_CAT_ID = #{ newsCatId,jdbcType=VARCHAR}
+			</if>
+			<if test="createtime != null">
+				AND
+				CREATETIME = #{ createtime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifytime != null">
+				AND MODIFYTIME = #{ modifytime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="secondTitle != null">
+				AND SECOND_TITLE = #{secondTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="disabled != null">
+				AND DISABLED = #{disabled,jdbcType=VARCHAR}
+			</if>
+			<if test="userId != null">
+				AND USER_ID =
+				#{userId,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null">
+				AND STATUS = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="resources != null">
+				AND
+				RESOURCES = #{resources,jdbcType=VARCHAR}
+			</if>
+			<if test="keywords != null">
+				AND KEYWORDS = #{keywords,jdbcType=VARCHAR}
+			</if>
+			<if test="description != null">
+				AND
+				DESCRIPTION = #{ description,jdbcType=VARCHAR}
+			</if>
+			<if test="author != null">
+				AND AUTHOR = #{ author,jdbcType=VARCHAR}
+			</if>
+			<if test="content != null">
+				AND CONTENT =
+				#{content,jdbcType=CLOB}
+			</if>
+			<if test="newsattr != null">
+				AND NEWSATTR = #{newsattr,jdbcType=VARCHAR}
+			</if>
+			<if test="newsPic != null">
+				AND	NEWS_PIC = #{newsPic,jdbcType=VARCHAR}
+			</if>
+			<if test="viewnum != null">
+				AND	VIEWNUM = #{viewnum,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<select id="newDetail" parameterType="com.qlzy.model.News" resultType="com.qlzy.model.News">
+		SELECT  <include refid="Base_Column_List"/>
+		  FROM  QL_NEWS where id = #{id,jdbcType=VARCHAR}
+	</select>
 </mapper>

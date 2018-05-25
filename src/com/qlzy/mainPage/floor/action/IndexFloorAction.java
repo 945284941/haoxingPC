@@ -185,13 +185,14 @@ public class IndexFloorAction extends BaseAction {
 		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
 				.getSessionInfoName());// 获取登录人信息
 		huilvMap = dictionaryService.selectByHvType("hv_type");
-		session.put("huilv",huilvMap);
+		session.put("huilv",huilvMap);//添加汇率
+		//session.put("huilv",huilvMap);//添加当前国家
 		try {
 			Map<String,Object> flashParmMap  = new HashMap<>();
 			flashParmMap.put("isFlashSale","1");
 			flashParmMap.put("limitNum",ResourceUtil.getFlashSaleIndexNum());
 			flashParmMap.put("isSort","0");
-			flashParmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,flashParmMap,session,sessionInfo,"1");
 			//查询首页限时抢购商品 按照更新时间排序
 			flashSaleGoodsList = goodsService.selectGoodsByType(flashParmMap);
 			//查询首页推荐商品 按照平台管理员操作时间排序
@@ -199,11 +200,11 @@ public class IndexFloorAction extends BaseAction {
 			indexParmMap.put("isIndexShop","1");
 			indexParmMap.put("limitNum",ResourceUtil.getShoppingIndexNum());
 			indexParmMap.put("isSort","1");
-			indexParmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,indexParmMap,session,sessionInfo,"1");
 			shoppingGoodsList = goodsService.selectGoodsByType(indexParmMap);
 			indexParmMap = new HashMap<>();
 			indexParmMap.put("type",showType);
-			indexParmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,indexParmMap,session,sessionInfo,"1");
 			//查询首页广告位
 			List<HomeSys> adList = homeSysService.selectByType(indexParmMap);
 			adMap = new HashMap<>();
@@ -216,6 +217,7 @@ public class IndexFloorAction extends BaseAction {
 			logger.error("showIndexShoppingFloor", e);
 			e.printStackTrace();
 		}
+
 		return PcOrWap.isPc(request,"showIndexShoppingFloor");
 	}
 
@@ -234,7 +236,7 @@ public class IndexFloorAction extends BaseAction {
 			Map<String,Object> parmMap  = new HashMap<>();
 			parmMap.put(showType,"1");
 			parmMap.put("isSort","1");
-			parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 			Long count = goodsService.selectGoodsByTypeAndPageCount(parmMap);
 			pagination.setTotalCount(count);
 			parmMap.put("rows", pagination.getRows());
@@ -261,7 +263,7 @@ public class IndexFloorAction extends BaseAction {
 		try {
 			Map<String,Object> parmMap  = new HashMap<>();
 			parmMap.put("isFlashSale","1");
-			parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 			Long count = goodsService.selectGoodsByTypeAndPageCount(parmMap);
 			pagination.setTotalCount(count);
 			parmMap.put("rows", pagination.getRows());
@@ -284,11 +286,11 @@ public class IndexFloorAction extends BaseAction {
 		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
 				.getSessionInfoName());// 获取登录人信息
 		Pagination pagination = definationPagination(request);
-		pagination.setRows(6L);//设置每页显示几条数据
+		pagination.setRows(1L);//设置每页显示几条数据
 		try {
 			Map<String,Object> parmMap  = new HashMap<>();
 			parmMap.put("isGroup","1");
-			parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 			Long count = goodsService.selectGoodsByTypeAndPageCount(parmMap);
 			pagination.setTotalCount(count);
 			parmMap.put("rows", pagination.getRows());
@@ -322,16 +324,20 @@ public class IndexFloorAction extends BaseAction {
 		pagination.setRows(6L);//设置每页显示几条数据
 		try {
 			Map<String,Object> parmMap  = new HashMap<>();
-			parmMap.put("fromCountryId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"2");
+//			parmMap.put("fromCountryId",sessionInfo.getAddressMap().get("addressId"));
 			if(null != wantBuy){
 				if(!"".equals(wantBuy.getCatId())){
 					parmMap.put("catId",wantBuy.getCatId());
 				}
-				if(!"".equals(wantBuy.getToCountryId())){
-					parmMap.put("toCountryId",wantBuy.getToCountryId());
-				}
+
 				if(!"".equals(wantBuy.getBuyType())){
 					parmMap.put("buyType",wantBuy.getBuyType());
+					if("3".equals(wantBuy.getBuyType())){
+						if(!"".equals(wantBuy.getToCountryId())){
+							parmMap.put("toCountryId",wantBuy.getToCountryId());
+						}
+					}
 				}else{
 					wantBuy.setBuyType("1");
 					parmMap.put("buyType","1");

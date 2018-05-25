@@ -137,7 +137,7 @@ input{border: 0;box-shadow: none; border-image: none;}
 .index_sptj_nr .goods-name a{ color: #000;}
 .index_sptj_nr .goods-name a:hover{ color: #D93600;}
 .index_sptj_nr .goods-price {font: 12px/20px Arial;color: #000;background-color: #FFF;white-space: nowrap;display: block;height: 50px;padding: 15px 0px;overflow: hidden;}
-.index_sptj_nr .goods-price_div{ float: left; border-right: 1px solid #eee; padding-right: 15px;}
+.index_sptj_nr .goods-price_div{ float: left;}
 .index_sptj_nr .goods-price em.sale-price {font-style: normal; font-size: 20px;font-weight: 400; text-overflow: ellipsis; white-space: nowrap;max-width: 95px;float: left;overflow: hidden;}
 .index_sptj_nr .goods-price_div01{ float: right;  padding-right: 15px; text-align: right; font-size: 16px;}
 .index_sptj_nr .goods_buy {margin-left:8px;float:right;  color: #000;}
@@ -628,7 +628,7 @@ input{border: 0;box-shadow: none; border-image: none;}
 .lh_wdgwc_w-bond-jd_jrdp{ width: 200px; float: right; text-align: right;line-height: 40px;}
 .lh_wdgwc_w-bond-jd_jrdp{color: #666;}
 .lh_wdgwc_w-bond-list1{/*margin-top:23px;*/border:#eaeaea 1px solid; height: 135px; background: #f0f0f0;}
-.lh_wdgwc_w-bond-info1{padding:18px 10px; float: left;}
+.lh_wdgwc_w-bond-info1{padding:18px 10px; float: left; width:1178px;}
 .lh_wdgwc_w-bond-155{float:left;width:55px;text-align:center; color: #3192d9; margin-top: 20px;}
 .lh_wdgwc_w-bond-155 input{ width: 15px; height: 15px; float: left; border: 1px solid #aaa; margin-top: 12px; margin-left: 9px;}
 .lh_wdgwc_w-bond-16{float:left;width:460px;}
@@ -682,7 +682,7 @@ input{border: 0;box-shadow: none; border-image: none;}
 
 .lh_wdgwc_jf{ width: 1200px; height: 50px; line-height: 60px; border-bottom: 1px dashed #ddd; float: left; text-align: right;}
 .lh_wdgwc_tjdd_zong{width: 575px; height: auto; float: right;}
-.lh_wdgwc_tjdd{ width: 575px; height: 130px; float: right;    border: 1px solid #000; margin-top: 20px;}
+.lh_wdgwc_tjdd { width: 575px;  height: 200px; float: right;  border: 1px solid #000;   margin-top: 20px;}
 .lh_wdgwc_tjdd p{ padding:20px 20px 0;text-align: right; font-size: 14px;}
 .lh_wdgwc_tjdd p span{ padding-left: 100px; color: #5c5c5c;}
 .lh_wdgwc_tjdd p span i{color: #000; font-size: 0.24rem; padding-left: 5px; padding-right: 5px;}
@@ -807,7 +807,6 @@ input{border: 0;box-shadow: none; border-image: none;}
 .index_sptj_nr .goods-name a{ color: #000;}
 .index_sptj_nr .goods-name a:hover{ color: #D93600;}
 .index_sptj_nr .goods-price {font: 12px/20px Arial;color: #000;background-color: #FFF;white-space: nowrap;display: block;padding: 15px 0px 5px;overflow: hidden;}
-.index_sptj_nr .goods-price_div{ float: left; border-right: 1px solid #eee; padding-right: 15px;}
 .index_sptj_nr .goods-price em.sale-price {font-style: normal; font-size: 16px;font-weight: 400; text-overflow: ellipsis; white-space: nowrap;max-width: 95px;float: left;overflow: hidden;}
 .index_sptj_nr .goods-price_div01{ float: right;  padding-right: 15px; text-align: right; font-size: 16px;}
 .index_sptj_nr .goods_buy {margin-left:8px;float:right;  color: #000;}
@@ -1072,7 +1071,7 @@ input{border: 0;box-shadow: none; border-image: none;}
 .h_revise dl{ width: 100%; float: left; margin-bottom: 10px;}
 .h_revise dl dt{float:left;width:140px;text-align:right;padding-right:10px;font-weight:normal;height:38px;line-height:38px; color: #666666;}
 .h_revise dl dd{float: left; width: 600px; line-height:38px; }
-.h_revise dl dd a{ width: 50px; height: 25px; line-height: 25px; padding: 3px 5px; /*float: left;*/ background: #e1e1e1; border: 1px solid #ddd; text-align: center; margin-right: 20px;}
+.h_revise dl dd a{ width: 50px; height: 25px; line-height: 25px; padding: 3px 5px; /*float: left;*/ /*background: #e1e1e1; border: 1px solid #ddd;*/ text-align: center; margin-right: 20px;}
 .h_datum_input{border:1px solid #d6d6d6;height:38px;line-height:38px;border-radius:3px;padding:0 10px;outline:none;}
 .h_datum_textarea{ width:240px;border:1px solid #ddd;height:100px;line-height:38px;border-radius:3px;padding:0 10px;outline:none;}
 
@@ -1234,7 +1233,7 @@ input{border: 0;box-shadow: none; border-image: none;}
 .w-buyers2 .wsfxs02{ width: 150px; height: 42px; float: right; margin-right: 50px; margin-top: 10px;  text-align: center;}
 .w-buyers2 .wsfxs02 a{ color: #8a8a8a;line-height: 30px;}
 
-.w-bond-list3{margin-top:15px;border:#eaeaea 1px solid;}
+.w-bond-list3{margin-top:15px;border:#eaeaea 1px solid;overflow: hidden;}
 .w-bond-tit3{background:#fafafb;height:38px;line-height:38px;padding:0 18px; color: #666;}
 .w-bond-tit3 a img{margin:12px 8px 0; vertical-align:inherit;}
 .w-bond-info3{padding:18px;}
@@ -1645,3 +1644,49 @@ input{border: 0;box-shadow: none; border-image: none;}
 /*登录弹窗*/
 .xfdl {position: fixed; top: 20%; z-index: 1000; left: 50%; margin-left: -170px; border: 5px rgba(0,0,0,0.2) solid;}
 .xfdl .login_cont_ny_r {margin-top: 0;}
+
+
+/*2018.04.26添加*/
+.xiangqing {font-size: 14px; line-height: 36px; color: #444444;}
+.liebiiao {width: 1200px; background: #FFFFFF; padding: 15px; margin-bottom: 50px; border: 1px #e5e5e5 solid;}
+.liebiiao ul li { height: 40px; line-height: 40px; border-bottom: 1px #DDDDDD dotted; padding-left: 15px; background: url(../images/w-mj2.png) no-repeat left;}
+.liebiiao ul li a {float: left; width: 1050px;}
+.liebiiao ul li span {float: right; width: 80px; text-align: right; color: #999999;}
+
+/*2018.05.04添加*/
+.add_pinglun_box {float: left; width: 95%; margin:20px auto;}
+.add_pinglun { margin-bottom: 15px; position: relative;}
+.add_pinglun h3 {border-bottom: 2px #000000 solid; padding-bottom: 10px; font-size: 18px;}
+.add_pinglun textarea { width: 797px; padding: 10px; min-height: 60px; border: 1px #DDDDDD solid; margin-top: 10px;}
+.add_pinglun button {background: #000000; border: none; padding: 5px 15px; color: #FFFFFF; margin-top: 5px; line-height: 24px;}
+.add_pinglun_box ul li{ width: 807px; margin-bottom: 15px;}
+.add_pinglun_box ul li a{ color: #000; font-size: 14px; background: url(../images/lh_img_29.png) left no-repeat; padding-left: 25px;  margin-bottom: 10px;}
+.add_pinglun_box ul li p{ font-size: 12px; margin-left: 25px; color: #999; padding-bottom: 10px;border-bottom: 1px dashed #ccc;}
+.add_pinglun_box ul li span {font-size: 12px;}
+
+
+
+
+
+
+.nav_left {width: 180px !important;}
+.left_menu {width: 180px !important;}
+.left_menu_con.this {left: 200px !important;}
+.nav ul {width: 1000px !important;}
+.footer_wz {height: 70px; display: table;}
+.footer_wz p {display: table-cell; vertical-align: middle; line-height: initial;}
+.bizhong_xz {margin-top: 10px}
+.bizhong_xz div {display: inline-block; cursor: pointer; margin-left: 0.4rem; background: #EEEEEE; border: none; border-radius: 5px; padding: 1px 25px; font-size: 16px;}
+.bizhong_xz div.on {background: #000000; color: #FFFFFF;}
+.pl_px a.active {background: url(../images/02.png) 40px center no-repeat #fff}
+
+
+.lh_spxq_right_js span {color: #666666; position: relative;}
+.lh_spxq_right_js span em {position: absolute; background: #000000; font-style: normal; padding: 0 5px; border-radius: 5px; color: #FFFFFF;}
+.lh_spxq_right_ksrk ul li {position: relative;}
+.lh_spxq_right_ksrk ul li em {position: absolute; left: 0; top: -10px; background: #000000; font-style: normal; padding: 5px 5px; border-radius: 5px; color: #FFFFFF;}
+
+
+.lh_sjdp_top_right ul li {position: relative;}
+.erwema {position: absolute; top: 110px; right:0px; display: none;}
+.lh_sjdp_top_right ul li:hover .erwema {display: block;}

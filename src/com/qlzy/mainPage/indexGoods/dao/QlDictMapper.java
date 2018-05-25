@@ -20,4 +20,6 @@ public interface QlDictMapper {
     int updateByPrimaryKey(QlDict record);
 
     List<QlDict> selectByType(String hv_type);
+
+    QlDict getByType(String hv_type);
 }

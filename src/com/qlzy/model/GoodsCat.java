@@ -167,4 +167,5 @@ public class GoodsCat extends Base implements Serializable {
     public void setMarketSort(String marketSort) {
         this.marketSort = marketSort;
     }
+
 }

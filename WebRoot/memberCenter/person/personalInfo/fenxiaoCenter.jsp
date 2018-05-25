@@ -3,12 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+
+
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -86,64 +91,88 @@
 			<div class="w-buyers">
 				<div class="l-fr">
 					<div class="w-title">
-						<h3>分销商</h3>
+						<h3><s:text name="index_0285"/></h3>
 					</div>
 				</div>
 				<div class="lh-buyers">
 					<div class="w-buyers2">
 						<ul>
 							<li>
-								<div class="biaoti">我的收益</div>
-								<div class="neirong01">￥${member.onlyId}<br /> $10.0
-									<br /> ADE8.00
+								<div class="biaoti"><s:text name="index_0286"/></div>
+								<div class="neirong01">￥<fmt:formatNumber type="number" value="${1 * member.shouyi}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> $<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.shouyi}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> ADE<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.shouyi}" pattern="0.00" maxFractionDigits="2"/>
 								</div>
 							</li>
 							<li>
-								<div class="biaoti">推荐码</div>
+								<div class="biaoti"><s:text name="index_0203"/></div>
 								<div class="neirong01">${member.onlyId}</div>
 							</li>
-							<%--<li>
+							<li>
 								<div class="wdd">
-									<a href="#">我的店</a>
+									<%--<a href="person/order/myOrders.html">我的订单</a>--%>
+                                        <a href="personalInfo/tixianjilu.html"><s:text name="index_0227"/></a>
 								</div>
-							</li>--%>
+							</li>
 							<li style="border: 0px;">
 								<div class="wx01"><img src="${member.qrCode}" style="width:180px"></div>
 							</li>
 						</ul>
 					</div>
-					<div><a href="tixian.html">申请提现</a></div>
+					<div class="widthDraw" style="margin-top:10px;line-height:64px;font-size:15px;width: 100%;height: 64px;background-color:#f7f7f7;text-align: center;border: #e5e5e5 1px solid;"><a href="tixian.html"><s:text name="index_0287"/>:￥<fmt:formatNumber type="number" value="${1 * member.advance}" pattern="0.00" maxFractionDigits="2"/>&nbsp;$<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.advance}" pattern="0.00" maxFractionDigits="2"/>&nbsp;ADE<fmt:formatNumber type="number" value="${huilv.now_rate_dlm * member.advance}" pattern="0.00" maxFractionDigits="2"/></a></div>
 					<div class="w-buyers2 tgar">
 						<ul>
 							<li>
-								<div class="biaoti">一级提成</div>
-								<div class="neirong01">￥800.00<br /> $10.0
-									<br /> ADE8.00</div>
+								<a href="personalInfo/xiaxianticheng/1.html">
+								<div class="biaoti"><s:text name="index_0288"/></div>
+								<div class="neirong01">￥<fmt:formatNumber type="number" value="${1 * member.yijiticheng}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> $<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.yijiticheng}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> ADE<fmt:formatNumber type="number" value="${huilv.now_rate_dlm * member.yijiticheng}" pattern="0.00" maxFractionDigits="2"/>
+								</div>
+								</a>
 							</li>
 							<li>
-								<div class="biaoti">二级提成</div>
-								<div class="neirong01">￥800.00<br /> $10.0
-									<br /> ADE8.00</div>
+								<a href="personalInfo/xiaxianticheng/2.html">
+								<div class="biaoti"><s:text name="index_0290"/></div>
+								<div class="neirong01">￥<fmt:formatNumber type="number" value="${1 * member.erjiticheng}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> $<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.erjiticheng}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> ADE<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.erjiticheng}" pattern="0.00" maxFractionDigits="2"/>
+								</div>
+								</a>
 							</li>
 							<li>
-								<div class="biaoti">预计提成</div>
-								<div class="neirong01">￥800.00<br /> $10.0
-									<br /> ADE8.00</div>
+                                <a href="personalInfo/yujiticheng/1.html">
+                                    <div class="biaoti"><s:text name="index_0291"/></div>
+                                    <div class="neirong01">￥<fmt:formatNumber type="number" value="${1 * member.yujiticheng}" pattern="0.00" maxFractionDigits="2"/>
+                                        <br /> $<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.yujiticheng}" pattern="0.00" maxFractionDigits="2"/>
+                                        <br /> ADE<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.yujiticheng}" pattern="0.00" maxFractionDigits="2"/>
+                                    </div>
+                                </a>
 							</li>
 							<li style="border: 0px;">
-								<div class="biaoti">已发提成</div>
-								<div class="neirong01">￥800.00<br /> $10.0
-									<br /> ADE8.00</div>
+								<div class="biaoti"><s:text name="index_0292"/></div>
+								<div class="neirong01">￥<fmt:formatNumber type="number" value="${1 * member.shouyi}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> $<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.shouyi}" pattern="0.00" maxFractionDigits="2"/>
+									<br /> ADE<fmt:formatNumber type="number" value="${huilv.now_rate_doc * member.shouyi}" pattern="0.00" maxFractionDigits="2"/>
+								</div>
 							</li>
 						</ul>
 					</div>
-					<div class="w-buyers3 tgar">
+					<div class="w-buyers3 tgar" style="margin-bottom: 10px">
 						<ul>
 							<li>
-								<div class="neirong01"><span>分销商</span>50</div>
+								<div class="neirong01">
+									<a href="personalInfo/fenxiaoshang/1.html">
+										<span><s:text name="index_0285"/></span><fmt:formatNumber type="number" value="${1 * member.yijivip}" pattern="0" />
+									</a>
+								</div>
 							</li>
 							<li style="border: 0px;">
-								<div class="neirong01"><span>粉丝团</span>50</div>
+								<div class="neirong01">
+									<a href="personalInfo/fensituan.html">
+										<span><s:text name="index_0205"/></span><fmt:formatNumber type="number" value="${1 * member.yijifensi}" pattern="0" />
+									</a>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -156,8 +185,8 @@
 		</div>
 
 
-
-
+	</div>
+</div>
 
 		<div class="clear"></div>
 		<jsp:include page="/admin/common/indexFooter.jsp" />

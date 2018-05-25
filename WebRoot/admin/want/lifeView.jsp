@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
@@ -22,6 +22,7 @@
 <body>
 <s:action name="common!toHead" executeResult="true" namespace="/"></s:action>
 <s:action name="common!toLogo" executeResult="true" namespace="/"></s:action>
+
 <s:action name="catalogueAction!queryFullCategory" executeResult="true" namespace="/" >
     <s:param name="catType">tdd</s:param>
 </s:action>
@@ -44,6 +45,20 @@
                 <img src="${s}"/>
                 </c:forEach>
             </div>
+            <div class="add_pinglun_box">
+                <div class="add_pinglun clearfix">
+                    <h3>会员评论</h3>
+                    <div>
+                        <textarea id="content" rows="" cols="" placeholder="我要评论"></textarea>
+                    </div>
+                    <div><button onclick="addReply('${wantBuy.id}')">提交</button></div>
+                </div>
+                <div id="replyList">
+                    <div id="pageReload">
+                    <s:action name="wantDiscussAction!findList" namespace="/" executeResult="true"></s:action>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="lh_fbqg_xq_right">
             <ul>
@@ -58,8 +73,43 @@
     </div>
 
 </div>
+
 <!--footer开始-->
 <s:action name="indexFloorAction!showFoot" namespace="/indexFloor" executeResult="true"></s:action>
 <!--footer结束-->
 </body>
+<script type="text/javascript">
+    function  addReply(id) {
+        var content=$('#content').val();
+
+         $.ajax({
+            url:'wantDiscussAction!add.action',
+             data:{
+                wantId:id,
+                 content:content
+             },
+             dataType:'json',
+             success:function (_data) {
+                 if(_data.success){
+                     alert(_data.msg);
+                     $('#content').val("")
+                     $.ajax({
+                         url:'wantDiscussAction!findList.action',
+                         data:{
+                             wantId:id
+                         },
+
+                         success:function (_data) {
+
+                             $('#replyList').html(_data)
+                         }
+                     })
+                 }else{
+                     alert(_data.msg);
+                     $('#content').val("")
+                 }
+             }
+         })
+    }
+</script>
 </html>

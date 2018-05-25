@@ -5,12 +5,18 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 
 import com.aliyuncs.exceptions.ClientException;
 import com.qlzy.common.tools.*;
 import com.qlzy.common.util.PcOrWap;
+import com.qlzy.mainPage.indexGoods.dao.QlDictMapper;
+import com.qlzy.mainPage.indexGoods.service.DictionaryService;
+import com.qlzy.mainPage.login.service.MemberService;
+import com.qlzy.memberCenter.shop.action.UploadAction;
+import com.qlzy.model.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -25,13 +31,6 @@ import com.qlzy.mainPage.regions.service.RegionsService;
 import com.qlzy.memberCenter.call.service.MemberCallService;
 import com.qlzy.memberCenter.company.cominfo.service.CompanyInfoService;
 import com.qlzy.memberCenter.person.perinfo.service.PersonalInfoService;
-import com.qlzy.model.CarBrand;
-import com.qlzy.model.Company;
-import com.qlzy.model.CompanysCarbrand;
-import com.qlzy.model.Member;
-import com.qlzy.model.MemberJob;
-import com.qlzy.model.MobileMessage;
-import com.qlzy.model.Regions;
 import com.qlzy.pojo.SessionInfo;
 import com.qlzy.util.BaseAction;
 
@@ -46,6 +45,7 @@ import com.qlzy.util.BaseAction;
 @Action(value = "login", results = {
 		@Result(name = "toLogin", location = "/admin/login/login.jsp"),
 		@Result(name = "toRegister", location = "/admin/login/register.jsp"),
+		@Result(name = "toRegisterWap" , location = "/wap/register.jsp"),
 		@Result(name = "index", type = "redirect", location = "/"),
 		@Result(name = "loginPage", location = "/admin/login/mallLogin.jsp"),
 		@Result(name = "shLoginPage", location = "/shanghui/login/login.jsp"),
@@ -56,8 +56,12 @@ import com.qlzy.util.BaseAction;
 		@Result(name = "toCompanyRegisteMsg", location = "/admin/register/CompanyRegisterMsg.jsp"),
 		@Result(name = "toMemberRegister", location = "/admin/register/MemberRegister.jsp"),
 		@Result(name = "toMemberRegisterMsg", location = "/admin/register/MemberRegisterMsg.jsp"),
-		@Result(name = "toMemberCheckMsg", location = "/admin/login/MemberCheckMsg.jsp"),
-		@Result(name = "toMemberModifyPwd", location = "/admin/login/MemberModifyPwd.jsp") })
+		@Result(name = "toMemberCheckMsg", location = "/admin/login/MemberCheckMsgNew.jsp"),
+		@Result(name = "toMemberCheckMsgWap" , location = "/wap/EditMemberPwd.jsp"),
+		@Result(name = "toMemberModifyPwd", location = "/admin/login/MemberModifyPwd.jsp"),
+		@Result(name = "toLoginWap" , location = "/wap/login.jsp")
+})
+
 public class LoginAction extends BaseAction {
 	/**
 	 * 
@@ -65,7 +69,8 @@ public class LoginAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
 	private Logger logger = Logger.getLogger(this.getClass());
-
+	@Autowired
+	private DictionaryService dictionaryService;
 	@Autowired
 	private LoginService loginService;
 	@Autowired
@@ -85,6 +90,8 @@ public class LoginAction extends BaseAction {
 	private Company company;
 	private Member member;
 	private CompanysCarbrand companysCarBrand;
+	@Resource
+	private MemberService memberService;
 	private CarBrand carBrand;
 	private String cityId;
 	private String proId;
@@ -115,7 +122,6 @@ public class LoginAction extends BaseAction {
 	public String toLogin() {
 		return PcOrWap.isPc(request,"toLogin");
 	}
-
 	/***
 	 * 进入注册页面
 	 * @return
@@ -226,6 +232,9 @@ public class LoginAction extends BaseAction {
 				if("000".equals(result)){
 					member.setUsername(loginName);
 					try {
+						//添加二维码
+						String qrCode = UploadAction.qrCode();
+						member.setQrCode(qrCode);
 						String memberId = memberCallService.addMember(member);
 						//注册成功，放入session
 						SessionInfo sessionInfo = new SessionInfo();
@@ -265,8 +274,76 @@ public class LoginAction extends BaseAction {
 	}
 
 	public String toMemberCheckMsg() {
-		return "toMemberCheckMsg";
+		List<QlDict> dictList = dictionaryService.selectByType("kefu");
+		for(QlDict q : dictList){
+			if("电话".equals(q.getDescription())){
+				String phone = q.getValue();
+				request.setAttribute("phone",phone);
+			}
+			if("qq".equals(q.getDescription())){
+				String qq = q.getValue();
+				request.setAttribute("qq",qq);
+			}
+			if("skype".equals(q.getDescription())){
+				String skype = q.getValue();
+				request.setAttribute("skype",skype);
+			}
+		}
+
+		return PcOrWap.isPc(request,"toMemberCheckMsg");
 	}
+
+	/**
+	 * 登录密码修改
+	 */
+	public void updatePassword() {
+		String result = "";
+		int a = 0;
+		String username = request.getParameter("username"); // 用户名
+		String code = request.getParameter("randNum");
+		List<MobileMessage> mobileMessages = personalInfoService
+				.gainMobileMessagesByMap(username, code);
+		String userId = "";
+		String pwd = "";
+		member = new Member();
+		Member user = null;
+		if (mobileMessages != null && mobileMessages.size() > 0) {
+			for (MobileMessage ms : mobileMessages) {
+				boolean flag = ToolsUtil.isCheckExpires(ms.getCreatetime(),
+						Long.parseLong(ResourceUtil.getValidTime("1")));
+				if (!flag) {
+					a++;
+				}
+			}
+			if (a != mobileMessages.size()) {
+				String newPassword = request.getParameter("newPassword");
+				List<Member> mb = loginService.getMemberListByUsername(username);
+				try {
+					if (null != mb && mb.size() > 0) {
+						user = mb.get(0);
+						userId = user.getId();
+						if (null != newPassword && !"".equals(newPassword)) {
+							pwd = MD5.encrypt(newPassword);
+							member.setId(userId);
+							member.setPassword(pwd);
+						}
+						personalInfoService.updatePersonInfo(member);
+					}
+
+					result = "success";
+				} catch (Exception e) {
+					logger.error("person-updateLoginPassword", e);
+					e.printStackTrace();
+				}
+			}
+		}
+
+		writeJson(result);
+	}
+
+
+
+
 
 	/***
 	 * 检查用户申请的用户名是否存在 根据邮箱找回密码
@@ -314,45 +391,66 @@ public class LoginAction extends BaseAction {
 	 */
 	public void toMemberCheckPwdMsgByPhone() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Member user = null;
+		Member user = member;
 		Company cuser = null;
 		String userName = ""; // 用户名
 		String mobile = ""; // 手机号
 		String msg = "";
-		List<Member> mb = loginService
-				.getMemberListByName(member.getUsername());
-		List<Company> companyList = loginService.getCompanyListByName(member
-				.getUsername());
-		if (null != mb && mb.size() > 0) {
-			user = mb.get(0);
-			userName = user.getUsername();
-			if (null != user.getMobile() && !"".equals(user.getMobile())) {
-				mobile = user.getMobile().substring(0, 3) + "****"
-						+ user.getMobile().substring(7);
-			} else {
-				// 若手机号为空，则通过用户名，并判断用户名是否是手机号
-				String regExp = "^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$";
-				Pattern p = Pattern.compile(regExp);
-				Matcher m = p.matcher(user.getUsername());
-				boolean isMobile = m.find();
-				if (isMobile) {
-					mobile = user.getUsername().substring(0, 3) + "****"
-							+ user.getUsername().substring(7);
+		//验证码判断
+		try {
+			int a = 0;
+			List<MobileMessage> mobileMessages = personalInfoService
+					.gainMobileMessagesByMap(loginName, loginCode);
+			if (mobileMessages != null && mobileMessages.size() > 0) {
+				for (MobileMessage ms : mobileMessages) {
+					boolean flag = ToolsUtil.isCheckExpires(ms.getCreatetime(),
+							Long.parseLong(ResourceUtil.getValidTime("1")));
+					if (!flag) {
+						a++;
+					}
 				}
-			}
+				Map<String, String> parmMap = new HashMap<>();
+				if (a == mobileMessages.size()) {
+					msg = "randNumError";
+				}else {
+					member = new Member();
+					member.setUsername(loginName);
+					member.setPassword(MD5.encrypt(loginPwd));
+					memberService.updatePasswordByUsername(member);
+                    msg = "success";
+					List<Member> mb = loginService
+							.getMemberListByName(member.getUsername());
+		/*	List<Company> companyList = loginService.getCompanyListByName(member
+					.getUsername());*/
 
-		}
-		if (null != companyList && companyList.size() > 0) {
-			cuser = companyList.get(0);
-			userName = cuser.getUsername();
-			if (null != cuser.getLinkmanPhone()
-					&& !"".equals(cuser.getLinkmanPhone())) {
-				mobile = cuser.getLinkmanPhone().substring(0, 3) + "****"
-						+ cuser.getLinkmanPhone().substring(7);
+					if (null != mb && mb.size() > 0) {
+						user = mb.get(0);
+						userName = user.getUsername();
+						if (null != user.getMobile() && !"".equals(user.getMobile())) {
+							mobile = user.getMobile().substring(0, 3) + "****"
+									+ user.getMobile().substring(7);
+
+						} else {
+							// 若手机号为空，则通过用户名，并判断用户名是否是手机号
+							String regExp = "^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$";
+							Pattern p = Pattern.compile(regExp);
+							Matcher m = p.matcher(user.getUsername());
+							boolean isMobile = m.find();
+							if (isMobile) {
+								mobile = user.getUsername().substring(0, 3) + "****"
+										+ user.getUsername().substring(7);
+							}
+						}
+					}
+				}
+
+
+			} else {
+				msg = "randNumError";
 			}
-		}
-		if (null == user && null == cuser) {
-			msg = "error";
+		}catch (Exception e){
+			e.printStackTrace();
+
 		}
 		map.put("userName", userName);
 		map.put("mobile", mobile);
@@ -534,6 +632,7 @@ public class LoginAction extends BaseAction {
 		System.out.println(result);
 		return result;
 	}
+
 
 
 

@@ -22,9 +22,27 @@
 <s:action name="catalogueAction!queryFullCategory" executeResult="true" namespace="/" >
     <s:param name="catType">qg</s:param>
 </s:action>
-<s:action name="indexFloorAction!showIndexWantBuyFloor" namespace="/indexFloor" executeResult="true"></s:action>
-
+<div id="pageReload">
+</div>
 <s:action name="indexFloorAction!showFoot" namespace="/indexFloor" executeResult="true"></s:action>
 <script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        subFo();
+    });
+    function subFo() {
+        var url="indexFloor/indexFloorAction!showIndexWantBuyFloor.action";
+        $.ajax({
+            type:"POST",
+            url:url,
+            cache:true,
+            async:true,
+            data : $('#pagerForm').serialize(),
+            success:function (html) {
+                $("#pageReload").html(html);
+            }
+        });
+    }
+</script>
 </body>
 </html>

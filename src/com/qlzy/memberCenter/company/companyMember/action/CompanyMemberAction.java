@@ -17,6 +17,8 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.qlzy.mainPage.company.service.CompanyService;
+import com.qlzy.pojo.Json;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -55,6 +57,8 @@ public class CompanyMemberAction extends BaseAction{
 	@Autowired
 	private CompanyMemberService companyMemberService;
 	@Resource
+	private CompanyService companyService;
+	@Resource
 	private RegionsService regionsService;//区域接口类
 	//省份列表
 	private List<Regions> provinceList;
@@ -80,7 +84,30 @@ public class CompanyMemberAction extends BaseAction{
 		areaList = regionsService.gainAreaListByCityId(company.getCity());
 		return "toBasicMessage";
 	}
-	
+
+	/**
+	 * @Title companyClickNum
+	 * @Description TODO(增加商铺的点击量)
+	 * @AUTHOR JASON
+	 */
+	public void companyClickNum(){
+		Json j=new Json();
+		try{
+			String id=request.getParameter("id");
+			Company company= companyService.gainCompanyById(id);
+	        company.setId(id);
+            company.setClickNum(company.getClickNum()+1);
+            companyService.updateByPrimaryKeyWithBLOBs(company);
+            j.setMsg("增加点击量成功");
+            j.setSuccess(true);
+
+		}catch (Exception e){
+       	 e.printStackTrace();
+         j.setSuccess(false);
+         j.setMsg("系统出现异常，请联系系统管理人员");
+		}
+	   writeJson(j);
+	}
 	public  String saveCompany(){
 		File logo = getLogo();
 			if(logo!=null){
@@ -169,6 +196,7 @@ public class CompanyMemberAction extends BaseAction{
 		}
 		return ip;
 	}
+
 	public Company getCompany() {
 		return company;
 	}

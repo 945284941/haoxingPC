@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -12,7 +13,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<html lang="en">
+<%--<html lang="en">--%>
 <head>
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -34,7 +35,7 @@
 
 <link rel="stylesheet" href="css/common.css" type="text/css" />
 <link rel="stylesheet" href="css/hyzxgr.css" type="text/css" />
-<link rel="stylesheet" href="css/page.css" type="text/css" />
+<%--<link rel="stylesheet" href="css/page.css" type="text/css" />--%>
 
 <script type=text/javascript src="js/jquery-1.8.0.min.js"></script>
 <script type=text/javascript src="js/layer/layer.min.js"></script>
@@ -47,195 +48,116 @@
 <script type="text/javascript" src="web/js/jquery.date_input.pack.js"></script>
 
 <script type="text/javascript">
-	var aa = '${sessionInfo.userType}';
-	$(function() {
-		/*if (aa == 'company') {
-			window.location.href = 'person/order/sellOrders.html';
-		}*/
-
-		//日历控件
-		//$('#orders_startTime').date_input();
-		//$('#orders_endTime').date_input();
-	});
-
-//	/* function chankanwuliu(wuliu) {
-//		$
-//				.ajax({
-//					url : 'person/order/chakanwuliu.html',
-//					type : 'post',
-//					data : 'wuliu=' + wuliu,
-//					dataType : "json",
-//					success : function(messagew) {
-//						var message = eval('(' + messagew + ')');
-//						var msg = '<div style="max-height:400px;overflow:auto;"><ul class="wuliuxinxi" style="max-height:70%;overflow-y:auto">';
-//						if (message.status == 0) {
-//							$.each(message.result.list, function(index, item) {
-//								msg += '<li><p>' + item.status + '</p><p>'
-//										+ item.time + '</p></li>';
-//							});
-//						} else {
-//							msg += '<li><p>' + message.msg + '</p></li>';
-//						}
-//						msg += '</ul></div>';
-//						layer.open({
-//							content : msg
-//						})
-//					}
-//				});
-//	}*/
-
-	function dropOrder(orderId) {
-		if (confirm("确定要删除?删除后该订单不能恢复!")) {
-			$.ajax({
-				url : 'person/order/DropmyOrders.html',
-				type : 'POST',
-				data : 'id=' + orderId,
-				success : function(data) {
-					var r = $.parseJSON(data);
-					if (r == 'ok') {
-						alert('删除成功！');
-						window.location.href = "person/order/myOrders.html";
-					} else {
-						alert('删除失败！');
-						return false;
-					}
-
-				}
-			});
-		}
-
+	function changeStatus(orderId,status,disabled) {
+        $.ajax({
+            url : 'orderAction!changeOrderStatus.action',
+            type : 'POST',
+            data : {orderId:orderId,status:status,disabled:disabled},
+            success : function(data) {
+                var r = $.parseJSON(data);
+                if (r == 'ok') {
+                    window.location.href = "person/order/myOrders.html";
+                } else {
+                    alert('<s:text name="index_0316"/>！');
+                    return false;
+                }
+            }
+        });
 	}
 
-	//会员点击收货操作
-	function memberPayOrder(orderId, orderNum, payMent) {
-		// 			$("#payPassword").val("");
-		$("#payOrderId").val(orderId);
-		$("#payOrderOrderNum").val(orderNum);
-		$("#payMent").val(payMent);
-		confirm("确认收货") ? $("#receiveGoodsFrom").submit() : "";
-		// 			showsplbtitle('tanchu', 'shxx');
+    function queren(orderId,orderNum) {
+        $('#yuyuenr1').show();
+        $("#spanShouhuo").html(orderNum);
+        $("#orderId").val(orderId);
 	}
 
-	//会员点击评价操作
-	function memberEvaluateOnclick(orderId, goodsId, companyId) {
-		$("#member_evaluate_orderId").val(orderId);
-		$("#member_evaluate_goodsId").val(goodsId);
-		$("#member_evaluate_companyId").val(companyId);
-		showsplbtitle('tanchu', 'pjnr');
+    function tuikuan(orderId) {
+        $('#yuyuenr2').show();
+        $("#orderId").val(orderId);
+    }
+
+    function quxiao(){
+        $("#orderId").val("");
+        $("#textarea").val("");
+        $('#yuyuenr1').hide();
+        $('#yuyuenr2').hide();
+    }
+
+    function action(){
+        var orderId = $("#orderId").val();
+        var textarea = $("#textarea").val();
+        if(textarea == null || textarea == ''){
+            alert("请输入原因！");
+            return false;
+		}
+        $.ajax({
+            url : 'orderAction!returnGoods.action',
+            type : 'POST',
+            data : $("#tuiForm").serialize(),
+            success : function() {
+                $("#textarea").val("");
+                window.location.href = "person/order/myOrders.html";
+        	}
+        });
+        $('#yuyuenr2').hide();
+    }
+
+    /* 确认收货 */
+    function qurenOrder(){
+        var orderId = $("#orderId").val();
+        //alert(orderId);
+        $.ajax({
+            url : 'orderAction!receiveGoods.action',
+            type : 'POST',
+            data : {
+                orderId:orderId
+			},
+            success : function() {
+                window.location.href = "person/order/myOrders.html";
+            }
+        });
+        $('#yuyuenr1').hide();
 	}
 
-	//会员进行等级平均
-	function memberEvaluate(type, evaluate) {
-		if (evaluate == 1) {//好评
-			$("#" + type + "1").attr("src", "images/memberimg/pjdj.gif");
-			$("#" + type + "2").attr("src", "images/memberimg/pjdj.gif");
-			$("#" + type + "3").attr("src", "images/memberimg/pjdj.gif");
-			$("#" + type + "Type").html("好评");
-		} else if (evaluate == 0) {//中评
-			$("#" + type + "1").attr("src", "images/memberimg/pjdj.gif");
-			$("#" + type + "2").attr("src", "images/memberimg/pjdj.gif");
-			$("#" + type + "3").attr("src", "images/memberimg/pjdj2.gif");
-			$("#" + type + "Type").html("中评");
-		} else {//差评
-			$("#" + type + "1").attr("src", "images/memberimg/pjdj.gif");
-			$("#" + type + "2").attr("src", "images/memberimg/pjdj2.gif");
-			$("#" + type + "3").attr("src", "images/memberimg/pjdj2.gif");
-			$("#" + type + "Type").html("差评");
-		}
-		$("#member_evaluate_" + type).val(evaluate);
-	}
-
-	function memberEvaluateSubmit() {
-		var evaluate = $("#member_evaluate_appraise").val();
-		var serve = $("#member_evaluate_serve").val();
-		var quality = $("#member_evaluate_quality").val();
-		var credit = $("#member_evaluate_credit").val();
-		var logistics = $("#member_evaluate_logistics").val();
-		if (evaluate == null || evaluate == '' || evaluate == '请在此处填写你对商品的评价……') {
-			alert('请对商品填写评价内容！');
-		} else if (serve == null || serve == '') {
-			alert('请对服务评级进行评价！');
-		} else if (quality == null || quality == '') {
-			alert('请对质量评级进行评价！');
-		} else if (credit == null || credit == '') {
-			alert('请对信誉评级进行评价！');
-		} else if (logistics == null || logistics == '') {
-			alert('请对物流评级进行评价！');
-		} else {
-			$("#memberEvaluateFrom").submit();
-		}
-	}
-
-	//点击申请退货
-	function returnGoodsOnclick(orderId, orderNum, shipStatus, orderTotal) {
-		$("#returnGoods_orderId").val(orderId);
-		$("#returnGoods_isdelivery").val(shipStatus);
-		$("#returnGoods_orderTotal").val(orderTotal);
-		$("#returnGoods_orderIdSpan").html(orderNum);
-		showsplbtitle('tanchu', 'thtk');
-	}
-
-	// 提交退款退货
-	function returnGoodsSubmit() {
-		var returnMoney = $("#orderReturn_returnMoney").val();
-		var logisticsNum = $("#orderReturn_logisticsNum").val();
-		var logisticsName = $("#orderReturn_logisticsName").val();
-		var logisticsTel = $("#orderReturn_logisticsTel").val();
-		var cause = $("#orderReturn_cause").val();
-		var orderTotal = $("#returnGoods_orderTotal").val();
-		var shipType = $("#returnGoods_isdelivery").val();
-		if (returnMoney == null || returnMoney == '') {
-			alert("请填写需要退款金额！");
-		} else if (returnMoney > orderTotal) {
-			alert("退款金额不得超过订单总金额");
-		} else if (shipType == "1"
-				&& (logisticsNum == null || logisticsNum == '')) {
-			alert("退回货物的物流单号不能为空！");
-		} else if (shipType == "1"
-				&& (logisticsName == null || logisticsName == '')) {
-			alert("退回货物的物流公司不能为空！");
-		} else if (shipType == "1"
-				&& (logisticsTel == null || logisticsTel == '')) {
-			alert("退回货物的物流公司电话不能为空！");
-		} else if (cause == null || cause == '') {
-			alert("请填写退款、退货的原因！");
-		} else {
-			$("#memberReturnGoodsForm").submit();
-		}
-
-	}
-
-	function searchSubmit(type) {
-		if (0 == type) {
-			$("#payStatus").val("-1");
-			$("#shipStatus").val("-1");
-		}
-		if (1 == type) { //代付款
-			//未付款，未发货
-			$("#payStatus").val("0");
-			$("#shipStatus").val("0");
-		}
-		if (2 == type) { //代发货
-			//已付款，未发货
-			$("#payStatus").val("1");
-			$("#shipStatus").val("0");
-		}
-		if (3 == type) { //待收货
-			//已付款，已发货
-			$("#payStatus").val("1");
-			$("#shipStatus").val("1");
-		}
-		if (4 == type) { //已完成
-			//  已收货
-			$("#payStatus").val("-1");
-			$("#shipStatus").val("2");
-		}
-		$("#person_orders_orderForm").submit();
-	}
 </script>
+	<style type="text/css">
+		/*退货css*/
+		.dialog1 {width: 100%;height: 100%;top: 0;left: 0;position: absolute;display: none;-webkit-align-items: center;align-items: center;-webkit-justify-content: center;justify-content: center;}
+		.dialog-overlay1 {width: 100%;height: 100%;top: 0;left: 0;position: fixed;z-index: 9;background: rgba(55, 58, 71, 0.9);display: block;-webkit-transition: opacity 0.3s;transition: opacity 0.3s;
+			-webkit-backface-visibility: hidden;}
+		.dialog-content1 {width: 600px; padding: 20px;border-radius: 5px;background: #fff;text-align: center;position: fixed;top: 36%;left: 50%;
+			margin-left: -300px;z-index: 13;display: block;}
+		.dialog-content2 {width: 600px; padding: 20px;border-radius: 5px;background: #fff;text-align: center;position: fixed;top: 26%;left: 50%;
+			margin-left: -300px;z-index: 13;display: block;}
 
+		.dialog-content1 h2 { height:45px; border-bottom:#acacac 1px dashed;line-height: 45px;}
+		.dialog-content1 h2 p{ display: block; float: left; font-size: 20px;}
+		.dialog-content1 h2 span{display: block; float: right; color: #999; cursor: pointer; font-size: 14px; font-weight: normal;}
+
+		.dialog-content2 h2 { height:45px; border-bottom:#acacac 1px dashed;line-height: 45px;}
+		.dialog-content2 h2 p{ display: block; float: left; font-size: 20px;}
+
+		#dialog-content1-nr{ padding: 20px; line-height: 30px; }
+		#dialog-content1-nr p{font-size: 14px;}
+		#dialog-content1-nr p strong{ display: block; font-size: 20px; margin: 5px 0;}
+		#dialog-content1-nr p span{ color: #e7250f;}
+		#dialog-content1-nr .bt {width: 84%;margin: 30px auto 0 auto;  font-size: 14px; height: 40px;line-height: 40px;border-radius: 5px;background:#222222;color: #fff;}
+		.inputnr {padding: 3% 2%;}
+		.inputnr form{width: 100%;}
+		.inputnr .k1 {width: 96%; color: #999;margin: 0 auto 2% auto;border: #E1E1E1 1px solid;height: 150px;line-height: 28px;border-radius: 5px;padding:2%; font-size: 14px;}
+		.inputnr .bt {width: 84%;margin: 0 auto 2% auto;border: #f44c01 1px solid;height: 2rem;line-height: 2rem;border-radius: 5px;background: #f44c01;color: #fff;}
+		.inputnr span{width: 90px;height: 90px;font-size: 12px;color: #999;position: relative;display: block;text-align: center;vertical-align: top;
+			margin-bottom: 10px;cursor: pointer;
+			border: 1px dotted #999;}
+		.inputnr .k2 {    left: 0;top: 0;width: 100%;z-index: 2;opacity: 0;cursor: pointer;}
+
+		#tijiao{ margin-top: 20px; text-align: center;}
+		#tijiao a{ display: inline-block; padding:10px 40px; background: #000000; color: #fff; margin: 0 15px; border-radius: 5px;}
+		#tijiao a.hui{ background: #E0E0E0; color: #333;}
+	</style>
 </head>
 <body>
+<div id="pageReload">
 	<div id="tanchu"></div>
 	<!-- 头部开始 -->
 	<!--======================top开始============================-->
@@ -245,13 +167,51 @@
 	<%--<jsp:include page="/admin/common/navigation.jsp" />--%>
 	<!-- 头部结束 -->
 	<%--<div class="breadThumb">首页 > 会员中心 > 电子商城 > 订单管理 > 我的订单</div>--%>
+	<!--退货弹框1-->
+	<div id="yuyuenr1" class="dialog1">
+		<div class="dialog-overlay1"></div>
 
+		<div class="dialog-content1">
+			<h2><p><s:text name="index_0384"/></p><span class="close1 action" onclick="quxiao()"><s:text name="index_0385"/></span></h2>
+			<div id="dialog-content1-nr">
+				<p><s:text name="index_0386"/>？</p>
+				<p><strong>订单号：<span id="spanShouhuo"></span></strong></p>
+				<p>注意：如果您尚未收到货品请不要点击“确认”。大部分被骗案件都是由于提前确认付款被骗的，请谨慎操作。</p>
+				<input type="button" id="action" name="" onclick="qurenOrder()" class="bt" value="确认" />
+			</div>
+
+		</div>
+	</div>
+	<!--退货弹框2-->
+	<div id="yuyuenr2" class="dialog1">
+		<div class="dialog-overlay1"></div>
+
+		<div class="dialog-content2">
+			<h2><p>退货退款申请</p></h2>
+			<div class="inputnr">
+				<form id="tuiForm">
+					<input type="hidden" id="orderId" name="orderId" />
+					<textarea cols="200" rows="5" id="textarea" name="textarea" onfocus="if(value=='请填写退货退款原因'){value=''}"  onblur="if (value ==''){value='请填写退货退款原因'}" class="k1">请填写退货退款原因</textarea>
+
+				<!--<input type="file" name="" value="上团图片" size="40" class="filenr" aria-invalid="false" ></span>-->
+				<span style="">
+                    <input name="photoUploader" accept="image/*" type="file" data-maxsize="5120" data-reactid="" data-spm-anchor-id="" class="k2">
+					<div data-reactid="">上传图片</div>
+					<div data-reactid="">(最多3张)</div>
+				</span>
+				<div id="tijiao">
+					<a href="javascript:void(0);" onclick="action()">提交</a><a href="javascript:void(0);" class="hui" onclick="quxiao()">取消</a>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<div class="sghsc-order-main">
 		<!-- 左侧功能菜单开始 -->
 		<div class="main">
 		<div class="h_content">
 		<c:choose>
-			<c:when test="${sessionInfo.userType=='company' }">
+			<c:when test="${sessionInfo.userType=='company'}">
 				<jsp:include page="/memberCenter/common/leftNavigate.jsp" />
 			</c:when>
 			<c:otherwise>
@@ -260,531 +220,157 @@
 		</c:choose>
 		<!-- 左侧功能菜单结束 -->
 		<!-- 右侧功能开始 -->
-
-		<div class="w-buyers">
-			<div class="l-fr">
-				<div class="w-title">
-					<h3>我的订单</h3>
-				</div>
-				<div class="vip_b3">
-					<div class="vip_a15">订单号 <input type="text" class="q1"></div>
-					<div class="vip_a15">商品名 <input type="text" class="q1"></div>
-					<div class="vip_a15">收货人 <input type="text" class="q1"></div>
-				</div>
-				<div class="vip_b3">
-					<div class="vip_a15">订单状态
-						<select name="" class="lbcd2">
-							<option value="平台商城">所有订单</option>
-							<option value="平台商城">所有订单</option>
-							<option value="平台商城">所有订单</option>
-						</select>
+			<div class="w-buyers">
+				<div class="l-fr">
+					<div class="w-title">
+						<h3>我的订单</h3>
 					</div>
-					<div class="vip_a15">订单期限
-						<select name="" class="lbcd2">
-							<option value="平台商城">最近三个月</option>
-							<option value="平台商城">最近三个月</option>
-							<option value="平台商城">最近三个月</option>
-						</select>
+					<form id="pagerForm" name="pagerForm" action="${sessionInfo.toUrl}" method="post">
+						<input type="hidden" name="order.memberId" id="memberId" value="${order.memberId}"/>
+						<input type="hidden" name="order.status" id="statu" value="${order.status}"/>
+						<input type="hidden" name="order.qixian" id="qx" value="${order.qixian}"/>
+					</form>
+					<form id="addForm" action="person/order/myOrders.html" method="post" target="_parent">
+					<div class="vip_b3">
+						<div class="vip_a15">订单号 <input id="orderNum" name="orderNum" type="text" class="q1"></div>
+						<div class="vip_a15">商品名 <input id="goodsName" name="goodsName" type="text" class="q1"></div>
+						<div class="vip_a15">收货人 <input id="shipName" name="shipName" type="text" class="q1"></div>
 					</div>
-					<a href="">
-						<div class="vip_a14">查询</div>
-					</a>
-				</div>
-				<div class="slideTxtBox">
-					<div class="bd" style="margin-bottom: 15px;">
-						<ul>
-							<div class="w-bond" style="padding: 20px 0 0;">
-								<div class="w-bond-title">
-									<p class="w-title-name">订单信息</p>
-									<p class="w-title-time">收货人</p>
-									<p class="w-title-time">订单金额</p>
-									<p class="w-title-mony">订单状态</p>
-									<p class="w-title-mony">操作</p>
-								</div>
-							</div>
-						</ul>
-						<s:iterator var="o" value="orderList" status="status">
-						<table class="sghsc-order-rig-dd-tit">
-							<div class="w-bond-tit3">
-								<div class="w-bond-num fl">订单编号：${o.orderNum}    下单时间：<span class="sghsc-order-rig-dd-tit-1"><s:date name="#o.createtime" format="yyyy-MM-dd HH:mm:ss" /></span> </div>
-								<div class="clear"></div>
-							</div>
-							<tbody>
-
-							<tr>
-								<td width="310"><a href="goods/${i.goodsId}.html" target="_blank"> <img
-										src="${i.goodsPic}" border="0" width="80" height="80" />
-								</a></td>
-								<td width="492"><a href="goods/${i.goodsId}.html" target="_blank"> <span
-										style="line-height:16px;">${i.goodsName}</span> </a></td>
-								<td width="36">￥${o.totalCost}</td>
-								<td width="492">
-									<s:if test="#o.payStatus == 0">待付款</s:if>
-									<s:if test="#o.payStatus == 1 && #o.shipStatus == 0">待发货</s:if>
-									<s:if test="#o.payStatus == 1 && #o.shipStatus == 1">已发货</s:if>
-									<s:if test="#o.payStatus == 1 && #o.shipStatus == 2">已完成</s:if>
-									<s:if test="#o.payStatus ==3">已退款</s:if>
-								</td>
-								<td width="36"></td>
-							</tr>
-							</tbody>
-						</table>
-						</s:iterator>
-
-						<!--分页-->
-						<link rel="stylesheet" href="web/css/sghsc-goods.css">
-
-						<!-- 分页开始 -->
-						<div id="showpages">
-							<page:pagination path="person/order/myOrders.html"
-											 formName="person_orders_orderForm" />
+					<div class="vip_b3">
+						<div class="vip_a15">订单状态
+							<select name="status" id="status" class="lbcd2">
+								<option value="">所有订单</option>
+								<option value="1">待付款</option>
+								<option value="2">待发货</option>
+								<option value="3">待收货</option>
+								<option value="4">已完成</option>
+								<option value="5">待评价</option>
+								<option value="6">取消订单</option>
+								<option value="7">退款退货中</option>
+							</select>
 						</div>
-						<!-- 分页结束 -->
-
-
-						<%--<div class="w-bond-list3">
-							<div class="w-bond-tit3">
-								<div class="w-bond-num fl">订单编号：${o.orderNum}    下单时间：<span class="sghsc-order-rig-dd-tit-1"><s:date name="#o.createtime" format="yyyy-MM-dd HH:mm:ss" /></span> </div>
-								<div class="clear"></div>
-							</div>
-							<div class="w-bond-info3">
-								<div class="w-bond-013 borb2">
-									<div class="w-bond-img3 fl">
-										<c:choose>
-											<c:when test="${i.goods != null && i.goods != '' && i.goods.marketable != 'false' && i.goods.disabled != 'true' }">
-												<a href="goods/${i.goodsId}.html" target="_blank"> <img
-														src="${i.goodsPic}" border="0" width="80" height="80" />
-												</a>
-											</c:when>
-											<c:otherwise>
-												<img src="${i.goodsPic}" border="0" width="80" height="80" />
-											</c:otherwise>
-										</c:choose>
-
-									</div>
-									<div class="w-bond-name3 fl">
-										<c:choose>
-											<c:when
-													test="${i.goods != null && i.goods != '' && i.goods.marketable != 'false' && i.goods.disabled != 'true' }">
-												<a href="goods/${i.goodsId}.html" target="_blank"> <span
-														style="line-height:16px;">${i.goodsName}</span> </a>
-											</c:when>
-											<c:otherwise>
-															<span class="sghsc-order-rig-dd-1-bt-p-2"
-																  style="line-height:16px;">${i.goodsName}</span>
-											</c:otherwise>
-										</c:choose>
-									</div>
-									<div class="clear"></div>
-								</div>
-								<div class="w-bond-023">
-									<p>￥${o.totalCost}</p>
-									<p>$12.00</p>
-									<p>AED10</p>
-								</div>
-								<div class="w-bond-033">
-									<a href="">2017-05-02<br>12:00:20</a>
-								</div>
-								<div class="w-bond-043">
-									<s:if test="#o.payStatus == 0">待付款</s:if>
-									<s:if test="#o.payStatus == 1 && #o.shipStatus == 0">待发货</s:if>
-									<s:if test="#o.payStatus == 1 && #o.shipStatus == 1">已发货</s:if>
-									<s:if test="#o.payStatus == 1 && #o.shipStatus == 2">已完成</s:if>
-									<s:if test="#o.payStatus ==3">已退款</s:if>
-								</div>
-								<div class="w-bond-053">
-									<s:if test=" #o.payStatus == 1 && #o.shipStatus == 1">
-										<div class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-											<a href="javascript:void(0)" class="sghsc-order-rig-dd-1-paya" onclick="memberPayOrder('${o.id}','${o.orderNum }','${o.payMent }')">
-												<span class="sghsc-order-rig-dd-1-pay">确认收货</span>
-											</a>
-										</div>
-									</s:if>
-									<s:if test="#i.isLogistice == 1">
-									<div class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-										<a href="logisticsDetail/${i.logisticsNum}.html" class="sghsc-order-rig-dd-1-paya" target="_blank">
-											<span class="sghsc-order-rig-dd-1-pay">查看物流</span>
-										</a>
-									</div>
-									</s:if>
-									<s:if test="#o.payStatus == 0">
-										<div
-												class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-											<a href="payment!toPaymentType.action?orderId=${o.id}"
-											   class="sghsc-order-rig-dd-1-paya" target="_blank">
-												<span class="sghsc-order-rig-dd-1-pay">支付订单</span> </a>
-										</div>
-
-										<div
-												class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-											<a class="sghsc-order-rig-dd-1-paya"
-											   onclick="dropOrder('${o.id}')" href="javascript:void(0)">
-												<span class="sghsc-order-rig-dd-1-pay">删除订单</span> </a>
-										</div>
-									</s:if>
-									<a href="toOrderDetail/${o.id}.html" class="sghsc-order-rig-dd-1-bta" target="_blank">查看订单</a>
-
-									<a href="">取消订单</a>
-
-								</div>
-								<div class="clear"></div>
-							</div>
-						</div>--%>
-
-
-
-
-
-
-			</div>
-		</div>
-		</div>
-		</div>
-		<!-- 右侧功能结束 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		<div class="sghsc-order-main-right">
-			<div class="sghsc-order-rig-tit">我的订单</div>
-			<form id="person_orders_orderForm" name="person_orders_orderForm"
-				action="person/order/myOrders.html" method="post">
-				<input type="hidden" id="payStatus" name="payStatus"
-					value="${payStatus}" /> <input type="hidden" id="shipStatus"
-					name="shipStatus" value="${shipStatus}" />
-
-				<div class="sghsc-order-rig-qh">
-					<div class="sghsc-order-rig-qh-1">
-						<a onclick="searchSubmit(0);" target="_self">全部订单</a> <a
-							onclick="searchSubmit(1);" target="_self">待付款</a> <a
-							onclick="searchSubmit(2);" target="_self">待发货</a> <a
-							onclick="searchSubmit(3);" target="_self">待收货</a> <a
-							onclick="searchSubmit(4);" target="_self">已完成</a>
+						<div class="vip_a15">订单期限
+							<select name="qixian" id="qixian" class="lbcd2">
+								<option value="-1">全部</option>
+								<option value="0">最近一周</option>
+								<option value="1">最近一个月</option>
+								<option value="2">最近三个月</option>
+							</select>
+						</div>
+						<div class="vip_a15">
+							<input name="input" class="vip_a14"  style="cursor: pointer;" onclick="submit()" type="button" value="查询">
+						</div>
 					</div>
-				</div>
-				<div class="sghsc-order-rig-cj" id="ssbox3">
-					<span>成交时间：</span> <span> <input type="text"
-						id="orders_startTime" name="startTime" value="${startTimeStr}"
-						class="sghsc-order-rig-cjsj" placeholder="请选择起始时间" />&nbsp;--- <input
-						type="text" id="orders_endTime" name="endTime"
-						value="${endTimeStr}" class="sghsc-order-rig-cjsj"
-						placeholder="请选择结束时间" /> </span> <span>订单编号：</span> <span> <input
-						type="text" name="orderNum" value="${orderNum}"
-						class="sghsc-order-rig-cjsj" placeholder="请输入订单编号">
-					</span> <span> <a class="sghsc-order-rig-qh-62"
-						onclick="searchSubmit(-1);">搜索</a> </span>
-				</div>
-			</form>
+					</form>
+					<div class="slideTxtBox">
+						<div class="bd" style="margin-bottom: 15px;">
+							<ul>
+								<div class="w-bond" style="padding: 20px 0 0;">
+									<div class="w-bond-title">
+										<p class="w-title-name" style="width: 200px">订单信息</p>
+										<p class="w-title-time" style="width: 100px">收货人</p>
+										<p class="w-title-time" style="width: 140px">订单金额</p>
+										<p class="w-title-time">订单时间</p>
+										<p class="w-title-mony">订单状态</p>
+										<p class="w-title-mony">操作</p>
+									</div>
+								</div>
+							</ul>
+							<c:if test="${empty orderList}">
+								<div style="text-align: center;"><img src="images/wujilu.jpg"/></div>
+							</c:if>
+							<c:if test="${not empty orderList}">
 
-			<div class="sghsc-order-rig-zt">
-				<div class="sghsc-order-rig-zt-1"></div>
-				<div class="sghsc-order-rig-zt-2">订单</div>
-				<div class="sghsc-order-rig-zt-3">单价</div>
-				<div class="sghsc-order-rig-zt-4">数量</div>
-				<div class="sghsc-order-rig-zt-5">实付款</div>
-				<div class="sghsc-order-rig-zt-6">交易状态</div>
-				<div class="sghsc-order-rig-zt-7">操作</div>
+							<c:forEach items="${orderList}" var="order">
+								<div class="w-bond-list3">
+									<div class="w-bond-tit3">
+										<div class="w-bond-num fl">[订单编号：${order.orderNum}]</div>
+										<div class="clear"></div>
+									</div>
+									<div class="w-bond-info3">
+										<div class="w-bond-013 borb2" >
+											<div class="w-bond-img3 fl">
+												<a href="">
+													<c:forEach items="${order.items}" var="item">
+														<img src="${item.defaultPicSrc}">
+													</c:forEach>
+													<span>...</span>
+												</a>
+											</div>
+											<div class="w-bond-name3 fl">
+												<a href="">${order.shipName}</a></div>
+											<div class="clear"></div>
+										</div>
+										<div class="w-bond-023">
+											<p>￥${order.totalCost}</p>
+											<p>$<fmt:formatNumber type="number" value="${huilv.now_rate_doc * order.totalCost}" pattern="0.00" maxFractionDigits="2"/></p>
+											<p>AED<fmt:formatNumber type="number" value="${huilv.now_rate_dlm * order.totalCost}" pattern="0.00" maxFractionDigits="2"/></p>
+										</div>
+										<div class="w-bond-033">
+											<a href=""><fmt:formatDate value="${order.createtime}" pattern="yyyy-MM-dd"/>
+												<br><fmt:formatDate value="${order.createtime}" pattern="HH:mm:ss" /></a>
+										</div>
+										<c:if test="${order.status=='1'&&order.payStatus=='0'&&order.shipStatus=='0'}">
+											<div class="w-bond-043">待付款</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+												<a href="javascript:void(0)" onclick="changeStatus('${order.id}','6','${order.disabled}')">取消订单</a>
+											</div>
+										</c:if>
+										<c:if test="${order.status=='6'}">
+											<div class="w-bond-043">已取消</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+												<a href="javascript:void(0)" onclick="changeStatus('${order.id}','${order.status}','true')">删除</a>
+											</div>
+										</c:if>
+										<c:if test="${order.status=='2'&&order.payStatus=='1'&&order.shipStatus=='0'}">
+											<div class="w-bond-043">待发货</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+												<a href="javascript:void(0)" onclick="tuikuan('${order.id}')">申请退款</a>
+											</div>
+										</c:if>
+										<c:if test="${order.status=='7'}">
+											<div class="w-bond-043">退款退货中</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+											</div>
+										</c:if>
+										<c:if test="${order.status=='3'&&order.payStatus=='1'&&order.shipStatus=='1'}">
+											<div class="w-bond-043">待收货 <br/>
+												<a>物流跟踪</a>
+											</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+												<a href="javascript:void(0)" onclick="queren('${order.id}','${order.orderNum}')">确认订单</a>
+												<a href="javascript:void(0)" onclick="tuikuan('${order.id}')">申请退货</a>
+											</div>
+										</c:if>
+										<c:if test="${order.status=='5'&&order.payStatus=='1'&&order.shipStatus=='2'}">
+											<div class="w-bond-043">待评价</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+												<a href="javascript:void(0)" onclick="queren('${order.id}')">确认订单</a>
+												<%--<button type="button" class="btn-danger03">评价</button>--%>
+											</div>
+										</c:if>
+										<c:if test="${order.status=='4'&&order.payStatus=='1'&&order.shipStatus=='2'}">
+											<div class="w-bond-043">已完成</div>
+											<div class="w-bond-053">
+												<a href="person/order/toOrderDetail/${order.id}.html">查看订单</a>
+											</div>
+										</c:if>
+										<div class="clear"></div>
+									</div>
+								</div>
+							</c:forEach>
+							</c:if>
+				</div>
 			</div>
-			<s:iterator var="o" value="orderList" status="status">
-				<div class="sghsc-order-rig-dd">
-
-					<table class="sghsc-order-rig-dd-tit">
-						<tbody>
-							<tr>
-								<td width="160"><span class="sghsc-order-rig-dd-tit-1"><s:date
-											name="#o.createtime" format="yyyy-MM-dd HH:mm:ss" />
-								</span>
-								</td>
-								<td width="310">订单编号：${o.orderNum}</td>
-								<td width="492"></td>
-								<td width="36"></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<s:iterator var="i" value="#o.items" status="st">
-						<table>
-							<tbody>
-								<tr>
-									<td class="sghsc-order-rig-dd-1-td">
-										<div class="sghsc-order-rig-dd-1-div">
-											<div class="sghsc-order-rig-dd-1-img">
-												<c:choose>
-													<c:when
-														test="${i.goods != null && i.goods != '' && i.goods.marketable != 'false' && i.goods.disabled != 'true' }">
-														<a href="goods/${i.goodsId}.html" target="_blank"> <img
-															src="${i.goodsPic}" border="0" width="80" height="80" />
-														</a>
-													</c:when>
-													<c:otherwise>
-														<img src="${i.goodsPic}" border="0" width="80" height="80" />
-													</c:otherwise>
-												</c:choose>
-
-											</div>
-											<div class="sghsc-order-rig-dd-1-bt">
-												<p>
-													<c:choose>
-														<c:when
-															test="${i.goods != null && i.goods != '' && i.goods.marketable != 'false' && i.goods.disabled != 'true' }">
-															<a href="goods/${i.goodsId}.html" target="_blank"> <span
-																style="line-height:16px;">${i.goodsName}</span> </a>
-														</c:when>
-														<c:otherwise>
-															<span class="sghsc-order-rig-dd-1-bt-p-2"
-																style="line-height:16px;">${i.goodsName}</span>
-														</c:otherwise>
-													</c:choose>
-
-
-												</p>
-												<p class="sghsc-order-rig-dd-1-bt-p-2">
-													&lt;%&ndash; <span title="七天退换" ><img src="web/images/sghscorder/sghsc-order-zheng.png" ></span>
-					    <span title="如实描述" ><img src="web/images/sghscorder/sghsc-order-7.png" ></span>
-					    <span title="正品保证" ><img src="web/images/sghscorder/sghsc-order-bao.png" ></span> &ndash;%&gt;
-													(${i.itemSku })
-												</p>
-											</div>
-										</div></td>
-									<td class="sghsc-order-rig-dd-1-td"><div
-											class="sghsc-order-rig-dd-1-lb">￥${i.dealPrice}</div>
-									</td>
-									<td class="sghsc-order-rig-dd-1-td"><div
-											class="sghsc-order-rig-dd-1-lb2">${i.nums}</div>
-									</td>
-									<!-- <td class="sghsc-order-rig-dd-1-td2"> -->
-									<td class="sghsc-order-rig-dd-1-td">
-										<div class="sghsc-order-rig-dd-1-lb">￥${o.totalCost}</div>
-										<div>(含运费)</div></td>
-									<!-- <td class="sghsc-order-rig-dd-1-td2"> -->
-									<c:choose>
-										<c:when
-											test="${i.goods != null && i.goods != '' && i.goods.marketable != 'false' && i.goods.disabled != 'true' }">
-											<td class="sghsc-order-rig-dd-1-td">
-												<div class="sghsc-order-rig-dd-1-lb">
-													<s:if test="#o.payStatus == 0">待付款</s:if>
-													<s:if test="#o.payStatus == 1 && #o.shipStatus == 0">待发货</s:if>
-													<s:if test="#o.payStatus == 1 && #o.shipStatus == 1">已发货</s:if>
-													<s:if test="#o.payStatus == 1 && #o.shipStatus == 2">已完成</s:if>
-													<s:if test="#o.payStatus ==3">已退款</s:if>
-												</div>
-												<div class="sghsc-order-rig-dd-1-lb">
-													<s:if test="#st.index ==0">
-														<!--已付款  -->
-														<s:if test="#o.payStatus == 1">
-															<!-- 已收货 -->
-															<s:if test="#o.shipStatus ==2">
-																<s:else>
-																	<span>已评价</span>
-																</s:else>
-															</s:if>
-															<!-- 未收货 -->
-															<s:else>
-																<s:if test="#i.appraise ==0">
-																	<span>未评价</span>
-																</s:if>
-																<s:else>
-																	<span>已评价</span>
-																</s:else>
-															</s:else>
-
-														</s:if>
-														<!-- 未付款 -->
-														<s:else>
-															<s:if test="#i.appraise ==0">
-																<span>未评价</span>
-															</s:if>
-															<s:else>
-																<span>已评价</span>
-															</s:else>
-														</s:else>
-													</s:if>
-													<s:else>
-														<!--已付款  -->
-														<s:if test="#o.payStatus ==1">
-															<!-- 已收货 -->
-															<s:if test="#o.shipStatus ==2">
-																<s:else>
-																	<span>已评价</span>
-																</s:else>
-															</s:if>
-															<!-- 未收货 -->
-															<s:else>
-																<s:if test="#i.appraise ==0">
-																	<span>未评价</span>
-																</s:if>
-																<s:else>
-																	<span>已评价</span>
-																</s:else>
-															</s:else>
-														</s:if>
-														<!-- 未付款 -->
-														<s:else>
-															<s:if test="#i.appraise ==0">
-																<span>未评价</span>
-															</s:if>
-															<s:else>
-																<span>已评价</span>
-															</s:else>
-														</s:else>
-													</s:else>
-												</div>
-												<div>
-													<a href="toOrderDetail/${o.id}.html"
-														class="sghsc-order-rig-dd-1-bta" target="_blank">订单详情</a>
-												</div></td>
-											<!-- <td class="sghsc-order-rig-dd-1-td3"> -->
-
-											<td class="sghsc-order-rig-dd-1-td"><s:if
-													test=" #o.payStatus == 1 && #o.shipStatus == 1">
-													<div
-														class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-														<a href="javascript:void(0)"
-															class="sghsc-order-rig-dd-1-paya"
-															onclick="memberPayOrder('${o.id}','${o.orderNum }','${o.payMent }')">
-															<span class="sghsc-order-rig-dd-1-pay">确认收货</span> </a>
-													</div>
-												</s:if> <s:if test="#i.isLogistice == 1">
-													<div
-														class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-														<a href="logisticsDetail/${i.logisticsNum}.html"
-															class="sghsc-order-rig-dd-1-paya" target="_blank"> <span
-															class="sghsc-order-rig-dd-1-pay">查看物流</span> </a>
-													</div>
-												</s:if>
-
-												<div class="sghsc-order-rig-dd-1-lb">
-													<s:if test="#st.index ==0">
-														<!--已付款  -->
-														<s:if test="#o.payStatus == 1">
-															<!-- 已收货 -->
-															<s:if test="#i.isLogistice == 1">
-																<s:if test="#i.appraise == 0">
-																	<div
-																		class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-																		<div
-																			onclick="memberEvaluateOnclick('${i.orderId}','${i.goodsId}','${i.companyId}');"
-																			class="sghsc-order-rig-dd-1-paya">
-																			<span class="sghsc-order-rig-dd-1-pay">评价晒单</span>
-																		</div>
-																	</div>
-																</s:if>
-															</s:if>
-															<!-- 未收货 -->
-															<s:else>
-															</s:else>
-
-														</s:if>
-														<!-- 未付款 -->
-														<s:else>
-															<s:if test="#i.appraise ==0">
-															</s:if>
-															<s:else>
-															</s:else>
-														</s:else>
-													</s:if>
-													<s:else>
-														<!--已付款  -->
-														<s:if test="#o.payStatus ==1">
-															<!-- 已收货 -->
-															<s:if test="#i.isLogistice == 2">
-																<div
-																	class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-																	<a href="logisticsDetail/${i.logisticsNum}.html"
-																		class="sghsc-order-rig-dd-1-paya" target="_blank">
-																		<span class="sghsc-order-rig-dd-1-pay">查看物流</span> </a>
-																</div>
-																<s:if test="#i.appraise ==0">
-																	<div
-																		class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-																		<a
-																			onclick="memberEvaluateOnclick('${i.orderId}','${i.goodsId}','${i.companyId}');"
-																			class="sghsc-order-rig-dd-1-paya" target="_blank">
-																			<span class="sghsc-order-rig-dd-1-pay">评价晒单</span> </a>
-																	</div>
-																</s:if>
-															</s:if>
-															<!-- 未收货 -->
-															<s:else>
-																<s:if test="#i.appraise == 0">
-																</s:if>
-																<s:else>
-																</s:else>
-															</s:else>
-
-														</s:if>
-														<!-- 未付款 -->
-														<s:else>
-															<s:if test="#i.appraise == 0">
-															</s:if>
-															<s:else>
-															</s:else>
-														</s:else>
-													</s:else>
-													&lt;%&ndash; <s:if test="#st.index ==0">
-				<li class="ddeight" style="height:32px; line-height:32px;">
-					<span class="wtk ddsh">退货/退款</span>
-				</li>
-			</s:if> &ndash;%&gt;
-													<s:if test="#o.payStatus == 0">
-														<div
-															class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-															<a href="payment!toPaymentType.action?orderId=${o.id}"
-																class="sghsc-order-rig-dd-1-paya" target="_blank">
-																<span class="sghsc-order-rig-dd-1-pay">支付订单</span> </a>
-														</div>
-
-														<div
-															class="sghsc-order-rig-dd-1-lb sghsc-order-rig-dd-1-lb22">
-															<a class="sghsc-order-rig-dd-1-paya"
-																onclick="dropOrder('${o.id}')" href="javascript:void(0)">
-																<span class="sghsc-order-rig-dd-1-pay">删除订单</span> </a>
-														</div>
-													</s:if>
-
-												</div></td>
-										</c:when>
-										<c:otherwise>
-											<td class="sghsc-order-rig-dd-1-td">
-												<div class="sghsc-order-rig-dd-1-lb">商品下架</div>
-											</td>
-											<td class="sghsc-order-rig-dd-1-td">
-												<div class="sghsc-order-rig-dd-1-lb">商品下架</div>
-											</td>
-										</c:otherwise>
-									</c:choose>
-								</tr>
-							</tbody>
-						</table>
-
-					</s:iterator>
-
-				</div>
-			</s:iterator>
-
-		</div>
 	</div>
-
+</div>
+</div>
 	<!--签收弹出框begin-->
 	<div id="shxx" class="aqmmtc" style=" visibility:hidden">
 		<form action="person/order/receiveGoods.html" id="receiveGoodsFrom"
@@ -947,7 +533,7 @@
 	<!--评价弹出框结束-->
 
 	<div class="clear"></div>
-	<jsp:include page="/admin/common/indexFooter.jsp" />
+
 	<!--更多搜索条件-->
 	<script type="text/javascript">
 		window.onload = function() {
@@ -1009,6 +595,15 @@
 			};*/
 		}
 	</script>
-
+</div>
+</div>
+	<div class="clear"></div>
+	<div id="pageReload">
+		<page:pagination path="person/order/myOrders.html" formName="pagerForm"/>
+	</div>
+</div>
+<!--footer开始-->
+<s:action name="indexFloorAction!showFoot" namespace="/indexFloor" executeResult="true"></s:action>
+<!--footer结束-->
 </body>
 </html>

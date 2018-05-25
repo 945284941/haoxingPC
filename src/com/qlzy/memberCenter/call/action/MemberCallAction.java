@@ -15,21 +15,21 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.qlzy.common.util.PcOrWap;
 import com.qlzy.mainPage.company.service.CompanyService;
 import com.qlzy.mainPage.companyBarnd.service.CompanyBarndService;
 import com.qlzy.mainPage.country.service.NCountryService;
+import com.qlzy.memberCenter.call.dao.ReceiveAddressMapper;
 import com.qlzy.memberCenter.call.service.BankcardService;
 import com.qlzy.memberCenter.call.service.impl.MemberCallServiceImpl;
+import com.qlzy.memberCenter.person.appraise.service.AppraiseService;
 import com.qlzy.memberCenter.person.memberCollect.service.MemberCollectService;
+import com.qlzy.memberCenter.person.receive.service.ReceiveAddressService;
 import com.qlzy.memberCenter.shop.service.CompanysGoodsCatService;
 import com.qlzy.model.*;
 import org.apache.commons.codec.binary.Base64;
@@ -58,11 +58,22 @@ import org.springframework.ui.Model;
 
 @Namespace("/")
 @Action(value = "memberCallAction", results = {
+		@Result(name = "showMyCollectWap", location = "/wap/person/myCollect.jsp"),
 		@Result(name = "showGoodsCollect", location = "/memberCenter/person/orders/goodsCollect.jsp"),
 		@Result(name = "showShopCollect", location = "/memberCenter/person/orders/shopCollect.jsp"),
 		@Result(name = "showBankcard", location = "/memberCenter/person/orders/bankcard.jsp"),
+		@Result(name = "showBankcardWap", location = "/wap/person/bankcard.jsp"),
+		@Result(name = "showEditBankcardWap", location = "/wap/person/editBankcard.jsp"),
+		@Result(name = "showAddBankcardWap", location = "/wap/person/addBankcard.jsp"),
 		@Result(name = "loadReceiveAddr", location = "/memberCenter/person/orders/newShippingAddr.jsp"),
-		@Result(name = "shopDetail", location = "/memberCenter/person/orders/shopDetail.jsp"),
+		@Result(name = "loadReceiveAddrWap", location = "/wap/person/shoppingAddr.jsp"),
+		@Result(name = "showAddAddrWap", location = "/wap/person/addAddr.jsp"),
+		@Result(name = "showEditAddrWap", location = "/wap/person/editAddr.jsp"),
+		@Result(name = "shopDetail", location = "/memberCenter/person/orders/shopDetailNew.jsp"),
+		@Result(name = "shopDetailWap" , location = "/wap/company/companyDetail.jsp"),
+		/*@Result(name = "shopDetail", location = "/memberCenter/person/orders/shopDetail.jsp"),
+		@Result(name = "shopDetailWap" , location = "/wap/company/companyDetail.jsp"),*/
+		@Result(name = "shopDetailListWap" , location = "/wap/company/companyList.jsp"),
 		@Result(name = "companyTail" , location = "/memberCenter/person/orders/companyDetail.jsp"),
 		@Result(name = "toCart", location = "/admin/carts/cart.jsp"),
 		@Result(name = "addr", location = "/admin/carts/addr.jsp"),
@@ -103,6 +114,8 @@ public class MemberCallAction extends BaseAction {
 	@Resource
 	private GoodsService goodsService;
 	@Resource
+	private AppraiseService appraiseService;
+	@Resource
     private BankcardService bankcardService;
 	@Autowired
 	private GoodsItemMapper goodsItemMapper;
@@ -116,6 +129,8 @@ public class MemberCallAction extends BaseAction {
     private CompanysGoodsCatService companysGoodsCatService;
     @Resource
     private MemberCollectService memberCollectService;
+	@Resource
+	private ReceiveAddressService receiveAddressService;
 	private ReceiveAddress receiveAddress;
 	private String goodsId;
 
@@ -125,7 +140,7 @@ public class MemberCallAction extends BaseAction {
 	private SessionInfo sessionInfo = new SessionInfo();
 	private List<Goods> goodsList;
 	private String userId;
-	private ReceiveAddress receiveAddr;
+	private ReceiveAddress receiveAddr = new ReceiveAddress();
 	private List<ReceiveAddress> raList;
 	private String type;
 	private Integer num;
@@ -142,22 +157,6 @@ public class MemberCallAction extends BaseAction {
 	private List<Company> companyCarts;
 
 	private String[] payCartsIds;
-
-	public List<Cart> getCarts() {
-		return carts;
-	}
-
-	public void setCarts(List<Cart> carts) {
-		this.carts = carts;
-	}
-
-	public List<GoodsItem> getGoodsItems() {
-		return goodsItems;
-	}
-
-	public void setGoodsItems(List<GoodsItem> goodsItems) {
-		this.goodsItems = goodsItems;
-	}
 
 	private Member member = new Member();
 
@@ -179,6 +178,44 @@ public class MemberCallAction extends BaseAction {
 
 
 	private Bankcard bankcard;
+	private String itemId;
+	private String cartMsg;
+	private String goodsItemIds;
+	private String companyId;
+	private String companyName;
+	private BigDecimal payPrice;//应付金额
+	private BigDecimal payDlmPrice;
+	private BigDecimal payDocPrice;
+	private String isOneBuy;//是否单独购买 1是 0或其他否
+	private String isNowBuy;//是否立即购买 1是 0或其他否
+	private Integer nowBuyNum;//立即购买时的购物数量
+	private String orderMsg;
+	private String countryId;
+	private String receiveAddrId;
+
+	/**
+	 * 我的收藏wap
+	 * @return
+	 */
+	public String showMyCollect(){
+		String type = request.getParameter("type");
+		sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		String userId = sessionInfo.getUserId();
+		MemberCollect memberCollect = new MemberCollect();
+		if("1".equals(type)){
+			memberCollect.setType("goods");
+		}else if("2".equals(type)){
+			memberCollect.setType("shop");
+		}
+		memberCollect.setUserId(userId);
+		List<MemberCollect> memberCollectList = memberCallService.gainGoodsCollect(memberCollect);
+		request.setAttribute("memberCollectList",memberCollectList);
+		request.setAttribute("sessionInfo",sessionInfo);
+		request.setAttribute("type",type);
+
+		return PcOrWap.isPc(request,"showMyCollect");
+	}
 
 	/**
 	 * 显示收藏商品
@@ -204,8 +241,21 @@ public class MemberCallAction extends BaseAction {
 	public String shopDetail(){
 		List<Goods> goodsList2=new ArrayList<Goods>();
 		List<CompanysGoodsCat> goodsCatList=new ArrayList<CompanysGoodsCat>();
-		String like ="";
+		String oldPage=request.getParameter("page");
+		if(oldPage==null||oldPage.equals("")){
+			oldPage="1";
+		}
+		Goods goods=new Goods();
+	    Long page = Long.parseLong(oldPage);
+		String like ="0%";
+		String praiseRate = "";
         Company c=new Company();
+        String node=request.getParameter("node");
+        if(node==null||node==""){
+        	node="1";
+		}
+		Long followNum=0L;
+        List<Goods> goodsList=new ArrayList<Goods>();
 		try {
 			String id = request.getParameter("id");
 			//对该店铺的商品进行处理
@@ -213,7 +263,23 @@ public class MemberCallAction extends BaseAction {
            //店铺的父级分类
 			goodsCatList=companysGoodsCatService.findCompanyGoodsCatByCompanyId(id);
 
+
+			//----处理商品
+			goods.setCompanyId(id);
+			goods.setMinPage((page-1)*8);
+			goods.setMaxPage(8L);
+			goodsList = goodsService.gainFindGoodsBySelect(goods);
+            //详情
 			c = companyService.selectcCompanyById(id);
+            //店铺分类的处理
+			CompanyBarnd companyBarnd = new CompanyBarnd();
+			companyBarnd.setCompanyId(id);
+			List<CompanyBarnd> bankcardList = companyBarndService.findBankCardByCid(companyBarnd);
+			List<String> stringList = new ArrayList<String>();
+			for (int i = 0; i < bankcardList.size(); i++) {
+				stringList.add(bankcardList.get(i).getBarndLogo());
+			}
+			c.setImgList(stringList);
 
 			for(int k=0;k<goodsCatList.size();k++){
 				List<CompanysGoodsCat> companysGoodsCatList=findChildrenByPid(goodsCatList.get(k).getId());
@@ -224,6 +290,17 @@ public class MemberCallAction extends BaseAction {
 				  }
 				}
 				goodsCatList.get(k).setThreeCompanyCatList(companysGoodsCatList);
+			}
+			//----关注量
+			followNum=memberCollectService.followNum(id);
+			//----商品好评率
+			Long goodEvaluate=appraiseService.goodEvaluate(id);
+			Long Evaluate=appraiseService.Evaluate(id);
+			if(Evaluate!=0){
+			  Double praiseRateNum = goodEvaluate*1.0/Evaluate;
+			  praiseRateNum = praiseRateNum * 100;
+			  DecimalFormat df = new DecimalFormat("#0.00");
+			  praiseRate = df.format(praiseRateNum) + "%";
 			}
 			//是否对店铺收藏过
 			MemberCollect memberCollect=new MemberCollect();
@@ -241,37 +318,189 @@ public class MemberCallAction extends BaseAction {
 		}catch (Exception e){
 				e.printStackTrace();
 		}
+		sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		request.setAttribute("userId",sessionInfo.getUserId());
 		request.setAttribute("hobby",like);
 		request.setAttribute("company",c);
 		request.setAttribute("goodsList", goodsList2);
+		request.setAttribute("goods",goodsList);
+		request.setAttribute("goodsNum",goodsList2.size());
 		request.setAttribute("goodsCatList",goodsCatList);
-		return "shopDetail";
+		request.setAttribute("node",node);
+		request.setAttribute("followNum",followNum);
+		request.setAttribute("praiseRate",praiseRate);
+		return PcOrWap.isPc(request,"shopDetail",node);
 	}
+    public void companyGoodsListByCompanyIdAndTreeId(){
+		Pagination pagination = new Pagination();
+		List<Goods> goodsList=new ArrayList<Goods>();
+		try {
+			Goods goods = new Goods();
+			goods.setCompanyId(request.getParameter("id"));
+			goods.setName(request.getParameter("name"));
+	/*		String minMoney = request.getParameter("minMoney");
+			String maxMoney = request.getParameter("maxMoney");*/
+//排序
+		/*	String orderSiv = request.getParameter("orderSiv"); //推荐排序
+            String volumeSiv = request.getParameter("volumeSiv");//销量
+			String createTimeSiv = request.getParameter("createTimeSiv");//时间排序*/
 
+			Double minmoney=goods.getMinMoney();
+//处理排序
+			if(goods.getSiv()==null||goods.getSiv().equals("")){
+				goods.setOrderSiv(request.getParameter("orderSiv"));
+				goods.setVolumeSiv(request.getParameter("volumeSiv"));
+				goods.setPriceRiseSiv(request.getParameter("priceRiseSiv"));//价格
+			}else{
+
+				if(goods.getSiv().equals("orderSiv")){
+					goods.setOrderSiv("1");
+				}
+				if(goods.getSiv().equals("volumeSiv")){
+					goods.setVolumeSiv("2");
+				}
+				if(goods.getSiv().equals("priceRiseSiv")){
+					goods.setPriceRiseSiv("3");
+				}
+			}
+
+			//--处理金额
+			if (goods.getMinMoney() == null || goods.getMinMoney().equals("")) {
+				if(request.getParameter("minMoney")==null||request.getParameter("minMoney").equals("")){
+				}else {
+					goods.setMinMoney(Double.parseDouble(request.getParameter("minMoney")));
+				}
+			}
+			if (goods.getMaxMoney() == null || goods.getMaxMoney().equals("")) {
+				if(request.getParameter("maxMoney")==null||request.getParameter("maxMoney").equals("")){
+				}else {
+				goods.setMaxMoney(Double.parseDouble(request.getParameter("maxMoney")));
+				}
+			}
+            if(goods.getCarPartsProducerId()==null||goods.getCarPartsProducerId()==""){
+				goods.setCarPartsProducerId(request.getParameter("carPartsProducerId"));
+			}
+
+			String page = request.getParameter("page");
+		/*	Long goodsPage ;
+			if (page != null && !page.equals("")) {
+				goodsPage =(Long)page;
+			}
+			if (goodsPage == 0) {
+				goods.setMinPage(goodsPage * 9);
+				goods.setMaxPage((goodsPage + 1) * 9);
+			} else {*/
+			if (pagination.getPage()  == 0) {
+				goods.setMinPage(pagination.getPage() * 9);
+				goods.setMaxPage(9L);
+			}else {
+				goods.setMinPage((pagination.getPage() - 1) * 9);
+				goods.setMaxPage(9L);
+			}
+
+			goodsList = goodsService.gainFindGoodsBySelect(goods);
+			Long count = goodsService.gainFindGoodsBySelectCount(goods);
+
+			pagination.setTotalCount(count);
+			pagination.setRows(Long.valueOf(9));
+			if(page==null||page.equals("")){
+				page="1";
+			}
+			pagination.setPage(Long.valueOf(page));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("goodPageListNew", goodsList);
+		map.put("pageination", pagination);
+		map.put("treeid",request.getParameter("carPartsProducerId"));
+		writeJson(map);
+	}
 	/**
 	 * @Title companyGoodsList
-	 * @Description TODO(条件查询当前店铺的商品)
+	 * @Description TODO(查询当前店铺的商品并进行页面的跳转)
 	 * @return String
 	 * @author Jason
 	 */
 	public String companyGoodsList(){
-      Goods goods=new Goods();
-      goods.setCompanyId(request.getParameter("id"));
-      goods.setName(request.getParameter("name"));
-      goods.setMinMoney(Double.parseDouble(request.getParameter("minMoney")));
-      goods.setMaxMoney(Double.parseDouble(request.getParameter("maxMoney")));
-      goods.setCarPartsProducerId(request.getParameter("carPartsProducerId"));
-      String page=request.getParameter("page");
-      int goodsPage=0;
-      if(page!=null&&!page.equals("")){
-		  goodsPage=Integer.parseInt(page);
-	  }
-      goods.setMinPage((goodsPage-1)*9);
-      goods.setMaxPage(goodsPage*9);
-      List<Goods> goodsList=goodsService.gainFindGoodsBySelect(goods);
-      Long count=goodsService.gainFindGoodsBySelectCount(goods);
+		Pagination pagination = definationPagination(request);
+		pagination.setRows(9L);//设置每页显示几条数据
+		List<Goods> goodsList=new ArrayList<Goods>();
+		try {
+			Goods goods = new Goods();
+			goods.setCompanyId(request.getParameter("id"));
+			goods.setName(request.getParameter("name"));
+			String minMoney = request.getParameter("minMoney");
+			String maxMoney = request.getParameter("maxMoney");
 
-      request.setAttribute("goodPageList",goodsList);
+			if (goods.getMinMoney() == null || goods.getMinMoney().equals("")) {
+				if(request.getParameter("minMoney")==null||request.getParameter("minMoney").equals("")){
+				}else {
+					goods.setMinMoney(Double.parseDouble(request.getParameter("minMoney")));
+				}
+			}
+			if (goods.getMaxMoney() == null || goods.getMaxMoney().equals("")) {
+				if(request.getParameter("maxMoney")==null||request.getParameter("maxMoney").equals("")){
+				}else {
+					goods.setMaxMoney(Double.parseDouble(request.getParameter("maxMoney")));
+				}
+			}
+
+			goods.setCarPartsProducerId(request.getParameter("carPartsProducerId"));
+
+//---处理排序
+			if(goods.getSiv()==null||goods.getSiv().equals("")){
+				goods.setOrderSiv(request.getParameter("orderSiv"));
+				goods.setVolumeSiv(request.getParameter("volumeSiv"));
+				goods.setPriceRiseSiv(request.getParameter("priceRiseSiv"));//价格
+			}else{
+
+				if(goods.getSiv().equals("orderSiv")){
+					goods.setOrderSiv("1");
+				}
+				if(goods.getSiv().equals("volumeSiv")){
+					goods.setVolumeSiv("2");
+				}
+				if(goods.getSiv().equals("priceRiseSiv")){
+					goods.setPriceRiseSiv("3");
+				}
+			}
+//			String page = request.getParameter("page");
+//			int goodsPage = 0;
+//			if (page != null && !page.equals("")) {
+//				goodsPage = Integer.parseInt(page);
+//			}
+//			if (goodsPage == 0) {
+//				goods.setMinPage(goodsPage * 9);
+//				goods.setMaxPage((goodsPage + 1) * 9);
+//			} else {
+//				goods.setMinPage((goodsPage - 1) * 9);
+//				goods.setMaxPage(goodsPage * 9);
+//			}
+
+
+			goods.setMinPage((pagination.getPage()-1)*9);
+			goods.setMaxPage(9L);
+			goodsList = goodsService.gainFindGoodsBySelect(goods);
+			Long count = goodsService.gainFindGoodsBySelectCount(goods);
+            pagination.setTotalCount(count);
+//			pagination.setTotalCount(count);
+//			pagination.setRows(Long.valueOf(9));
+//			if(page==null||page.equals("")){
+//				page="1";
+//			}
+//
+//			pagination.setPage(Long.valueOf(page));
+//
+
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		request.setAttribute("goodPageList", goodsList);
+		request.setAttribute("pagination", pagination);
+
 	  return "companyGoodsList";
 	}
 	//店铺详情
@@ -310,6 +539,8 @@ public class MemberCallAction extends BaseAction {
 		return "showShopCollect";
 	}
 
+
+
 	/**
 	 * 取消收藏
 	 */
@@ -335,7 +566,7 @@ public class MemberCallAction extends BaseAction {
 			bc.setCardNumber(number.substring(number.length()- 4));
 		}
 		request.setAttribute("bankcardList",bankcardList);
-		return "showBankcard";
+		return PcOrWap.isPc(request,"showBankcard");
 	}
 
 	/**
@@ -374,6 +605,24 @@ public class MemberCallAction extends BaseAction {
 		writeJson(bankcard);
 	}
 
+	/**
+	 * 显示编辑银行卡页面
+	 * @return
+	 */
+	public String showEditBankcard(){
+		bankcard = memberCallService.gainBankcardByPrimaryKey(request.getParameter("id"));
+		request.setAttribute("bankcard",bankcard);
+		return  PcOrWap.isPc(request,"showEditBankcard");
+	}
+
+	/**
+	 * 显示添加银行卡页面
+	 * @return
+	 */
+	public String showAddBankcard(){
+		return  PcOrWap.isPc(request,"showAddBankcard");
+	}
+
 
 	/**
 	 *查询收货地址
@@ -390,7 +639,7 @@ public class MemberCallAction extends BaseAction {
 			coun.setName(name);
 		}
 		request.setAttribute("countryList",countryList);
-		return "loadReceiveAddr";
+		return  PcOrWap.isPc(request,"loadReceiveAddr");
 	}
 
 	/**
@@ -406,6 +655,22 @@ public class MemberCallAction extends BaseAction {
 		writeJson(receiveAddress);
 	}
 
+	/**
+	 * 设置默认银行卡
+	 */
+	public  void setDefaultBankcard(){
+		sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		List<Bankcard> bankcardList = memberCallService.gainBanckcard(sessionInfo.getUserId());
+		for(Bankcard bc : bankcardList){
+			bc.setIsDefault("false");
+			memberCallService.updateByPrimaryKey(bc);
+		}
+		String id = request.getParameter("id");
+		bankcard = memberCallService.gainBankcardByPrimaryKey(id);
+		bankcard.setIsDefault("true");
+		memberCallService.updateByPrimaryKey(bankcard);
+	}
 
 	/**
 	 * 设置默认地址
@@ -423,6 +688,39 @@ public class MemberCallAction extends BaseAction {
 		receiveAddress.setIsDefault("true");
 		memberCallService.updateReceiveAddress(receiveAddress);
 	}
+
+	/**
+	 * 显示添加地址页面
+	 * @return
+	 */
+	public String showAddAddr(){
+		List<NCountry> countryList = nCountryService.gainNCountry();
+		for(NCountry coun : countryList){
+			String name = coun.getName()+"_"+coun.getNameEng();
+			coun.setName(name);
+		}
+		request.setAttribute("countryList",countryList);
+		return  PcOrWap.isPc(request,"showAddAddr");
+	}
+
+	/**
+	 * 显示编辑地址页面
+	 * @return
+	 */
+	public String showEditAddr(){
+		String id = request.getParameter("id");
+		receiveAddress = memberCallService.gainReceiveAddressById(id);
+		request.setAttribute("receiveAddress",receiveAddress);
+
+		List<NCountry> countryList = nCountryService.gainNCountry();
+		for(NCountry coun : countryList){
+			String name = coun.getName()+"_"+coun.getNameEng();
+			coun.setName(name);
+		}
+		request.setAttribute("countryList",countryList);
+		return  PcOrWap.isPc(request,"showEditAddr");
+	}
+
 
 	/**
 	 * 添加收货地址
@@ -515,11 +813,12 @@ public class MemberCallAction extends BaseAction {
 	 */
 	public void memberAddCart() {
 		// 获取用户信息
-		String a[] = goodsId.split(",");
+		String a[] = cartMsg.split(",");
 
 		// 单品ID
 		String goodsIda = a[0];
 		Integer goodsNum = Integer.parseInt(a[1]);
+		String goodId = a[2];//商品id
 		sessionInfo = (SessionInfo) session.get(ResourceUtil
 				.getSessionInfoName());
 		if (sessionInfo != null && sessionInfo.getUserId() != null
@@ -535,17 +834,18 @@ public class MemberCallAction extends BaseAction {
 			if (cart != null && cart.getGoodsNum() != null
 					&& cart.getGoodsNum() >= 1) {
 				cart.setGoodsNum(cart.getGoodsNum() + goodsNum);
-
+				cart.setGoodsId(goodId);
+				cart.setUserId(userId);
 				memberCallService.updateCart(cart);
 
 			} else {
-				GoodsItem goodsItem = goodsItemMapper
-						.selectByPrimaryKey(goodsIda);
+//				GoodsItem goodsItem = goodsItemMapper
+//						.selectByPrimaryKey(goodsIda);
 				cart = new Cart();
 				cart.setId(ToolsUtil.getUUID());
 				cart.setUserId(userId);
 				cart.setItemId(goodsIda);
-				cart.setGoodsId(goodsItem.getProductId());
+				cart.setGoodsId(goodId);
 				cart.setGoodsNum(goodsNum);
 				cart.setUserType(sessionInfo.getUserType());
 				cart.setCreateTime(new Date());
@@ -556,7 +856,7 @@ public class MemberCallAction extends BaseAction {
 			// 未登录的用户，将购物车信息放入cookie中
 			try {
 				CookieUtils.addCartInCookie(response, request, goodsIda,
-						goodsNum);
+						goodsNum,goodId);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -599,21 +899,24 @@ public class MemberCallAction extends BaseAction {
 	 * @Description: TODO(这里用一句话描述这个方法的作用)
 	 * @param     设定文件
 	 * @return void    返回类型
-	 * @author 周张豹
+	 * @author
 	 */
 	public void gainCartNum() {
 		// 查看用户是否登录状态
 		Integer num = 0;
 		sessionInfo = (SessionInfo) session.get(ResourceUtil
 				.getSessionInfoName());
+		Map<String,Object> parmMap = new HashMap<>();
+		nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 		if (sessionInfo != null && sessionInfo.getUserId() != null
 				&& !"".equals(sessionInfo.getUserId())) {
 			// 登录的用户从数据库中获取购物车信息
+			parmMap.put("userId",sessionInfo.getUserId());
 			num = memberCallService
-					.gainCartNumByUserId(sessionInfo.getUserId());
+					.gainCartNumByParm(parmMap);
 		} else {
 			// 未登录的用户从session中获取购物车信息
-			num = memberCallService.gainCartNumByCookie(request);
+			num = memberCallService.gainCartNumByCookieParmMap(request,parmMap);
 		}
 		super.writeJson(num);
 	}
@@ -638,10 +941,12 @@ public class MemberCallAction extends BaseAction {
 				&& !"".equals(sessionInfo.getUserId())) {
 			// goodsList =
 			// memberCallService.gainCartByUserId(sessionInfo.getUserId());
-			carts = memberCallService
-					.gainCartsByUserId(sessionInfo.getUserId());
 			Map<String,Object> parmMap = new HashMap<>();
-			parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
+			parmMap.put("userId",sessionInfo.getUserId());
+			carts = memberCallService
+					.selectCartsByUserIdAndAd(parmMap);
+
 			if (!carts.isEmpty()) {
 				for (Cart e : carts) {
 					parmMap.put("goodsId",e.getGoodsId());
@@ -652,6 +957,7 @@ public class MemberCallAction extends BaseAction {
 					if(null != g){
 						if(!comMap.containsKey(g.getCompanyId())){
 							Company company = new Company();
+							company.setId(g.getCompanyId());
 							company.setCompanyName(g.getCompanyName());
 							List<Cart> carts = new ArrayList<>();
 							carts.add(e);
@@ -659,6 +965,7 @@ public class MemberCallAction extends BaseAction {
 							comMap.put(g.getCompanyId(),company);
 						}else{
 							Company company = comMap.get(g.getCompanyId());
+							company.setId(g.getCompanyId());
 							company.getCartList().add(e);
 							comMap.put(g.getCompanyId(),company);
 						}
@@ -669,13 +976,11 @@ public class MemberCallAction extends BaseAction {
 		} else {
 			// 未登录的用户从session中获取购物车信息
 			Map<String,Object> parmMap = new HashMap<>();
-			parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+			nCountryService.checkAddressId(request,parmMap,session,sessionInfo,"1");
 			comMap = memberCallService.gainCartByCookie(request,parmMap,comMap);
 		}
 		if(null != comMap && comMap.size() > 0){
 			for(Map.Entry<String,Company> c:comMap.entrySet()){
-				System.out.println(c.getKey());
-				System.out.println(c.getValue());
 				companyCarts.add(c.getValue());
 			}
 		}
@@ -695,10 +1000,17 @@ public class MemberCallAction extends BaseAction {
 				.getSessionInfoName());
 		Json json = new Json();
 		if (0 < num && num <= 1000) {
-			Cart cart = new Cart();
-			cart.setId(goodsId);
-			cart.setGoodsNum(num);
-			memberCallService.updateCartNumByGoodsId(cart);
+			if (sessionInfo != null && sessionInfo.getUserId() != null
+					&& !"".equals(sessionInfo.getUserId())) {
+				Cart cart = new Cart();
+				cart.setItemId(itemId);
+				cart.setGoodsNum(num);
+				cart.setUserId(sessionInfo.getUserId());
+				memberCallService.updateCartNumByGoodsId(cart);
+			}else{//未登录的情况下 修改购物车数量
+				CookieUtils.modifyCartInCookie(response, request, itemId,
+						num,goodsId);
+			}
 			json.setSuccess(true);
 			json.setMsg("成功");
 		} else {
@@ -725,14 +1037,14 @@ public class MemberCallAction extends BaseAction {
 				&& !"".equals(sessionInfo.getUserId())) {
 			try {
 				memberCallService.delCartByGoodsId(
-						ToolsUtil.StringConvertList(goodsId),
+						ToolsUtil.StringConvertList(itemId),
 						sessionInfo.getUserId());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
-			List<String> gList = ToolsUtil.StringConvertList(goodsId);
+			List<String> gList = ToolsUtil.StringConvertList(itemId);
 			if (gList.size() > 1) {// 大于1就是清除购物车
 				CookieUtils.deleteCookieCartAll(response, request, "/");
 			} else {
@@ -903,146 +1215,91 @@ public class MemberCallAction extends BaseAction {
 		return "goShChClearing";
 	}
 
-//	/***
-//	 * 转向结算页面
-//	 *
-//	 * @return
-//	 */
-//	public String goClearing(){
-//		mailing = 0.0;
-//		sessionInfo = (SessionInfo) session.get(ResourceUtil.getSessionInfoName());
-//		member = memberCallService.gainMember(sessionInfo.getUserId());
-//		try {
-//			//goodsList = memberCallService.gainCartByGoodsIds(Arrays.asList(goodsIds), sessionInfo);
-//			List<Cart> cartList= memberCallService.gainCartsByIds(Arrays.asList(goodsIds),sessionInfo);
-//			goodsList=Lists.newArrayList();
-//
-//			if(!cartList.isEmpty() && null != cartList){
-//				carts = Lists.newArrayList();
-//				for (Cart e : cartList) {
-//					Goods goods = goodsService.gainGoodsById(e.getGoodsId());
-//					/**
-//					 * 最新的包邮政策
-//					 * 1.需要买家咨询运费的不计算
-//					 * 2.购买商品大于等于商品中规定的数量后免该商品的邮费
-//					 */
-//					if(null != goods.getIsConsultingPostage() && goods.getIsConsultingPostage().equals("1")){
-//						mailing = Arith.add(mailing, (double) 0);
-//						goods.setPostage((double) 0);
-//					}else{
-//						if (goods.getFreePostageNum() != null && goods.getFreePostageNum()!= 0
-//								&& e.getGoodsNum().intValue() >= goods.getFreePostageNum().intValue() ) {
-//
-//							mailing = Arith.add(mailing, (double) 0);
-//							goods.setPostage((double) 0);
-//						} else {
-//							//Double goodsMail = Arith.mul(goods.getWuliu(), e.getGoodsNum().doubleValue());
-//							// 不免邮费的，买多少个都是设定的邮费
-//							Double goodsMail = goods.getWuliu();
-//							mailing = Arith.add(mailing, goodsMail);
-//							goods.setPostage(goodsMail);
-//						}
-//					}
-//
-//					e.setGoods(goods);
-//					e.setGoodsItem(goodsItemMapper.selectByPrimaryKey(e.getItemId()));
-//
-//					carts.add(e);
-//					goodsList.add(goods);
-//				}
-//			}
-//		} catch (Exception e1) {
-//			e1.printStackTrace();
-//		}
-//
-//		try {
-//			// 查询用户的默认收货地址
-//			receiveAddr = memberCallService.gainReceiveAddressDefault(sessionInfo.getUserId());
-//			if (receiveAddr == null) {
-//				receiveAddr = new ReceiveAddress();
-//				receiveAddr.setProvince("1");
-//				receiveAddr.setCity("2");
-//			}
-//			raList = memberCallService.gainReceiveAddresses(sessionInfo.getUserId());
-//			provinces = regionsService.gainProvinceList();
-//			cityList = regionsService.gainCityListByPid(receiveAddr.getProvince());
-//			areaList = regionsService.gainAreaListByCityId(receiveAddr.getCity());
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return "goClearing";
-//	}
-
-	/**
+	/***
 	 * 转向结算页面
 	 *
-	 * @Title: goClearing
-	 * @Description: TODO(这里用一句话描述这个方法的作用)
-	 * @param @return    设定文件
-	 * @return String    返回类型
-	 * @author 周张豹
+	 * @return
 	 */
-	public String goClearing1() {
-		sessionInfo = (SessionInfo) session.get(ResourceUtil
-				.getSessionInfoName());
+	public String goClearing(){
+		payPrice = BigDecimal.ZERO;
+		payDlmPrice = BigDecimal.ZERO;
+		payDocPrice = BigDecimal.ZERO;
+		sessionInfo = (SessionInfo) session.get(ResourceUtil.getSessionInfoName());
 		member = memberCallService.gainMember(sessionInfo.getUserId());
-		try {
-			// goodsList =
-			// memberCallService.gainCartByGoodsIds(Arrays.asList(goodsIds),
-			// sessionInfo);
-			carts = memberCallService.gainCartsByIds(Arrays.asList(goodsIds),
-					sessionInfo);
-
-			if (!carts.isEmpty() && carts != null) {
-				for (Cart e : carts) {
-					e.setGoods(goodsService.gainGoodsById(e.getGoodsId()));
-					e.setGoodsItem(goodsItemMapper.selectByPrimaryKey(e
-							.getItemId()));
-				}
-			}
-			goodsList = Lists.newArrayList();
-			if (!carts.isEmpty() && carts != null) {
-				for (Cart e : carts) {
-					goodsList.add(e.getGoods());
-
-				}
-			}
-			int i = 0;
-			for (Goods g : goodsList) {
-				if ("true".equals(g.getIsMail())) {
-					i++;
-				}
-			}
-			if (i > 0) {
-				isMail = "true";
-				mailing = 0.0;
-				mailMax = 0.0;
+		if("1".equals(isNowBuy)){//不经过购物车直接购买
+			GoodsItem goodsItem = goodsItemMapper.selectByPrimaryKey(goodsItemIds);
+			Map<String, Object> parmMap = new HashMap<>();
+			nCountryService.checkAddressId(request, parmMap, session, sessionInfo, "1");
+			parmMap.put("userId", sessionInfo.getUserId());
+			parmMap.put("goodsId", goodsItem.getProductId());
+			Goods g = goodsService.gainGoodsByPrm(parmMap);
+			Cart cart = new Cart();
+			cart.setGoods(g);
+			cart.setGoodsItem(goodsItem);
+			cart.setGoodsNum(nowBuyNum);
+			carts = new ArrayList<>();
+			carts.add(cart);
+			Company company = companyService.selectcCompanyById(carts.get(0).getGoods().getCompanyId());
+			companyId = company.getId();
+			companyName = company.getCompanyName();
+			if (null == isOneBuy || "".equals(isOneBuy) || "1".equals(isOneBuy)) {//单独购买
+				payPrice = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
 			} else {
-				isMail = "false";
-				Map<String,Double> mMap = memberCallService.getMailing();
-				mailing = mMap.get("mail");
-				mailMax = mMap.get("mailMax");
+				if ("1".equals(g.getIsGroup()) || "1".equals(g.getIsFlashSale())) {
+					payPrice = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).multiply(g.getActivityPrice()).setScale(2,BigDecimal.ROUND_HALF_UP);
+				} else {
+					payPrice = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+				}
 			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
+			payPrice = payPrice.multiply(new BigDecimal(nowBuyNum)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			payDlmPrice = payPrice.multiply(g.getDlmRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+			payDocPrice = payPrice.multiply(g.getDocRate()).setScale(2,BigDecimal.ROUND_HALF_UP);
+		}else {
+			try {
+				Map<String, Object> parmMap = new HashMap<>();
+				nCountryService.checkAddressId(request, parmMap, session, sessionInfo, "1");
+				parmMap.put("userId", sessionInfo.getUserId());
+				parmMap.put("itemList", Arrays.asList(goodsItemIds.split(",")));
+				carts = memberCallService.selectCartsByUserIdAndAd(parmMap);
+				if (!carts.isEmpty()) {
+					for (Cart e : carts) {
+						parmMap.put("goodsId", e.getGoodsId());
+						Goods g = goodsService.gainGoodsByPrm(parmMap);
+						e.setGoods(g);
+						GoodsItem goodsItem = goodsItemMapper.selectByPrimaryKey(e.getItemId());
+						e.setGoodsItem(goodsItem);
+						BigDecimal payPriceNow = new BigDecimal(goodsItem.getPrice()).multiply(g.getSaleRate()).multiply(new BigDecimal(e.getGoodsNum())).setScale(2,BigDecimal.ROUND_HALF_UP);
+						payPrice = payPrice.add(payPriceNow);
+						payDlmPrice = payDlmPrice.add(payPriceNow.multiply(g.getDlmRate()).setScale(2,BigDecimal.ROUND_HALF_UP));
+						payDocPrice = payDocPrice.add(payPriceNow.multiply(g.getDocRate()).setScale(2,BigDecimal.ROUND_HALF_UP));
+					}
+					Company company = companyService.selectcCompanyById(carts.get(0).getGoods().getCompanyId());
+					companyId = company.getId();
+					companyName = company.getCompanyName();
+
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 		try {
-			// 查询用户的默认收货地址
-			receiveAddr = memberCallService
-					.gainReceiveAddressDefault(sessionInfo.getUserId());
-			if (receiveAddr == null) {
-				receiveAddr = new ReceiveAddress();
-				receiveAddr.setProvince("1");
-				receiveAddr.setCity("2");
+			// 用户的默认收货地址
+			raList = memberCallService.gainReceiveAddressesList(sessionInfo.getUserId());
+			if(null != raList && raList.size() > 0){
+				Iterator<ReceiveAddress> iter = raList.iterator();
+				while(iter.hasNext()){
+					receiveAddress = iter.next();
+					if(receiveAddress.getIsDefault().equals("true")){
+						receiveAddr = receiveAddress;
+						iter.remove();
+					}
+				}
+				if(null == receiveAddr || "".equals(receiveAddr)){
+					receiveAddr = raList.get(0);
+					raList.remove(0);
+				}
 			}
-			raList = memberCallService.gainReceiveAddresses(sessionInfo
-					.getUserId());
-			provinces = regionsService.gainProvinceList();
-			cityList = regionsService.gainCityListByPid(receiveAddr
-					.getProvince());
-			areaList = regionsService.gainAreaListByCityId(receiveAddr
-					.getCity());
+			request.setAttribute("receiveAddr", receiveAddr);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1050,23 +1307,7 @@ public class MemberCallAction extends BaseAction {
 		return "goClearing";
 	}
 
-//	/**
-//	 * 查询用户的收货地址
-//	 *
-//	 * @Title: loadReceiveAddr
-//	 * @Description: TODO(这里是修改收货地址时候使用de)
-//	 * @param     设定文件
-//	 * @return void    返回类型
-//	 * @author 周张豹
-//	 */
-//	public String loadReceiveAddr() {
-//		receiveAddr = memberCallService.gainReceiveAddressById(receiveAddr
-//				.getId());
-//		provinces = regionsService.gainProvinceList();
-//		cityList = regionsService.gainCityListByPid(receiveAddr.getProvince());
-//		areaList = regionsService.gainAreaListByCityId(receiveAddr.getCity());
-//		return "addr";
-//	}
+
 
 	/**
 	 * 查询用户的收货地址
@@ -1109,34 +1350,30 @@ public class MemberCallAction extends BaseAction {
 	/**
 	 * 生成订单
 	 *
-	 * @Title: CreateOrder
+	 * @Title: subOrder
 	 * @Description: TODO(这里用一句话描述这个方法的作用)
 	 * @param @return    设定文件
 	 * @return String    返回类型
 	 * @author 周张豹
 	 */
-	public String CreateOrder() {
+	public void subOrder() {
+		Map<String,String> resultMap = new HashMap<>();
+		resultMap.put("msg","001");
 		TradePayDeail payDeail = null;
 		try {
 			sessionInfo = (SessionInfo) session.get(ResourceUtil
 					.getSessionInfoName());
-//			payDeail = memberCallService.addOrder(receiveAddr, goodsIds,
-//					sessionInfo, logistics, payment, billType, billHead,
-//					billContent, remark, mailing, payCartsIds);
+			payDeail = memberCallService.addOrder(receiveAddrId, goodsItemIds,
+					sessionInfo, countryId,orderMsg,isNowBuy,isOneBuy,nowBuyNum);
 			orderId = payDeail.getOrderId();
-
-			// request.setAttribute("orderId", orderId);
+			resultMap.put("orderId",orderId);
+			resultMap.put("msg","000");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "topayment";
-		/*if (payment.equals("0")) {
-			return "gozfbpay";
-		} else {
-			return "guliangbi";
-		}  */
-
+		System.out.println(resultMap);
+		super.writeJson(resultMap);
 	}
 
 	public String toZfbPay() {
@@ -1517,17 +1754,6 @@ public class MemberCallAction extends BaseAction {
 		this.userId = userId;
 	}
 
-	/**
-	 * @return the receiveAddr
-	 */
-	/*public ReceiveAddress getReceiveAddr() {
-		return receiveAddr;
-	}*/
-
-	/**
-	 * @param receiveAddr
-	 *            the receiveAddr to set
-	 */
 	public void setReceiveAddr(ReceiveAddress receiveAddr) {
 		this.receiveAddr = receiveAddr;
 	}
@@ -1820,5 +2046,134 @@ public class MemberCallAction extends BaseAction {
 
 	public void setCompanyCarts(List<Company> companyCarts) {
 		this.companyCarts = companyCarts;
+	}
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
+
+	public List<GoodsItem> getGoodsItems() {
+		return goodsItems;
+	}
+
+	public void setGoodsItems(List<GoodsItem> goodsItems) {
+		this.goodsItems = goodsItems;
+	}
+
+	public String getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getCartMsg() {
+		return cartMsg;
+	}
+
+	public void setCartMsg(String cartMsg) {
+		this.cartMsg = cartMsg;
+	}
+
+	public String getGoodsItemIds() {
+		return goodsItemIds;
+	}
+
+	public void setGoodsItemIds(String goodsItemIds) {
+		this.goodsItemIds = goodsItemIds;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public BigDecimal getPayPrice() {
+		return payPrice;
+	}
+
+	public void setPayPrice(BigDecimal payPrice) {
+		this.payPrice = payPrice;
+	}
+
+	public BigDecimal getPayDlmPrice() {
+		return payDlmPrice;
+	}
+
+	public void setPayDlmPrice(BigDecimal payDlmPrice) {
+		this.payDlmPrice = payDlmPrice;
+	}
+
+	public BigDecimal getPayDocPrice() {
+		return payDocPrice;
+	}
+
+	public void setPayDocPrice(BigDecimal payDocPrice) {
+		this.payDocPrice = payDocPrice;
+	}
+
+	public String getIsOneBuy() {
+		return isOneBuy;
+	}
+
+	public void setIsOneBuy(String isOneBuy) {
+		this.isOneBuy = isOneBuy;
+	}
+
+	public String getIsNowBuy() {
+		return isNowBuy;
+	}
+
+	public void setIsNowBuy(String isNowBuy) {
+		this.isNowBuy = isNowBuy;
+	}
+
+
+
+	public String getOrderMsg() {
+		return orderMsg;
+	}
+
+	public void setOrderMsg(String orderMsg) {
+		this.orderMsg = orderMsg;
+	}
+
+	public String getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(String countryId) {
+		this.countryId = countryId;
+	}
+
+	public String getReceiveAddrId() {
+		return receiveAddrId;
+	}
+
+	public void setReceiveAddrId(String receiveAddrId) {
+		this.receiveAddrId = receiveAddrId;
+	}
+
+	public Integer getNowBuyNum() {
+		return nowBuyNum;
+	}
+
+	public void setNowBuyNum(Integer nowBuyNum) {
+		this.nowBuyNum = nowBuyNum;
 	}
 }

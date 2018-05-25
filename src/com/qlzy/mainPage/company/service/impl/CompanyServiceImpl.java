@@ -98,8 +98,8 @@ public class CompanyServiceImpl implements CompanyService {
 	 * @see com.qlzy.mainPage.company.service.CompanyService#selectcCompanyById(java.lang.String)
 	 */
 	@Override
-	public Company selectcCompanyById(String userId) {
-		return companyMapper.selectByPrimaryKey(userId);
+	public Company selectcCompanyById(String companyId) {
+		return companyMapper.selectByPrimaryKey(companyId);
 	}
 
 	@Override
@@ -214,6 +214,21 @@ public class CompanyServiceImpl implements CompanyService {
 		// TODO Auto-generated method stub
 //		return companyMapper.gainCHCompanyListCount();
 		return null;
+	}
+
+	@Override
+	public List<Company> gainCompanyListSearchPage(Map<String, Object> parmMap) {
+		return companyMapper.gainCompanyListSearchPage(parmMap);
+	}
+
+	@Override
+	public Long gainCompanyListSearchPageCount(Map<String, Object> parmMap) {
+		return companyMapper.gainCompanyListSearchPageCount(parmMap);
+	}
+
+	@Override
+	public void updateByPrimaryKeyWithBLOBs(Company company) {
+		companyMapper.updateByPrimaryKeyWithBLOBs(company);
 	}
 
 	@Override

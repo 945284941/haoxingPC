@@ -28,6 +28,23 @@ public class PcOrWap extends BaseAction {
 		}
 
 	}
+	/**
+	 * 店铺详情
+	 */
+	public static String isPc(HttpServletRequest request,String reqUrl,String node){
+		boolean mobile = HttpRequestDeviceUtils.isMobileDevice(request);
+		String domain =request.getServerName(); //获取访问的域名
+		Map<String, Object> domainMap = ToolsUtil.splitDomain(domain);
+		if (mobile) {//手机终端登录
+           if(node.equals("1")){
+               return reqUrl+"ListWap";
+		   }else{
+			   return reqUrl+"Wap";
+		   }
+		} else {//电脑终端
+			return reqUrl;
+		}
+	}
 
 
 }

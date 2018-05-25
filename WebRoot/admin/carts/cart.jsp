@@ -3,6 +3,7 @@
 <%@page import="com.qlzy.common.tools.ResourceUtil"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -54,16 +55,17 @@ document.execCommand("BackgroundImageCache", false, true);
 				<li>3.支付订单</li>
 			</ul>
 		</div>
-
+		<c:if test="${not empty companyCarts}">
 		<div class="lh_wdgwc_cszdsp">
 			<input type="hidden" id="dlmHv" value="${huilv.now_rate_dlm}"/>
 			<input type="hidden" id="docHv" value="${huilv.now_rate_doc}"/>
 			<input type="hidden" id="delGoodsIds"/>
+
 			<ul>
 				<div class="lh_wdgwc_w-bond">
 					<div class="lh_wdgwc_w-bond-title">
 						<p class="lh_wdgwc_w-title-qx">
-							<label><input type="checkbox" id="admin_carts_cartCheckbox" onclick="checkedAll('goodsIds',this);">全选</label>
+							<label><input type="checkbox" id="admin_carts_cartCheckbox" onclick="checkedAll('goodsIds',this);"/>全选</label>
 						</p>
 						<p class="lh_wdgwc_w-title-name3" style="text-align: center;">商品</p>
 						<p class="w-title-time3">单价</p>
@@ -81,17 +83,18 @@ document.execCommand("BackgroundImageCache", false, true);
 						<span>商家名称：${coms.companyName}</span>
 					</div>
 					<div class="lh_wdgwc_w-bond-jd_jrdp">
-						<a href="#">进入店铺></a>
+						<a href="shopDetail/${coms.id}/1.html">进入店铺></a>
 					</div>
 				</div>
 					<c:forEach items="${coms.cartList}" var="cart" varStatus="status1">
-				<div class="lh_wdgwc_w-bond-list1 fl" style=" border-top:2px solid #d6cfcf" id="cart_${cart.id}">
+				<div class="lh_wdgwc_w-bond-list1 fl" style=" border-top:2px solid #d6cfcf" id="cart_${cart.itemId}">
 					<div class="lh_wdgwc_w-bond-info1">
 						<div class="lh_wdgwc_w-bond-155">
 							<label><input type="checkbox"
 										  id="check_${status.index}_${status1.index}" checksumid="cartSum_${status.index}_${status1.index}"
-										  name="goodsIds" cname="${status.index}" value="${cart.id}"
-										  onclick="checkBoxUpPr('${status.index}_${status1.index}')" /></label>
+										  name="goodsIds" cname="${status.index}" value="${cart.itemId}"
+										  onclick="checkBoxUpPr('${status.index}_${status1.index}')" />
+							</label>
 						</div>
 						<div class="lh_wdgwc_w-bond-16">
 							<div class="lh_wdgwc_w-bond-img1 fl">
@@ -104,19 +107,19 @@ document.execCommand("BackgroundImageCache", false, true);
 							<div class="w-clear"></div>
 						</div>
 						<div class="lh_wdgwc_w-bond-17">
-							<span id="cartItemPrice_${status.index}_${status1.index}">${cart.goodsItem.price}</span>
+							<span id="cartItemPrice_${status.index}_${status1.index}"><fmt:formatNumber type="number" value="${cart.goodsItem.price * cart.goods.saleRate}" pattern="0.00" maxFractionDigits="2"/></span>
 						</div>
 						<div class="lh_wdgwc_w-bond-18">
 							<div class="mui-numbox" style="width: 50px; padding: 0 20px;">
-								<button class="mui-btn mui-btn-numbox-minus" type="button" style="width: 24px;" onclick="changeNum('${cart.id}','del','${status.index}_${status1.index}')">-</button>
-								<input class="mui-input-numbox" type="number" id="${cart.id}" value="${cart.goodsNum}"
-									   onkeyup="changeNum('${cart.id}','inputByme','${status.index}_${status1.index}')" />
-								<button class="mui-btn mui-btn-numbox-plus" type="button" style="width: 24px;" onclick="changeNum('${cart.id}','add','${status.index}_${status1.index}')">+</button>
+								<button class="mui-btn mui-btn-numbox-minus" type="button" style="width: 24px;" onclick="changeNum('${cart.goodsId}','${cart.itemId}','del','${status.index}_${status1.index}')">-</button>
+								<input class="mui-input-numbox" type="number" id="${cart.itemId}" value="${cart.goodsNum}"
+									   onkeyup="changeNum('${cart.goodsId}','${cart.itemId}','inputByme','${status.index}_${status1.index}')" />
+								<button class="mui-btn mui-btn-numbox-plus" type="button" style="width: 24px;" onclick="changeNum('${cart.goodsId}','${cart.itemId}','add','${status.index}_${status1.index}')">+</button>
 							</div>
 						</div>
-						<div id="cartSum_${status.index}_${status1.index}" class="lh_wdgwc_w-bond-19">${cart.goodsItem.price*10000 * cart.goodsNum/10000}</div>
+						<div id="cartSum_${status.index}_${status1.index}" class="lh_wdgwc_w-bond-19"><fmt:formatNumber type="number" value="${cart.goodsItem.price * cart.goods.saleRate * cart.goodsNum}" pattern="0.00" maxFractionDigits="2"/></div>
 						<div class="lh_wdgwc_w-bond-20">
-							<a href="javascript:void(0);" onclick="delCartGoods('${cart.id}');">删除</a>
+							<a href="javascript:void(0);" onclick="delCartGoods('${cart.itemId}');">删除</a>
 						</div>
 						<div class="w-clear"></div>
 					</div>
@@ -129,6 +132,11 @@ document.execCommand("BackgroundImageCache", false, true);
 					<%--<p class="lh_wdgwc_w-title-qx fl">--%>
 						<%--<label style="color: #5c5c5c;"><input type="checkbox" id="cookie" name="data[cookie]" value="1" style="margin-top: 22px;">全选</label>--%>
 					<%--</p>--%>
+						<form id="clearForm" action="memberCallAction!goClearing.action" method="post">
+							<input type="hidden" id="goodsItemIds" name="goodsItemIds" />
+							<input type="hidden" id="isOneyBuy" name="isOneBuy" value="1"/>
+							<input type="hidden" id="isNowBuy" name="isNowBuy" value="0"/>
+						</form>
 					<p class="lh_wdgwc_js_sc">
 						<a href="javascript:void(0);" onclick="delCheckGoods();">删除选择商品</a>
 					</p>
@@ -136,11 +144,12 @@ document.execCommand("BackgroundImageCache", false, true);
 						<span>总额：<i>￥</i><i id="total">0.00</i> <i>$</i><i id="docTotal">0.00</i> <i>AED</i><i id="dlmTotal">0.00</i> (含税）</span>
 					</p>
 					<p class="lh_wdgwc_js_an">
-						<a href="#">去结算</a>
+						<a href="javascript:goClearing('<%=memberId%>');">去结算</a>
 					</p>
 				</div>
 			</ul>
-		</div>
+	</div>
+		</c:if>
 			<c:if test="${empty companyCarts}">
 				<div class="lh_wdgwc_wu">
 					<div class="lh_gwczt">
@@ -164,5 +173,53 @@ document.execCommand("BackgroundImageCache", false, true);
 <jsp:include page="../../admin/common/indexFooter.jsp" />
 	<!-- footer end -->
 <script type="text/javascript" src="../../js/cart.js"></script>
+<script type="text/javascript">
+	// 提交表单
+	function goClearing(memberId) {
+		if(memberId != null && memberId != 'null' && memberId != ''){
+			var goodsItems = $("#delGoodsIds").val();
+			if(null != goodsItems && goodsItems != ''){
+				if(checkOneCompany()){
+					$("#goodsItemIds").val(goodsItems);
+					$("#clearForm").submit();
+				}else{
+					alert("很抱歉，商品不属于同一商家，请选择同一商家的商品！");
+					return false;
+				}
+			}else{
+				alert("请选择商品!");
+				return false;
+			}
+		}else {
+			showLogin('mask', 'pop_500', 'call/goToCart.html', '0', '');
+		}
+
+	}
+
+	//检查是否是同一个商家
+	function checkOneCompany() {
+		var oneFlag = 0;
+		var checkOneCom = true;
+		var checkArray = document.getElementsByName("goodsIds");
+		for ( var zc = 0; zc < checkArray.length; zc++) {
+			if($("#"+checkArray[zc].id).attr("checked") == "checked"){
+				var checkId = checkArray[zc].id;
+				var checkComs = checkId.split("_");
+				var checkCom = checkComs[1];
+				if(zc == 0){
+					oneFlag = checkCom;
+				}else{
+					if(checkCom == oneFlag){
+						checkOneCom = true;
+					}else{
+						checkOneCom = false;
+					}
+				}
+
+			}
+		}
+		return checkOneCom;
+	}
+</script>
 </body>
 </html>

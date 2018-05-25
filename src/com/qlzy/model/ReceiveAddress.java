@@ -32,6 +32,8 @@ public class ReceiveAddress implements Serializable {
     private String email;
 
     private String countryId;
+    private String countryEnName;
+    private String countryName;
 
     public String getCountryId() {
         return countryId;
@@ -203,6 +205,20 @@ public class ReceiveAddress implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-    
-    
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public String getCountryEnName() {
+        return countryEnName;
+    }
+
+    public void setCountryEnName(String countryEnName) {
+        this.countryEnName = countryEnName;
+    }
 }

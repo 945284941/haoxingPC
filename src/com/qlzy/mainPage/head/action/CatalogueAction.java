@@ -82,6 +82,7 @@ public class CatalogueAction extends BaseAction {
 	private String catType;
 	private String lunboType;
 	private List<QlDict> dictList;//横批菜单值
+	private String bankuaiType;
 
 	/***
 	* @Title: toCome 商城轮播+广告
@@ -126,17 +127,34 @@ public class CatalogueAction extends BaseAction {
 				.getSessionInfoName());// 获取登录人信息
 		fullCategoryList = catalogueService.queryFullCategory(catType);
 		if("gwsc".equals(catType)){//跳转购物商城分类
+			bankuaiType = "1";
 			return PcOrWap.isPc(request,"fullCategoryList");
 		}else if("cs".equals(catType)){//跳转超市分类
+			bankuaiType = "2";
 			return PcOrWap.isPc(request,"marketfullCategoryList");
 		}else if("xsqg".equals(catType) || "tdd".equals(catType) || "qg".equals(catType)){//跳转限时抢购分类 //跳转团多多分类
 			checkCurentMenu(sessionInfo,catType);
 			return PcOrWap.isPc(request,"marketfullCategoryList");
 		}else{
+			bankuaiType = "3";
 			checkCurentMenu(sessionInfo,catType);
 			return PcOrWap.isPc(request,"marketfullCategoryList");
 		}
 
+	}
+
+	//查询所有分类
+
+	public void gailAllGoodsCat(){
+		 Map<String,List<GoodsCat>> catMaps = new HashMap<>();
+		List<GoodsCat> gwscList = catalogueService.queryFullCategory("gwsc");
+		List<GoodsCat> csList = catalogueService.queryFullCategory("cs");
+		List<GoodsCat> jcsbList = catalogueService.queryFullCategory("jcsb");
+		catMaps = new HashMap<>();
+		catMaps.put("1",gwscList);
+		catMaps.put("2",csList);
+		catMaps.put("3",jcsbList);
+		writeJson(catMaps);
 	}
 
 	/***
@@ -322,5 +340,13 @@ public class CatalogueAction extends BaseAction {
 
 	public void setLunboType(String lunboType) {
 		this.lunboType = lunboType;
+	}
+
+	public String getBankuaiType() {
+		return bankuaiType;
+	}
+
+	public void setBankuaiType(String bankuaiType) {
+		this.bankuaiType = bankuaiType;
 	}
 }

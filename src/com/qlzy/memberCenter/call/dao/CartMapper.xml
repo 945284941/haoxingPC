@@ -15,6 +15,10 @@
 		ID, GOODS_ID, ITEM_ID,USER_ID, CREATE_TIME, CREATE_IP,
 		USER_TYPE,GOODS_NUM
 	</sql>
+	<sql id="Base_Join_Column_List">
+		a.ID as id, a.GOODS_ID as goodsId, a.ITEM_ID as itemId,a.USER_ID as userId, a.CREATE_TIME as createTime, a.CREATE_IP as createIp,
+		a.USER_TYPE as userType,a.GOODS_NUM as goodsNum
+	</sql>
 	<!-- 根据ID删除购物车信息 -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from QL_CART
@@ -22,7 +26,7 @@
 	</delete>
 	<!-- 根据商品ID删除购物车信息 -->
 	<delete id="deleteByGoodeIds" parameterType="Map">
-		delete from QL_CART where USER_ID = #{userId} and ID IN
+		delete from QL_CART where USER_ID = #{userId} and id IN
 		<foreach collection="item" index="index" item="item" open="("
 			separator="," close=")">
 			#{item}
@@ -67,7 +71,16 @@
 		SELECT SUM(t.GOODS_NUM) from QL_CART t where t.USER_ID =
 		#{userId,jdbcType=VARCHAR}
 	</select>
+	<!-- 根据用户的ID和所选国家查询该用户下购物车商品的数量 -->
+	<select id="gainCartNumByParm" resultType="java.lang.Integer"
+			parameterType="java.util.Map">
+		SELECT sum(a.GOODS_NUM) from QL_CART a	left join company_country com on com.good_id = a.goods_id
+		where a.user_id =#{userId,jdbcType=VARCHAR}
+		<if test="addressId != null">
+			and com.country_id = #{addressId}
+		</if>
 
+	</select>
 	<update id="updateByPrimaryKey" parameterType="com.qlzy.model.Cart">
 		update QL_CART
 		set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
@@ -83,11 +96,27 @@
 	<update id="updateCartNumByGoodsId" parameterType="com.qlzy.model.Cart">
 		update QL_CART
 		set GOODS_NUM = #{goodsNum,jdbcType=DECIMAL}
-		where ID = #{id,jdbcType=VARCHAR}
+		where ITEM_ID = #{itemId,jdbcType=VARCHAR} and user_id=#{userId,jdbcType=VARCHAR}
 	</update>
 	<select id="selectCartsByUserId" parameterType="String"
 		resultMap="BaseResultMap">
 		select * from ql_cart where user_id =#{userId,jdbcType=VARCHAR}
+	</select>
+	<!-- 查询用户不同国家下的购物车信息-->
+	<select id="selectCartsByUserIdAndAd" parameterType="java.util.Map"
+			resultType="com.qlzy.model.Cart">
+		select <include refid="Base_Join_Column_List"/>  from ql_cart a
+		left join company_country com on com.good_id = a.goods_id
+		where a.user_id =#{userId,jdbcType=VARCHAR}
+		<if test="addressId != null">
+			  and com.country_id = #{addressId}
+		</if>
+		<if test="itemList != null">
+			and a.item_id in
+			<foreach  collection="itemList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 	</select>
 	<select id="gainCartsByIds" parameterType="List" resultMap="BaseResultMap">
 		select * from ql_cart where id in
@@ -96,7 +125,12 @@
 			#{id}
 		</foreach>
 	</select>
-	
+	<!--<select id="gainCartsByItemIds" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+		<!--select <include refid="Base_Column_List"/> from ql_cart where user_id=#{userId} and item_id in-->
+		<!--<foreach  collection="itemList" index="index" item="item" open="(" separator="," close=")">-->
+			<!--#{item}-->
+		<!--</foreach>-->
+	<!--</select>-->
 	<select id="gainCartById" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select * from ql_cart where id = #{id, jdbcType=VARCHAR}
 	</select>

@@ -24,6 +24,17 @@ import com.qlzy.model.TradePayDeail;
  */
 public interface OrderService {
 
+	List<OrderItem> gainByOrderId(OrderItem item);
+
+	public List<Order> gainYujitichengList(Map<String,Object> map);
+
+	/**
+	 * 提询下线会员销售额
+	 * @param id
+	 * @return
+	 */
+	Order gainPercentageById(Map map);
+
 	/**
 	 *  跟用户ID查询订单总数
 	* @Title: gainOrdersByUserId
@@ -155,6 +166,7 @@ public interface OrderService {
 	
     public OrderItem selectByOrderItemId(String id);
     public int updateItemByOrderItemId(OrderItem record);
+	int updateAppraiseById(OrderItem record);
     public int updateOrderByOrderId(Order record);
 
 	public List<Order> gainOrderByCreateTime(Integer i);
@@ -193,7 +205,7 @@ public interface OrderService {
 
 	public void receiveQuartzUpdate(List<Order> orderList);
 
-	public void receiveAndFenxiao(Order order, String orderItemId);
+	public void receiveAndFenxiao(Order order, String memberId);
 
 	/**
 	 * 支付完成时，更新商品销量（在修改支付状态之前调用，保证销量被修改且仅修改一次）

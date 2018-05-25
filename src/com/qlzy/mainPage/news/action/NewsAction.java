@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -54,12 +55,9 @@ import com.qlzy.util.Pagination;
 		@Result(name = "jkzx", location = "/admin/jkzx/jkzxIndex.jsp"),
 		@Result(name = "toMoreForMain", location = "/admin/news/newslist.jsp"),
 		@Result(name = "toDetailZpcNews", location = "/admin/news/detailZpcNews.jsp"),
-		
 		@Result(name = "toNews", location = "/admin/news/main_news.jsp"),
 		@Result(name = "uploadPage", location = "/uploader.jsp"),
 		@Result(name = "toDetailNews", location = "/admin/news/detailNews.jsp"),
-		
-		
 		@Result(name = "toMoreForOther", location = "/admin/news/newslist.jsp"),
 		@Result(name = "toMoreForGQXX", location = "/admin/news/infor/infor_lb.jsp"),
 		@Result(name = "toQpzx", location = "/admin/news/qpzx_news.jsp"),
@@ -87,22 +85,26 @@ import com.qlzy.util.Pagination;
 		@Result(name = "QTpage", location = "/admin/news/infor/infor_fb_qt.jsp"),
 		@Result(name = "add", type = "redirect", location = "/s_supplyxxsh.html"),
 		@Result(name = "searchAllNews",  location = "/admin/news/allNewList.jsp"),
-		@Result(name = "toQlqpc",  location = "/admin/qlqpc/qlqpclb.jsp")
+		@Result(name = "toQlqpc",  location = "/admin/qlqpc/qlqpclb.jsp"),
+		@Result(name = "NoticeDetail",location = "/admin/floor/noticeDetail.jsp"),
+		@Result(name = "noticeList",location = "/admin/floor/noticeList.jsp")
+
 })
-public class NewsAction extends BaseAction {
+public class NewsAction extends BaseAction implements ModelDriven<News>{
 	private static final long serialVersionUID = 1231118973089103507L;
 	Logger log = Logger.getLogger(this.getClass());
 
 	@Autowired
 	private NewsService newsService;
-	private News news;
+
 	private Map<String, Object> map = new HashMap<String, Object>();
 	private String newsCatName;
 	private List<?> list;
 	
 	private String searchType;//搜索类型
 	private String topSearchLike;//搜索条件
-	
+
+	private News  news=new News();
 	@Autowired
 	private CollectService collectService;
 	@Autowired
@@ -947,4 +949,47 @@ public class NewsAction extends BaseAction {
 		this.topSearchLike = topSearchLike;
 	}
 
+    public String noticeDetail(){
+
+		  news=newsService.newDetail(news);
+
+
+		request.setAttribute("news",news);
+		return "NoticeDetail";
+	}
+	public String noticeList(){
+    	Pagination pagination=definationPagination(request);
+
+    	List<News> newsList=new ArrayList<News>();
+    	try{
+          if(pagination.getPage()==0){
+          	news.setMinRows(pagination.getPage()*8);
+          	news.setMaxRows(8L);
+		  }else{
+			  news.setMinRows((pagination.getPage()-1)*8);
+			  news.setMaxRows(8L);
+		  }
+		  pagination.setTotalCount(newsService.newCount(news));
+          pagination.setRows(8L);
+          newsList=newsService.newListByPage(news);
+			StringBuilder sb = new StringBuilder();
+			sb.append("yyyy年MM月dd日 HH:mm:SS");
+			SimpleDateFormat simpleDateFormat=new SimpleDateFormat(sb.toString());
+          for (int i=0;i<newsList.size();i++){
+          	newsList.get(i).setJustDate(simpleDateFormat.format(newsList.get(i).getCreatetime()));
+		  }
+
+		}catch (Exception e){
+    		e.printStackTrace();
+    		log.error("noticeList error");
+		}
+		request.setAttribute("newsList",newsList);
+		request.setAttribute("pagination",pagination);
+		return "noticeList";
+	}
+
+	@Override
+	public News getModel() {
+		return news;
+	}
 }

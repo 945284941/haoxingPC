@@ -1,7 +1,9 @@
 package com.qlzy.memberCenter.order.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.qlzy.model.Order;
 import com.qlzy.model.OrderItem;
 
 
@@ -50,14 +52,11 @@ public interface OrderItemMapper {
     public int updateByPrimaryKeySelective(OrderItem record);
 
 	/**
-	* @Title: insertBeach
-	* @Description: TODO(这里用一句话描述这个方法的作用)
-	* @param @param orderItems    设定文件
-	* @return void    返回类型
-	* @author 周张豹
-	*/
-	public void insertBeach(List<OrderItem> list);
-
+	 * 根据id修改评论状态
+	 * @param record
+	 * @return
+	 */
+	int updateAppraiseById(OrderItem record);
 	/**
 	 *  根据订单ID查询订单的内容
 	* @Title: selectByOrderId
@@ -68,6 +67,8 @@ public interface OrderItemMapper {
 	* @author 周张豹
 	*/
 	public List<OrderItem> selectByOrderId(String id);
+
+	public List<OrderItem> gainByOrderId(OrderItem item);
 
 	/**
 	 * 根据订单ID和商品ID将其评价状态改为已评价
@@ -92,4 +93,5 @@ public interface OrderItemMapper {
 
 	public void droporderItems(List<String> orderItemsId);
 
+	void batchInsert(List<OrderItem> orderItemList);
 }

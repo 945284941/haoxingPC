@@ -15,7 +15,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=7" />
 <jsp:include page="/admin/common/keyWords.jsp" />
-<title>三古汇官方商城</title>
+<title>颐佳商城</title>
 <link rel="stylesheet" href="/css/common.css" type="text/css" />
 <link rel="stylesheet" href="/css/newbanner.css" type="text/css" />
 <link href="/css/hyzxgr.css" rel="stylesheet" type="text/css" />
@@ -97,29 +97,11 @@ document.execCommand("BackgroundImageCache", false, true);
 <body>
 	<!-- 页脚开始 -->
 	<div class="gzgz">
-		<div
-			>
-			<dl
-				style="padding-left:370px; padding-top:25px; width:750px; float:left; font-size:14px;">
-				<dt style="float:left; line-height:40px; width:100%;">你可以逛逛：</dt>
-				<dd style="width:80px;float:left; ">
-					<a style="padding-right:10px;" href="http://www.sanguhuivip.com/">商城首页</a>|
-				</dd>
-				<dd style="width:80px;float:left; ">
-					<a style="padding-right:10px;" href="admin/gljd/gljdIndex.jsp">古粮今典</a>|
-				</dd>
-				<dd style="width:80px;float:left; ">
-					<a style="padding-right:10px;" href="ssdpIndex.html">膳食搭配</a>|
-				</dd>
-				<dd style="width:80px;float:left; ">
-					<a style="padding-right:10px;" href="admin/jkpg/jkpgIndex.jsp">健康测试</a>|
-				</dd>
-				<dd style="width:80px;float:left; ">
-					<a style="padding-right:10px;" href="jkzxIndex.html">健康资讯</a>|
-				</dd>
-				<dd style="width:80px;float:left; ">
-					<a style="padding-right:10px;" href="hysqIndex.html">会员社区</a>|
-				</dd>
+		<div>
+			<dl style="padding-left:370px; padding-top:25px; width:750px; float:left; font-size:14px;">
+				<div>
+					<span>请联系管理员！</span>
+				</div>
 			</dl>
 		</div>
 	</div>

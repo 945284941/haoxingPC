@@ -73,6 +73,36 @@ public class NCountryServiceImpl implements NCountryService {
         }
     }
 
+    @Override
+    public void checkAddressId(HttpServletRequest request,Map<String, Object> parmMap, Map<String, Object> session, SessionInfo sessionInfo,String nType) {
+        if(null != sessionInfo){
+            if(null != sessionInfo.getAddressMap() && !"".equals(sessionInfo.getAddressMap().get("addressId"))){
+                if("1".equals(nType)){
+                    parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+                }else{
+                    parmMap.put("fromCountryId",sessionInfo.getAddressMap().get("addressId"));
+
+                }
+
+            }else{
+                handleIpAddress(request,session,sessionInfo);
+                if("1".equals(nType)){
+                    parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+                }else{
+                    parmMap.put("fromCountryId",sessionInfo.getAddressMap().get("addressId"));
+                }
+            }
+        }else{
+            handleIpAddress(request,session,sessionInfo);
+            if("1".equals(nType)){
+                parmMap.put("addressId",sessionInfo.getAddressMap().get("addressId"));
+            }else{
+                parmMap.put("fromCountryId",sessionInfo.getAddressMap().get("addressId"));
+
+            }
+        }
+    }
+
     public void handleIpAddress(HttpServletRequest request, Map<String, Object> session,SessionInfo sessionInfo){
         String url = "ip="+ AddressUtils.getIpAdrress(request);
         try {

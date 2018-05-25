@@ -659,6 +659,9 @@ public class MemberCenterActionForGoods extends BaseAction{
 		String pid=request.getParameter("pid");
 		super.writeJson(goodsService.gainSpecification(pid));
 	}
+
+
+
 	/**
 	 * @return the firstCarBrands
 	 */

@@ -112,7 +112,7 @@
 				</div>
 				<!--限时抢购-->
 				<div class="buying">
-					<h3>限时抢购  <a href="" class="mui-pull-right">更多&gt;&gt;</a></h3>
+					<h3>限时抢购  <a  href="person/order/huiyuanzhongxin.html" class="mui-pull-right">更多&gt;&gt;</a></h3>
 					<div class="swiper-container swiper-container-horizontal swiper-container-free-mode buying_slider">
 						<div class="swiper-wrapper">
 							<div class="swiper-slide">
@@ -254,27 +254,11 @@
 				</div>
 			</div>
 		</div>
-		<nav class="mui-bar mui-bar-tab my_foot">
-			<a class="mui-tab-item mui-active" href="#">
-				<span class="mui-icon iconfont">&#xe604;</span>
-				<span class="mui-tab-label">首页</span>
-			</a>
-			<a class="mui-tab-item" href="#">
-				<span class="mui-icon iconfont">&#xe6fa;</span>
-				<span class="mui-tab-label">分类</span>
-			</a>
-			<a class="mui-tab-item" href="#">
-				<img class="foot_avatar" src="/wap/images/avatar.jpg" />
-			</a>
-			<a class="mui-tab-item" href="#">
-				<span class="mui-icon iconfont">&#xe778;</span>
-				<span class="mui-tab-label">购物车</span>
-			</a>
-			<a class="mui-tab-item" href="#">
-				<span class="mui-icon iconfont">&#xe6be;</span>
-				<span class="mui-tab-label">中文</span>
-			</a>
-		</nav>
+
+		/** 底部导航栏 **/
+		<jsp:include page="../wap/index/indexFooter.jsp"></jsp:include>
+
+		<script src="/wap/js/jquery1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/wap/js/mui.min.js"></script>
 		<script src="/wap/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
 		<script>
@@ -313,6 +297,10 @@
 					}
 				}
 			});
+
+            mui('body').on('tap','a',function(){
+                window.top.location.href=this.href;
+            });
 
 			function pulldownRefresh() {
 				setTimeout(function() {

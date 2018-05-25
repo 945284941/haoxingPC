@@ -27,6 +27,12 @@
     select <include refid="Base_Column_List" /> from ql_dict where type=#{type} and del_flag='0' order by sort
   </select>
 
+  <!-- 根据字典类型获取字典信息 -->
+  <select id="getByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from ql_dict where type=#{type} and del_flag='0' order by sort
+  </select>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

@@ -18,6 +18,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.qlzy.mainPage.indexGoods.dao.QlDictMapper;
+import com.qlzy.memberCenter.person.moneyManage.dao.AdvanceLogsMapper;
+import com.qlzy.model.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +44,6 @@ import com.qlzy.memberCenter.order.service.OrderService;
 import com.qlzy.memberCenter.person.perinfo.dao.JiesuanItemMapper;
 import com.qlzy.memberCenter.person.perinfo.dao.MemeberDeailMapper;
 import com.qlzy.memberCenter.person.perinfo.dao.XianjinbiDetailMapper;
-import com.qlzy.model.Goods;
-import com.qlzy.model.JiesuanItem;
-import com.qlzy.model.Member;
-import com.qlzy.model.MemeberDeail;
-import com.qlzy.model.Order;
-import com.qlzy.model.OrderItem;
-import com.qlzy.model.OrderPayment;
-import com.qlzy.model.OrderReturn;
-import com.qlzy.model.TradePayDeail;
-import com.qlzy.model.XianjinbiDetail;
 import com.qlzy.payment.service.IPaymentService;
 import com.qlzy.pojo.DeliverPojo;
 import com.qlzy.task.model.CashBackTask;
@@ -92,6 +85,35 @@ public class OrderServiceImpl implements OrderService {
 	private ITaskService taskService;
 	@Autowired
 	private IPaymentService paymentService;
+	@Autowired
+	private QlDictMapper dictMapper;
+	@Autowired
+	private AdvanceLogsMapper advanceLogsMapper;
+
+
+	@Override
+	public Order gainPercentageById(Map map){
+		return orderMapper.getPercentageById(map);
+	}
+
+
+	/**
+	 * 获得预计提成列表
+	 * @return
+	 */
+	@Override
+	public List<Order> gainYujitichengList(Map<String,Object> map) {
+		return orderMapper.gainYujitichengList(map);
+	}
+
+
+
+	public List<OrderItem> gainByOrderId(OrderItem item){
+		return orderItemMapper.gainByOrderId(item);
+	}
+
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -116,31 +138,32 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> gainOrdersByUserIdGetList(Map<String, Object> map) {
 		List<Order> orderList = orderMapper.gainOrdersByUserIdGetList(map);
+		List<Order> orderListNew = new ArrayList<Order>();
 		if (null != orderList && orderList.size() > 0) {
-			for (Order order : orderList) {
-				List<OrderItem> items = orderItemMapper.selectByOrderId(order.getId());
-				List<OrderItem> itemsList = new ArrayList<OrderItem>();
-				if (null != items && items.size() > 0) {
-					for (OrderItem item : items) {
-						String goodspics = goodsMapper.gainGoodsPicById(item.getGoodsId());
-						if (null != goodspics && goodspics.length() > 0) {
-							item.setGoodsPic(goodspics.split(",")[0]);
-						} else {
-							item.setGoodsPic("images/360-270zwpic.gif");
+			for (int n= 0;n<orderList.size();n++) {
+				int count = 0;
+				Order order = orderList.get(n);
+				OrderItem item = new OrderItem();
+				item.setOrderId(order.getId());
+				item.setGoodsName((String)map.get("goodsName"));
+				List<OrderItem> items = orderItemMapper.gainByOrderId(item);
+				if(null != items &&items.size() > 0){
+					List<OrderItem> itemsList = new ArrayList<OrderItem>();
+						for (OrderItem i : items) {
+							Goods goods = goodsMapper.gainGoodsById(i.getGoodsId());
+							if (goods != null) {
+								i.setGoods(goods);
+							}
+							itemsList.add(i);
+							count += i.getNums();
 						}
-						Goods goods = goodsMapper.gainGoodsById(item.getGoodsId());
-						if (goods != null) {
-							item.setGoods(goods);
-						}
-						
-						itemsList.add(item);
-					}
+					order.setCount(count);
+					order.setItems(itemsList);
+					orderListNew.add(order);
 				}
-				order.setItems(itemsList);
 			}
 		}
-
-		return orderList;
+		return orderListNew;
 	}
 
 	/*
@@ -368,7 +391,14 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public List<OrderItem> gainOrderItemsByOrderId(String orderId) {
-		return orderItemMapper.selectByOrderId(orderId);
+		List<OrderItem> orderItems = orderItemMapper.selectByOrderId(orderId);
+		for (OrderItem item : orderItems) {
+			Goods goods = goodsMapper.gainGoodsById(item.getGoodsId());
+			if (goods != null) {
+				item.setGoods(goods);
+			}
+		}
+		return orderItems;
 	}
 
 	/*
@@ -392,9 +422,9 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public void returnGoods(OrderReturn orderReturn) {
-
 		orderReturnMapper.insertSelective(orderReturn);// 添加到退款退货表中
 		Order order = orderMapper.selectByPrimaryKey(orderReturn.getOrderId());
+		order.setStatus("7");
 		/**
 		 * 只要买家已付款，才存在退款（因为电商只支持在线付款和预存款支付）
 		 */
@@ -408,8 +438,8 @@ public class OrderServiceImpl implements OrderService {
 			order.setPayStatus("2");// 付款状态改为待退款
 			order.setShipStatus("3");// 待退货
 			orderMapper.updateByPrimaryKeySelective(order);
-
 		}
+
 	}
 
 	/*
@@ -517,6 +547,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int updateItemByOrderItemId(OrderItem record) {
 		return orderItemMapper.updateByPrimaryKeySelective(record);
+	}
+	@Override
+	public int updateAppraiseById(OrderItem record){
+		return orderItemMapper.updateAppraiseById(record);
 	}
 
 	@Override
@@ -668,6 +702,8 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
+
+
 	@Override
 	public String gainOrdersByOrderNum(String out_trade_no) {
 		Order order = orderMapper.gainOrdersByOrderNum(out_trade_no);
@@ -682,7 +718,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public synchronized void orderFanxian(String out_trade_no) {
-		Order order = orderMapper.gainOrderByOrderNum(out_trade_no);
+		/*Order order = orderMapper.gainOrderByOrderNum(out_trade_no);
 		Member mem = membersMapper.selectByPrimaryKey(order.getMemberId());
 		// 添加隔月结算列表
 		List<OrderItem> orderItems = orderItemMapper.selectByOrderId(order.getId());
@@ -768,11 +804,11 @@ public class OrderServiceImpl implements OrderService {
 				}
 
 			}
-		}
+		}*/
 	}
 
 
-	@Override
+
 	public void receiveQuartzUpdate(List<Order> orderList) {
 		List<String> orderIds = new ArrayList<String>();
 		for (Order o : orderList) {
@@ -787,41 +823,144 @@ public class OrderServiceImpl implements OrderService {
 		orderMapper.updateBatchReceive(map);
 	}
 
+	/** 添加分销 心动值 log **/
+	public void addAdvanceLog(Member member,BigDecimal money,BigDecimal bili,BigDecimal orderTotal) {
+		AdvanceLogs logs = new AdvanceLogs();
+		logs.setId(ToolsUtil.getUUID());
+		logs.setBalance(member.getAdvance());
+		logs.setDoTime(new Date());
+		logs.setDoType("3");//操作方式 0 充值；1 取现 2消费 3分销
+		logs.setTrading("1");//交易状态 0 未完成 1  已完成
+		logs.setUserId(member.getId());
+		logs.setMessage("获得分销金额："+money);
+		logs.setDoMoney(money.doubleValue());
+		logs.setDoWhat(bili.toString());//分销比例
+        logs.setPaymentId(orderTotal.toString());//订单总金额
+		advanceLogsMapper.insertSelective(logs);
+	}
+
+	/** 添加升级 log **/
+	public void addShengjiLog(Member member) {
+		member.setId(ToolsUtil.getUUID());
+		member.setLastLoginTime(new Date());
+		membersMapper.insertShengjiLog(member);
+	}
+
+
 	/***
 	 * 确认收货
 	 */
 	@Override
-	public void receiveAndFenxiao(Order order, String orderItemId) {
+    @Transactional
+	public void receiveAndFenxiao(Order order, String memberId) {
+
+		Map<String,Object> paraMap = new HashMap<String,Object>();
 		// 三级分销
 		Order order2 = orderMapper.selectByPrimaryKey(order.getId());
+		Member member = membersMapper.selectByPrimaryKey(order2.getMemberId());
 		// 已付款订单，判断订单状态不能为已收货（防止多次提交）
-		if("1".equals(order2.getPayStatus()) && !"2".equals(order2.getShipStatus())) {
-			// 现金支付 或 汇豆支付		个人消费返惠米，及上三级返现
-			if("0".equals(order2.getPayMent()) || "4".equals(order2.getPayMent())) {
-//				orderSanjifenxiao(order2, order2.getMemberId());
-			}
-			// 现金支付	消费金额达到998自动升级为vip
-			if("0".equals(order2.getPayMent())) {
-				Member member = membersMapper.selectByPrimaryKey(order2.getMemberId());
-				
-				//查询该订单是否使用了经验值
-				OrderPayment orderPayment = paymentService.queryPointPayment(order.getId());
-				if(null != orderPayment && "1".equals(orderPayment.getStatus())){
-					//判断订单商品总额 - 订单使用经验值总额 是否大于998
-					if("0".equals(member.getType()) && order2.getTotalCost() - orderPayment.getAmount().doubleValue() > 997.99) {
-						autoUpdateVip(member, order2);
-					}
-				}else{
-					if("0".equals(member.getType()) && order2.getTotalCost() > 997.99) {
-						autoUpdateVip(member, order2);
-					}
+		if("3".equals(order2.getStatus()) && "1".equals(order2.getPayStatus()) && !"2".equals(order2.getShipStatus())) {
+			/****************************三级分销开始**********************************************/
+			BigDecimal orderPoints = order2.getOrderPoints();//订单分销总金额
+			BigDecimal totalCost = order2.getTotalCost();//订单分销总金额
+
+			BigDecimal yijiBili = new BigDecimal(dictMapper.getByType("FirstDistributionRatio").getValue());
+			BigDecimal erjiBili = new BigDecimal(dictMapper.getByType("SedDistributionRatio").getValue());
+
+			//查询直接上级
+			Member newMember = membersMapper.getMemberListByShangjiIdOne(member.getShangjiId());
+			if(newMember != null ){
+				BigDecimal yijii = new BigDecimal(newMember.getAdvance()).add(orderPoints.multiply(yijiBili));
+				addAdvanceLog(newMember,orderPoints.multiply(yijiBili),yijiBili,totalCost);//添加分销log
+				newMember.setAdvance(yijii.doubleValue());
+				membersMapper.updateByPrimaryKeySelective(newMember);
+				//查询上上级
+				Member newOldMember = membersMapper.getMemberListByShangjiIdOne(newMember.getShangjiId());
+				if(newOldMember != null ){
+					BigDecimal erji = new BigDecimal(newOldMember.getAdvance()).add(orderPoints.multiply(erjiBili));
+					addAdvanceLog(newOldMember,orderPoints.multiply(erjiBili),erjiBili,totalCost);//添加分销log
+					newOldMember.setAdvance(erji.doubleValue());
+					membersMapper.updateByPrimaryKeySelective(newOldMember);
 				}
-				
 			}
+
+			/**************************************************************************/
+
+			/************************升星开始*********************************************/
+			// 消费金额 升级  普通用户消费累计达到A则成为1星会员。 自己和1级下线累计消费B，升级为2星会员
+			//先判断自己够升级
+			paraMap.put("memberId",member.getId());
+			BigDecimal mimeXiaofei = membersMapper.gainXiaofeiTotal(paraMap);//自己消费
+			List<Map<String,Object>> moneyMap = membersMapper.gainMemberLv(paraMap);//自己下一等级升级标准
+
+			//计算自己消费金额 升星
+			if(!("0").equals(member.getType())){//判断自己等级是 普通用户吗
+                //查询自己和1级下级的消费
+                paraMap.put("memberId", "");
+                paraMap.put("onlyId", member.getOnlyId());
+                BigDecimal xiajiXiaofei = membersMapper.gainXiaofeiTotal(paraMap);
+                for(Map<String,Object> map : moneyMap){
+                    String lvId = map.get("id").toString();
+                    BigDecimal shangjiminPoint = new BigDecimal(map.get("minPoint").toString());
+                    int shangjimaxPoint = Integer.parseInt(map.get("maxPoint").toString());
+                    if ((mimeXiaofei.add(xiajiXiaofei)).compareTo(shangjiminPoint) == 1) {
+                        member.setType(lvId);
+                        membersMapper.updateByPrimaryKeySelective(member);
+                        continue;
+                    }
+                }
+			}else {
+                //查询普通升1星金额
+                //查询自己消费
+                for(Map<String,Object> map : moneyMap){
+                    String lvId = map.get("id").toString();
+                    BigDecimal shangjiminPoint = new BigDecimal(map.get("minPoint").toString());
+                    String shangjimaxPoint = map.get("maxPoint").toString();
+                    if(shangjiminPoint.compareTo(mimeXiaofei) == -1){
+                        member.setType(lvId);
+                        membersMapper.updateByPrimaryKeySelective(member);
+                        continue;
+                    }
+                }
+			}
+			addShengjiLog(member);
+			//计算上级消费金额 升星
+			if(newMember != null ){
+				if(("0").equals(newMember.getType())){//判断上级等级是 普通用户，不升星
+
+				}else {
+					//查询1级上级的消费 升星
+					paraMap.put("memberId",newMember.getId());
+					paraMap.put("onlyId", "");
+					BigDecimal shangjiXiaofei = membersMapper.gainXiaofeiTotal(paraMap);//自己消费
+					List<Map<String,Object>> shangjimoneyMap = membersMapper.gainMemberLv(paraMap);//自己下一等级升级标准
+
+
+					paraMap.put("memberId", "");
+					paraMap.put("onlyId", newMember.getOnlyId());
+					BigDecimal xiajiXiaofei = membersMapper.gainXiaofeiTotal(paraMap);
+
+					for(Map<String,Object> map : shangjimoneyMap){
+                        String lvId = map.get("id").toString();
+                        BigDecimal shangjiminPoint = new BigDecimal(map.get("minPoint").toString());
+                        int shangjimaxPoint = Integer.parseInt(map.get("maxPoint").toString());
+                        if ((shangjiXiaofei.add(xiajiXiaofei)).compareTo(shangjiminPoint) == -1) {
+                            newMember.setType(lvId);
+                            membersMapper.updateByPrimaryKeySelective(newMember);
+                            continue;
+                        }
+                    }
+				}
+			}
+			addShengjiLog(newMember);
+
+			/****************************升星结束*****************************************/
+
 		}
 		Order order1 = new Order();
 		order1.setId(order.getId());
 		order1.setShipStatus("2");
+		order1.setStatus("4");
 		order1.setCompleteTime(new Date());	//收货时间
 		orderMapper.updateByPrimaryKeySelective(order1);
 		Map<String, Object> params = new HashMap<String, Object>();

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.qlzy.common.tools.TwoDimensionCode;
 import com.qlzy.common.util.AliyunOSSClientUtil;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -15,6 +16,8 @@ import org.apache.struts2.dispatcher.multipart.MultiPartRequestWrapper;
 import com.qlzy.common.tools.FtpUtil;
 import com.qlzy.common.tools.ResourceUtil;
 import com.qlzy.util.BaseAction;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -41,6 +44,34 @@ public class UploadAction extends BaseAction{
 		String picPath = AliyunOSSClientUtil.getFileUrl(file);
 		rtnMap.put("src",picPath);
 		super.writeJson(rtnMap);
+	}
+
+	public static String qrCode(){
+		String mmm = "";
+		try{
+			//先获取本项目的路径
+			String savePath = ServletActionContext.getServletContext().getRealPath(
+					""); // 获取项目根路径
+			savePath = savePath + ResourceUtil.getQrCode_Img_Directory() + "rqCode.png";
+			File up = new File(savePath);
+			if (!up.exists()) {
+				up.mkdirs();
+			}
+			HttpServletResponse response = ServletActionContext.getResponse();
+			response.setCharacterEncoding("UTF-8"); // 务必，防止返回文件名是乱码
+            String remark = ResourceUtil.getQrCode_remark();
+			mmm = TwoDimensionCode.encoderQRCode(remark, savePath,"jpg",7);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return mmm;
+	}
+
+	public static String uploadImg(File file){
+		Map<String,String> rtnMap = new HashMap<String, String>();
+		String picPath = AliyunOSSClientUtil.getFileUrl(file);
+		rtnMap.put("src",picPath);
+		return picPath;
 	}
 	/**
 	* @Title: upload
@@ -118,4 +149,6 @@ public class UploadAction extends BaseAction{
 	public void setFile(File file) {
 		this.file = file;
 	}
+
+
 }

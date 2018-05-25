@@ -26,6 +26,8 @@ public class MemberServicelmpl implements MemberService{
     public int updateomember(Member member){
       return   memberMapper.updateByPrimaryKeySelective(member);
     }
-
+    public void updatePasswordByUsername(Member member){
+        memberMapper.updatePasswordByUsername(member);
+    }
 
 }

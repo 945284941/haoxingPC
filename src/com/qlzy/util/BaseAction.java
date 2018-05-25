@@ -29,7 +29,7 @@ public class BaseAction extends ActionSupport implements SessionAware, ServletRe
 	protected HttpServletResponse response;
 	protected String addressId;
 	//将对象写成json扔到前台
-	public void writeJson(Object object) {
+	public  void writeJson(Object object) {
 		try {
 			String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
 			ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");

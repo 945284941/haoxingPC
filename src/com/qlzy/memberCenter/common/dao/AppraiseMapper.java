@@ -15,6 +15,8 @@ public interface AppraiseMapper {
 
     int insertSelective(Appraise record);
 
+	Appraise selectByOrderIdAndGoodsId(Appraise appraise);
+
     Appraise selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(Appraise record);
@@ -119,4 +121,21 @@ public interface AppraiseMapper {
 	List<Appraise> selectAppariseByTypeAndPage(Map<String, Object> parmMap);
 
 	Long selectAppariseByTypeAndPageCount(Map<String, Object> parmMap);
+
+	/**
+	 * @Title goodEvaluate
+	 * @Description TODO(好评的数量)
+	 * @param companyId
+	 * @return
+	 * @author Jason
+	 */
+	Long goodEvaluate(String companyId);
+	/**
+	 * @Title goodEvaluate
+	 * @Description TODO(总评价数)
+	 * @param companyId
+	 * @return
+	 * @author Jason
+	 */
+	Long Evaluate(String companyId);
 }

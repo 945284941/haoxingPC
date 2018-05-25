@@ -548,7 +548,7 @@ PADDING-BOTTOM: 10px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; WHITE-
     overflow: hidden;
     text-align: center;
     text-decoration: none; float:left;
-     padding: 2px;
+    /* padding: 2px;*/
 }
 #wzpage strong{ color:#999; font-weight:normal; float:left;}
 

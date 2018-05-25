@@ -62,17 +62,17 @@
 			<div class="w-buyers">
 				<div class="l-fr">
 					<div class="w-title">
-						<h3>设置>收货地址</h3>
+						<h3><s:text name="index_0303"/>><s:text name="index_0134"/></h3>
 					</div>
 				</div>
 				<div class="w-address">
 					<table>
 						<tbody>
 						<tr class="w-bt">
-							<td class="w-shr">收货人</td>
-							<td class="w-shdz">收货地址</td>
-							<td class="w-dh">电话</td>
-							<td class="w-cz">操作</td>
+							<td class="w-shr"><s:text name="index_0151"/></td>
+							<td class="w-shdz"><s:text name="index_0134"/></td>
+							<td class="w-dh"><s:text name="index_0103"/></td>
+							<td class="w-cz"><s:text name="index_0300"/></td>
 						</tr>
 						<c:forEach items="${addrList}" var="addrList" >
 							<c:if test="${addrList.isDefault==true}">
@@ -81,9 +81,9 @@
 									<td>${addrList.receiveAddress}</td>
 									<td>${addrList.mobile}</td>
 									<td>
-										<a href="javascript:void(0);" class="w-mrdz">默认地址</a>
-										<a href="javascript:void(0);" class="w-xg" onclick="getAddr('${addrList.id}')">编辑</a>
-										<a href="javascript:void(0);" class="w-sc" onclick="delAddr('${addrList.id}')">删除</a>
+										<a href="javascript:void(0);" class="w-mrdz"><s:text name="index_0148"/></a>
+										<a href="javascript:void(0);" class="w-xg" onclick="getAddr('${addrList.id}')"><s:text name="index_0146"/></a>
+										<a href="javascript:void(0);" class="w-sc" onclick="delAddr('${addrList.id}')"><s:text name="index_0147"/></a>
 									</td>
 								</tr>
 							</c:if>
@@ -93,25 +93,26 @@
 									<td>${addrList.receiveAddress}</td>
 									<td>${addrList.mobile}</td>
 									<td>
-										<a  class="w-mrdz" onclick="setDefaultAddr('${addrList.id}')">设为默认地址</a>
-										<a  class="w-xg" onclick="getAddr('${addrList.id}')">编辑</a>
-										<a  class="w-sc" onclick="delAddr('${addrList.id}')">删除</a>
+										<a  class="w-mrdz" onclick="setDefaultAddr('${addrList.id}')"><s:text name="index_0335"/></a>
+										<a  class="w-xg" onclick="getAddr('${addrList.id}')"><s:text name="index_0146"/></a>
+										<a  class="w-sc" onclick="delAddr('${addrList.id}')"><s:text name="index_0147"/></a>
 									</td>
 								</tr>
 							</c:if>
 						</c:forEach>
 						</tbody>
 					</table>
-					<p class="xz">新增收货地址</p>
-					<form action="" id="addForm" enctype="multipart/form-data" method="post">
-						<input type="hidden" id="id" name="id"/>
+					<p class="xz"><s:text name="index_0150"/></p>
+
 						<ul>
+							<form action="" id="addForm" enctype="multipart/form-data" method="post">
+								<input type="hidden" id="id" name="id"/>
 							<li>
-								<p class="bxtx"><span ><em>*</em>收货人：</span></p>
+								<p class="bxtx"><span ><em>*</em><s:text name="index_0151"/>：</span></p>
 								<p><input type="text" class="input" id="receiveName" name="receiveName"/></p>
 							</li>
 							<li>
-								<p class="bxtx"><span ><em>*</em>收货国家：</span></p>
+								<p class="bxtx"><span ><em>*</em><s:text name="index_0351"/>：</span></p>
 								<p>
 									<select id="countryId" name="countryId">
 										<c:forEach items="${countryList}" var="countryList">
@@ -121,24 +122,25 @@
 								</p>
 							</li>
 							<li>
-								<p class="bxtx"><span><em>*</em>详细地址：</span></p>
+								<p class="bxtx"><span><em>*</em><s:text name="index_0154"/>：</span></p>
 								<p><input type="text" class="input" id="receiveAddress" name="receiveAddress"/></p>
 							</li>
 							<li>
-								<p class="bxtx"><span ><em>*</em>手机：</span></p>
+								<p class="bxtx"><span ><em>*</em><s:text name="index_0105"/>：</span></p>
 								<p><input type="text" class="input" id="mobile" name="mobile"/></p>
 							</li>
 							<li>
-								<p class="bxtx"><span >邮编：</span></p>
+								<p class="bxtx"><span ><s:text name="index_0152"/>：</span></p>
 								<p><input type="text" class="input" id="zip" name="zip"/></p>
 							</li>
+							</form>
 							<li>
 								<p class="bxtx">&nbsp;" </p>
-								<p><input type="submit" value="保存收货地址" class="save" onclick="subQg()"></p>
-								<p><input type="submit" value="取消" class="save1" onclick="cancel()"></p>
+								<p><input type="submit" value="<s:text name='index_0309'/>" class="save" onclick="subQg()"></p>
+								<p><input type="submit" value="<s:text name='index_0319'/>" class="save1" onclick="cancel()"></p>
 							</li>
 						</ul>
-					</form>
+
 				</div>
 			</div>
 		</div>
@@ -162,7 +164,7 @@
 
     //删除收货地址
     function delAddr(id){
-        if(confirm("确认要删除吗?")){
+        if(confirm("<s:text name='index_0326'/>")){
             $.ajax({
                 url : "memberCallAction!delReceiveAddr.action",
                 type : "POST",
@@ -197,7 +199,8 @@
                     //console.log("222"+data.countryId);
                     if (data.countryId == $(numbers[j]).val()) {
                         $(numbers[j]).attr("selected", "selected");
-                    }}
+                    }
+                }
 
             }
         });
@@ -222,34 +225,37 @@
         var countryId = $('#countryId').val();
         var receiveAddress = $('#receiveAddress').val();
         var mobile = $('#mobile').val();
+        var zip = $("#zip").val();
         if (receiveName == '' || receiveName == null){
-            alert('请输入收货人！');
+            alert('<s:text name="index_0352"/>');
             return false;
         }
-        if (receiveAddress == '' || receiveAddress == null) {
-            alert('请输入地址！');
-            return false;
-        }
-        if (mobile == '' || mobile == null) {
-            alert('请输入电话！');
-            return false;
-        }
-        $.ajax( {
-            url : 'memberCallAction!addReceiveAddr.action',
-            type : 'POST',
-            data : $('#addForm').serialize(),
-            success : function(data) {
-                var msg = $.parseJSON(data);
-                if (msg == 'success') {
-                    alert("操作成功！");
-                    window.location.href="loadReceiveAddr.html";
-                    return true;
-                }else{
-                    alert("操作失败！");
-                    return false;
-                }
-            }
-        });
+		if (receiveAddress == '' || receiveAddress == null) {
+			alert('<s:text name="index_0354"/>');
+			return false;
+		}
+		if (mobile == '' || mobile == null) {
+			alert('<s:text name="index_0355"/>');
+			return false;
+		}
+		$.ajax( {
+			url : 'memberCallAction!addReceiveAddr.action',
+			type : 'POST',
+			data : $('#addForm').serialize(),
+			success : function(data) {
+				var msg = $.parseJSON(data);
+				if (msg == 'success') {
+					alert("<s:text name="index_0315"/>！");
+					window.location.href="loadReceiveAddr.html";
+					return true;
+				}else{
+					alert("<s:text name="index_0316"/>！");
+					return false;
+				}
+			}
+		});
+
+
     }
 </script>
 

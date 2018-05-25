@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -450,7 +451,7 @@
 			<div class="w-buyers">
 				<div class="l-fr">
 					<div class="w-title">
-						<h3>设置>个人信息</h3>
+						<h3><s:text name="index_0303"/>><s:text name="index_0304"/></h3>
 					</div>
 				</div>
 				<div class="l-fr1 tgar">
@@ -458,19 +459,19 @@
 						<div class="hd">
 							<ul>
 								<li class="on">
-									<a href="/person/toShowBasicInfo.html">基本信息</a>
+									<a href="/person/toShowBasicInfo.html"><s:text name="index_0036"/></a>
 								</li>
 								<li>
-									<a href="/person/toShowUsername.html">用户名</a>
+									<a href="/person/toShowFirstname.html"><s:text name="index_0211"/></a>
 								</li>
 								<li>
-									<a href="/person/toShowImg.html">更换头像</a>
+									<a href="/person/toShowImg.html"><s:text name="index_0305"/></a>
 								</li>
 								<li>
-									<a href="/person/toShowMobile.html">登录手机号</a>
+									<a href="/person/toShowMobile.html"><s:text name="index_0306"/></a>
 								</li>
 								<li>
-									<a href="/person/toShowPassword.html">登录密码</a>
+									<a href="/person/toShowPassword.html"><s:text name="index_0166"/></a>
 								</li>
 							</ul>
 						</div>
@@ -482,7 +483,7 @@
 											<input type="hidden" value="${member.id}" name="member.id" />
 											<thead>
 											<tr>
-												<td class="vip_c12" width="18%">姓名:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0138"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13"><input type="text" class="q2" value="${member.truename}" name="member.truename" id="truename"></div>
@@ -490,60 +491,81 @@
 											</tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">身份证:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0310"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13"><input type="text" class="q2" value="${member.card}" name="member.card" id="card"></div>
 												</td>
 											</tr>
-											<%--<tr>
-                                                <td class="vip_c12" width="18%">身份证照片：</td>
+											<tr>
+                                                <td class="vip_c12" width="18%"><s:text name="index_0311"/>：</td>
                                                 <td class="vip_c12" width="6%"></td>
                                                 <td width="76%">
                                                     <div class="idcard_box">
-                                                        <div class="idcard" id="sss">
+                                                        <div class="idcard" id="ss0">
+															<input type="hidden" id="cardFront" name="member.cardFront">
+															<c:if test="${member.cardFront!=null}">
+																<img class="acc_imgin" src="${member.cardFront}" id="img0">
+															</c:if>
+															<c:if test="${member.cardFront==null}">
                                                             <img class="acc_imgin" src="images/ID_card_front.png" id="img0">
-                                                            <input type="file" name="file0" id="file0" multiple class="ph08" />
+															</c:if>
+															<div id="filelist" class="uploader-list">
+																<div>
+																	<div id="filePicker" style="margin-top:15px;">选择图片</div>
+																</div>
+															</div>
+                                                           <%-- <input type="file" name="file0" id="file0" multiple class="ph08" />--%>
                                                         </div>
-                                                        <div class="idcard" id="sss">
+                                                        <div class="idcard" id="ss1">
+															<input type="hidden" id="cardReverse" name="member.cardReverse">
+															<c:if test="${member.cardReverse!=null}">
+																<img class="acc_imgin" src="${member.cardReverse}" id="img1">
+															</c:if>
+															<c:if test="${member.cardReverse==null}">
                                                             <img class="acc_imgin" src="images/ID_card_reverse.png" id="img1">
-                                                            <input type="file" name="file0" id="file1" multiple class="ph08" />
+															</c:if>
+															<div id="filelist1" class="uploader-list">
+																<div>
+																	<div id="filePicker1" style="margin-top:15px;">选择图片</div>
+																</div>
+															</div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                            </tr>--%>
+                                            </tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">性别:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0140"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13">
 														<s:if test="null!=member.gender">
 															<s:if test="0==member.gender">
 																<input type="radio" id="m_gender" name="member.gender"
-																	   class="q3" value="1" />男
+																	   class="q3" value="1" /><s:text name="index_0312"/>
 																<input type="radio" id="m_gender" name="member.gender"
-																	   class="q3" value="0" checked="checked" />女
+																	   class="q3" value="0" checked="checked" /><s:text name="index_0313"/>
 															</s:if>
 															<s:else>
 																<input type="radio" id="gender" name="member.gender"
-																	   class="q3" value="1" checked="checked" />男
+																	   class="q3" value="1" checked="checked" /><s:text name="index_0312"/>
 																<input type="radio" id="gender" name="member.gender"
-																	   class="q3" value="0" />女
+																	   class="q3" value="0" /><s:text name="index_0313"/>
 															</s:else>
 														</s:if>
 														<s:else>
 															<input type="radio" id="m_gender" name="member.gender"
-																   class="inRadio_blue" value="1" />男
+																   class="inRadio_blue" value="1" /><s:text name="index_0312"/>
 															<input type="radio" id="m_gender" name="member.gender"
-																   class="inRadio_blue" value="0" />女
+																   class="inRadio_blue" value="0" /><s:text name="index_0313"/>
 														</s:else>
 													</div>
 												</td>
 											</tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">年龄:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0141"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13"><input type="text" class="q2" value="${member.age}" name="member.age" id="age"></div>
@@ -551,20 +573,12 @@
 											</tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">生日:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0142"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
-													<div class="vip_a13"><input type="text" class="q2" value="${member.birthday}" name="member.birthday" id="birthday"></div>
+													<div class="vip_a13"><input type="text" class="q2" value="${member.birthday}"  name="member.birthday" id="birthday"></div>
 												</td>
 											</tr>
-
-											<%--<tr>
-                                                <td class="vip_c12" width="18%">手机号:</td>
-                                                <td class="vip_c12" width="6%"></td>
-                                                <td width="76%">
-                                                    <div class="vip_a13"><input type="text" class="q2" value="${member.mobile}"  name="member.mobile" id="mobile"></div>
-                                                </td>
-                                            </tr>--%>
 
 											<tr>
 												<td class="vip_c12" width="18%">QQ:</td>
@@ -575,7 +589,7 @@
 											</tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">邮箱:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0104"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13"><input type="text" class="q2" value="${member.email}"  name="member.email" id="email"></div>
@@ -583,7 +597,7 @@
 											</tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">微信:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0143"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13"><input type="text" class="q2" value="${member.weiXin}"  name="member.weiXin" id="weiXin"></div>
@@ -591,7 +605,7 @@
 											</tr>
 
 											<tr>
-												<td class="vip_c12" width="18%">地区:</td>
+												<td class="vip_c12" width="18%"><s:text name="index_0144"/>:</td>
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div class="vip_a13"><input type="text" class="q2" value="${member.area}"  name="member.area" id="area"></div>
@@ -603,7 +617,7 @@
 												<td class="vip_c12" width="6%"></td>
 												<td width="76%">
 													<div>
-														<input class="btn-danger" onclick="subQg()" type="button" value="确定"/>
+														<input class="btn-danger" onclick="subQg()" type="button" value="<s:text name='index_0309'/>"/>
 													</div>
 												</td>
 											</tr>
@@ -622,16 +636,174 @@
 	</div>
 </div>
 <!--我是买家-->
-
-</div>
-</div>
-
 <jsp:include page="/admin/common/indexFooter.jsp" />
+<script type="text/javascript">
+    var swfUrl = '../../js/webuploader-0.1.5/Uploader.swf';
+    var uploadUrl = 'up!uploadImg.action';
+    var num = 0;
+    var fileNum = 0;
+    var picUrls = [];
+    $(function () {
+        var uploader="";
+        var $list=$("#filelist");
+        var $list1=$("#filelist1");
+        var thumbnailWidth = 100;
+        var thumbnailHeight = 100;
+        uploader = WebUploader.create({
+            auto: true,
+            swf: swfUrl,
+            server: uploadUrl,
+            pick: {
+                id:'#filePicker',
+                multiple:false
+            },
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
+            method:'POST'
+        });
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    return;
+                }
+                $("#img0").attr("src",src);
+            }, thumbnailWidth, thumbnailHeight );
+        });
 
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress span');
+            if ( !$percent.length ) {
+                $percent = $('<p class="progress"><span></span></p>')
+                    .appendTo( $li )
+                    .find('span');
+            }
+            $percent.css( 'width', percentage * 100 + '%' );
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            num++;
+            indexNum = num - 1;
+            $( '#'+file.id ).addClass('upload-state-done');
+            //picUrls.push(response.src);
+            $("#cardFront").val(response.src);
+//            $("#img0").attr("src",response.src);
+            // $("#addPic").append("<input id=actpicArry["+indexNum+"]' name='actpicArry["+indexNum+"]' value='"+response.src+"' />");
+            //图片已经上传完毕
+            if(num === $(".thumbnail").length && fileNum === $(".item").length ){
+                $("#btnSubmit").attr("disabled",false);
+            }
+        });
+
+        // 文件上传失败，现实上传出错。
+        uploader.on( 'uploadError', function( file ,response) {
+
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+            $error.text('上传失败');
+        });
+
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove()
+        });
+    });
+
+
+
+
+    $(function () {
+        var uploader="";
+        var $list=$("#filelist");
+        var $list1=$("#filelist1");
+        var thumbnailWidth = 100;
+        var thumbnailHeight = 100;
+        uploader = WebUploader.create({
+            auto: true,
+            swf: swfUrl,
+            server: uploadUrl,
+            pick: {
+                id:'#filePicker1',
+                multiple:false
+            },
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
+            method:'POST'
+        });
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    return;
+                }
+                $("#img1").attr("src",src);
+            }, thumbnailWidth, thumbnailHeight );
+        });
+
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress span');
+            if ( !$percent.length ) {
+                $percent = $('<p class="progress"><span></span></p>')
+                    .appendTo( $li )
+                    .find('span');
+            }
+            $percent.css( 'width', percentage * 100 + '%' );
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            num++;
+            indexNum = num - 1;
+            $( '#'+file.id ).addClass('upload-state-done');
+            $("#cardReverse").val(response.src);
+//            $("#img1").attr("src",response.src);
+            // $("#addPic").append("<input id=actpicArry["+indexNum+"]' name='actpicArry["+indexNum+"]' value='"+response.src+"' />");
+            //图片已经上传完毕
+            if(num === $(".thumbnail").length && fileNum === $(".item").length ){
+                $("#btnSubmit").attr("disabled",false);
+            }
+        });
+
+        // 文件上传失败，现实上传出错。
+        uploader.on( 'uploadError', function( file ,response) {
+
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+            $error.text('上传失败');
+        });
+
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove()
+        });
+    });
+
+
+
+</script>
 <script type="text/javascript">
     function subQg() {
         var truename = $('#truename').val();
         var card = $('#card').val();
+        var cardFront = $('#cardFront').val();
+        var cardReverse = $('#cardReverse').val();
         var gender = $('#gender').val();
         var age = $('#age').val();
         var birthday = $('#birthday').val();
@@ -642,17 +814,17 @@
         var weiXin = $('#weiXin').val();
 
         if (truename == '' || truename == null) {
-            alert('请输入姓名！');
+            alert('<s:text name="index_0327"/>！');
             return false;
         }
         if (card == '' || card == null) {
-            alert('请输入身份证！');
+            alert('<s:text name="index_0328"/>！');
             return false;
         }
-		/*if (gender == '' || gender == null) {
-		 alert('请输入性别！');
-		 return false;
-		 }*/
+		if (age == '' || age == null) {
+			 alert('<s:text name="index_03129"/>！');
+			 return false;
+		 }
         $.ajax( {
             url : '/person/personalInfo!updateBasicInfo.action',
             type : 'POST',
@@ -660,11 +832,11 @@
             success : function(data) {
                 var msg = $.parseJSON(data);
                 if (msg == 'success') {
-                    alert("修改成功！");
+                    alert("<s:text name="index_0315"/>！");
                     window.location.href="/person/toShowBasicInfo.html";
                     return true;
                 }else{
-                    alert("修改失败！");
+                    alert("<s:text name="index_0316"/>！");
                     return false;
                 }
             }

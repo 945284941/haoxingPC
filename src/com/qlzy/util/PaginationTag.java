@@ -29,6 +29,94 @@ public class PaginationTag extends TagSupport {
 		out.println("<script language=\"javascript\">");
 		out.println("function paginationSubmit(pageNum_) { ");
 		out.println("  document.getElementById('" + formName + "').action='" + contextPath + "' + pageNum_ + '';");
+//		out.println("  document.getElementById('" + formName + "').submit();");
+		out.println(" var url = '"+contextPath+"' + pageNum_ + '';");
+		out.println("     $.ajax({\n" +
+				"        type: \"POST\",\n" +
+				"        url: url," +
+				"        cache: true,\n" +
+				"        data: $('#"+formName+"').serialize(),\n" +
+				"        async: false,\n" +
+				"        success: function (html) {\n" +
+//				"console.log(html);"+
+				"            $(\"#pageReload\").html(html);\n" +
+				"        }\n" +
+				"    });");
+		out.println("}");
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		String contPath = request.getContextPath() + "/" + path;
+		out.println("function paginationGoto() { ");
+		out.println("    pageNum_ = document.getElementById('" + page + "').value    ");
+		out.println("    var i,j,strTemp;                               	");
+		out.println("    strTemp = \"0123456789\";                      	");
+		out.println("    if (pageNum_.length == 0){                    	    ");
+		out.println("        return false;                     		");
+		out.println("    }else{                                         	");
+		out.println("   	 for (i = 0; i < pageNum_.length; i++) {  	    ");
+		out.println("        	j = strTemp.indexOf(pageNum_.charAt(i));    ");
+		out.println("        	if (j == -1) {                              ");
+		out.println("	            document.getElementById('" + page + "').value=\"\";	    ");
+		out.println("               return false;                     		");
+		out.println("        	}                                    		");
+		out.println("   	 }                                        		");
+		out.println("    }                                        			");
+		out.println("  if(pageNum_ > 0 && pageNum_ <= " + totalPage + ") {");
+		out.println("    document." + formName + ".action='" + contPath + "?" + page + "=' + pageNum_ + '';");
+		out.println(" var url = '"+ contPath + "?" + page + "=' + pageNum_ + '';");
+		out.println("     $.ajax({\n" +
+				"        type: \"POST\",\n" +
+				"        url: url," +
+				"        cache: true,\n" +
+				"        data: $('#"+formName+"').serialize(),\n" +
+				"        async: false,\n" +
+				"        success: function (html) {\n" +
+//				"console.log(html);"+
+				"            $(\"#pageReload\").html(html);\n" +
+				"        }\n" +
+				"    });");
+//		out.println("    document." + formName + ".submit();");
+		out.println("  }else if(pageNum_<=0){                 				");
+		out.println("     document." + formName + ".action='" + contPath + "?" + page + "=' + 1 + '';");
+//		out.println("     document." + formName + ".submit();");
+		out.println(" var url = '"+ contPath + "?" + page + "=' + 1 + '';");
+		out.println("     $.ajax({\n" +
+				"        type: \"POST\",\n" +
+				"        url: url," +
+				"        cache: true,\n" +
+				"        data: $('#"+formName+"').serialize(),\n" +
+				"        async: false,\n" +
+				"        success: function (html) {\n" +
+//				"console.log(html);"+
+				"            $(\"#pageReload\").html(html);\n" +
+				"        }\n" +
+				"    });");
+		out.println("  }else if(pageNum_>" + totalPage + "){                   	");
+		out.println("     document." + formName + ".action='" + contPath + "?" + page + "=" + totalPage + "';");
+//		out.println("     document." + formName + ".submit();");
+		out.println(" var url = '"+ contPath + "?" + page + "=" + totalPage + "';");
+		out.println("     $.ajax({\n" +
+				"        type: \"POST\",\n" +
+				"        url: url," +
+				"        cache: true,\n" +
+				"        data: $('#"+formName+"').serialize(),\n" +
+				"        async: false,\n" +
+				"        success: function (html) {\n" +
+//				"console.log(html);"+
+				"            $(\"#pageReload\").html(html);\n" +
+				"        }\n" +
+				"    });");
+		out.println("  }                                       				");
+		out.println("}                                       				");
+		out.println("</script>");
+		out.println();
+	}
+	/**
+	 * 给标签创建一个JS
+	 */
+	private final void createJS1(JspWriter out, String contextPath, Long totalPage, Long nextPage) throws Exception {
+		out.println("<script language=\"javascript\">");
+		out.println("function paginationSubmit(pageNum_) { ");
+		out.println("  document.getElementById('" + formName + "').action='" + contextPath + "' + pageNum_ + '';");
 		out.println("  document.getElementById('" + formName + "').submit();");
 		out.println("}");
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
@@ -62,7 +150,6 @@ public class PaginationTag extends TagSupport {
 		out.println("</script>");
 		out.println();
 	}
-
 	/**
 	 * 给标签创建一个NoFormJS
 	 */

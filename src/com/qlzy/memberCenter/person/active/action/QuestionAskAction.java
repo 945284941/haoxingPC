@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.qlzy.common.tools.ToolsUtil;
+import com.qlzy.common.util.PcOrWap;
 import com.qlzy.model.Question;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
@@ -45,8 +46,8 @@ import sun.plugin.util.UIUtil;
 		@Result(name = "questionAskList", location = "/memberCenter/person/active/askQuestionList.jsp"),
 		@Result(name = "questionAskListCompany", location = "/memberCenter/company/active/askQuestionList.jsp"),
 		@Result(name = "toList",type="redirect", location = "questionAskAction!toQuestionAskList.action"),
-		@Result(name = "toadd", location = "/memberCenter/person/personalInfo/yijianfankui.jsp")
-
+		@Result(name = "toadd", location = "/memberCenter/person/personalInfo/yijianfankui.jsp"),
+		@Result(name = "toaddWap", location = "/wap/person/yijianfankui.jsp")
 })
 public class QuestionAskAction extends BaseAction{
 
@@ -122,17 +123,20 @@ public class QuestionAskAction extends BaseAction{
 		writeJson(questionAskStatisticsInfo);
 	}
 	public String toadd(){
-		return "toadd";
+		return PcOrWap.isPc(request,"toadd");
 	}
-	public String addyi(){
+	public void addyi(){
+		String result = "";
 		sessionInfo = (SessionInfo) session.get(ResourceUtil.getSessionInfoName());
 		String ques=request.getParameter("question");
 		question.setId(ToolsUtil.getUUID());
 		question.setQuestion(ques);
 		question.setCreateBy(sessionInfo.getUserId());
-
-		questionAskService.addquestion(question);
-		return "toadd";
+		int n = questionAskService.addquestion(question);
+		if(n>0){
+			result = "ok";
+		}
+		writeJson(result);
 	}
 
 	public String getTimeRange() {

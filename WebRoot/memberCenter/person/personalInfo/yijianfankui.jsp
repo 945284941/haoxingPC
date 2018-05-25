@@ -48,6 +48,29 @@
 
     <script type="text/javascript">
 
+        function baocun(){
+            var question = $("#question").val();
+            if(question == null || question == ''){
+                alert('内容不能为空');
+                return false;
+            }
+            $.ajax({
+                url : 'questionAskAction!addyi.action',
+                type : 'POST',
+                data : {question:question},
+                success : function(data) {
+                    var r = $.parseJSON(data);
+                    if (r == 'ok') {
+                        alert('保存成功');
+                        window.location.href = "yijian.html";
+                    } else {
+                        alert('保存失败');
+                        return false;
+                    }
+                }
+            });
+        }
+
     </script>
 
 </head>
@@ -84,8 +107,7 @@
                         <form class="lh_my_order_eva_textarea01" action="questionAskAction!addyi.action"   method="post">
                             <textarea name="question" id="question" type="text" placeholder="留下您宝贵的意见或建议"></textarea>
                             <div class="lh_sqtx_btn">
-                                <input name="" value="保存" style="cursor:pointer;" type="submit"  class="btn-danger"/>
-
+                                <input name="" value="保存" style="cursor:pointer;" onclick="baocun()"  class="btn-danger"/>
                             </div>
                         </form>
 

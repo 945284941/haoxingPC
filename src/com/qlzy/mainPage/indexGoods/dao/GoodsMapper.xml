@@ -68,6 +68,8 @@
 		<result column="sys_update_date" property="sysUpdateDate" jdbcType="TIMESTAMP" />
 		<result column="INFOMATION" property="infomation" jdbcType="LONGVARCHAR" />
 		<result column="UNIN_GOODS" property="uninGoods" jdbcType="LONGVARCHAR" />
+		<result column="activity_people_num" property="activityPeopleNum" jdbcType="INTEGER" />
+
 		<!-- 以下为扩展字段 -->
 	</resultMap>
 	<sql id="Base_Column_List" >
@@ -79,38 +81,35 @@
 		erjinum, sanjinum, wuliu, fanxian, fanxiannum, freePostageNum, isConsultingPostage,
 		is_point, point_percentage, sell_country_id, is_building, is_market, is_shop, is_group,
 		is_flash_sale, activity_price, praise_rate, praise_num, order_end_num, click_num,
-		zonghe, is_index_shop, is_index_market, is_index_build, sys_update_date,INFOMATION, UNIN_GOODS
+		zonghe, is_index_shop, is_index_market, is_index_build, sys_update_date,INFOMATION, UNIN_GOODS,activity_people_num
 	</sql>
 	<sql id="Join_Base_Column_List" >
 		a.ID as id ,a.NAME as name, a.en_name as enName,a.company_id as companyId, a.CAR_PARTS_ID as carPartsId , a.CAR_PARTS_PRODUCER_ID as carPartsProducerId, a.DEFAULT_PIC_SRC as defaultPicSrc,
-		a.PRICE as price, a.yuanjia as yuanjia, a.BN as bn, a.PRODUCT_AREA as productArea, a.UNIT as unit, a.STORE as store, a.CREATETIME, a.MODIFYTIME, a.MARKETABLE,
+		a.price as price, a.yuanjia   as yuanjia, a.BN as bn, a.PRODUCT_AREA as productArea, a.UNIT as unit, a.STORE as store, a.CREATETIME, a.MODIFYTIME, a.MARKETABLE,
 		a.USER_ID, a.IS_CAR_PRODUCTER, a.IS_MEMBER_DISCOUNT, a.P_ORDER, a.DISABLED, a.PRODUCT_BN, a.IN_CITY,
 		 a.QUERY_NUM as queryNum, a.CLICK_NUMBER as clickNumber,
 		 a.goodstype, a.is_mailing as isMailing, a.sku_id as skuId, a.yiji, a.erji, a.sanji, a.yijinum,
 		a.erjinum,a.sanjinum, a.wuliu, a.fanxian, a.fanxiannum, a.freePostageNum, a.isConsultingPostage,
 		a.is_point as isPoint,  a.is_building isBuilding, a.is_market as isMarket, a.is_shop as isShop, a.is_group as isGroup,
-		a.is_flash_sale as isFlashsale, a.activity_price AS activityPrice, a.praise_rate AS praiseRate, a.praise_num AS praiseNum, a.order_end_num as orderEndNum,
+		a.is_flash_sale as isFlashSale, a.activity_price AS activityPrice, a.praise_rate AS praiseRate, a.praise_num AS praiseNum, a.order_end_num as orderEndNum,
 		a.click_num AS clickNum,a.zonghe, a.is_index_shop AS isIndexShop, a.is_index_market AS isIndexMarket,
 		 a.is_index_build AS isIndexBuild, a.sys_update_date AS sysUpdateDate,a.INFOMATION as infomation,
-		cp.COMPANY_NAME as companyName,cp.id as companyId,
-		 <if test="isFlashSale != null or isGroup != null">
-			 a.activity_price * b.value as docPrice,
-			 a.activity_price * d.value as dlmPrice,
--- 			 FORMAT(a.activity_price * b.value,2) as docPrice,
--- 			 FORMAT(a.activity_price * d.value,2) as dlmPrice,
--- 			 Convert(decimal(18,2),a.activity_price * b.value) as docPrice,
--- 			 Convert(decimal(18,2),a.activity_price * d.value) as dlmPrice,
-		 </if>
-		<if test="isFlashSale == null and isGroup == null">
-			a.PRICE * b.value as docPrice,
-			a.PRICE * d.value as dlmPrice,
--- 			FORMAT(a.PRICE * b.value,2) as docPrice,
--- 			FORMAT(a.PRICE * d.value,2) as dlmPrice,
--- 			Convert(decimal(18,2),a.PRICE * b.value) as docPrice,
--- 			Convert(decimal(18,2),a.PRICE * d.value) as dlmPrice,
-		</if>
-		a.UNIN_GOODS AS uninGoods
+		cp.COMPANY_NAME as companyName,com.sale_rate as saleRate,b.value as docRate,d.value as dlmRate,cp.address as comAddress,cp.COMPANY_PURPOSE as companyPurpose,
+		if(a.is_flash_sale = '1' or a.is_group = '1',a.price * a.activity_price * b.VALUE * com.sale_rate,a.price  * b.VALUE * com.sale_rate) AS docPrice,
+		if(a.is_flash_sale = '1' or a.is_group = '1',a.price * a.activity_price * d.VALUE * com.sale_rate,a.price  * d.VALUE * com.sale_rate) AS dlmPrice,
+		if(cp.id='123','1','0') as isSysSelf,
+		if(a.is_flash_sale = '1','1',if(a.is_group = '1','2',if(a.is_shop = '1','3',if(a.is_market = '1','4','5')))) as cornerMark,
+		a.activity_people_num as activityPeopleNum
 	</sql>
+
+
+	<select id="gainGoodsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ql_goods
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据参数查看相关信息 -->
 	<select id="gainGoodsByPrm" resultType="com.qlzy.model.Goods" parameterType="java.util.Map" >
 		SELECT <include refid="Join_Base_Column_List" /> from  ql_goods a
 		left join ql_dict b on b.type='hv_type' and b.label='now_rate_doc'
@@ -170,14 +169,20 @@
 		<if test="companyId != null">
 			and a.company_id = #{companyId}
 		</if>
-		<if test="isSort == '0'" >
-			ORDER BY a.MODIFYTIME
+		<if test="topSearchLike != null">
+			and (a.name like '%${topSearchLike}%' or a.en_name like '%${topSearchLike}%')
 		</if>
-		<if test="isSort == '1'" >
-			ORDER BY a.sys_update_date
+		<if test="isSort == '0'.toString()" >
+			ORDER BY a.MODIFYTIME desc
 		</if>
-		<if test="isSort == '2'" >
-			ORDER BY a.QUERY_NUM
+		<if test="isSort == '1'.toString()" >
+			ORDER BY a.sys_update_date desc
+		</if>
+		<if test="isSort == '2'.toString()" >
+			ORDER BY a.QUERY_NUM desc
+		</if>
+		<if test="isSort == '3'.toString()" >
+			ORDER BY a.P_ORDER desc
 		</if>
 		<if test="limitNum != null" >
 			limit 0, #{limitNum,jdbcType=INTEGER}
@@ -191,7 +196,11 @@
 		left join ql_dict d on d.type='hv_type' and d.label='now_rate_dlm'
 		left join company_country com on com.good_id = a.id
 		left join ql_companys cp on a.company_id = cp.id
+		left join ql_goods_cat ca on ca.id = a.car_parts_id
 		where 1=1
+		<if test="isShop != null" >
+			and a.is_shop = #{isShop}
+		</if>
 		<if test="isBuilding != null" >
 			and a.is_building = #{isBuilding}
 		</if>
@@ -216,8 +225,53 @@
 		<if test="addressId != null">
 			and com.country_id=#{addressId}
 		</if>
+		<if test="companyId != null" >
+			and a.company_id = #{companyId}
+		</if>
+		<if test="priceType != null and priceType == '1'.toString() ">
+			<if test="minPrice != null">
+				and a.price &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and a.price &lt;= #{maxPrice}
+			</if>
+		</if>
+		<if test="priceType != null and priceType == '2'.toString() ">
+			<if test="minPrice != null">
+				and a.price * d.value &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and a.price * d.value &lt;= #{maxPrice}
+			</if>
+		</if>
+		<if test="priceType != null and priceType == '3'.toString() ">
+			<if test="minPrice != null">
+				and a.price * b.value &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and a.price * b.value &lt;= #{maxPrice}
+			</if>
+		</if>
+		<if test="catId != null">
+			and (ca.p_tree like '%${catId}%' or ca.id = '${catId}')
+		</if>
+		<if test="topSearchLike != null">
+			and (a.name like '%${topSearchLike}%' or a.en_name like '%${topSearchLike}%')
+		</if>
+		<if test="address != null">
+			and cp.address like '%${address}%'
+		</if>
+		<if test="orderBySort != null and orderBySort == '0'.toString() ">
+			ORDER BY a.sys_update_date desc
+		</if>
+		<if test="orderBySort != null and orderBySort == '1'.toString() ">
+			ORDER BY a.QUERY_NUM desc
+		</if>
+		<if test="orderBySort != null and orderBySort == '2'.toString() ">
+			ORDER BY a.price desc
+		</if>
 		<if test="isSort != null" >
-			ORDER BY a.sys_update_date
+			ORDER BY a.sys_update_date desc
 		</if>
 		<if test="page != null and rows != null " >
 			limit #{page},#{rows}
@@ -229,8 +283,16 @@
 		ql_goods WHERE COMPANY_ID = #{companyId,jdbcType=VARCHAR} limit 0,2
 	</select>
 	<select id="selectGoodsByTypeAndPageCount" parameterType="Map" resultType="Long">
-		SELECT count(1) from  ql_goods a left join company_country com on com.good_id = a.id
+		SELECT count(1) from  ql_goods a
+		left join ql_dict b on b.type='hv_type' and b.label='now_rate_doc'
+		left join ql_dict d on d.type='hv_type' and d.label='now_rate_dlm'
+		left join company_country com on com.good_id = a.id
+		left join ql_companys cp on a.company_id = cp.id
+		left join ql_goods_cat ca on ca.id = a.car_parts_id
 		where 1=1
+		<if test="isShop != null" >
+			and a.is_shop = #{isShop}
+		</if>
 		<if test="isBuilding != null" >
 			and a.is_building = #{isBuilding}
 		</if>
@@ -254,6 +316,42 @@
 		</if>
 		<if test="addressId != null">
 			and com.country_id=#{addressId}
+		</if>
+		<if test="companyId != null" >
+			and a.company_id = #{companyId}
+		</if>
+		<if test="priceType != null and priceType == '1'.toString() ">
+			<if test="minPrice != null">
+				and a.price &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and a.price &lt;= #{maxPrice}
+			</if>
+		</if>
+		<if test="priceType != null and priceType == '2'.toString() ">
+			<if test="minPrice != null">
+				and a.price * d.value &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and a.price * d.value &lt;= #{maxPrice}
+			</if>
+		</if>
+		<if test="priceType != null and priceType == '3'.toString() ">
+			<if test="minPrice != null">
+				and a.price * b.value &gt;= #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				and a.price * b.value &lt;= #{maxPrice}
+			</if>
+		</if>
+		<if test="catId != null">
+			and (ca.p_tree like '%${catId}%' or ca.id = '${catId}')
+		</if>
+		<if test="address != null">
+			and cp.address like '%${address}%'
+		</if>
+		<if test="topSearchLike != null">
+			and (a.name like '%${topSearchLike}%' or a.en_name like '%${topSearchLike}%')
 		</if>
 	</select>
 
@@ -1059,37 +1157,65 @@
 
 		select t.* FROM (
 		select
-		<include refid="Base_Column_List"/>
+		ID, COMPANY_ID, NAME, en_name, CAR_PARTS_ID, CAR_PARTS_PRODUCER_ID, DEFAULT_PIC_SRC,
+		PRICE, yuanjia, BN, PRODUCT_AREA, UNIT, STORE, CREATETIME, MODIFYTIME, MARKETABLE,
+		USER_ID, IS_CAR_PRODUCTER, IS_MEMBER_DISCOUNT, P_ORDER, DISABLED, PRODUCT_BN, IN_CITY,
+		IN_PROVINCE, OUT_PROVINCE, QUERY_NUM, CLICK_NUMBER, IS_MAIL, IS_STANDER, SEND_IP,
+		SH_CAT_ID, lessinformation, goodstype, is_mailing, sku_id, yiji, erji, sanji, yijinum,
+		erjinum, sanjinum, wuliu, fanxian, fanxiannum, freePostageNum, isConsultingPostage,
+		is_point, point_percentage, sell_country_id, is_building, is_market, is_shop, is_group,
+		is_flash_sale, activity_price, praise_rate, praise_num, order_end_num, click_num,
+		zonghe, is_index_shop, is_index_market, is_index_build, sys_update_date, UNIN_GOODS
 		FROM ql_goods
 		<where>
+			<if test="companyId != null and companyId !=''">
+				and COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+			</if>
 			<if test="name != null and name != '' ">
 				and NAME like '%${name}%' </if>
 			<if test="minMoney != null and minMoney != '' ">
-				and PRICE &gt;= #{minMoney,jdbcType=Double}
+				and PRICE &gt;= #{minMoney}
 			</if>
 			<if test="maxMoney != null and maxMoney != '' ">
-				and PRICE &lt;=#{maxMoney,jdbcType=Double}
+				and PRICE &lt;=#{maxMoney}
 			</if>
-			<if test="carPartsProducerId != null and carPartsProducerId != '' ">and CAR_PARTS_PRODUCER_ID =
-			   and 	#{carPartsProducerId,jdbcType=VARCHAR}
+			<if test="carPartsProducerId != null and carPartsProducerId != '' ">
+			   and CAR_PARTS_PRODUCER_ID = #{carPartsProducerId,jdbcType=VARCHAR}
 			</if>
 		</where>
-		ORDER  BY CREATETIME DESC
+		ORDER  BY
+       <trim suffixOverrides="," prefixOverrides=",">
+		<if test="orderSiv !=null and orderSiv != ''">
+           ,P_ORDER
+		</if>
+		<if test="volumeSiv !=null and volumeSiv != ''">
+           ,QUERY_NUM DESC
+		</if>
+		<if test="priceRiseSiv !=null and priceRiseSiv != ''">
+           ,PRICE
+		</if>
+		   <if test="orderSiv == null and priceRiseSiv == null and volumeSiv ==null ">
+		 ,CREATETIME DESC
+		   </if>
+	   </trim>
 		)t limit #{minPage},#{maxPage}
 	</select>
 	<select id="gainFindGoodsBySelectCount" resultType="Long" parameterType="com.qlzy.model.Goods">
 	  select count(*) FROM  ql_goods
 		<where>
+			<if test="companyId != null and companyId !=''">
+				and COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+			</if>
 			<if test="name != null and name != '' ">
 				and NAME like '%${name}%' </if>
 			<if test="minMoney != null and minMoney != '' ">
-				and PRICE &gt;= #{minMoney,jdbcType=Double}
+				and PRICE &gt;= #{minMoney}
 			</if>
 			<if test="maxMoney != null and maxMoney != '' ">
-				and PRICE &lt;=#{maxMoney,jdbcType=Double}
+				and PRICE &lt;=#{maxMoney}
 			</if>
-			<if test="carPartsProducerId != null and carPartsProducerId != '' ">and CAR_PARTS_PRODUCER_ID =
-				and 	#{carPartsProducerId,jdbcType=VARCHAR}
+			<if test="carPartsProducerId != null and carPartsProducerId != '' ">
+				and CAR_PARTS_PRODUCER_ID =	#{carPartsProducerId,jdbcType=VARCHAR}
 			</if>
 		</where>
 	</select>

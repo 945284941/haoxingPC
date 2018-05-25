@@ -25,7 +25,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.qlzy.common.util.PcOrWap;
+import com.qlzy.mainPage.indexGoods.service.DictionaryService;
 import com.qlzy.mainPage.login.service.MemberService;
+import com.qlzy.memberCenter.person.appraise.service.AppraiseService;
+import com.qlzy.memberCenter.person.perinfo.service.PersonalInfoService;
 import com.qlzy.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -59,8 +63,13 @@ import com.qlzy.util.Pagination;
  */
 @Namespace("/")
 @Action(value = "orderAction", results = {
+		@Result(name = "toCommentWap", location = "/wap/person/shangpingPingjia.jsp"),
+		@Result(name = "pingJiaStatusWap", location = "/wap/person/pingJiaStatus.jsp"),
+		@Result(name = "toComment", location = "/memberCenter/person/orders/commentNew.jsp"),
 		@Result(name = "toHuiyuanzhongxin", location = "/memberCenter/person/orders/huiyuanzhongxinNew.jsp"),
+		@Result(name = "toHuiyuanzhongxinWap", location = "/wap/person/huiyuanzhongxinNew.jsp"),
 		@Result(name = "memberOrders", location = "/memberCenter/person/orders/ordersNew.jsp"),
+		@Result(name = "memberOrdersWap", location = "/wap/person/myOrders.jsp"),
 		@Result(name = "memberChOrders", location = "/memberCenter/person/orders/memberchorders.jsp"),
 		@Result(name = "chOrders", location = "/memberCenter/person/orders/chorders.jsp"),
 		@Result(name = "memberChTjOrders", location = "/memberCenter/person/orders/chorderstj.jsp"),
@@ -70,7 +79,8 @@ import com.qlzy.util.Pagination;
 		@Result(name = "companySellChOrdersItem", location = "/memberCenter/company/orders/sellChOrderItem.jsp"),
 		@Result(name = "receiveGoods", type="redirect", location = "orderAction!gainOrders.action"),
 		@Result(name = "toCompanySellOrderItem", type="redirect", location = "/person/order/sellOrderItem/${id}.html"),
-		@Result(name = "orderDetail", location = "/memberCenter/person/orders/orderDetail.jsp"),
+		@Result(name = "orderDetail", location = "/memberCenter/person/orders/orderDetailNew.jsp"),
+		@Result(name = "orderDetailWap", location = "/wap/order/orderDetail.jsp"),
 		@Result(name = "logistics", location = "/memberCenter/person/orders/logistics.jsp"),
 		@Result(name = "login_hf", location = "/")
 		})
@@ -83,6 +93,8 @@ public class OrderAction extends BaseAction{
 	* @date 2013-9-23 上午11:17:56
 	*/
 	private static final long serialVersionUID = 1L;
+	@Resource
+	private AppraiseService  appraiseService;
 	@Resource
 	private OrderService orderService;
 	@Resource
@@ -97,7 +109,8 @@ public class OrderAction extends BaseAction{
 	private MemberCallService memberCallService;
 	@Resource
 	private MemberService memberService;
-	
+	@Resource
+	private DictionaryService dictionaryService;
 	private List<Order> orderList = new ArrayList<Order>();
 	private List<Order> orderList2 = new ArrayList<Order>();
 	private SessionInfo sessionInfo = new SessionInfo();
@@ -109,8 +122,10 @@ public class OrderAction extends BaseAction{
 	private List<OrderItem> orderItems;
 	private OrderReturn orderReturn;
 	private StatisticsInfo orderStatisticsInfo;// 订单统计
+	private String status;
 	private String payStatus;
 	private String shipStatus;
+	private String disabled;
 	private String id ;
 	private String type; 
 	private String password;
@@ -120,15 +135,39 @@ public class OrderAction extends BaseAction{
 	private String jylx;
 	private String sjId;
 	private String khId;
-	
+	//分销比例信息
+	Map<String,Double> yijibiliMap = new HashMap<>();
+	Map<String,Double> erjibiliMap = new HashMap<>();
 	private String wuliu;
 	private String messagew;
 	private String orderId;
 	private String orderNum;
 
+	/**
+	 * 修改订单状态
+	 */
+	public void changeOrderStatus(){
+		String result = "";
+		status = request.getParameter("status");
+		payStatus = request.getParameter("payStatus");
+		shipStatus = request.getParameter("shipStatus");
+		disabled = request.getParameter("disabled");
+		id = request.getParameter("orderId");
+		order = new Order();
+		order.setId(id);
+		order.setStatus(status);
+		order.setPayStatus(payStatus);
+		order.setShipStatus(shipStatus);
+		order.setDisabled(disabled);
+		int n = orderService.updateOrderByOrderId(order);
+		if(n>0){
+			result = "ok";
+		}
+		writeJson(result);
+	}
 
 	/**
-	 * 查询个人/企业会员下购买的订单信息
+	 * 会员中心
 	 * @Title: gainOrders
 	 * @Description: TODO(这里用一句话描述这个方法的作用)
 	 * @param @return    设定文件
@@ -141,9 +180,19 @@ public class OrderAction extends BaseAction{
 			if(null == sessionInfo){
 				return "login_hf";
 			}
+			QlDict dict = dictionaryService.gainByType("FirstDistributionRatio");
+			session.put("yijibili",dict.getValue());
+			dict = dictionaryService.gainByType("SedDistributionRatio");
+			session.put("erjibili",dict.getValue());
 			//查询会员信息
 			Member mm = memberService.selectKey(sessionInfo.getUserId());
 			request.setAttribute("member", mm);
+			MemberCollect memberCollect = new MemberCollect();
+			memberCollect.setType("goods");
+			memberCollect.setUserId(sessionInfo.getUserId());
+			List<MemberCollect> memberCollectList = memberCallService.gainGoodsCollect(memberCollect);
+			request.setAttribute("memberCollectList",memberCollectList);
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			Pagination pagination = definationPagination(request);
 			// 设置每页显示几条数据
@@ -158,19 +207,23 @@ public class OrderAction extends BaseAction{
 			if (endTime != null && !"".equals(endTime)) {
 				map.put("endTime", endTime);
 			}
-
-			if ( null != payStatus && !"-1".equals(payStatus)) {
-				map.put("payStatus", payStatus);
-			}
 			if ( null != shipStatus && !"-1".equals(shipStatus)) {
 				map.put("shipStatus", shipStatus);
 			}
 
 			map.put("orderType", "0");
 			map.put("orderNum", orderNum);
-
 			pagination.setTotalCount(orderService.gainOrdersByUserIdGetLong(map));//rComRecommendService.gainRegionsComRecommendCountByArea(map));
+			//所有订单
 			orderList = orderService.gainOrdersByUserIdGetList(map);
+			//已付款订单
+			map.put("payStatus", "1");
+			List<Order> oList = orderService.gainOrdersByUserIdGetList(map);
+			Double total = 0.0;
+			for(Order o : oList){
+				total += o.getTotalCost().doubleValue();
+			}
+			request.setAttribute("total",total);
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if (startTime != null) {
 				request.setAttribute("startTimeStr", sf.format(startTime));
@@ -178,7 +231,7 @@ public class OrderAction extends BaseAction{
 			if (endTime != null) {
 				request.setAttribute("endTimeStr", sf.format(endTime));
 			}
-
+			request.setAttribute("orderList", orderList);
 			request.setAttribute("pagination", pagination);
 			request.setAttribute("payStatus", payStatus);
 			request.setAttribute("shipStatus", shipStatus);
@@ -186,14 +239,16 @@ public class OrderAction extends BaseAction{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "toHuiyuanzhongxin";
+		return  PcOrWap.isPc(request,"toHuiyuanzhongxin");
 	}
 
 
 
 
+
+
 	/**
-	 * 查询个人/企业会员下购买的订单信息
+	 * 查询个人会员下购买的订单信息
 	* @Title: gainOrders
 	* @Description: TODO(这里用一句话描述这个方法的作用)
 	* @param @return    设定文件
@@ -206,14 +261,27 @@ public class OrderAction extends BaseAction{
 			if(null == sessionInfo){
 				return "login_hf";
 			}
+			request.setAttribute("sessionInfo",sessionInfo);
+			status = request.getParameter("status");
 			Map<String, Object> map = new HashMap<String, Object>();
 			Pagination pagination = definationPagination(request);
 			// 设置每页显示几条数据
 			pagination.setRows(8L);
 			map.put("page", (pagination.getPage()-1)* pagination.getRows());
 			map.put("rows", pagination.getRows());
+			map.put("status",status);
 			map.put("userId", sessionInfo.getUserId());
 			map.put("userType", sessionInfo.getUserType());
+			String orderNum = request.getParameter("orderNum");
+			String goodsName = request.getParameter("goodsName");
+			String shipName = request.getParameter("shipName");
+			//String zhuangtai = request.getParameter("zhuangtai");
+			String qixian = request.getParameter("qixian");
+			map.put("orderNum",orderNum);
+			map.put("shipName",shipName);
+			//map.put("status",zhuangtai);
+			map.put("qixian",qixian);
+			map.put("goodsName",goodsName);
 			if (startTime != null && !"".equals(startTime)) {
 				map.put("startTime", startTime);
 			}
@@ -240,7 +308,7 @@ public class OrderAction extends BaseAction{
 			if (endTime != null) {
 				request.setAttribute("endTimeStr", sf.format(endTime));
 			}
-			
+			request.setAttribute("orderList", orderList);
 			request.setAttribute("pagination", pagination);
 			request.setAttribute("payStatus", payStatus);
 			request.setAttribute("shipStatus", shipStatus);
@@ -248,7 +316,7 @@ public class OrderAction extends BaseAction{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "memberOrders";
+		return  PcOrWap.isPc(request,"memberOrders");
 	}
 	
 	/**
@@ -578,28 +646,28 @@ public class OrderAction extends BaseAction{
 		Double oldPrice = 0.00;
 		Double oldTotalCost = 0.00;
 		Double newTotalCost = 0.00;
-		Double totalCost = 0.00 ;
+		BigDecimal totalCost = BigDecimal.ZERO ;
 		Double sendPrice = 0.00;
 		OrderItem orderItem = orderService.selectByOrderItemId(orderItemId);
 		try {
 			if(null != orderItem){
-				oldPrice = orderItem.getDealPrice();
+				oldPrice = orderItem.getDealPrice().doubleValue();
 				orderId = orderItem.getOrderId();
-				orderItem.setDealPrice(Double.parseDouble(bcvalue));
+				orderItem.setDealPrice(new BigDecimal(bcvalue));
 				orderItem.setNums(orderItem.getNums());
-				orderItem.setAmount(Double.parseDouble(bcvalue)*orderItem.getNums());
+				orderItem.setAmount(new BigDecimal(Double.parseDouble(bcvalue)*orderItem.getNums()));
 				oldTotalCost = oldPrice * orderItem.getNums();
 				newTotalCost = Double.parseDouble(bcvalue)*orderItem.getNums();
 				BigDecimal b1 = new BigDecimal(newTotalCost.toString());
 				BigDecimal b2 = new BigDecimal(oldTotalCost.toString());
 				sendPrice = b1.subtract(b2).doubleValue();
-				orderItem.setMemberlvRedceMoney(sendPrice);
+				orderItem.setMemberlvRedceMoney(new BigDecimal(sendPrice));
 				
 				Order order = orderService.gainOrderById(orderId);
 				if(null != order){
 					BigDecimal orderOld = new BigDecimal(order.getTotalCost().toString());
 					BigDecimal orderSend = new BigDecimal(sendPrice.toString());
-					totalCost = orderOld.add(orderSend).doubleValue();
+					totalCost = orderOld.add(orderSend);
 					order.setTotalCost(totalCost);
 					
 					Company company = companyService.gainCompanyById(order.getMemberId());
@@ -630,10 +698,10 @@ public class OrderAction extends BaseAction{
 	public void sellOrderItemModifyCarr(){
 		String result = "";
 		Order order = orderService.gainOrderById(id);
-		
-		Double cj = Arith.sub(order.getCarriage(), Double.parseDouble(bcvalue));
-		Double totalCost = Arith.sub(order.getTotalCost(), cj);
-		order.setCarriage(Double.parseDouble(bcvalue));
+		Double cj = Arith.sub(order.getCarriage().doubleValue(), Double.parseDouble(bcvalue));
+
+		BigDecimal totalCost = order.getTotalCost().subtract(new BigDecimal(cj));
+		order.setCarriage(new BigDecimal(bcvalue));
 		order.setTotalCost(totalCost);
 		try {
 			orderService.updateOrderByOrderId(order);
@@ -646,7 +714,7 @@ public class OrderAction extends BaseAction{
 		}
 		TradePayDeail tradeDeail = memberCallService.gainPObyOrderNum(order.getOrderNum()); 
 		if(null != tradeDeail){
-			tradeDeail.setTotalPrice(totalCost);
+			tradeDeail.setTotalPrice(totalCost.doubleValue());
 			try {
 				memberCallService.updateTradePayDeail(tradeDeail);
 				result = "ok";
@@ -666,31 +734,31 @@ public class OrderAction extends BaseAction{
 	public void sellOrderItemModifyPrice(){
 		String result = "";
 		String orderId = "";
-		Double oldPrice = 0.00;
-		Double oldTotalCost = 0.00;
-		Double newTotalCost = 0.00;
-		Double totalCost = 0.00 ;
+		BigDecimal oldPrice = BigDecimal.ZERO;
+		BigDecimal oldTotalCost = BigDecimal.ZERO;
+		BigDecimal newTotalCost = BigDecimal.ZERO;
+		BigDecimal totalCost = BigDecimal.ZERO;
 		Double sendPrice = 0.00;
 		OrderItem orderItem = orderService.selectByOrderItemId(orderItemId);
 		try {
 			if(null != orderItem){
 				oldPrice = orderItem.getDealPrice();
 				orderId = orderItem.getOrderId();
-				orderItem.setDealPrice(Double.parseDouble(bcvalue));
+				orderItem.setDealPrice(new BigDecimal(bcvalue));
 				orderItem.setNums(orderItem.getNums());
-				orderItem.setAmount(Double.parseDouble(bcvalue)*orderItem.getNums());
-				oldTotalCost = oldPrice * orderItem.getNums();
-				newTotalCost = Double.parseDouble(bcvalue)*orderItem.getNums();
+				orderItem.setAmount(new BigDecimal(Double.parseDouble(bcvalue)*orderItem.getNums()));
+				oldTotalCost = oldPrice.multiply(new BigDecimal(orderItem.getNums()));
+				newTotalCost = new BigDecimal(bcvalue).multiply(new BigDecimal(orderItem.getNums()));
 				BigDecimal b1 = new BigDecimal(newTotalCost.toString());
 				BigDecimal b2 = new BigDecimal(oldTotalCost.toString());
 				sendPrice = b1.subtract(b2).doubleValue();
-				orderItem.setMemberlvRedceMoney(sendPrice);
+				orderItem.setMemberlvRedceMoney(new BigDecimal(sendPrice));
 				
 				Order order = orderService.gainOrderById(orderId);
 				if(null != order){
 					BigDecimal orderOld = new BigDecimal(order.getTotalCost().toString());
 					BigDecimal orderSend = new BigDecimal(sendPrice.toString());
-					totalCost = orderOld.add(orderSend).doubleValue();
+					totalCost = orderOld.add(orderSend);
 					order.setTotalCost(totalCost);
 					
 					PayDeal payDeal = memberCallService.selectByOrderNum(order.getOrderNum());
@@ -699,7 +767,7 @@ public class OrderAction extends BaseAction{
 						String qlSignure = Signature.fillSignure(fillFee);
 						String lhResult = "";
 						try {
-							 lhResult = this.testpost(ResourceUtil.getLhMerId(),payDeal.getDealId(),orderItem.getMemberlvRedceMoney(),qlSignure).trim();;
+							 lhResult = this.testpost(ResourceUtil.getLhMerId(),payDeal.getDealId(),orderItem.getMemberlvRedceMoney().doubleValue(),qlSignure).trim();;
 							
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -710,7 +778,7 @@ public class OrderAction extends BaseAction{
 						if("REMOTE_CHANGE_PRICE_SUCCESS".equals(lhResult) || "REMOTE_CHANGE_PRICE_SUCCESS" == lhResult){
 							payDeal.setUpdatePriceResult(lhResult);
 							payDeal.setUpdatetime(new Date());
-							payDeal.setDealFee(order.getTotalCost());
+							payDeal.setDealFee(order.getTotalCost().doubleValue());
 							memberCallService.updatePayDealPrice(payDeal);
 							orderService.updateItemByOrderItemId(orderItem);
 							orderService.updateOrderByOrderId(order);
@@ -795,8 +863,10 @@ public class OrderAction extends BaseAction{
 //		String userPayPwd = loginService.gainUserPayPasswordById(sessionInfo.getUserId(), sessionInfo.getUserType());
 //		if (userPayPwd != null && payPassword != null && userPayPwd.equals(MD5.encrypt(payPassword))) {
 //			
-//		} 
-		orderService.receiveAndFenxiao(order, orderItemId);
+//		}
+		String orderId = request.getParameter("orderId");
+		order = orderService.gainOrderById(orderId);
+		orderService.receiveAndFenxiao(order,sessionInfo.getUserId());
 		return "receiveGoods";
 	}
 	
@@ -808,10 +878,19 @@ public class OrderAction extends BaseAction{
 	* @return String    返回类型
 	* @author 周张豹
 	 */
-	public String returnGoods(){
+	public void returnGoods(){
+		orderId = request.getParameter("orderId");
+		String cause = request.getParameter("textarea");
+		order = orderService.gainOrderById(orderId);
+		orderReturn = new OrderReturn();
+		orderReturn.setReturnMoney(order.getTotalCost());
+		orderReturn.setOrderId(orderId);
 		orderReturn.setId(ToolsUtil.getUUID());
+		orderReturn.setCause(cause);
+		orderReturn.setCreateBy(order.getMemberId());
+		orderReturn.setCreateTime(new Date());
+		orderReturn.setIsdelivery(order.getShipStatus());
 		orderService.returnGoods(orderReturn);
-		return "receiveGoods";
 	}
 	
 	/**
@@ -917,13 +996,120 @@ public class OrderAction extends BaseAction{
 	 */
 	public String gainOrderDetail(){
 		try {
-			order = orderService.gainOrderById(orderId);
-			orderItems = orderService.gainOrderItemsByOrderId(orderId);
+//			order = orderService.gainOrderById(orderId);
+//			orderItems = orderService.gainOrderItemsByOrderId(orderId);
+			id = request.getParameter("id");
+			order = orderService.gainOrderById(id);
+			orderItems = orderService.gainOrderItemsByOrderId(id);
+			request.setAttribute("order",order);
+			request.setAttribute("orderItems",orderItems);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return "orderDetail";
+		return PcOrWap.isPc(request,"orderDetail");
+	}
+
+	/**
+	 * 显示订单评价状态页面
+	 * @return
+	 */
+	public String pingJiaStatus(){
+		SessionInfo sessionInfo = (SessionInfo) session.get(ResourceUtil
+				.getSessionInfoName());
+		if(null == sessionInfo){
+			return "login_hf";
+		}
+		// 会员信息
+		Member member = memberService.selectKey(sessionInfo.getUserId());
+		String appraise = request.getParameter("appraise");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", member.getId());
+		Pagination pagination = definationPagination(request);
+		// 设置每页显示几条数据
+		pagination.setRows(8L);
+		map.put("page", (pagination.getPage()-1)* pagination.getRows());
+		map.put("rows", pagination.getRows());
+		orderList = orderService.gainOrdersByUserIdGetList(map);
+		orderItems = new ArrayList<OrderItem>();
+		for(Order o : orderList){
+			List<OrderItem> items = orderService.gainOrderItemsByOrderId(o.getId());
+			for(OrderItem oi : items){
+				if((oi.getAppraise()).equals(appraise)){
+					orderItems.add(oi);
+				}
+			}
+ 		}
+		request.setAttribute("pagination", pagination);
+		request.setAttribute("appraise",appraise);
+ 		request.setAttribute("orderItems",orderItems);
+		return  PcOrWap.isPc(request,"pingJiaStatus");
+	}
+
+	/**
+	 * 订单评论
+	 * @return
+	 */
+	public String gainComment(){
+		Appraise appraise = new Appraise();
+		try {
+			String orderItemId = request.getParameter("orderItemId");
+			orderItem = orderService.selectByOrderItemId(orderItemId);
+			order = orderService.gainOrderById(orderItem.getOrderId());
+			orderItems = orderService.gainOrderItemsByOrderId(order.getId());
+			for(OrderItem item : orderItems){
+				String goodsId = item.getGoodsId();
+				appraise.setGoodsId(goodsId);
+				appraise.setOrderId(order.getId());
+				Appraise appraiseNew = appraiseService.gainByOrderIdAndGoodsId(appraise);
+				if(appraiseNew != null && !("").equals(appraiseNew)) {
+					item.setAppraiseContent(appraiseNew.getContent());
+					item.setAppraiseSincerity(appraiseNew.getSincerity());
+				}
+			}
+			request.setAttribute("order",order);
+			request.setAttribute("orderItems",orderItems);
+			orderItem = new OrderItem();
+			orderItem.setId(orderItemId);
+			List<OrderItem> orItems = orderService.gainByOrderId(orderItem);
+			OrderItem orItem = orItems.get(0);
+			request.setAttribute("orItem", orItem);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return  PcOrWap.isPc(request,"toComment");
+	}
+
+	/**
+	 * 添加评论
+	 */
+	public void changeAppraise(){
+		String result="";
+		String itemId = request.getParameter("id");
+		String content = request.getParameter("content");
+		String sincerity = request.getParameter("num");
+		orderItem = orderService.selectByOrderItemId(itemId);
+		orderItem.setAppraise("1");
+		orderService.updateAppraiseById(orderItem);
+		order = orderService.gainOrderById(orderItem.getOrderId());
+		if("0".equals(order.getSaleType())){
+			order.setSaleType("1");
+			orderService.updateOrderByOrderId(order);
+		}
+		Appraise appraise = new Appraise();
+		appraise.setId(ToolsUtil.getUUID());
+		appraise.setGoodsId(orderItem.getGoodsId());
+		appraise.setCompanyId(orderItem.getCompanyId());
+		appraise.setMemberId(order.getMemberId());
+		appraise.setOrderId(order.getId());
+		appraise.setSincerity(Integer.parseInt(sincerity));
+		appraise.setContent(content);
+		appraise.setCreatetime(new Date());
+		int n = appraiseService.insertAppraise(appraise);
+		if(n>0){
+			result = "ok";
+		}
+		writeJson(result);
 	}
 	
 	/**

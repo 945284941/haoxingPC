@@ -19,6 +19,15 @@
 		<result column="MEMBERLV_DISCOUNT" property="memberlvDiscount" jdbcType="DECIMAL" />
 		<result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
 		<result column="LOGISTICS_NUM" property="logisticsNum" jdbcType="VARCHAR" />
+		<result column="point" property="point" jdbcType="DECIMAL" />
+		<result column="point_bili" property="pointBili" jdbcType="DECIMAL" />
+		<result column="country_id" property="countryId" jdbcType="VARCHAR" />
+		<result column="goods_en_name" property="goodsEnName" jdbcType="VARCHAR" />
+		<result column="dlm_bili" property="dlmBili" jdbcType="DECIMAL" />
+		<result column="doc_bili" property="docBili" jdbcType="DECIMAL" />
+		<result column="dlm_price" property="dlmPrice" jdbcType="DECIMAL" />
+		<result column="doc_price" property="docPrice" jdbcType="DECIMAL" />
+		<result column="country_bili" property="countryBili" jdbcType="DECIMAL" />
 		<!-- 一下是扩展字段 -->
 		<result column="DEFAULT_PIC_SRC" property="defaultPicSrc" jdbcType="VARCHAR" />
 		<result column="BN" property="bn" jdbcType="VARCHAR" />
@@ -28,11 +37,12 @@
 		<result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
 		<result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
 		<result column="isLogistice" property="isLogistice" jdbcType="INTEGER" />
-		<result column="point" property="point" jdbcType="DECIMAL" />
+
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, ORDER_ID, GOODS_ID, GOODS_ITEM_ID,ITEM_SKU,GOODS_NAME, MARKETBALE_PRICE, DEAL_PRICE,
-		COMPANY_ID, AMOUNT, NUMS, SALE_ACTIVE_ID, SALE_ACTIVE_REDUCE_MONEY, MEMBERLV_REDCE_MONEY, MEMBERLV_DISCOUNT,APPRAISE,POINT
+		COMPANY_ID, AMOUNT, NUMS, SALE_ACTIVE_ID, SALE_ACTIVE_REDUCE_MONEY, MEMBERLV_REDCE_MONEY, MEMBERLV_DISCOUNT,APPRAISE,
+		point, point_bili, country_id, goods_en_name,dlm_bili, doc_bili, dlm_price, doc_price,country_bili
 	</sql>
 	<!-- 根据ID查询 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -42,6 +52,7 @@
 		from QL_ORDER_ITEMS
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
+
 	<update id="updateAppraiseByOrderIdAndGoodsId" parameterType="com.qlzy.model.OrderItem">
 		update QL_ORDER_ITEMS SET APPRAISE = '1' where ORDER_ID = #{orderId,jdbcType=VARCHAR} AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
 	</update>
@@ -49,10 +60,33 @@
 	<select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String">
 		SELECT 
 			i.id,i.ORDER_ID,i.GOODS_ID,i.GOODS_ITEM_ID,i.ITEM_SKU,i.DEAL_PRICE,i.AMOUNT,i.NUMS,i.MARKETBALE_PRICE,i.APPRAISE, 
-			g.DEFAULT_PIC_SRC,g.NAME as GOODS_NAME,g.BN,i.is_logistice as isLogistice, i.LOGISTICS_NUM as logisticsNum, i.logistics_name as logisticsName,i.logistics_tel as logisticsTel,i.POINT, 
+			g.DEFAULT_PIC_SRC,g.NAME as GOODS_NAME,g.BN,i.is_logistice as isLogistice, i.LOGISTICS_NUM as logisticsNum, i.logistics_name as logisticsName,i.logistics_tel as logisticsTel,i.POINT,
 			(select DEFAULT_PIC_SRC from ql_goods goods where goods.id = i.GOODS_ID ) as defaultPicSrc  
-			from QL_ORDER_ITEMS i left join QL_GOODS g on i.GOODS_ID = g.id 
-			where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+			from QL_ORDER_ITEMS i
+			left join QL_GOODS g
+			on i.GOODS_ID = g.id
+			where i.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据订单ID查询 -->
+	<select id="gainByOrderId" resultMap="BaseResultMap" parameterType="com.qlzy.model.OrderItem">
+		SELECT
+		i.id,i.ORDER_ID,i.GOODS_ID,i.GOODS_ITEM_ID,i.ITEM_SKU,i.DEAL_PRICE,i.AMOUNT,i.NUMS,i.MARKETBALE_PRICE,i.APPRAISE,
+		g.DEFAULT_PIC_SRC,g.NAME as GOODS_NAME,g.BN,i.is_logistice as isLogistice, i.LOGISTICS_NUM as logisticsNum, i.logistics_name as logisticsName,i.logistics_tel as logisticsTel,i.POINT,
+		(select DEFAULT_PIC_SRC from ql_goods goods where goods.id = i.GOODS_ID ) as defaultPicSrc
+		from QL_ORDER_ITEMS i
+		left join QL_GOODS g
+		on i.GOODS_ID = g.id
+		where 1=1
+		<if test="orderId != null and orderId != '' ">
+			and i.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null and goodsName != '' ">
+			and i.GOODS_NAME like '%${goodsName}%'
+		</if>
+		<if test="id != null and id != '' ">
+			and i.id = #{id,jdbcType=VARCHAR}
+		</if>
 	</select>
 	
 	<!-- 根据商品ID查询该商品的购买记录 -->
@@ -68,188 +102,360 @@
 	</delete>
 	<!-- 插入数据信息 -->
 	<insert id="insertSelective" parameterType="com.qlzy.model.OrderItem">
-		insert into QL_ORDER_ITEMS
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
+		insert into ql_order_items
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
 				ID,
 			</if>
-			<if test="orderId != null">
+			<if test="orderId != null" >
 				ORDER_ID,
 			</if>
-			<if test="goodsId != null">
+			<if test="goodsId != null" >
 				GOODS_ID,
 			</if>
-			<if test="goodsName != null">
+			<if test="goodsName != null" >
 				GOODS_NAME,
 			</if>
-			<if test="marketbalePrice != null">
+			<if test="marketbalePrice != null" >
 				MARKETBALE_PRICE,
 			</if>
-			<if test="dealPrice != null">
+			<if test="dealPrice != null" >
 				DEAL_PRICE,
 			</if>
-			<if test="companyId != null">
+			<if test="companyId != null" >
 				COMPANY_ID,
 			</if>
-			<if test="amount != null">
+			<if test="amount != null" >
 				AMOUNT,
 			</if>
-			<if test="nums != null">
+			<if test="nums != null" >
 				NUMS,
 			</if>
-			<if test="saleActiveId != null">
+			<if test="saleActiveId != null" >
 				SALE_ACTIVE_ID,
 			</if>
-			<if test="saleActiveReduceMoney != null">
+			<if test="saleActiveReduceMoney != null" >
 				SALE_ACTIVE_REDUCE_MONEY,
 			</if>
-			<if test="memberlvRedceMoney != null">
+			<if test="memberlvRedceMoney != null" >
 				MEMBERLV_REDCE_MONEY,
 			</if>
-			<if test="memberlvDiscount != null">
+			<if test="memberlvDiscount != null" >
 				MEMBERLV_DISCOUNT,
 			</if>
-			<if test="appraise != null">
+			<if test="appraise != null" >
 				APPRAISE,
 			</if>
-			<if test="point != null">
-				POINT
+			<if test="goodsItemId != null" >
+				GOODS_ITEM_ID,
+			</if>
+			<if test="itemSku != null" >
+				ITEM_SKU,
+			</if>
+			<if test="isLogistice != null" >
+				is_logistice,
+			</if>
+			<if test="logisticsNum != null" >
+				logistics_num,
+			</if>
+			<if test="logisticsName != null" >
+				logistics_name,
+			</if>
+			<if test="logisticsTel != null" >
+				logistics_tel,
+			</if>
+			<if test="logisticsRemark != null" >
+				logistics_remark,
+			</if>
+			<if test="logisticsStatus != null" >
+				logistics_status,
+			</if>
+			<if test="point != null" >
+				point,
+			</if>
+			<if test="pointBili != null" >
+				point_bili,
+			</if>
+			<if test="countryId != null" >
+				country_id,
+			</if>
+			<if test="goodsEnName != null" >
+				goods_en_name,
+			</if>
+			<if test="dlmBili != null" >
+				dlm_bili,
+			</if>
+			<if test="docBili != null" >
+				doc_bili,
+			</if>
+			<if test="dlmPrice != null" >
+				dlm_price,
+			</if>
+			<if test="docPrice != null" >
+				doc_price,
+			</if>
+			<if test="countryBili != null" >
+				country_bili,
 			</if>
 		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
 				#{id,jdbcType=VARCHAR},
 			</if>
-			<if test="orderId != null">
+			<if test="orderId != null" >
 				#{orderId,jdbcType=VARCHAR},
 			</if>
-			<if test="goodsId != null">
+			<if test="goodsId != null" >
 				#{goodsId,jdbcType=VARCHAR},
 			</if>
-			<if test="goodsName != null">
+			<if test="goodsName != null" >
 				#{goodsName,jdbcType=VARCHAR},
 			</if>
-			<if test="marketbalePrice != null">
+			<if test="marketbalePrice != null" >
 				#{marketbalePrice,jdbcType=DECIMAL},
 			</if>
-			<if test="dealPrice != null">
+			<if test="dealPrice != null" >
 				#{dealPrice,jdbcType=DECIMAL},
 			</if>
-			<if test="companyId != null">
+			<if test="companyId != null" >
 				#{companyId,jdbcType=VARCHAR},
 			</if>
-			<if test="amount != null">
+			<if test="amount != null" >
 				#{amount,jdbcType=DECIMAL},
 			</if>
-			<if test="nums != null">
+			<if test="nums != null" >
 				#{nums,jdbcType=DECIMAL},
 			</if>
-			<if test="saleActiveId != null">
+			<if test="saleActiveId != null" >
 				#{saleActiveId,jdbcType=VARCHAR},
 			</if>
-			<if test="saleActiveReduceMoney != null">
+			<if test="saleActiveReduceMoney != null" >
 				#{saleActiveReduceMoney,jdbcType=DECIMAL},
 			</if>
-			<if test="memberlvRedceMoney != null">
+			<if test="memberlvRedceMoney != null" >
 				#{memberlvRedceMoney,jdbcType=DECIMAL},
 			</if>
-			<if test="memberlvDiscount != null">
+			<if test="memberlvDiscount != null" >
 				#{memberlvDiscount,jdbcType=DECIMAL},
 			</if>
-			<if test="appraise != null">
+			<if test="appraise != null" >
 				#{appraise,jdbcType=VARCHAR},
 			</if>
-			<if test="point != null">
-				#{point,jdbcType=DECIMAL}
+			<if test="goodsItemId != null" >
+				#{goodsItemId,jdbcType=VARCHAR},
+			</if>
+			<if test="itemSku != null" >
+				#{itemSku,jdbcType=VARCHAR},
+			</if>
+			<if test="isLogistice != null" >
+				#{isLogistice,jdbcType=INTEGER},
+			</if>
+			<if test="logisticsNum != null" >
+				#{logisticsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsName != null" >
+				#{logisticsName,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsTel != null" >
+				#{logisticsTel,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsRemark != null" >
+				#{logisticsRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsStatus != null" >
+				#{logisticsStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="point != null" >
+				#{point,jdbcType=DECIMAL},
+			</if>
+			<if test="pointBili != null" >
+				#{pointBili,jdbcType=DECIMAL},
+			</if>
+			<if test="countryId != null" >
+				#{countryId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsEnName != null" >
+				#{goodsEnName,jdbcType=VARCHAR},
+			</if>
+			<if test="dlmBili != null" >
+				#{dlmBili,jdbcType=DECIMAL},
+			</if>
+			<if test="docBili != null" >
+				#{docBili,jdbcType=DECIMAL},
+			</if>
+			<if test="dlmPrice != null" >
+				#{dlmPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="docPrice != null" >
+				#{docPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="countryBili != null" >
+				country_bili = #{countryBili,jdbcType=DECIMAL},
 			</if>
 		</trim>
 	</insert>
-
-	<!-- 根据ID更新 -->
-	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.OrderItem">
-		update QL_ORDER_ITEMS
+	<!-- 根据ID更新评价状态 -->
+	<update id="updateAppraiseById" parameterType="com.qlzy.model.OrderItem">
+		update ql_order_items
 		<set>
-			<if test="orderId != null">
-				ORDER_ID = #{orderId,jdbcType=VARCHAR},
-			</if>
-			<if test="goodsId != null">
-				GOODS_ID = #{goodsId,jdbcType=VARCHAR},
-			</if>
-			<if test="goodsName != null">
-				GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
-			</if>
-			<if test="marketbalePrice != null">
-				MARKETBALE_PRICE = #{marketbalePrice,jdbcType=DECIMAL},
-			</if>
-			<if test="dealPrice != null">
-				DEAL_PRICE = #{dealPrice,jdbcType=DECIMAL},
-			</if>
-			<if test="companyId != null">
-				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
-			</if>
-			<if test="amount != null">
-				AMOUNT = #{amount,jdbcType=DECIMAL},
-			</if>
-			<if test="nums != null">
-				NUMS = #{nums,jdbcType=DECIMAL},
-			</if>
-			<if test="saleActiveId != null">
-				SALE_ACTIVE_ID = #{saleActiveId,jdbcType=VARCHAR},
-			</if>
-			<if test="saleActiveReduceMoney != null">
-				SALE_ACTIVE_REDUCE_MONEY = #{saleActiveReduceMoney,jdbcType=DECIMAL},
-			</if>
-			<if test="memberlvRedceMoney != null">
-				MEMBERLV_REDCE_MONEY = #{memberlvRedceMoney,jdbcType=DECIMAL},
-			</if>
-			<if test="memberlvDiscount != null">
-				MEMBERLV_DISCOUNT = #{memberlvDiscount,jdbcType=DECIMAL},
-			</if>
-			<if test="appraise != null">
-				APPRAISE = #{appraise,jdbcType=VARCHAR},
-			</if>
-			<if test="isLogistice != null">
-				is_logistice = #{isLogistice,jdbcType=INTEGER},
-			</if>
-			<if test="logisticsNum != null">
-				logistics_num = #{logisticsNum,jdbcType=VARCHAR},
-			</if>
-			<if test="logisticsName != null">
-				logistics_name = #{logisticsName,jdbcType=VARCHAR},
-			</if>
-			<if test="logisticsTel != null">
-				logistics_tel = #{logisticsTel,jdbcType=VARCHAR},
-			</if>
-			<if test="point != null">
-				point = #{point,jdbcType=DECIMAL}
+			<if test="appraise != null and appraise != '' ">
+				APPRAISE = #{appraise,jdbcType=VARCHAR}
 			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 
-	<insert id="insertBeach" parameterType="List">
-		insert into QL_ORDER_ITEMS (
-			ID,ORDER_ID,GOODS_ID,GOODS_ITEM_ID,ITEM_SKU,GOODS_NAME,MARKETBALE_PRICE,DEAL_PRICE,
-			COMPANY_ID,AMOUNT,NUMS,SALE_ACTIVE_ID,SALE_ACTIVE_REDUCE_MONEY,MEMBERLV_REDCE_MONEY,MEMBERLV_DISCOUNT,POINT
-		)
-		<foreach collection="list" item="o" index="index" separator="union all">
-			select #{o.id,jdbcType=VARCHAR},
-				#{o.orderId,jdbcType=VARCHAR},
-				#{o.goodsId,jdbcType=VARCHAR},
-				#{o.goodsItemId,jdbcType=VARCHAR},
-				#{o.itemSku,jdbcType=VARCHAR},
-				#{o.goodsName,jdbcType=VARCHAR},
-				#{o.marketbalePrice,jdbcType=DECIMAL},
-				#{o.dealPrice,jdbcType=DECIMAL},
-				#{o.companyId,jdbcType=VARCHAR},
-				#{o.amount,jdbcType=DECIMAL},
-				#{o.nums,jdbcType=DECIMAL},
-				#{o.saleActiveId,jdbcType=VARCHAR},
-				#{o.saleActiveReduceMoney,jdbcType=DECIMAL},
-				#{o.memberlvRedceMoney,jdbcType=DECIMAL},
-				#{o.memberlvDiscount,jdbcType=DECIMAL},
-				#{o.point,jdbcType=DECIMAL}
-			from dual
+	<!-- 根据ID更新 -->
+	<update id="updateByPrimaryKeySelective" parameterType="com.qlzy.model.OrderItem">
+		update ql_order_items
+		<set >
+			<if test="orderId != null and orderId != '' " >
+				ORDER_ID = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null  and goodsId != '' " >
+				GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null  and goodsName != '' " >
+				GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketbalePrice != null  and marketbalePrice != '' " >
+				MARKETBALE_PRICE = #{marketbalePrice,jdbcType=DECIMAL},
+			</if>
+			<if test="dealPrice != null  and dealPrice != '' " >
+				DEAL_PRICE = #{dealPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="companyId != null  and companyId != '' " >
+				COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null  and amount != '' " >
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="nums != null  and nums != '' " >
+				NUMS = #{nums,jdbcType=DECIMAL},
+			</if>
+			<if test="saleActiveId != null  and saleActiveId != ''  " >
+				SALE_ACTIVE_ID = #{saleActiveId,jdbcType=VARCHAR},
+			</if>
+			<if test="saleActiveReduceMoney != null  and saleActiveReduceMoney != ''  " >
+				SALE_ACTIVE_REDUCE_MONEY = #{saleActiveReduceMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberlvRedceMoney != null  and memberlvRedceMoney != '' " >
+				MEMBERLV_REDCE_MONEY = #{memberlvRedceMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberlvDiscount != null  and memberlvDiscount != '' " >
+				MEMBERLV_DISCOUNT = #{memberlvDiscount,jdbcType=DECIMAL},
+			</if>
+			<if test="appraise != null  and appraise != '' " >
+				APPRAISE = #{appraise,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsItemId != null  and goodsItemId != ''  " >
+				GOODS_ITEM_ID = #{goodsItemId,jdbcType=VARCHAR},
+			</if>
+			<if test="itemSku != null  and itemSku != ''  " >
+				ITEM_SKU = #{itemSku,jdbcType=VARCHAR},
+			</if>
+			<if test="isLogistice != null  and isLogistice != '' " >
+				is_logistice = #{isLogistice,jdbcType=INTEGER},
+			</if>
+			<if test="logisticsNum != null  and logisticsNum != '' " >
+				logistics_num = #{logisticsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsName != null  and logisticsName != '' " >
+				logistics_name = #{logisticsName,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsTel != null  and logisticsTel != '' " >
+				logistics_tel = #{logisticsTel,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsRemark != null  and logisticsRemark != '' " >
+				logistics_remark = #{logisticsRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsStatus != null  and logisticsStatus != '' " >
+				logistics_status = #{logisticsStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="point != null  and point != '' " >
+				point = #{point,jdbcType=DECIMAL},
+			</if>
+			<if test="pointBili != null  and pointBili != '' " >
+				point_bili = #{pointBili,jdbcType=DECIMAL},
+			</if>
+			<if test="countryId != null  and countryId != '' " >
+				country_id = #{countryId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsEnName != null  and goodsEnName != '' " >
+				goods_en_name = #{goodsEnName,jdbcType=VARCHAR},
+			</if>
+			<if test="dlmBili != null  and dlmBili != '' " >
+				dlm_bili = #{dlmBili,jdbcType=DECIMAL},
+			</if>
+			<if test="docBili != null  and docBili != '' " >
+				doc_bili = #{docBili,jdbcType=DECIMAL},
+			</if>
+			<if test="dlmPrice != null  and dlmPrice != ''  " >
+				dlm_price = #{dlmPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="docPrice != null  and docPrice != '' " >
+				doc_price = #{docPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="countryBili != null  and countryBili != '' " >
+				country_bili = #{countryBili,jdbcType=DECIMAL},
+			</if>
+
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- 批量添加 -->
+	<insert id="batchInsert">
+		insert into ql_order_items (
+		ID,
+		ORDER_ID,
+		GOODS_ID,
+		GOODS_NAME,
+		MARKETBALE_PRICE,
+		DEAL_PRICE,
+		COMPANY_ID,
+		AMOUNT,
+		NUMS,
+		SALE_ACTIVE_ID,
+		SALE_ACTIVE_REDUCE_MONEY,
+		GOODS_ITEM_ID,
+		ITEM_SKU,
+		point,
+		point_bili,
+		country_id,
+		goods_en_name,
+		dlm_bili,
+		doc_bili,
+		dlm_price,
+		doc_price,
+		country_bili
+		) VALUES
+
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(
+			#{item.id,jdbcType=VARCHAR},
+			#{item.orderId,jdbcType=VARCHAR},
+			#{item.goodsId,jdbcType=VARCHAR},
+			#{item.goodsName,jdbcType=VARCHAR},
+			#{item.marketbalePrice,jdbcType=DECIMAL},
+			#{item.dealPrice,jdbcType=DECIMAL},
+			#{item.companyId,jdbcType=VARCHAR},
+			#{item.amount,jdbcType=DECIMAL},
+			#{item.nums,jdbcType=DECIMAL},
+			#{item.saleActiveId,jdbcType=VARCHAR},
+			#{item.saleActiveReduceMoney,jdbcType=DECIMAL},
+			#{item.goodsItemId,jdbcType=VARCHAR},
+			#{item.itemSku,jdbcType=VARCHAR},
+			#{item.point,jdbcType=DECIMAL},
+			#{item.pointBili,jdbcType=DECIMAL},
+			#{item.countryId,jdbcType=VARCHAR},
+			#{item.goodsEnName,jdbcType=VARCHAR},
+			#{item.dlmBili,jdbcType=DECIMAL},
+			#{item.docBili,jdbcType=DECIMAL},
+			#{item.dlmPrice,jdbcType=DECIMAL},
+			#{item.docPrice,jdbcType=DECIMAL},
+			#{item.countryBili,jdbcType=DECIMAL}
+			)
 		</foreach>
 	</insert>
 	<!-- 物理删除商品 -->

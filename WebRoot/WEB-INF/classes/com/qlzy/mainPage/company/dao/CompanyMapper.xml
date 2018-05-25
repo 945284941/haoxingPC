@@ -91,6 +91,7 @@
     <result column="is_shop" property="isShop" jdbcType="VARCHAR" />
     <result column="is_group" property="isGroup" jdbcType="VARCHAR" />
     <result column="is_flash_sale" property="isFlashSale" jdbcType="VARCHAR" />
+    <result column="click_num" property="clickNum" jdbcType="INTEGER"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.qlzy.model.Company" extends="BaseResultMap" >
     <result column="SELL_RANGE" property="sellRange" jdbcType="LONGVARCHAR" />
@@ -107,7 +108,7 @@
     ISSHOW, LAST_LOGIN_TIME, RECOMMEND_USERID, EMAIL_STATUS, MOBILE_STATUS, QUESTION_ID, 
     QUESTION_ANSWER, LAST_LOGIN_IP, MAIN_CARBRAND, IS_CHECK, SH_CHECK, QQ_NUMBER, GUARANTEEPRICE, 
     shoper_name, shoper_content, attention_count, country_id, CARD_URL, OPEN_TIME, product_introduction, 
-    operator_id, is_building, is_market, is_shop, is_group, is_flash_sale, SELL_RANGE
+    operator_id, is_building, is_market, is_shop, is_group, is_flash_sale, SELL_RANGE,click_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
@@ -1000,6 +1001,9 @@
       <if test="sellRange != null" >
         SELL_RANGE = #{sellRange,jdbcType=LONGVARCHAR},
       </if>
+      <if test="clickNum != null and clickNum != '' ">
+        click_num = #{clickNum,jdbcType=INTEGER},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -1188,4 +1192,28 @@
       is_flash_sale = #{isFlashSale,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <!--店铺列表 -->
+  <select id="gainCompanyListSearchPageCount" resultType="Long" parameterType="java.util.Map">
+    select count(*) from QL_COMPANYS c
+    where c.DISABLED = 'false'
+    <if test="''!=topSearchLike and null!=topSearchLike">
+      and c.COMPANY_NAME like '%${topSearchLike}%'
+    </if>
+    <if test="''!=address and null!=address">
+      and address like '%${address}%'
+    </if>
+  </select>
+  <select id="gainCompanyListSearchPage" resultType="com.qlzy.model.Company" parameterType="java.util.Map">
+    select  <include refid="Base_Column_List" /> from QL_COMPANYS
+    where 1=1
+    <if test="''!=topSearchLike and null!=topSearchLike">
+      and COMPANY_NAME like '%${topSearchLike}%'
+    </if>
+    <if test="''!=address and null!=address">
+      and address like '%${address}%'
+    </if>
+    <if test="page != null and rows != null " >
+      limit #{page},#{rows}
+    </if>
+  </select>
 </mapper>

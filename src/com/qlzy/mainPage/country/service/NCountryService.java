@@ -1,6 +1,7 @@
 package com.qlzy.mainPage.country.service;
 
 import com.qlzy.model.NCountry;
+import com.qlzy.pojo.SessionInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface NCountryService {
     List<NCountry> gainNCountryByLikeName(String address);
 
     void changeAddressByIp(String addressId, HttpServletRequest request, Map<String, Object> session);
+
+    void checkAddressId(HttpServletRequest request,Map<String, Object> parmMap, Map<String, Object> session, SessionInfo sessionInfo,String nType);
 }

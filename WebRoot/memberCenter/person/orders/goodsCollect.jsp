@@ -46,7 +46,16 @@
 
 	<!-- 日历控件 -->
 	<script type="text/javascript" src="web/js/jquery.date_input.pack.js"></script>
-
+	<style type="text/css">
+		.lh_dpsc ul li{
+			float: left;
+			margin-left:55px;
+			margin-top: 0px;
+			width: 290px;
+			height:35px;
+			border: 0px solid;
+		}
+	</style>
 </head>
 <body>
 
@@ -66,7 +75,11 @@
 						<h3>我的收藏>商品收藏</h3>
 					</div>
 					<div class="index_sptj_nr index_sptj_nr3">
+						<c:if test="${empty memberCollectList}">
+							<div style="text-align: center;"><img src="images/wujilu.jpg"/></div>
+						</c:if>
 						<ul>
+							<c:if test="${not empty memberCollectList}">
 							<c:forEach items="${memberCollectList}" var="memberCollect">
 								<li class="item ">
 									<div class="goods-content" id="taotian">
@@ -108,10 +121,18 @@
 												<p class="fl">销量 ${memberCollect.queryNum}</p>
 												<p class="fr">好评 ${memberCollect.praiseRate}%</p>
 											</div>
+											<div class="lh_dpsc">
+												<ul>
+													<li>
+													<a class="qxsc" onclick="delCollect('${memberCollect.id}')">取消收藏</a>
+													</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</li>
 							</c:forEach>
+							</c:if>
 						</ul>
 					</div>
 				</div>
@@ -127,20 +148,20 @@
 
 
 <script type="text/javascript">
-   /* //取消收藏
-    function delShopCollect(id){
+    //取消收藏
+    function delCollect(id){
         if(confirm("确认要删除吗?")){
             $.ajax({
-                url : "memberCallAction!delShopCollect.action",
+                url : "memberCallAction!delCollect.action",
                 type : "POST",
                 data : "id="+id,
                 dataType : "JSON",
                 success : function(){
-                    window.location.href="showShopCollect.html";
+                    window.location.href="showGoodsCollect.html";
                 }
             });
         }
-    }*/
+    }
 </script>
 
 </body>
